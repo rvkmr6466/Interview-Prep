@@ -42,10 +42,119 @@
 24. Lazy loading in hibernate
 25. Reverse you name in Java 
 26. Handle exception in Angular
+  A: Error handling in Angular applications is crucial for providing a smooth user experience and debugging issues. Here's an overview of common strategies:
+    1. Try-Catch Blocks
+      Used for handling synchronous errors within specific code blocks.
+      
+      try {
+        // Code that might throw an error
+        const result = someFunction();
+      } catch (error) {
+        // Handle the error
+        console.error('An error occurred:', error);
+      }
+
+  2. Angular ErrorHandler
+    A global error handling mechanism for catching unhandled exceptions.
+    
+    import { Injectable, ErrorHandler } from '@angular/core';
+    @Injectable()
+    export class GlobalErrorHandler implements ErrorHandler {
+      handleError(error: any) {
+        // Log the error, display a user-friendly message, etc.
+        console.error('Global error handler:', error);
+      }
+    }
+    To use it, provide it in your module or component:
+    TypeScript
+    
+    import { NgModule } from '@angular/core';
+    import { GlobalErrorHandler } from './global-error-handler';
+    import { ErrorHandler } from '@angular/core';
+    
+    @NgModule({
+      providers: [{ provide: ErrorHandler, useClass: GlobalErrorHandler }],
+    })
+    export class AppModule {}
+
+  3. RxJS catchError Operator
+    Handles errors in Observables, commonly used with HTTP requests.
+    
+    import { catchError } from 'rxjs/operators';
+    import { of } from 'rxjs';
+    
+    this.http.get('/api/data').pipe(
+      catchError(error => {
+        console.error('HTTP error:', error);
+        // Return a new observable or throw the error again
+        return of([]); // Return an empty array as a fallback
+      })
+    ).subscribe(data => {
+      // Process the data
+    });
+
+  4. HTTP Interceptors
+    Centralized handling of HTTP errors for all requests.
+    
+    import { Injectable } from '@angular/core';
+    import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+    import { Observable, throwError } from 'rxjs';
+    import { catchError } from 'rxjs/operators';
+    
+    @Injectable()
+    export class HttpErrorInterceptor implements HttpInterceptor {
+      intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        return next.handle(request)
+          .pipe(
+            catchError((error: HttpErrorResponse) => {
+              console.error('HTTP error:', error);
+              // Handle the error (e.g., display a message, retry the request)
+              return throwError(() => error);
+            })
+          );
+      }
+    }
+    Provide the interceptor in your module:
+    
+    import { NgModule } from '@angular/core';
+    import { HTTP_INTERCEPTORS } from '@angular/common/http';
+    import { HttpErrorInterceptor } from './http-error-interceptor';
+    
+    @NgModule({
+      providers: [{ provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }],
+    })
+    export class AppModule {}
+
+  5. Displaying Error Messages
+    Provide user-friendly feedback when errors occur.
+    Use descriptive error messages that guide users.
+    Avoid exposing sensitive information.
+    Display errors in a consistent manner (e.g., using a dialog or notification).
+  
+  6. Logging Errors
+    Log errors for debugging and monitoring purposes.
+    Use console.error for development.
+    Consider using a logging service for production.
+    Include relevant information in logs (e.g., timestamp, error message, stack trace). 
+
 27. Signal in Angular
 28. Zone.js
 29. Second highest salary from a table
+  SELECT salary
+  FROM employees
+  ORDER BY salary DESC
+  LIMIT 1 OFFSET 1;
+
 30. Write a coode to Shift an array by 3 to the right ([1,2,3,4,5] -> [4,5,1,2,3])
+31. Stream API in Java
+  Stream API is used to process collections of objects. A stream in Java is a sequence of objects that supports various methods that can be pipelined to produce the desired result.
+    flatMap(List::stream): Flattens the nested lists into a single stream of strings.
+    filter(s -> s.startsWith("S")): Filters the strings to only include those that start with “S”.
+    map(String::toUpperCase): Converts each string in the stream to uppercase.
+    distinct(): Removes any duplicate strings.
+    sorted(): Sorts the resulting strings alphabetically.
+    peek(...): Adds each processed element to the intermediateResults set for intermediate inspection.
+    collect(Collectors.toList()): Collects the final processed strings into a list called result.
 
 React project 
 Core Java prepare
