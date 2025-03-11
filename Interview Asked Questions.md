@@ -1,4 +1,15 @@
 1. What is the difference between parallism vs concurrency?
+
+| S.NO |Concurrency|                                           Parallelism                                           |
+|:----:|:-------------------------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
+|  1.  |                               Concurrency is the task of running and managing the multiple computations at the same time.                               |          While parallelism is the task of running multiple computations simultaneously.         | 
+|  2.  | Concurrency is achieved through the interleaving operation of processes on the central processing unit(CPU) or in other words by the context switching. |             While it is achieved by through multiple central processing units(CPUs).            |  
+|  3.  |                                                Concurrency can be done by using a single processing unit.                                               | While this can’t be done by using a single processing unit. it needs multiple processing units. | 
+|  4.  |                                               Concurrency increases the amount of work finished at a time.                                              |             While it improves the throughput and computational speed of the system.             | 
+|  5.  |                                                  Concurrency deals with a lot of things simultaneously.                                                 |                          While it does a lot of things simultaneously.                          | 
+|  6.  |                                               Concurrency is the non-deterministic control flow approach.                                               |                         While it is deterministic control flow approach.                        | 
+|  7.  |                                                          In concurrency debugging is very hard.                                                         |                While in this debugging is also hard but simple than concurrency.                | 
+
 2. List vs Set
 3. Create an immutable class
   Immutable class in java means that once an object is created, we cannot change its content. In Java, all the wrapper classes (like Integer, Boolean, Byte,     
