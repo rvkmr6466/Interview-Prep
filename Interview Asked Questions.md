@@ -191,6 +191,44 @@
 
   For more: https://www.geeksforgeeks.org/stream-in-java/
 
+
+
+  Here are some great websites to **practice output-based JavaScript questions**:
+
+### **1. [JSitor](https://jsitor.com/)**
+   - **Best for:** Running JavaScript code online and testing outputs.
+   - **Features:** Supports ES6, TypeScript, and frameworks like React.
+
+### **2. [JSBench.me](https://jsbench.me/)**
+   - **Best for:** Comparing JavaScript performance and analyzing different approaches.
+   - **Features:** Run code snippets and see execution time.
+
+### **3. [W3Schools JavaScript Quiz](https://www.w3schools.com/js/js_quiz.asp)**
+   - **Best for:** Beginner-friendly output-based questions.
+   - **Features:** Instant feedback, step-by-step learning.
+
+### **4. [GeeksforGeeks JavaScript Quiz](https://www.geeksforgeeks.org/javascript-quiz-set-1/)**
+   - **Best for:** Practicing tricky JavaScript questions.
+   - **Features:** Covers concepts like closures, hoisting, and scopes.
+
+### **5. [Codewars](https://www.codewars.com/)**
+   - **Best for:** Competitive JavaScript coding challenges.
+   - **Features:** Solve real-world problems, ranked by difficulty.
+
+### **6. [Edabit](https://edabit.com/challenges)**
+   - **Best for:** Practicing short coding challenges with immediate feedback.
+   - **Features:** Output-based and logic-based problems.
+
+### **7. [LeetCode JavaScript Challenges](https://leetcode.com/tag/javascript/)**
+   - **Best for:** Practicing JavaScript coding interview questions.
+   - **Features:** Interactive editor, discussion forums.
+
+### **8. [HackerRank JavaScript Challenges](https://www.hackerrank.com/domains/tutorials/10-days-of-javascript)**
+   - **Best for:** Hands-on JavaScript problem-solving.
+   - **Features:** Beginner to advanced problems with live execution.
+
+Would you like recommendations for specific types of questions (hoisting, closures, async, etc.)? 🚀
+
 React project 
 Core Java prepare
 Spring boot
