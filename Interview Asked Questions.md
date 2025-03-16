@@ -32,10 +32,10 @@
    - Convert List<Employee> to Map<Double,String> where key will be employee salary and value will be employee names comma seperated	 accordingly using java 8 stream.
    
 7. Functional interface
-*7. SOLID principles
-8. Difference between hibernate and JDBC
-*9. Annotations used in java.
-10. Given a string s, find the length of the longest substring without duplicate characters.
+8. SOLID principles
+9. Difference between hibernate and JDBC
+10. Annotations used in java.
+11. Given a string s, find the length of the longest substring without duplicate characters.
   Example 1:
     Input: s = "abcabcbb"
     Output: 3
@@ -49,22 +49,22 @@
     Output: 3
     Explanation: The answer is "wke", with the length of 3.
     Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
-11. Technical architecture
-12. SQL vs NoSQL
-13. Factory Design pattern
-14. Alogithm behind Collection.sort().
-15. Challenges you faces as an engineer and how did you resolved it?
-16. How jvm works?
-17. Spring actuator
-18. Diff between Abstract class vs interface
-19. Understanding of browser caching.
-20. Strong knowledge of UX design and principles.
-21. Event-driven implementation using Kafka.
-22. Html 5/css
-23. Angular 17 features
-24. Lazy loading in hibernate
-25. Reverse you name in Java 
-26. Handle exception in Angular
+12. Technical architecture
+13. SQL vs NoSQL
+14. Factory Design pattern
+15. Alogithm behind Collection.sort().
+16. Challenges you faces as an engineer and how did you resolved it?
+17. How jvm works?
+18. Spring actuator
+19. Diff between Abstract class vs interface
+20. Understanding of browser caching.
+21. Strong knowledge of UX design and principles.
+22. Event-driven implementation using Kafka.
+23. Html 5/css
+24. Angular 17 features
+25. Lazy loading in hibernate
+26. Reverse you name in Java 
+27. Handle exception in Angular
   A: Error handling in Angular applications is crucial for providing a smooth user experience and debugging issues. Here's an overview of common strategies:
     1. Try-Catch Blocks
       Used for handling synchronous errors within specific code blocks.
