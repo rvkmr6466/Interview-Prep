@@ -25,11 +25,11 @@
 
 4. Validation in Spring Boot
 5. Questions on Stream API
-  5.1 Create List<Integer> add some values in it and filter all even numbers and return to list again using java 8 stream.
-  5.2 Convert List<Integer> to List<String> using  java 8 streams.
-  5.3 Convert List<Employee> to Map<Integer,String> where key will be employee id and value will be employee name using java 8 stream.'
-  5.4 Convert List<Employee> to Map<Double,List<Employee>> where key will be employee salary and value will be employee list accordingly using java 8 stream.
-  5.5 Convert List<Employee> to Map<Double,String> where key will be employee salary and value will be employee names comma seperated	 accordingly using java 8 stream.
+   5.1 Create List<Integer> add some values in it and filter all even numbers and return to list again using java 8 stream.
+   5.2 Convert List<Integer> to List<String> using  java 8 streams.
+   5.3 Convert List<Employee> to Map<Integer,String> where key will be employee id and value will be employee name using java 8 stream.'
+   5.4 Convert List<Employee> to Map<Double,List<Employee>> where key will be employee salary and value will be employee list accordingly using java 8 stream.
+   5.5 Convert List<Employee> to Map<Double,String> where key will be employee salary and value will be employee names comma seperated	 accordingly using java 8 stream.
    
 7. Functional interface
 *7. SOLID principles
