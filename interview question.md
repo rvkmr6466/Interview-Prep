@@ -1,245 +1,300 @@
-# Java and Spring Boot Interview Preparation
+# Angular, Java & Spring Boot Interview Questions  
 
-## 1. Difference Between Parallelism and Concurrency
+## 1. Difference Between Parallelism and Concurrency  
 
-| S.No | Concurrency | Parallelism |
-|------|------------|-------------|
-| 1 | Concurrency is the task of running and managing multiple computations at the same time. | Parallelism is the task of running multiple computations simultaneously. |
-| 2 | Achieved through interleaving operation of processes on the CPU (context switching). | Achieved using multiple central processing units (CPUs). |
-| 3 | Can be done using a single processing unit. | Requires multiple processing units. |
-| 4 | Increases the amount of work finished at a time. | Improves system throughput and computational speed. |
-| 5 | Deals with multiple tasks at once. | Executes multiple tasks at the same time. |
-| 6 | Follows a non-deterministic control flow approach. | Uses a deterministic control flow approach. |
-| 7 | Debugging is very difficult. | Debugging is also hard but simpler than concurrency. |
+| S.NO | Concurrency | Parallelism |
+|:----:|:-------------------------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
+|  1.  | Concurrency is the task of running and managing multiple computations at the same time. | Parallelism is the task of running multiple computations simultaneously. |
+|  2.  | Concurrency is achieved through interleaving operations of processes on the CPU or by context switching. | Parallelism is achieved through multiple CPUs. |
+|  3.  | Concurrency can be done using a single processing unit. | Parallelism requires multiple processing units. |
+|  4.  | Concurrency increases the amount of work finished at a time. | Parallelism improves throughput and computational speed. |
+|  5.  | Concurrency deals with many tasks simultaneously. | Parallelism does many things simultaneously. |
+|  6.  | Concurrency follows a non-deterministic control flow. | Parallelism follows a deterministic control flow. |
+|  7.  | Debugging concurrency issues is very hard. | Debugging parallelism is also hard but simpler than concurrency. |
 
----
+## 2. List vs Set  
 
-## 2. List vs Set
+| S.NO | List | Set |
+|:----:|:-----------------------------------------:|:-------------------------------------------:|
+|  1.  | Allows duplicate elements | Does not allow duplicate elements |
+|  2.  | Elements are ordered (insertion order) | Elements are unordered (HashSet) or ordered (TreeSet) |
+|  3.  | Allows multiple null values | Allows only one null value |
+|  4.  | Access elements by index | No index-based access |
+|  5.  | Implementations: ArrayList, LinkedList | Implementations: HashSet, TreeSet, LinkedHashSet |
 
-## 3. Creating an Immutable Class in Java
-
-An **immutable class** in Java means that once an object is created, its content cannot be changed.  
-All wrapper classes (`Integer`, `Boolean`, `Byte`, `Short`) and the `String` class in Java are immutable.
-
-### Requirements:
-- The class must be declared as `final` (to prevent subclassing).
-- Data members must be `private` (to restrict direct access).
-- Data members must be declared `final` (to prevent modification).
-- A parameterized constructor should initialize all fields using **deep copy**.
-- No setters should be provided.
-
----
-
-## 4. Validation in Spring Boot
-
-## 5. Java 8 Stream API Questions
-
-- Create `List<Integer>`, add values, filter even numbers, and return a list using streams.
-- Convert `List<Integer>` to `List<String>` using streams.
-- Convert `List<Employee>` to `Map<Integer, String>` (key: employee ID, value: employee name).
-- Convert `List<Employee>` to `Map<Double, List<Employee>>` (key: salary, value: employee list).
-- Convert `List<Employee>` to `Map<Double, String>` (key: salary, value: comma-separated employee names).
-
----
-
-## 6. Functional Interfaces
-
-## 7. SOLID Principles
-
-## 8. Difference Between Hibernate and JDBC
-
-## 9. Common Java Annotations
-
-## 10. Find Length of Longest Substring Without Repeating Characters
+## 3. Creating an Immutable Class in Java  
 
 ```java
-Input: s = "abcabcbb"
-Output: 3
-Explanation: "abc" (length = 3)
+public final class ImmutableExample {
+    private final String name;
+    private final int age;
 
-Input: s = "bbbbb"
-Output: 1
-Explanation: "b" (length = 1)
+    public ImmutableExample(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
 
-Input: s = "pwwkew"
-Output: 3
-Explanation: "wke" (length = 3)
-```
+    public String getName() {
+        return name;
+    }
 
----
-
-## 11. Technical Architecture
-
-## 12. SQL vs NoSQL
-
-## 13. Factory Design Pattern
-
-## 14. Algorithm Behind `Collection.sort()`
-
-## 15. Challenges Faced as an Engineer & How to Solve Them
-
-## 16. How JVM Works?
-
-## 17. Spring Boot Actuator
-
-## 18. Difference Between Abstract Class and Interface
-
-## 19. Understanding Browser Caching
-
-## 20. Strong Knowledge of UX Design Principles
-
-## 21. Event-Driven Implementation Using Kafka
-
-## 22. HTML5/CSS
-
-## 23. Angular 17 Features
-
-## 24. Lazy Loading in Hibernate
-
-## 25. Reverse a String in Java
-
-```java
-public class ReverseString {
-    public static void main(String[] args) {
-        String str = "Java";
-        String reversed = new StringBuilder(str).reverse().toString();
-        System.out.println("Reversed: " + reversed);
+    public int getAge() {
+        return age;
     }
 }
 ```
 
----
+## 4. Validation in Spring Boot  
 
-## 26. Exception Handling in Angular
+Spring Boot provides `javax.validation` and `Spring Validator` for validation.
 
-### Strategies:
-1. **Try-Catch Blocks**
-2. **Global ErrorHandler**
-3. **RxJS `catchError` Operator**
-4. **HTTP Interceptors**
-5. **Displaying User-Friendly Error Messages**
-6. **Logging Errors**
+Example using `@Valid`:
+
+```java
+public class User {
+    @NotBlank
+    private String name;
+    
+    @Email
+    private String email;
+}
+```
+
+In a Controller:
+
+```java
+@PostMapping("/users")
+public ResponseEntity<String> addUser(@Valid @RequestBody User user, BindingResult result) {
+    if (result.hasErrors()) {
+        return ResponseEntity.badRequest().body("Invalid data");
+    }
+    return ResponseEntity.ok("User added");
+}
+```
+
+## 5. Questions on Stream API  
+
+Examples:
+
+```java
+List<Integer> evenNumbers = numbers.stream()
+    .filter(n -> n % 2 == 0)
+    .collect(Collectors.toList());
+
+List<String> stringList = numbers.stream()
+    .map(String::valueOf)
+    .collect(Collectors.toList());
+```
+
+## 6. Functional Interface  
+
+A **functional interface** has exactly one abstract method.
+
+```java
+@FunctionalInterface
+interface MyFunction {
+    void sayHello();
+}
+```
+
+## 7. SOLID Principles  
+
+1. **Single Responsibility** - A class should have only one reason to change.  
+2. **Open/Closed** - Open for extension, closed for modification.  
+3. **Liskov Substitution** - Subtypes must be substitutable for base types.  
+4. **Interface Segregation** - Prefer multiple small interfaces.  
+5. **Dependency Inversion** - Depend on abstractions, not concretions.  
+
+## 8. Difference Between Hibernate and JDBC  
+
+| Feature | Hibernate | JDBC |
+|---------|----------|------|
+| ORM | Yes | No |
+| Query Language | HQL | SQL |
+| Caching | Yes | No |
+| Lazy Loading | Yes | No |
+| Database Independence | Yes | No |
+
+## 9. Annotations Used in Java  
+
+- `@Override`
+- `@FunctionalInterface`
+- `@Deprecated`
+- `@SpringBootApplication`
+- `@RestController`
+
+## 10. Find Longest Substring Without Repeating Characters  
+
+```java
+public int lengthOfLongestSubstring(String s) {
+    Set<Character> set = new HashSet<>();
+    int maxLength = 0, left = 0;
+
+    for (int right = 0; right < s.length(); right++) {
+        while (set.contains(s.charAt(right))) {
+            set.remove(s.charAt(left));
+            left++;
+        }
+        set.add(s.charAt(right));
+        maxLength = Math.max(maxLength, right - left + 1);
+    }
+    return maxLength;
+}
+```
+
+## 11. Technical Architecture  
+
+Spring Boot follows **Microservices architecture** and includes:
+- **Controller Layer** - API Handling
+- **Service Layer** - Business Logic
+- **Repository Layer** - Database Interaction  
+
+## 12. SQL vs NoSQL  
+
+| SQL | NoSQL |
+|-----|-------|
+| Structured | Unstructured |
+| Fixed Schema | Dynamic Schema |
+| ACID | BASE |
+
+## 13. Factory Design Pattern  
+
+```java
+class Factory {
+    static Car getCar(String type) {
+        if (type.equals("Sedan")) return new Sedan();
+        else return new SUV();
+    }
+}
+```
+
+## 14. Algorithm Behind `Collections.sort()`  
+
+It uses **TimSort**, which is a hybrid of **MergeSort and InsertionSort**.
+
+## 15. Challenges Faced as an Engineer  
+
+- **Performance Issues** → Optimized SQL Queries  
+- **Scalability** → Used Caching Mechanisms  
+
+## 16. How JVM Works?  
+
+JVM Components:
+- **Class Loader**
+- **Heap Memory**
+- **Execution Engine**
+- **Garbage Collector**
+
+## 17. Spring Actuator  
+
+It provides health checks, metrics, and monitoring.
+
+Enable Actuator:
+
+```yaml
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+```
+
+## 18. Abstract Class vs Interface  
+
+| Abstract Class | Interface |
+|---------------|----------|
+| Can have method implementations | Only method signatures (before Java 8) |
+| Can have constructors | Cannot have constructors |
+
+## 19. Understanding Browser Caching  
+
+- **Cache-Control: max-age=3600**  
+- **ETag for validation**  
+
+## 20. UX Design Principles  
+
+- Simplicity  
+- Consistency  
+- Accessibility  
+
+## 21. Event-Driven Implementation Using Kafka  
+
+- **Producer** sends message to **Kafka Topic**  
+- **Consumer** reads message from topic  
+
+## 22. HTML5 & CSS  
+
+- **HTML5** → Semantic tags (`<article>`, `<section>`)  
+- **CSS** → Flexbox, Grid, Animations  
+
+## 23. Angular 17 Features  
+
+- Improved Hydration  
+- Signal-based reactivity  
+
+## 24. Lazy Loading in Hibernate  
+
+```java
+@OneToMany(fetch = FetchType.LAZY)
+private List<Order> orders;
+```
+
+## 25. Reverse a String  
+
+```java
+String reversed = new StringBuilder(str).reverse().toString();
+```
+
+## 26. Handle Exception in Angular  
 
 ```typescript
-import { Injectable, ErrorHandler } from '@angular/core';
-
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
-  handleError(error: any) {
-    console.error('Global error:', error);
+  handleError(error: any): void {
+    console.error('An error occurred:', error);
   }
 }
 ```
 
----
+## 27. Signal in Angular  
 
-## 27. Signals in Angular
+Signals help manage reactive state.
 
-## 28. Zone.js
+## 28. Zone.js  
 
-## 29. Find Second Highest Salary in SQL
+Manages asynchronous operations in Angular.
+
+## 29. Second Highest Salary in SQL  
 
 ```sql
-SELECT salary 
-FROM employees 
-ORDER BY salary DESC 
-LIMIT 1 OFFSET 1;
+SELECT salary FROM employees ORDER BY salary DESC LIMIT 1 OFFSET 1;
 ```
 
----
-
-## 30. Shift an Array by 3 Positions to the Right in Java
+## 30. Shift an Array by 3 to the Right  
 
 ```java
-import java.util.Arrays;
-
-public class ArrayShift {
-    public static void main(String[] args) {
-        int[] array = {1, 2, 3, 4, 5, 6, 7};
-        int shiftBy = 3;
-
-        shiftArrayRight(array, shiftBy);
-        System.out.println("Shifted Array: " + Arrays.toString(array));
-    }
-
-    public static void shiftArrayRight(int[] array, int positions) {
-        int length = array.length;
-        positions = positions % length;
-        reverseArray(array, 0, length - 1);
-        reverseArray(array, 0, positions - 1);
-        reverseArray(array, positions, length - 1);
-    }
-
-    private static void reverseArray(int[] array, int start, int end) {
-        while (start < end) {
-            int temp = array[start];
-            array[start] = array[end];
-            array[end] = temp;
-            start++;
-            end--;
-        }
-    }
+public static void rotateRight(int[] arr, int k) {
+    Collections.rotate(Arrays.asList(arr), k);
 }
 ```
 
----
+## 31. Stream API in Java  
 
-## 31. Java 8 Stream API Operations
+Used for processing collections efficiently.
 
-### Intermediate Operations:
-- `flatMap(List::stream)`
-- `filter(s -> s.startsWith("S"))`
-- `map(String::toUpperCase)`
-- `distinct()`
-- `sorted()`
-- `peek(...)`
-- `collect(Collectors.toList())`
-
-### Terminal Operations:
-- `forEach`
-- `collect`
-- `reduce`
-- `count`
-- `findFirst`
-- `allMatch`
-- `anyMatch`
-
----
-
-## 32. Find First Repeating Character in a String
+## 32. First Repeating Character in a String  
 
 ```java
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-
-public class Main {
-    public static void main(String[] args) {
-        String myString = "iamaveryverylongstring";
-        Optional<Character> firstRepeated = findFirstRepeatedCharacter(myString);
-
-        firstRepeated.ifPresent(c -> System.out.println("First repeated character: " + c));
-    }
-
-    public static Optional<Character> findFirstRepeatedCharacter(String input) {
-        Set<Character> seenCharacters = new HashSet<>();
-        return input.chars()
-                .mapToObj(c -> (char) c)
-                .filter(c -> !seenCharacters.add(c))
-                .findFirst();
-    }
+public static Optional<Character> findFirstRepeatedCharacter(String input) {
+    Set<Character> seen = new HashSet<>();
+    return input.chars().mapToObj(c -> (char) c).filter(c -> !seen.add(c)).findFirst();
 }
 ```
 
----
-
-## 33. Find Employees Who Are Managers in SQL
+## 33. Find Employees Who Are Managers  
 
 ```sql
-SELECT e1.name 
-FROM emp e1 
-JOIN emp e2 
-ON e1.emp_mgr_id = e2.emp_id;
+SELECT e1.name FROM emp e1 JOIN emp e2 ON e1.emp_id = e2.emp_mgr_id;
 ```
 
 ---
