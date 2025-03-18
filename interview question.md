@@ -309,7 +309,113 @@ SELECT e1.name FROM emp e1 JOIN emp e2 ON e1.emp_id = e2.emp_mgr_id;
 
 ---
 
-## 35. Best Websites to Practice JavaScript Output-Based Questions
+## 35. Output
+let obj1 = { key: "value" };
+let obj2 = obj1;
+let obj3 = obj2;
+obj1.key = "new value";
+obj2 = { key: "another value" };
+console.log(obj1.key); 
+console.log(obj2.key); 
+console.log(obj3.key); 
+
+**Output**=> new value
+another value
+new value
+
+## 36. Reverse string and remove duplicate in javascript
+let s = "ravi Kumar";
+let s1 ="";
+let s3 = "";
+let arr = s.split("");
+let s2 = new Set(arr);
+
+for(let i=s.length-1; i>=0; i--) {
+    s3+=s[i];
+    if (!s1.includes(s[i])) {
+        s1+=s[i];
+    }
+}
+console.log(s1); // ramuK iv
+console.log(s3); // ramuK ivar
+
+## 37. SwitchMap
+
+---
+## 38. What is component in angular?
+A component in Angular is a fundamental building block for creating user interfaces. It encapsulates a portion of the user interface's logic and presentation. Each component consists of three main parts:
+ - Template: Defines the HTML structure and layout of the component's view.
+- Class: Contains the logic, data, and methods that control the component's behavior.
+- Metadata: Provides information about the component, such as its selector, template, and styles.
+Components are designed to be reusable and modular, promoting a structured and maintainable application architecture. They facilitate the separation of concerns, making it easier to develop, test, and update different parts of the application independently.
+
+---
+
+## 39. What is template driven form vs reactive driven form.
+
+Angular provides two ways to build forms: **Template-Driven Forms** and **Reactive Forms**.  
+
+| Feature | Template-Driven Forms | Reactive Forms |
+|---------|----------------------|---------------|
+| **Approach** | Uses **directives** in the template (HTML-driven) | Uses **form controls** in the TypeScript code (code-driven) |
+| **Form Creation** | Uses `FormsModule` | Uses `ReactiveFormsModule` |
+| **Binding** | **Two-way data binding** with `ngModel` | **Explicit form control binding** using `FormControl` and `FormGroup` |
+| **Validation** | Uses **HTML-based validators** (`required`, `minlength`, etc.) | Uses **programmatic validators** (`Validators.required`, `Validators.minLength()`, etc.) |
+| **Scalability** | Best for **simple forms** | Better for **complex, dynamic forms** |
+| **Flexibility** | Less flexible, tightly coupled to the template | More flexible, easier to manage dynamically |
+| **Testing** | Harder to unit test | Easier to unit test |
+
+### **When to Use What?**  
+- **Template-Driven Forms** – Best for simple forms with minimal logic.  
+- **Reactive Forms** – Ideal for complex forms, dynamic validations, and better testability.  
+
+**Example:**  
+- **Template-Driven Form:**  
+  ```html
+  <form #userForm="ngForm">
+    <input type="text" name="username" ngModel required />
+  </form>
+  ```
+- **Reactive Form:**  
+  ```typescript
+  userForm = new FormGroup({
+    username: new FormControl('', Validators.required)
+  });
+  ```
+**Note:** Reactive Forms are recommended for most real-world applications due to better flexibility and maintainability.
+
+---
+
+## 40. What is SPA?
+A **Single Page Application (SPA)** loads a single HTML page and dynamically updates content **without full page reloads**. It improves performance and user experience by using **JavaScript frameworks (Angular, React, Vue)** to handle UI updates and fetch data via APIs.  
+
+### **Key Features:**  
+- Faster navigation, no flickering.  
+- Uses **AJAX/REST API/GraphQL** for data fetching.  
+- Examples: **Gmail, Facebook, Google Maps**.  
+
+🔹 **Efficient but needs SEO optimization & initial load handling.**
+
+---
+
+## 41. How Angular works?
+Angular is a **component-based** frontend framework that uses **TypeScript**. It follows the **MVC** pattern and works by:  
+
+1. **Bootstrapping** – Loads the root module (`AppModule`) and component (`AppComponent`).  
+2. **Templates & Data Binding** – Uses **HTML templates** and **binding** (`{{ }}`) to display dynamic data.  
+3. **Directives & Components** – Components control the UI, while directives add behavior.  
+4. **Dependency Injection** – Services are injected into components for reusability.  
+5. **Routing** – `RouterModule` enables navigation between pages.  
+6. **Change Detection** – Updates the DOM when data changes, using **Zone.js**.  
+7. **RxJS & Observables** – Handles async data streams efficiently.
+8. **Compilation & Optimization** –
+    Ahead-of-Time (AOT) Compilation improves performance.
+    Lazy Loading loads modules only when needed, optimizing performance.  
+
+---
+
+
+## n. Best Websites to Practice JavaScript Output-Based Questions
 
 1. **[JSitor](https://jsitor.com/)**
 2. **[JSBench.me](https://jsbench.me/)**
