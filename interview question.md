@@ -1,7 +1,3 @@
-Here's a properly formatted version of your `README.md` file with better structure and readability:
-
----
-
 # Java and Spring Boot Interview Preparation
 
 ## 1. Difference Between Parallelism and Concurrency
