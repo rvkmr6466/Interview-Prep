@@ -65,100 +65,100 @@
 25. Lazy loading in hibernate
 26. Reverse you name in Java 
 27. Handle exception in Angular
-  A: Error handling in Angular applications is crucial for providing a smooth user experience and debugging issues. Here's an overview of common strategies:
-    1. Try-Catch Blocks
-      Used for handling synchronous errors within specific code blocks.
-      
-      try {
-        // Code that might throw an error
-        const result = someFunction();
-      } catch (error) {
-        // Handle the error
-        console.error('An error occurred:', error);
-      }
-
-  2. Angular ErrorHandler
-    A global error handling mechanism for catching unhandled exceptions.
-    
-    import { Injectable, ErrorHandler } from '@angular/core';
-    @Injectable()
-    export class GlobalErrorHandler implements ErrorHandler {
-      handleError(error: any) {
-        // Log the error, display a user-friendly message, etc.
-        console.error('Global error handler:', error);
-      }
-    }
-    To use it, provide it in your module or component:
-    TypeScript
-    
-    import { NgModule } from '@angular/core';
-    import { GlobalErrorHandler } from './global-error-handler';
-    import { ErrorHandler } from '@angular/core';
-    
-    @NgModule({
-      providers: [{ provide: ErrorHandler, useClass: GlobalErrorHandler }],
-    })
-    export class AppModule {}
-
-  3. RxJS catchError Operator
-    Handles errors in Observables, commonly used with HTTP requests.
-    
-    import { catchError } from 'rxjs/operators';
-    import { of } from 'rxjs';
-    
-    this.http.get('/api/data').pipe(
-      catchError(error => {
-        console.error('HTTP error:', error);
-        // Return a new observable or throw the error again
-        return of([]); // Return an empty array as a fallback
-      })
-    ).subscribe(data => {
-      // Process the data
-    });
-
-  4. HTTP Interceptors
-    Centralized handling of HTTP errors for all requests.
-    
-    import { Injectable } from '@angular/core';
-    import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
-    import { Observable, throwError } from 'rxjs';
-    import { catchError } from 'rxjs/operators';
-    
-    @Injectable()
-    export class HttpErrorInterceptor implements HttpInterceptor {
-      intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(request)
-          .pipe(
-            catchError((error: HttpErrorResponse) => {
-              console.error('HTTP error:', error);
-              // Handle the error (e.g., display a message, retry the request)
-              return throwError(() => error);
-            })
-          );
-      }
-    }
-    Provide the interceptor in your module:
-    
-    import { NgModule } from '@angular/core';
-    import { HTTP_INTERCEPTORS } from '@angular/common/http';
-    import { HttpErrorInterceptor } from './http-error-interceptor';
-    
-    @NgModule({
-      providers: [{ provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }],
-    })
-    export class AppModule {}
-
-  5. Displaying Error Messages
-    Provide user-friendly feedback when errors occur.
-    Use descriptive error messages that guide users.
-    Avoid exposing sensitive information.
-    Display errors in a consistent manner (e.g., using a dialog or notification).
+    A: ```Error handling in Angular applications is crucial for providing a smooth user experience and debugging issues. Here's an overview of common strategies:
+      1. Try-Catch Blocks
+        Used for handling synchronous errors within specific code blocks.
+        
+        try {
+          // Code that might throw an error
+          const result = someFunction();
+        } catch (error) {
+          // Handle the error
+          console.error('An error occurred:', error);
+        }
   
-  6. Logging Errors
-    Log errors for debugging and monitoring purposes.
-    Use console.error for development.
-    Consider using a logging service for production.
-    Include relevant information in logs (e.g., timestamp, error message, stack trace). 
+    2. Angular ErrorHandler
+      A global error handling mechanism for catching unhandled exceptions.
+      
+      import { Injectable, ErrorHandler } from '@angular/core';
+      @Injectable()
+      export class GlobalErrorHandler implements ErrorHandler {
+        handleError(error: any) {
+          // Log the error, display a user-friendly message, etc.
+          console.error('Global error handler:', error);
+        }
+      }
+      To use it, provide it in your module or component:
+      TypeScript
+      
+      import { NgModule } from '@angular/core';
+      import { GlobalErrorHandler } from './global-error-handler';
+      import { ErrorHandler } from '@angular/core';
+      
+      @NgModule({
+        providers: [{ provide: ErrorHandler, useClass: GlobalErrorHandler }],
+      })
+      export class AppModule {}
+  
+    3. RxJS catchError Operator
+      Handles errors in Observables, commonly used with HTTP requests.
+      
+      import { catchError } from 'rxjs/operators';
+      import { of } from 'rxjs';
+      
+      this.http.get('/api/data').pipe(
+        catchError(error => {
+          console.error('HTTP error:', error);
+          // Return a new observable or throw the error again
+          return of([]); // Return an empty array as a fallback
+        })
+      ).subscribe(data => {
+        // Process the data
+      });
+  
+    4. HTTP Interceptors
+      Centralized handling of HTTP errors for all requests.
+      
+      import { Injectable } from '@angular/core';
+      import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+      import { Observable, throwError } from 'rxjs';
+      import { catchError } from 'rxjs/operators';
+      
+      @Injectable()
+      export class HttpErrorInterceptor implements HttpInterceptor {
+        intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+          return next.handle(request)
+            .pipe(
+              catchError((error: HttpErrorResponse) => {
+                console.error('HTTP error:', error);
+                // Handle the error (e.g., display a message, retry the request)
+                return throwError(() => error);
+              })
+            );
+        }
+      }
+      Provide the interceptor in your module:
+      
+      import { NgModule } from '@angular/core';
+      import { HTTP_INTERCEPTORS } from '@angular/common/http';
+      import { HttpErrorInterceptor } from './http-error-interceptor';
+      
+      @NgModule({
+        providers: [{ provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }],
+      })
+      export class AppModule {}
+  
+    5. Displaying Error Messages
+      Provide user-friendly feedback when errors occur.
+      Use descriptive error messages that guide users.
+      Avoid exposing sensitive information.
+      Display errors in a consistent manner (e.g., using a dialog or notification).
+    
+    6. Logging Errors
+      Log errors for debugging and monitoring purposes.
+      Use console.error for development.
+      Consider using a logging service for production.
+      Include relevant information in logs (e.g., timestamp, error message, stack trace). ```
 
 27. Signal in Angular
 28. Zone.js
@@ -168,7 +168,37 @@
   ORDER BY salary DESC
   LIMIT 1 OFFSET 1;
 
-30. Write a coode to Shift an array by 3 to the right ([1,2,3,4,5] -> [4,5,1,2,3])
+30. Write a code to Shift an array by 3 to the right ([1,2,3,4,5] -> [4,5,1,2,3])
+    import java.util.Arrays;
+    
+    public class ArrayShift {
+        public static void main(String[] args) {
+            int[] array = {1, 2, 3, 4, 5, 6, 7};
+            int shiftBy = 3;
+    
+            System.out.println("Original array: " + Arrays.toString(array));
+            shiftArrayRight(array, shiftBy);
+            System.out.println("Array after shifting by " + shiftBy + " positions: " + Arrays.toString(array));
+        }
+    
+        public static void shiftArrayRight(int[] array, int positions) {
+            int length = array.length;
+            positions = positions % length; // Handle cases where positions > length
+            reverseArray(array, 0, length - 1);
+            reverseArray(array, 0, positions - 1);
+            reverseArray(array, positions, length - 1);
+        }
+    
+        private static void reverseArray(int[] array, int start, int end) {
+            while (start < end) {
+                int temp = array[start];
+                array[start] = array[end];
+                array[end] = temp;
+                start++;
+                end--;
+            }
+        }
+    }
 31. Stream API in Java
   Stream API is used to process collections of objects. A stream in Java is a sequence of objects that supports various methods that can be pipelined to produce the desired result.
     Intermediate operations:
@@ -190,7 +220,58 @@
     anyMatch: Checks if any name starts with ‘S’.
 
   For more: https://www.geeksforgeeks.org/stream-in-java/
+  
+  32. Find the first repeating character from a string.
+      import java.util.HashSet;
+      import java.util.Optional;
+      import java.util.Set;
+      
+      public class Main {
+          public static final String myString=  "iamaveryverylongstringbutaneasyone";
+      
+          public static void main(String[] args) {
+              // Step 2: Find the first repeated character using Java 8 streams
+              Optional<Character> firstRepeated = findFirstRepeatedCharacter(myString);
+      
+              // Step 3: Display the result
+              if (firstRepeated.isPresent()) {
+                  System.out.println("The first repeated character is '" + firstRepeated.get() + "'");
+              } else {
+                  System.out.println("No repeated characters found.");
+              }
+          }
+      
+          // Method to find the first repeated character in a string
+          public static Optional<Character> findFirstRepeatedCharacter(String input) {
+              Set<Character> seenCharacters = new HashSet<>();
+      
+              return input.chars()  // Convert the string to an IntStream of character codes
+                      .mapToObj(c -> (char) c)  // Convert character codes to characters
+                      .filter(c -> !seenCharacters.add(c))  // Filter characters that are already in the set
+                      .findFirst();  // Return the first repeated character if found
+          }
+      }
 
+  33. Find the name of employee who are managers
+  table: emp
+       (emp_id,name,salary,dep,emp_mgr_id) 
+    		(1,A,1200,HR,3)
+    		(2,B,2000,HR,3)
+    		(3,C,2200,HR,6)
+    		(4,D,200,IT,23)
+    		(5,E,200,IT,13)
+    		(6,F,3200,HR,17)
+      
+    Solution: select e1.name from emp e1 join emp m1 where e1.emp_mgr_id = m2.emp_id;
+    
+  35. Status code:
+    200: OK status,
+    201: Ok suceess,
+    403: Forbidden,
+    500: Internal server errors,
+    502: Bad gateway
+  36. 
+  37. 
 
 
   Here are some great websites to **practice output-based JavaScript questions**:
