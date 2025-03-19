@@ -324,6 +324,7 @@ another value
 new value
 
 ## 36. Reverse string and remove duplicate in javascript
+```
 let s = "ravi Kumar";
 let s1 ="";
 let s3 = "";
@@ -338,8 +339,31 @@ for(let i=s.length-1; i>=0; i--) {
 }
 console.log(s1); // ramuK iv
 console.log(s3); // ramuK ivar
+```
 
 ## 37. SwitchMap
+`switchMap` is an **RxJS operator** used in Angular to map an observable to another observable while **canceling previous subscriptions** if a new value comes in.  
+
+### **How it Works?**  
+- Ideal for handling **API calls, user inputs, and search functionalities** where only the latest request matters.
+- Prevents **unnecessary network requests** and **race conditions**.  
+
+### **Example Usage in Angular HTTP Calls**  
+```typescript
+this.searchInput.valueChanges.pipe(
+  debounceTime(300), // Wait before firing request
+  switchMap(query => this.apiService.search(query)) // Cancels previous request
+).subscribe(results => console.log(results));
+```
+
+### **Key Differences (vs `mergeMap`)**  
+- **`switchMap`** → Cancels previous requests, keeps only the latest one.  
+- **`mergeMap`** → Runs all requests concurrently without canceling.  
+
+### **Best Use Cases**  
+- **Live search** (cancel previous search request).  
+- **Authentication (Login)** (only last request matters).  
+- **Auto-refresh API calls** (avoid outdated responses).
 
 ---
 ## 38. What is component in angular?
@@ -411,6 +435,12 @@ Angular is a **component-based** frontend framework that uses **TypeScript**. It
 8. **Compilation & Optimization**
     1. Ahead-of-Time (AOT) Compilation improves performance.
     2. Lazy Loading loads modules only when needed, optimizing performance.  
+
+---
+
+## 42. Div vs span
+div is a block element
+span is an inline element.
 
 ---
 
