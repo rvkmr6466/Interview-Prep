@@ -408,9 +408,9 @@ Angular is a **component-based** frontend framework that uses **TypeScript**. It
 5. **Routing** – `RouterModule` enables navigation between pages.  
 6. **Change Detection** – Updates the DOM when data changes, using **Zone.js**.  
 7. **RxJS & Observables** – Handles async data streams efficiently.
-8. **Compilation & Optimization** –
-    Ahead-of-Time (AOT) Compilation improves performance.
-    Lazy Loading loads modules only when needed, optimizing performance.  
+8. **Compilation & Optimization**
+    1. Ahead-of-Time (AOT) Compilation improves performance.
+    2. Lazy Loading loads modules only when needed, optimizing performance.  
 
 ---
 
