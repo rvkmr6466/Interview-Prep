@@ -578,7 +578,38 @@ Content-Type: application/json
 
 **PATCH is more efficient** when updating a small part of a resource.
 
+## 45. Second highest element in an Array
+    ```public static void main(String[] args) {
+        int[] arr = {21, 2, 43, 114, 45, 6, 32, 54};
 
+        if (arr.length < 2) {
+            System.out.println("Array should have at least two elements.");
+            return;
+        }
+
+        int firstHighest = Integer.MIN_VALUE;
+        int secondHighest = Integer.MIN_VALUE;
+
+        for (int n : arr) {
+            if (n > firstHighest) {
+                secondHighest = firstHighest; // Update secondHighest before changing firstHighest
+                firstHighest = n;
+            } else if (n > secondHighest && n < firstHighest) {
+                secondHighest = n;
+            }
+        }
+
+        if (secondHighest == Integer.MIN_VALUE) {
+            System.out.println("No second highest element found.");
+        } else {
+            System.out.println("First Highest: " + firstHighest);
+            System.out.println("Second Highest: " + secondHighest);
+        }
+        
+    }
+```
+---
+## 46.
 
 
 ## n. Best Websites to Practice JavaScript Output-Based Questions
