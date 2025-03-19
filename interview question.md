@@ -444,6 +444,142 @@ span is an inline element.
 
 ---
 
+## 43. Class level annotation in spring boot
+In Spring Boot, class-level annotations are used to define configurations, components, and behaviors at the class level. Here are some commonly used class-level annotations:
+
+### 1. **[@RestController](w)**
+   - Used in Spring MVC to define a RESTful controller.
+   ```java
+   @RestController
+   public class MyController {
+       @GetMapping("/hello")
+       public String hello() {
+           return "Hello, World!";
+       }
+   }
+   ```
+
+### 2. **[@Controller](w)**
+   - Marks a class as a Spring MVC controller (typically used with views like Thymeleaf).
+   ```java
+   @Controller
+   public class MyController {
+       @GetMapping("/home")
+       public String home() {
+           return "home";
+       }
+   }
+   ```
+
+### 3. **[@Service](w)**
+   - Marks a class as a service component in the business layer.
+   ```java
+   @Service
+   public class MyService {
+       public String process() {
+           return "Processing data";
+       }
+   }
+   ```
+
+### 4. **[@Repository](w)**
+   - Indicates a DAO (Data Access Object) and enables exception translation.
+   ```java
+   @Repository
+   public class MyRepository {
+       // Data access logic
+   }
+   ```
+
+### 5. **[@Component](w)**
+   - Generic stereotype for any Spring-managed component.
+   ```java
+   @Component
+   public class MyComponent {
+       public void execute() {
+           System.out.println("Executing component logic");
+       }
+   }
+   ```
+
+### 6. **[@Configuration](w)**
+   - Marks a class as a source of Spring bean definitions.
+   ```java
+   @Configuration
+   public class AppConfig {
+       @Bean
+       public MyService myService() {
+           return new MyService();
+       }
+   }
+   ```
+
+### 7. **[@SpringBootApplication](w)**
+   - Combination of `@Configuration`, `@EnableAutoConfiguration`, and `@ComponentScan`.
+   ```java
+   @SpringBootApplication
+   public class MyApplication {
+       public static void main(String[] args) {
+           SpringApplication.run(MyApplication.class, args);
+       }
+   }
+   ```
+
+### 8. **[@EnableScheduling](w)**
+   - Enables scheduling for running scheduled tasks.
+   ```java
+   @Configuration
+   @EnableScheduling
+   public class SchedulerConfig {
+   }
+   ```
+
+These annotations help configure and organize a Spring Boot application efficiently.
+
+## 44. PUT vs PATCH in REST APIs
+
+Both **PATCH** and **PUT** are HTTP methods used to update resources, but they have key differences:
+
+| Feature  | **PUT** | **PATCH** |
+|----------|--------|-----------|
+| **Purpose** | Replaces the entire resource with a new one | Partially updates specific fields of a resource |
+| **Request Body** | Contains the full resource, even unchanged fields | Contains only the fields that need to be updated |
+| **Idempotency** | Yes (multiple identical requests produce the same result) | Not necessarily (repeated requests may change the resource differently) |
+| **Use Case** | Updating an entire object (e.g., replacing a user profile) | Modifying specific attributes (e.g., changing just the email) |
+
+### **Example**
+#### **PUT Request (Full Update)**
+```http
+PUT /users/1
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "age": 30
+}
+```
+- Requires sending all fields, even if only one needs updating.
+
+#### **PATCH Request (Partial Update)**
+```http
+PATCH /users/1
+Content-Type: application/json
+
+{
+  "email": "john.doe@example.com"
+}
+```
+- Updates only the `email` field while keeping other fields unchanged.
+
+### **When to Use What?**
+- Use **PUT** when replacing the entire resource.
+- Use **PATCH** when modifying only specific attributes.
+
+**PATCH is more efficient** when updating a small part of a resource.
+
+
+
 
 ## n. Best Websites to Practice JavaScript Output-Based Questions
 
