@@ -1524,15 +1524,213 @@ int sum = a + b;  // Using `+` instead of a method call
 | Operators as Methods | ❌ No | ✅ Yes |
 | Execution Without Object | ✅ Yes (`static main()`) | ❌ No |
 
-Java follows **OOP principles**, but its design **includes non-OOP features** for performance and simplicity. That’s why Java is called **"not a fully object-oriented language" but an "OOP-based language."** 🚀  
+Java follows **OOP principles**, but its design **includes non-OOP features** for performance and simplicity. That’s why Java is called **"not a fully object-oriented language" but an "OOP-based language."** 🚀  ---
+
+## 53. If you have two default methods in a functional interface and you are printing ram from one method and Shyam from other method then how to print Shyam using other class
+A **functional interface** in Java is an interface that has only **one abstract method**. However, it can have **multiple default methods**.  
+
+### Problem Breakdown:
+- You have two `default` methods in a functional interface.
+- One method prints `"Ram"`, and the other prints `"Shyam"`.
+- You want to print `"Shyam"` using another class.
+
+### Solution:
+You can achieve this by **overriding** the `default` method in a class that implements the interface. Here’s how you can do it:
+
+### Code Implementation:
+
+#### **1. Define the Functional Interface**
+```java
+@FunctionalInterface
+interface MyInterface {
+    void abstractMethod(); // Functional interface must have one abstract method
+
+    default void printRam() {
+        System.out.println("Ram");
+    }
+
+    default void printShyam() {
+        System.out.println("Shyam");
+    }
+}
+```
+
+#### **2. Implement the Interface in a Class**
+```java
+class MyClass implements MyInterface {
+    @Override
+    public void abstractMethod() {
+        // Implementation of the abstract method
+        System.out.println("Abstract Method Implementation");
+    }
+
+    @Override
+    public void printShyam() {
+        System.out.println("Shyam"); // Overriding the default method
+    }
+}
+```
+
+#### **3. Test the Implementation**
+```java
+public class Main {
+    public static void main(String[] args) {
+        MyClass obj = new MyClass();
+        
+        obj.printShyam();  // This will print "Shyam"
+    }
+}
+```
+
+### **Explanation:**
+1. The `MyInterface` has **two default methods**: `printRam()` and `printShyam()`.
+2. The `MyClass` implements `MyInterface` and **overrides** the `printShyam()` method.
+3. When calling `obj.printShyam()`, the overridden method in `MyClass` executes and prints `"Shyam"`.
+
+Here are a few interview questions based on **functional interfaces and default methods** that test a candidate’s understanding of Java 8 features:  
+
+### **1. Default Methods in Functional Interfaces**  
+> **Question:**  
+If a functional interface has two default methods, and both print different values (e.g., `"Ram"` and `"Shyam"`), how can you ensure that `"Shyam"` is printed when calling the method from another class?  
+
+> **Follow-up Question:**  
+Can you override default methods in a class that implements the functional interface? If yes, how does method resolution work?  
+
+
+### **2. Multiple Default Methods Conflict**  
+> **Question:**  
+If a class implements two interfaces, and both interfaces have a default method with the **same signature**, how can you resolve the conflict?  
+
+> **Expected Answer:**  
+The implementing class must **override** the conflicting method explicitly to resolve ambiguity.  
+
+### **3. Functional Interface with Multiple Default Methods**  
+> **Question:**  
+Is it valid for a **functional interface** to have multiple **default methods**? If yes, how does it still satisfy the functional interface definition?  
+
+> **Hint:**  
+A functional interface must have exactly **one abstract method**, but it **can** have multiple `default` and `static` methods.  
+
+
+### **4. Calling Superclass Default Method from Implementing Class**  
+> **Question:**  
+If an interface provides a default method, how can an implementing class explicitly call that interface’s default method from an overridden method?  
+
+> **Example:**  
+```java
+interface MyInterface {
+    default void show() {
+        System.out.println("Interface default method");
+    }
+}
+
+class MyClass implements MyInterface {
+    @Override
+    public void show() {
+        MyInterface.super.show(); // Calling interface's default method
+        System.out.println("Overridden method");
+    }
+}
+```
+> **What will be the output of the above code?**  
+```java
+Interface default method
+Overridden method
+```
+
+### **5. Can a Functional Interface Extend Another Interface?**  
+> **Question:**  
+Can a functional interface extend another interface that has a default method? If yes, will the default method be available to the implementing class?  
+
+> **Hint:**  
+Yes, a functional interface **can** extend another interface. The implementing class will inherit the default method unless it overrides it.  
+
+Here are some **scenario-based** and **real-world** interview questions on **functional interfaces and default methods** in Java:  
+
+### **1. Real-World Scenario: Logging Mechanism**  
+> **Question:**  
+Imagine you are designing a logging framework where multiple classes need a default logging method. You want to provide a `log()` method in an interface, but also allow classes to override it if needed.  
+>
+> - How would you design the interface using default methods?  
+> - How can a class use the interface’s default `log()` method without overriding it?  
+
+> **Hint:**  
+Use a default method in the interface for logging, and allow implementing classes to override it selectively.  
+
+
+### **2. Diamond Problem with Default Methods**  
+> **Question:**  
+You have two interfaces, `InterfaceA` and `InterfaceB`, both containing a default method with the **same name and implementation**. If a class `MyClass` implements both interfaces, how will Java resolve this conflict?  
+
+```java
+interface InterfaceA {
+    default void greet() {
+        System.out.println("Hello from A");
+    }
+}
+
+interface InterfaceB {
+    default void greet() {
+        System.out.println("Hello from B");
+    }
+}
+
+class MyClass implements InterfaceA, InterfaceB {
+    // What should you do here to resolve the conflict?
+}
+```
+- What happens if you don’t override the `greet()` method in `MyClass`?  
+- How can you explicitly call `greet()` from `InterfaceA` inside `MyClass`?  
+
+> **Expected Answer:**  
+Java will throw a **compilation error** due to ambiguity. You must override `greet()` in `MyClass` and use `InterfaceA.super.greet()` or `InterfaceB.super.greet()` to specify which one to call.  
+
+
+### **3. Designing a Payment Gateway Using Functional Interface**  
+> **Question:**  
+You are designing a payment gateway where different payment processors (PayPal, Stripe, Razorpay) must implement a `processPayment()` method. You also want a **default method** to **validate payments** before processing.  
+
+> - How would you design a functional interface for this use case?  
+> - If a new payment provider wants to modify only the validation logic, how can it override the default method?  
+
+> **Hint:**  
+Use a **functional interface** with one abstract method (`processPayment()`) and a default method (`validatePayment()`). Allow implementing classes to override validation logic if necessary.  
+
+### **4. Combining Functional Interfaces and Streams**  
+> **Question:**  
+Suppose you have a `List<String>` of employee names and you need to:  
+1. Convert all names to uppercase  
+2. Filter names that start with "A"  
+3. Print them using a method from a functional interface  
+
+- How can you achieve this using Java Streams and a custom functional interface?  
+- Can a default method in the functional interface be used to provide a common transformation logic?  
+
+
+### **5. Modifying Default Method Behavior Dynamically**  
+> **Question:**  
+You have a functional interface with a default method for sending notifications. Some users prefer **email**, while others prefer **SMS**.  
+
+- How can you modify the default method dynamically based on user preference **without modifying the interface**?  
+- Can this be achieved using **lambda expressions** or **method references**?  
+
+> **Hint:**  
+Pass a custom implementation using lambda expressions or override the default method in an anonymous class.  
+
+### **6. Default Methods vs. Abstract Classes**  
+> **Question:**  
+Both **default methods in interfaces** and **methods in abstract classes** allow code reuse.  
+- When should you **prefer default methods** over an **abstract class**?  
+- Can an interface with default methods completely replace an abstract class?  
+
+> **Expected Answer:**  
+- Default methods allow multiple inheritance, while abstract classes don’t.  
+- If shared behavior is needed but the class should still extend another class, **default methods** are better.  
+- If state (fields) needs to be maintained, an **abstract class** is preferred.  
 
 ---
 
-## 53.
-
----
-
-## 54.
+## 54. 
 
 ---
 
