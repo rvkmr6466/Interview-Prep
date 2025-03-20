@@ -2049,7 +2049,132 @@ When to Use Spring Boot vs Spring MVC?**
 
 ---
 
-## 57.
+## 57. ### **Java Singleton Design Pattern**
+The **Singleton pattern** ensures that a class has **only one instance** and provides a **global point of access** to that instance. This is useful for scenarios like **database connections, logging, configuration management, and thread pools**.
+
+---
+
+## **1. Implementing Singleton Pattern in Java**
+### **A. Eager Initialization (Thread-Safe)**
+In this approach, the instance is created **at the time of class loading**.  
+```java
+public class Singleton {
+    private static final Singleton instance = new Singleton(); // Eager instance creation
+
+    private Singleton() { }  // Private constructor prevents instantiation
+
+    public static Singleton getInstance() {
+        return instance;
+    }
+}
+```
+✅ **Pros:** Simple, thread-safe  
+❌ **Cons:** Instance is created even if not used  
+
+---
+
+### **B. Lazy Initialization (Not Thread-Safe)**
+Instance is created **only when needed**, but this is **not thread-safe**.
+```java
+public class Singleton {
+    private static Singleton instance;
+
+    private Singleton() { }
+
+    public static Singleton getInstance() {
+        if (instance == null) { // Instance created only when first called
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+```
+✅ **Pros:** Saves memory if the instance is never used  
+❌ **Cons:** **Not thread-safe** in multi-threaded environments  
+
+---
+
+### **C. Thread-Safe Singleton (Double-Checked Locking)**
+A better approach to make the Singleton thread-safe **without performance issues**.
+```java
+public class Singleton {
+    private static volatile Singleton instance;  // Volatile to prevent multiple instances
+
+    private Singleton() { }
+
+    public static Singleton getInstance() {
+        if (instance == null) {  // First check (no locking)
+            synchronized (Singleton.class) { // Locking block
+                if (instance == null) {  // Second check (after locking)
+                    instance = new Singleton();
+                }
+            }
+        }
+        return instance;
+    }
+}
+```
+✅ **Pros:** Thread-safe, efficient performance  
+❌ **Cons:** More complex  
+
+---
+
+### **D. Bill Pugh Singleton (Best Approach)**
+This approach uses an **inner static helper class**, which ensures **lazy initialization and thread safety**.
+```java
+public class Singleton {
+    private Singleton() { }
+
+    private static class SingletonHelper {
+        private static final Singleton INSTANCE = new Singleton();
+    }
+
+    public static Singleton getInstance() {
+        return SingletonHelper.INSTANCE;
+    }
+}
+```
+✅ **Pros:** Lazy-loaded, thread-safe, best performance  
+❌ **Cons:** None  
+
+---
+
+### **E. Enum Singleton (Recommended for Thread-Safety)**
+Using an `enum` prevents multiple instances **even during serialization and reflection**.
+```java
+public enum Singleton {
+    INSTANCE;
+
+    public void showMessage() {
+        System.out.println("Singleton using Enum");
+    }
+}
+```
+✅ **Pros:** Simplest, thread-safe, prevents reflection attacks  
+❌ **Cons:** Cannot support lazy initialization  
+
+---
+
+## **2. When to Use Singleton Pattern?**
+- **Database connections** (JDBC, Hibernate)
+- **Logging framework** (Log4j, SLF4J)
+- **Configuration management** (properties, environment variables)
+- **Caching mechanisms** (storing frequently used objects)
+- **Thread pools** (managing reusable worker threads)
+
+---
+
+## **3. Avoiding Issues with Singleton**
+### 🔴 **Common Problems**
+1. **Multi-threading issues** (use **Double-Checked Locking** or **Bill Pugh method**)
+2. **Serialization creates multiple instances** (implement `readResolve()` method)
+3. **Reflection can break Singleton** (use `Enum Singleton`)
+4. **Cloning can break Singleton** (override `clone()` and throw exception)
+
+### ✅ **Best Practices**
+- Prefer **Enum Singleton** for the safest implementation.
+- Use **Bill Pugh Singleton** for **lazy initialization with thread safety**.
+- Avoid unnecessary **synchronization**, as it affects performance.
 
 ---
 
@@ -2070,7 +2195,7 @@ When to Use Spring Boot vs Spring MVC?**
 ---
 
 
-## 61.
+## 62.
 
 ---
 
