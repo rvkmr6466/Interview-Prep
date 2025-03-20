@@ -439,9 +439,59 @@ Angular is a **component-based** frontend framework that uses **TypeScript**. It
 
 ---
 
-## 42. Div vs span
-div is a block element
-span is an inline element.
+## 42. Block vs Inline vs Inline-Block in CSS
+
+| Property      | Block | Inline | Inline-Block |
+|--------------|-------|--------|--------------|
+| **Starts on a new line?** | ✅ Yes | ❌ No | ❌ No |
+| **Takes full width?** | ✅ Yes (by default) | ❌ No (only as wide as content) | ❌ No (only as wide as content) |
+| **Supports width & height?** | ✅ Yes | ❌ No | ✅ Yes |
+| **Supports margin & padding?** | ✅ Yes (all sides) | 🚫 No (only horizontal) | ✅ Yes (all sides) |
+
+
+### **Examples for Better Understanding**  
+
+#### **1️⃣ Block Elements (`display: block`)**  
+✅ Takes the full width, starts on a new line  
+📌 Examples: `<div>`, `<p>`, `<h1>`, `<section>`
+
+```html
+<div style="background: lightblue; width: 300px;">I am a block element</div>
+<p style="background: lightcoral;">I also take full width</p>
+```
+
+#### **2️⃣ Inline Elements (`display: inline`)**  
+✅ Stays in line, only takes up as much space as needed  
+📌 Examples: `<span>`, `<a>`, `<strong>`
+
+```html
+<span style="background: yellow;">I am inline</span>
+<a href="#" style="background: orange;">I am also inline</a>
+```
+
+#### **3️⃣ Inline-Block Elements (`display: inline-block`)**  
+✅ Stays in line **but** supports width & height  
+📌 Examples: `<button>`, `<input>`, custom `<span>` styling  
+
+```html
+<span style="display: inline-block; width: 150px; background: lightgreen;">I have width & height</span>
+<button style="display: inline-block; width: 100px;">Button</button>
+```
+
+### **Visual Representation**
+```
+[BLOCK]          (Takes full width)
+[BLOCK]
+
+[INLINE] [INLINE] [INLINE]   (Stays in line)
+
+[INLINE-BLOCK] [INLINE-BLOCK]   (Stays in line but supports width)
+```
+
+### **When to Use?**
+- **Use `block`** for sections, divs, and paragraphs.
+- **Use `inline`** for text elements that should flow naturally (like links & spans).
+- **Use `inline-block`** when you need inline elements but want to set width & height.
 
 ---
 
@@ -772,7 +822,7 @@ Spring Boot provides built-in support for caching using the **Spring Cache Abstr
 
 ---
 
-## **1. Enable Caching in Spring Boot**
+### **1. Enable Caching in Spring Boot**
 First, enable caching in your Spring Boot application by adding the `@EnableCaching` annotation in your main class or a configuration class.
 
 ```java
@@ -789,10 +839,10 @@ public class CachingExampleApplication {
 }
 ```
 
-## **2. Use @Cacheable Annotation**
+### **2. Use @Cacheable Annotation**
 You can use `@Cacheable` to cache method results so that subsequent calls with the same arguments return the cached result instead of executing the method again.
 
-### **Example: Caching a Method Result**
+#### **Example: Caching a Method Result**
 ```java
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -807,12 +857,12 @@ public class UserService {
     }
 }
 ```
-### **How It Works:**
+#### **How It Works:**
 1. The first time `getUserById(1)` is called, it fetches data and stores it in the cache.
 2. The next time `getUserById(1)` is called, it returns the cached result instead of executing the method.
 
 
-## **3. Clear Cache with @CacheEvict**
+### **3. Clear Cache with @CacheEvict**
 If data changes and you need to remove it from the cache, use `@CacheEvict`.
 
 ```java
@@ -832,7 +882,7 @@ public class UserService {
 - `@CacheEvict(value = "users", key = "#userId")` clears a specific entry.
 
 
-## **4. Update Cache with @CachePut**
+### **4. Update Cache with @CachePut**
 Use `@CachePut` to update the cache when a method is called.
 
 ```java
@@ -851,15 +901,15 @@ public class UserService {
 ```
 
 
-## **5. Configure Cache in application.properties**
+### **5. Configure Cache in application.properties**
 Spring Boot uses **ConcurrentHashMap** as the default cache. You can configure other cache providers like **EhCache, Redis, or Caffeine**.
 
-### **For Simple In-Memory Cache:**
+#### **For Simple In-Memory Cache:**
 ```properties
 spring.cache.type=simple
 ```
 
-### **For Redis Cache:**
+#### **For Redis Cache:**
 ```properties
 spring.cache.type=redis
 spring.redis.host=localhost
@@ -867,7 +917,7 @@ spring.redis.port=6379
 ```
 
 
-## **6. Example with Redis Cache**
+### **6. Example with Redis Cache**
 If you want to use Redis as a cache, add the following dependency in `pom.xml`:
 
 ```xml
@@ -901,7 +951,7 @@ public class RedisConfig {
 ```
 
 
-## **Conclusion**
+### **Conclusion**
 Spring Boot provides simple caching mechanisms using annotations. The best caching approach depends on your use case:
 
 - **For small applications** → Use default simple cache (`ConcurrentHashMap`).
@@ -940,8 +990,8 @@ public class ConcurrentModificationExample {
 Exception in thread "main" java.util.ConcurrentModificationException
 ```
 
-## **Ways to Avoid ConcurrentModificationException**
-### **1. Use Iterator’s remove() Method**
+### **Ways to Avoid ConcurrentModificationException**
+#### **1. Use Iterator’s remove() Method**
 Instead of modifying the list directly, use `Iterator.remove()`.
 ```java
 import java.util.*;
@@ -966,7 +1016,7 @@ public class FixWithIterator {
 }
 ```
 
-### **2. Use `CopyOnWriteArrayList` (Thread-Safe)**
+#### **2. Use `CopyOnWriteArrayList` (Thread-Safe)**
 `CopyOnWriteArrayList` creates a copy of the list whenever modified, avoiding modification issues.
 ```java
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -989,7 +1039,7 @@ public class FixWithCopyOnWriteArrayList {
 }
 ```
 
-### **3. Use `removeIf()` Method (Java 8+)**
+#### **3. Use `removeIf()` Method (Java 8+)**
 Java 8 introduced `removeIf()`, which removes elements safely while iterating.
 ```java
 import java.util.*;
@@ -1008,7 +1058,7 @@ public class FixWithRemoveIf {
 }
 ```
 
-### **4. Use `Stream API` for Filtering (Java 8+)**
+#### **4. Use `Stream API` for Filtering (Java 8+)**
 Instead of modifying a list during iteration, create a new list with filtered values.
 ```java
 import java.util.*;
@@ -1031,7 +1081,7 @@ public class FixWithStreams {
 }
 ```
 
-### **Conclusion**
+#### **Conclusion**
 | Approach | Safe? | Best For |
 |----------|------|---------|
 | `Iterator.remove()` | ✅ Yes | Single-threaded list modification |
@@ -1045,7 +1095,7 @@ Would you like a deeper explanation of any approach? 🚀
 Threads in Java communicate with each other mainly using **wait(), notify(), and notifyAll()**, which are part of the `Object` class. This is commonly used for **inter-thread synchronization**.
 
 
-## **1. Using wait() and notify()**
+### **1. Using wait() and notify()**
 - `wait()`: Causes the current thread to wait until another thread calls `notify()` or `notifyAll()`.
 - `notify()`: Wakes up one thread that is waiting on the same object's monitor.
 - `notifyAll()`: Wakes up all threads waiting on the object's monitor.
@@ -1203,7 +1253,6 @@ public class ThreadCommunicationWithLock {
 - Avoids issues like **spurious wakeups**.
 
 
-
 ## **3. Using `BlockingQueue` (Simplest Approach)**
 Instead of manually using `wait/notify`, Java provides `BlockingQueue`, which handles inter-thread communication automatically.
 
@@ -1348,8 +1397,6 @@ public class UnmodifiableListExample {
 ✅ **Wraps an existing list**  
 ❌ **Changes in the original list will reflect in the unmodifiable list**
 
-
-
 ## **4. Using `Collections.singletonList()` (Single Element Fixed List)**
 Creates an **immutable list with only one element**.
 
@@ -1388,7 +1435,6 @@ public class SingletonListExample {
 - **Need a single-element immutable list?** → Use `Collections.singletonList()`
 
 ---
-
 
 ## 52. Reasons Why Java is Not Fully OOP
 Java is **not considered a "pure" Object-Oriented Programming (OOP) language** because it does not strictly enforce all object-oriented principles. While Java follows OOP concepts like **encapsulation, inheritance, and polymorphism**, it includes some features that break the pure OOP model.  
@@ -1851,13 +1897,12 @@ Hibernate simplifies database interactions **by removing the need for raw SQL** 
 
 1️⃣2️⃣ Native SQL Queries – Using createNativeQuery() to run raw SQL queries when needed. 
 
-
 ---
 
 ## 55. DTO vs Entity
 Both **DTO (Data Transfer Object)** and **Entity** are commonly used in Java applications, but they serve different purposes. Let’s break down their differences:
 
-## **1. What is an Entity?**
+### **1. What is an Entity?**
 An **Entity** is a Java class that represents a **database table**. It is directly mapped to a table using **JPA annotations** (`@Entity`).  
 
 ✅ **Key Features of an Entity:**  
@@ -1890,7 +1935,7 @@ public class User {
 🔹 **Used for:** Database operations (CRUD).  
 
 
-## **2. What is a DTO (Data Transfer Object)?**
+### **2. What is a DTO (Data Transfer Object)?**
 A **DTO** is a **plain Java class** used to **transfer data** between layers (Controller ↔ Service ↔ Client).  
 DTOs are **not managed by JPA** and usually contain only required fields.  
 
@@ -1900,7 +1945,7 @@ DTOs are **not managed by JPA** and usually contain only required fields.
 - Improves **performance & security** (only necessary fields exposed).  
 - Helps **avoid exposing entity structure** to external clients (REST APIs).  
 
-### **Example: DTO Class**
+#### **Example: DTO Class**
 ```java
 public class UserDTO {
     private String name;
@@ -1920,7 +1965,7 @@ public class UserDTO {
 
 🔹 **Used for:** API responses, reducing data exposure.  
 
-## **3. Differences Between DTO and Entity**
+### **3. Differences Between DTO and Entity**
 | Feature        | Entity | DTO |
 |---------------|--------|-----|
 | **Purpose**   | Represents a database table | Transfers data between layers |
@@ -1931,7 +1976,7 @@ public class UserDTO {
 | **Security** | Exposes all fields (risk) | Can hide sensitive fields |
 
 
-## **4. How to Convert Between DTO and Entity?**
+### **4. How to Convert Between DTO and Entity?**
 Since DTOs and Entities serve different purposes, we need to **convert** between them using a **Mapper** function.
 
 ### **Example: Convert Entity → DTO in a Service Layer**
@@ -1960,7 +2005,7 @@ public User convertToEntity(UserDTO userDTO) {
 ```
 ✅ **Using a DTO ensures the API does not expose database fields like `id`, `password`, etc.**  
 
-## **5. When to Use DTO vs. Entity?**
+### **5. When to Use DTO vs. Entity?**
 | **Scenario** | **Use DTO?** | **Use Entity?** |
 |-------------|-------------|-------------|
 | **Fetching data for API response** | ✅ Yes (return only necessary fields) | ❌ No (avoid exposing entity directly) |
@@ -1968,7 +2013,7 @@ public User convertToEntity(UserDTO userDTO) {
 | **Internal database operations** | ❌ No | ✅ Yes |
 | **Avoiding lazy loading issues** | ✅ Yes | ❌ No |
 
-## **6. Why Use DTOs Instead of Entities in APIs?**
+### **6. Why Use DTOs Instead of Entities in APIs?**
 🚀 **Advantages of DTOs in REST APIs:**  
 1. **Prevents over-exposure of database fields** (e.g., `password`, `createdAt`).  
 2. **Reduces response size** (improves performance).  
@@ -1990,7 +2035,7 @@ public UserDTO getUser(@PathVariable Long id) { // ✅ Uses DTO
 }
 ```
 
-## **7. Conclusion**
+### **7. Conclusion**
 ✅ **Use `Entity` for database operations (JPA/Hibernate).**  
 ✅ **Use `DTO` for API responses, improving security & performance.**  
 ✅ **Convert between `Entity` ↔ `DTO` using Mapper functions.**  
@@ -2011,7 +2056,7 @@ Spring MVC and Spring Boot both help build Java web applications, but **Spring B
 - **Production-ready features** (Actuator, Metrics, Logging).  
 - Requires **less code**, reducing development time.  
 
-## **2. Key Differences Between Spring Boot & Spring MVC**  
+### **2. Key Differences Between Spring Boot & Spring MVC**  
 
 | Feature             | Spring MVC | Spring Boot |
 |---------------------|-----------|-------------|
@@ -2037,7 +2082,7 @@ When to Use Spring Boot vs Spring MVC?**
 | **Want production-ready features** | ❌ No | ✅ Yes |
 | **Need fast development** | ❌ No | ✅ Yes |
 
-## **6. Conclusion: Why Choose Spring Boot?**  
+### **6. Conclusion: Why Choose Spring Boot?**  
 
 ✅ **Easier Setup** → No XML, embedded Tomcat, auto-configured.  
 ✅ **Less Boilerplate Code** → Just write business logic.  
@@ -2049,13 +2094,11 @@ When to Use Spring Boot vs Spring MVC?**
 
 ---
 
-## 57. ### **Java Singleton Design Pattern**
+## 57. Java Singleton Design Pattern
 The **Singleton pattern** ensures that a class has **only one instance** and provides a **global point of access** to that instance. This is useful for scenarios like **database connections, logging, configuration management, and thread pools**.
 
----
-
-## **1. Implementing Singleton Pattern in Java**
-### **A. Eager Initialization (Thread-Safe)**
+### 1. Implementing Singleton Pattern in Java**
+#### A. Eager Initialization (Thread-Safe)**
 In this approach, the instance is created **at the time of class loading**.  
 ```java
 public class Singleton {
@@ -2071,7 +2114,6 @@ public class Singleton {
 ✅ **Pros:** Simple, thread-safe  
 ❌ **Cons:** Instance is created even if not used  
 
----
 
 ### **B. Lazy Initialization (Not Thread-Safe)**
 Instance is created **only when needed**, but this is **not thread-safe**.
@@ -2155,7 +2197,7 @@ public enum Singleton {
 
 ---
 
-## **2. When to Use Singleton Pattern?**
+### **2. When to Use Singleton Pattern?**
 - **Database connections** (JDBC, Hibernate)
 - **Logging framework** (Log4j, SLF4J)
 - **Configuration management** (properties, environment variables)
@@ -2164,7 +2206,7 @@ public enum Singleton {
 
 ---
 
-## **3. Avoiding Issues with Singleton**
+### **3. Avoiding Issues with Singleton**
 ### 🔴 **Common Problems**
 1. **Multi-threading issues** (use **Double-Checked Locking** or **Bill Pugh method**)
 2. **Serialization creates multiple instances** (implement `readResolve()` method)
@@ -2178,11 +2220,37 @@ public enum Singleton {
 
 ---
 
-## 58.
+## 58. Find the output:
+    ```java
+    class Parent{
+	
+	public void print() throws FileNotFoundException {
+		System.out.println("Parent");
+    	}
+    }
+    
+    public class Child extends Parent{
+    	
+    	@Override
+    	public void print() throws  IOException{
+    		System.out.println("Child ");
+    	}
+    
+    	public static void main(String[] args) throws IOException {
+    		Parent p = new Child();
+    		p.print();
+    	}
+    
+    }
+```
+**Output:**
+```java
+Child
+```
 
 ---
 
-## 59.
+## 59. 
 
 ---
 
