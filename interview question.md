@@ -310,18 +310,19 @@ SELECT e1.name FROM emp e1 JOIN emp e2 ON e1.emp_id = e2.emp_mgr_id;
 ---
 
 ## 35. Output
-let obj1 = { key: "value" };
-let obj2 = obj1;
-let obj3 = obj2;
-obj1.key = "new value";
-obj2 = { key: "another value" };
-console.log(obj1.key); 
-console.log(obj2.key); 
-console.log(obj3.key); 
-
-**Output**=> new value
-another value
-new value
+    let obj1 = { key: "value" };
+    let obj2 = obj1;
+    let obj3 = obj2;
+    obj1.key = "new value";
+    obj2 = { key: "another value" };
+    console.log(obj1.key); 
+    console.log(obj2.key); 
+    console.log(obj3.key); 
+    
+    Output=>
+    new value
+    another value
+    new value
 
 ## 36. Reverse string and remove duplicate in javascript
 ```
