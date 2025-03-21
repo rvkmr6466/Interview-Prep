@@ -2250,11 +2250,33 @@ Child
 
 ---
 
-## 59. 
+## 59. Count repeating numbers and from an array.
+```java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+    int[] arr = {1,2,3,4,2,2,3};
+    int count=0;
+    
+    Map<Integer, Integer> h = new HashMap<>();
+    
+    for (Integer n: arr) {
+      if (h.get(n)==null) {
+        h.put(n, 1);
+      } else {
+        int x = h.get(n);
+        h.put(n, x+1);
+      }
+    }
+    
+      System.out.println(h);
+  }```
 
 ---
 
-## 60.
+## 60. Find palindrome or not for an Integer (12345 & 1234321) and a String ("ravi" & "kammak").
+
 
 ---
 
