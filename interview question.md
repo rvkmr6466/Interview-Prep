@@ -2242,19 +2242,18 @@ public enum Singleton {
     	}
     
     }
-```
-**Output:**
-  ```java
+    ```
+
+Output:
     Child
-  ```
 
 ---
 
 ## 59. Count repeating numbers and from an array.
 ```java
-import java.util.*;
+  import java.util.*;
 
-public class Main {
+  public class Main {
     public static void main(String[] args) {
     int[] arr = {1,2,3,4,2,2,3};
     int count=0;
