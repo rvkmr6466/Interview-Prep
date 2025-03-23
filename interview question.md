@@ -2244,9 +2244,9 @@ public enum Singleton {
     }
 ```
 **Output:**
-```java
-Child
-```
+  ```java
+    Child
+  ```
 
 ---
 
@@ -2280,7 +2280,22 @@ public class Main {
 
 ---
 
-## 61.
+## 61. Java 8 Features Introduced
+There are a few major Java 8 features mentioned below:
+
+Lambda Expressions: Concise functional code using ->.
+Functional Interfaces: Single-method interfaces.
+Introduced and Improved APIs:
+-Stream API: Efficient Data Manipulation.
+-Date/Time API: Robust Date and Time Handling.
+-Collection API Improvements: Enhanced Methods for Collections (e.g., removeIf, replaceAll).
+-Concurrency API Improvements: New classes for parallel processing (e.g., CompletableFuture).
+
+Optional Class: Handle null values safely.
+forEach() Method in Iterable Interface: Executes an action for each element in a Collection.
+Default Methods: Evolve interfaces without breaking compatibility.
+Static Methods: Allows adding methods with default implementations to interfaces.
+Method References: Refer to methods easily.
 
 ---
 
