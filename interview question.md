@@ -12,6 +12,8 @@
 |  6.  | Concurrency follows a non-deterministic control flow. | Parallelism follows a deterministic control flow. |
 |  7.  | Debugging concurrency issues is very hard. | Debugging parallelism is also hard but simpler than concurrency. |
 
+---
+
 ## 2. List vs Set  
 
 | S.NO | List | Set |
@@ -21,6 +23,8 @@
 |  3.  | Allows multiple null values | Allows only one null value |
 |  4.  | Access elements by index | No index-based access |
 |  5.  | Implementations: ArrayList, LinkedList | Implementations: HashSet, TreeSet, LinkedHashSet |
+
+---
 
 ## 3. Creating an Immutable Class in Java  
 
@@ -43,6 +47,8 @@ public final class ImmutableExample {
     }
 }
 ```
+
+---
 
 ## 4. Validation in Spring Boot  
 
@@ -72,6 +78,8 @@ public ResponseEntity<String> addUser(@Valid @RequestBody User user, BindingResu
 }
 ```
 
+---
+
 ## 5. Questions on Stream API  
 
 Examples:
@@ -86,6 +94,8 @@ List<String> stringList = numbers.stream()
     .collect(Collectors.toList());
 ```
 
+---
+
 ## 6. Functional Interface  
 
 A **functional interface** has exactly one abstract method.
@@ -97,6 +107,8 @@ interface MyFunction {
 }
 ```
 
+---
+
 ## 7. SOLID Principles  
 
 1. **Single Responsibility** - A class should have only one reason to change.  
@@ -104,6 +116,8 @@ interface MyFunction {
 3. **Liskov Substitution** - Subtypes must be substitutable for base types.  
 4. **Interface Segregation** - Prefer multiple small interfaces.  
 5. **Dependency Inversion** - Depend on abstractions, not concretions.  
+
+---
 
 ## 8. Difference Between Hibernate and JDBC  
 
@@ -115,6 +129,8 @@ interface MyFunction {
 | Lazy Loading | Yes | No |
 | Database Independence | Yes | No |
 
+---
+
 ## 9. Annotations Used in Java  
 
 - `@Override`
@@ -122,6 +138,8 @@ interface MyFunction {
 - `@Deprecated`
 - `@SpringBootApplication`
 - `@RestController`
+
+---
 
 ## 10. Find Longest Substring Without Repeating Characters  
 
@@ -142,12 +160,16 @@ public int lengthOfLongestSubstring(String s) {
 }
 ```
 
+---
+
 ## 11. Technical Architecture  
 
 Spring Boot follows **Microservices architecture** and includes:
 - **Controller Layer** - API Handling
 - **Service Layer** - Business Logic
 - **Repository Layer** - Database Interaction  
+
+---
 
 ## 12. SQL vs NoSQL  
 
@@ -156,6 +178,8 @@ Spring Boot follows **Microservices architecture** and includes:
 | Structured | Unstructured |
 | Fixed Schema | Dynamic Schema |
 | ACID | BASE |
+
+---
 
 ## 13. Factory Design Pattern  
 
@@ -168,14 +192,20 @@ class Factory {
 }
 ```
 
+---
+
 ## 14. Algorithm Behind `Collections.sort()`  
 
 It uses **TimSort**, which is a hybrid of **MergeSort and InsertionSort**.
+
+---
 
 ## 15. Challenges Faced as an Engineer  
 
 - **Performance Issues** → Optimized SQL Queries  
 - **Scalability** → Used Caching Mechanisms  
+
+---
 
 ## 16. How JVM Works?  
 
@@ -184,6 +214,8 @@ JVM Components:
 - **Heap Memory**
 - **Execution Engine**
 - **Garbage Collector**
+
+---
 
 ## 17. Spring Actuator  
 
@@ -199,6 +231,8 @@ management:
         include: "*"
 ```
 
+---
+
 ## 18. Abstract Class vs Interface  
 
 | Abstract Class | Interface |
@@ -206,10 +240,14 @@ management:
 | Can have method implementations | Only method signatures (before Java 8) |
 | Can have constructors | Cannot have constructors |
 
+---
+
 ## 19. Understanding Browser Caching  
 
 - **Cache-Control: max-age=3600**  
 - **ETag for validation**  
+
+---
 
 ## 20. UX Design Principles  
 
@@ -217,20 +255,28 @@ management:
 - Consistency  
 - Accessibility  
 
+---
+
 ## 21. Event-Driven Implementation Using Kafka  
 
 - **Producer** sends message to **Kafka Topic**  
 - **Consumer** reads message from topic  
+
+---
 
 ## 22. HTML5 & CSS  
 
 - **HTML5** → Semantic tags (`<article>`, `<section>`)  
 - **CSS** → Flexbox, Grid, Animations  
 
+---
+
 ## 23. Angular 17 Features  
 
 - Improved Hydration  
 - Signal-based reactivity  
+
+---
 
 ## 24. Lazy Loading in Hibernate  
 
@@ -239,11 +285,15 @@ management:
 private List<Order> orders;
 ```
 
+---
+
 ## 25. Reverse a String  
 
 ```java
 String reversed = new StringBuilder(str).reverse().toString();
 ```
+
+---
 
 ## 26. Handle Exception in Angular  
 
@@ -256,19 +306,27 @@ export class GlobalErrorHandler implements ErrorHandler {
 }
 ```
 
+---
+
 ## 27. Signal in Angular  
 
 Signals help manage reactive state.
 
+---
+
 ## 28. Zone.js  
 
 Manages asynchronous operations in Angular.
+
+---
 
 ## 29. Second Highest Salary in SQL  
 
 ```sql
 SELECT salary FROM employees ORDER BY salary DESC LIMIT 1 OFFSET 1;
 ```
+
+---
 
 ## 30. Shift an Array by 3 to the Right  
 
@@ -278,9 +336,12 @@ public static void rotateRight(int[] arr, int k) {
 }
 ```
 
-## 31. Stream API in Java  
+---
 
+## 31. Stream API in Java  
 Used for processing collections efficiently.
+
+---
 
 ## 32. First Repeating Character in a String  
 
@@ -290,6 +351,8 @@ public static Optional<Character> findFirstRepeatedCharacter(String input) {
     return input.chars().mapToObj(c -> (char) c).filter(c -> !seen.add(c)).findFirst();
 }
 ```
+
+---
 
 ## 33. Find Employees Who Are Managers  
 
