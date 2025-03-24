@@ -2082,7 +2082,7 @@ When to Use Spring Boot vs Spring MVC?**
 | **Want production-ready features** | ❌ No | ✅ Yes |
 | **Need fast development** | ❌ No | ✅ Yes |
 
-### **6. Conclusion: Why Choose Spring Boot?**  
+#### **6. Conclusion: Why Choose Spring Boot?**  
 
 ✅ **Easier Setup** → No XML, embedded Tomcat, auto-configured.  
 ✅ **Less Boilerplate Code** → Just write business logic.  
@@ -2115,7 +2115,7 @@ public class Singleton {
 ❌ **Cons:** Instance is created even if not used  
 
 
-### **B. Lazy Initialization (Not Thread-Safe)**
+#### **B. Lazy Initialization (Not Thread-Safe)**
 Instance is created **only when needed**, but this is **not thread-safe**.
 ```java
 public class Singleton {
@@ -2136,7 +2136,7 @@ public class Singleton {
 
 ---
 
-### **C. Thread-Safe Singleton (Double-Checked Locking)**
+#### **C. Thread-Safe Singleton (Double-Checked Locking)**
 A better approach to make the Singleton thread-safe **without performance issues**.
 ```java
 public class Singleton {
@@ -2161,7 +2161,7 @@ public class Singleton {
 
 ---
 
-### **D. Bill Pugh Singleton (Best Approach)**
+#### **D. Bill Pugh Singleton (Best Approach)**
 This approach uses an **inner static helper class**, which ensures **lazy initialization and thread safety**.
 ```java
 public class Singleton {
@@ -2181,7 +2181,7 @@ public class Singleton {
 
 ---
 
-### **E. Enum Singleton (Recommended for Thread-Safety)**
+#### **E. Enum Singleton (Recommended for Thread-Safety)**
 Using an `enum` prevents multiple instances **even during serialization and reflection**.
 ```java
 public enum Singleton {
@@ -2197,7 +2197,7 @@ public enum Singleton {
 
 ---
 
-### **2. When to Use Singleton Pattern?**
+#### **2. When to Use Singleton Pattern?**
 - **Database connections** (JDBC, Hibernate)
 - **Logging framework** (Log4j, SLF4J)
 - **Configuration management** (properties, environment variables)
@@ -2206,14 +2206,14 @@ public enum Singleton {
 
 ---
 
-### **3. Avoiding Issues with Singleton**
-### 🔴 **Common Problems**
+#### **3. Avoiding Issues with Singleton**
+#### 🔴 **Common Problems**
 1. **Multi-threading issues** (use **Double-Checked Locking** or **Bill Pugh method**)
 2. **Serialization creates multiple instances** (implement `readResolve()` method)
 3. **Reflection can break Singleton** (use `Enum Singleton`)
 4. **Cloning can break Singleton** (override `clone()` and throw exception)
 
-### ✅ **Best Practices**
+#### ✅ **Best Practices**
 - Prefer **Enum Singleton** for the safest implementation.
 - Use **Bill Pugh Singleton** for **lazy initialization with thread safety**.
 - Avoid unnecessary **synchronization**, as it affects performance.
@@ -2221,9 +2221,7 @@ public enum Singleton {
 ---
 
 ## 58. Find the output:
-    ```java
-    class Parent{
-	
+    class Parent {
 	public void print() throws FileNotFoundException {
 		System.out.println("Parent");
     	}
@@ -2242,15 +2240,14 @@ public enum Singleton {
     	}
     
     }
-    ```
-
+ 
 Output:
     Child
 
 ---
 
 ## 59. Count repeating numbers and from an array.
-```java
+  ```java
   import java.util.*;
 
   public class Main {
@@ -2270,7 +2267,8 @@ Output:
     }
     
       System.out.println(h);
-  }```
+  }
+  ```
 
 ---
 
@@ -2280,40 +2278,51 @@ Output:
 ---
 
 ## 61. Java 8 Features Introduced
-There are a few major Java 8 features mentioned below:
+### Major Features
 
-Lambda Expressions: Concise functional code using ->.
-Functional Interfaces: Single-method interfaces.
-Introduced and Improved APIs:
--Stream API: Efficient Data Manipulation.
--Date/Time API: Robust Date and Time Handling.
--Collection API Improvements: Enhanced Methods for Collections (e.g., removeIf, replaceAll).
--Concurrency API Improvements: New classes for parallel processing (e.g., CompletableFuture).
+#### 1. Lambda Expressions  
+Concise functional code using `->`.
 
-Optional Class: Handle null values safely.
-forEach() Method in Iterable Interface: Executes an action for each element in a Collection.
-Default Methods: Evolve interfaces without breaking compatibility.
-Static Methods: Allows adding methods with default implementations to interfaces.
-Method References: Refer to methods easily.
+#### 2. Functional Interfaces  
+Single-method interfaces.
+
+#### 3. Introduced and Improved APIs  
+- **Stream API**: Efficient data manipulation.  
+- **Date/Time API**: Robust date and time handling.  
+- **Collection API Improvements**: Enhanced methods for collections (e.g., `removeIf`, `replaceAll`).  
+- **Concurrency API Improvements**: New classes for parallel processing (e.g., `CompletableFuture`).  
+
+#### 4. Optional Class  
+Handle `null` values safely.
+
+#### 5. `forEach()` Method in Iterable Interface  
+Executes an action for each element in a collection.
+
+#### 6. Default Methods  
+Evolve interfaces without breaking compatibility.
+
+#### 7. Static Methods in Interfaces  
+Allows adding methods with default implementations to interfaces.
+
+#### 8. Method References  
+Refer to methods easily.
 
 ---
 
-
 ## 62. Valid parenthesis
-Example 1:
-Input: s = "()"
-Output: true
-Example 2:
-Input: s = "()[]{}"
-Output: true
-Example 3:
-Input: s = "(]"
-Output: false
-Example 4:
-Input: s = "([])"
-Output: true
-
-```java
+	Example 1:
+	Input: s = "()"
+	Output: true
+	Example 2:
+	Input: s = "()[]{}"
+	Output: true
+	Example 3:
+	Input: s = "(]"
+	Output: false
+	Example 4:
+	Input: s = "([])"
+	Output: true
+ ```java
  class Solution {
     public boolean isValid(String s) {
         Deque<Character> stk = new ArrayDeque<>();
@@ -2330,12 +2339,45 @@ Output: true
     private boolean match(char l, char r) {
         return (l == '(' && r == ')') || (l == '{' && r == '}') || (l == '[' && r == ']');
     }
-}
-```
+ }
+ ```
+
 ---
 
+## 61. Strings are immutable or not.
+Strings are immutable. Once a string is created, its value cannot be changed. Any operation that appears to modify a string actually creates a new string object. This immutability offers several benefits, including thread safety, security, and efficient memory management. 
 
-## 61.
+ ```java
+  public class StringImmutability {
+    public static void main(String[] args) {
+        String str1 = "Hello";
+        String str2 = str1.toUpperCase(); // Creates a new string "HELLO"
+        
+        System.out.println(str1); // Output: Hello
+        System.out.println(str2); // Output: HELLO
+    }
+  }
+  ```
+
+---
+
+## 63.
+
+---
+
+## 64.
+
+---
+
+## 65.
+
+---
+
+## 66.
+
+---
+
+## 67.
 
 ---
 
@@ -2351,5 +2393,3 @@ Output: true
 8. **[HackerRank JavaScript Challenges](https://www.hackerrank.com/domains/tutorials/10-days-of-javascript)**
 
 ---
-
-Would you like any further refinements or additional topics? 🚀
