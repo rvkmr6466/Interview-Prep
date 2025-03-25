@@ -22,7 +22,7 @@ public class Main {
         String s = "geeksforgeeks";
         List<Character> seenChars = new ArrayList<>();
 
-        for (int i = 0; i < s.length(); i++) {
+        for (int i = 0; i < s.length(); i++) { // Add-on: for (Character c: s.toCharArray()) can be used
             if (!seenChars.contains(s.charAt(i))) {
                 seenChars.add(s.charAt(i));
             } else {
