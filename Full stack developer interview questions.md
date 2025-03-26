@@ -2454,7 +2454,15 @@ In essence, @Service and @Controller are specialized forms of @Component. They d
 
 ---
 
-## 65.
+## 65. Duplicate records from a table.
+SELECT * 
+FROM your_table 
+WHERE your_column IN (
+    SELECT your_column 
+    FROM your_table 
+    GROUP BY your_column 
+    HAVING COUNT(*) > 1
+);
 
 ---
 
