@@ -2466,7 +2466,8 @@ WHERE your_column IN (
 
 ---
 
-## 66. The @SpringBootApplication annotation in Spring Boot is a composite annotation that combines three other annotations: @Configuration, @EnableAutoConfiguration, and @ComponentScan. It is used to mark the main class of a Spring Boot application and enables several key features.
+## 66. @SpringBootApplication
+The @SpringBootApplication annotation in Spring Boot is a composite annotation that combines three other annotations: @Configuration, @EnableAutoConfiguration, and @ComponentScan. It is used to mark the main class of a Spring Boot application and enables several key features.
 @Configuration:
 Indicates that the class can be used by the Spring IoC container as a source of bean definitions. It essentially marks the class as a configuration class, allowing it to define beans using @Bean annotated methods.
 @EnableAutoConfiguration:
