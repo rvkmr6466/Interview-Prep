@@ -2456,3 +2456,33 @@ Strings are immutable. Once a string is created, its value cannot be changed. An
 8. **[HackerRank JavaScript Challenges](https://www.hackerrank.com/domains/tutorials/10-days-of-javascript)**
 
 ---
+
+
+#Core Java & OOP Concept
+✅ What is the difference between a class and an object? 
+✅ Explain OOP principles (Encapsulation, Inheritance, Polymorphism, Abstraction) with examples. 
+✅ What is method overloading vs. method overriding? 
+✅ How does Java handle memory management (Heap vs. Stack, Garbage Collection)? 
+✅ Explain shallow copy vs. deep copy in Java. 
+✅ What are static methods and variables, and when should you use them? 
+
+hashtag#Comparator vs. Comparable 
+✅ What is the difference between Comparator and Comparable? 
+✅ How do you sort a list using Comparator? 
+✅ Can a class implement both Comparator and Comparable? 
+✅ How do you handle multiple sorting criteria in Java? 
+
+hashtag#Functional Programming & Streams 
+✅ What are functional interfaces, and how are they used? 
+✅ Explain filter, map, reduce operations in Java Streams. 
+✅ How do you handle parallel streams, and when should you use them? 
+✅ What is the difference between findFirst() and findAny()? 
+✅ Can you modify a collection while iterating using streams? 
+
+hashtag#Spring Boot & Advanced Java 
+✅ What are key annotations in Spring Boot? 
+✅ Difference between @Controller vs. @RestController? 
+✅ What is the Bean Lifecycle in Spring? 
+✅ How does Spring Boot handle dependency injection? 
+✅ What are proxies in Spring, and why are they needed? 
+✅ How does @Transactional work in Spring Boot? 
