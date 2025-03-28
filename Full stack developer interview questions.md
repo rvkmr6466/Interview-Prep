@@ -2509,11 +2509,117 @@ public DataSource secondaryDataSource() {
 
 ---
 
-## 68. 
+## 68. Object class methods:
+Here’s your reformatted version with improved readability and structure:  
 
 ---
 
-## 69. 
+### The Object Class in Java  
+
+In Java, the `Object` class serves as the root of the class hierarchy, meaning every class implicitly or explicitly inherits from it. This class provides several essential methods available to all Java objects.  
+
+Below is an overview of the commonly used methods in the `Object` class:  
+
+#### 1. `clone()`  
+- Creates and returns a copy of the object.  
+- It is a `protected` method and must be overridden and made `public` in subclasses to be used.  
+- The class must implement the `Cloneable` interface; otherwise, it throws a `CloneNotSupportedException`.  
+
+#### 2. `equals(Object obj)`  
+- Compares two objects for equality.  
+- The default implementation checks if the two objects are the same instance in memory.  
+- Often overridden to provide a meaningful comparison based on object attributes.  
+
+#### 3. `finalize()`  
+- Called by the garbage collector before an object is reclaimed.  
+- Allows cleanup actions before destruction.  
+- Its use is discouraged due to unpredictability and performance issues.  
+
+#### 4. `getClass()`  
+- Returns the runtime class of the object.  
+- It is a `final` method, meaning it cannot be overridden.  
+
+#### 5. `hashCode()`  
+- Returns a hash code value for the object.  
+- Used by hash-based collections like `HashMap` and `HashSet`.  
+- If `equals()` is overridden, `hashCode()` must also be overridden to maintain consistency.  
+
+#### 6. `toString()`  
+- Returns a string representation of the object.  
+- The default implementation provides the class name and object's hash code.  
+- Commonly overridden to provide a more meaningful representation of an object’s state.  
+
+#### 7. `notify()`  
+- Wakes up a single thread waiting on this object's monitor.  
+- Used for thread synchronization.  
+
+#### 8. `notifyAll()`  
+- Wakes up all threads waiting on this object's monitor.  
+- Also used for thread synchronization.  
+
+#### 9. `wait()`  
+- Causes the current thread to wait until another thread invokes `notify()` or `notifyAll()`.  
+- Can also wait until a specified timeout elapses.  
+- Used for thread synchronization.  
+
+### Conclusion  
+These methods provide fundamental functionalities for all Java objects, including object creation, comparison, string representation, and thread synchronization. Understanding them is crucial for effective Java programming.  
+
+
+---
+
+## 69.  HashMap vs Hashtable in Java 
+
+Both `HashMap` and `Hashtable` are used to store key-value pairs in Java, but they have some key differences in terms of performance, synchronization, and usage.  
+
+| Feature         | HashMap | Hashtable |
+|---------------|---------|----------|
+| **Synchronization** | Not synchronized (not thread-safe). | Synchronized (thread-safe). |
+| **Performance** | Faster because it is not synchronized. | Slower due to synchronization overhead. |
+| **Null Keys/Values** | Allows **one null key** and multiple null values. | Does **not** allow null keys or null values. |
+| **Iteration (Fail-Fast vs Fail-Safe)** | Uses **fail-fast** iterator (throws `ConcurrentModificationException` if modified during iteration). | Uses **fail-safe** enumerator (does not throw an exception when modified). |
+| **Thread Safety** | Not thread-safe (use `Collections.synchronizedMap()` or `ConcurrentHashMap` for thread safety). | Thread-safe (synchronized by default). |
+| **Performance in Multi-threading** | Better performance in single-threaded environments. | Can cause performance bottlenecks due to synchronization. |
+| **Inheritance** | Inherits from `AbstractMap`. | Inherits from `Dictionary` (legacy class). |
+| **Usage Recommendation** | Preferred in non-threaded applications for better performance. | Used in multi-threaded environments where synchronization is needed. |
+
+### **When to Use What?**  
+- Use **`HashMap`** when **performance is a priority** and **synchronization is not required**.  
+- Use **`Hashtable`** only if **you need thread-safety**, but **`ConcurrentHashMap`** is usually a better alternative.  
+
+#### **Example Usage**  
+
+**HashMap Example:**  
+```java
+import java.util.*;
+
+public class HashMapExample {
+    public static void main(String[] args) {
+        HashMap<Integer, String> map = new HashMap<>();
+        map.put(1, "Apple");
+        map.put(2, "Banana");
+        map.put(null, "Orange"); // Allows null key
+
+        System.out.println(map); // Output: {1=Apple, 2=Banana, null=Orange}
+    }
+}
+```
+
+**Hashtable Example:**  
+```java
+import java.util.*;
+
+public class HashtableExample {
+    public static void main(String[] args) {
+        Hashtable<Integer, String> table = new Hashtable<>();
+        table.put(1, "Apple");
+        table.put(2, "Banana");
+        // table.put(null, "Orange"); // Throws NullPointerException
+
+        System.out.println(table); // Output: {1=Apple, 2=Banana}
+    }
+}
+```
 
 ---
 
