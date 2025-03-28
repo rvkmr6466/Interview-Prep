@@ -2466,15 +2466,38 @@ WHERE your_column IN (
 
 ---
 
-## 66. @SpringBootApplication
-The @SpringBootApplication annotation in Spring Boot is a composite annotation that combines three other annotations: @Configuration, @EnableAutoConfiguration, and @ComponentScan. It is used to mark the main class of a Spring Boot application and enables several key features.
-@Configuration:
-Indicates that the class can be used by the Spring IoC container as a source of bean definitions. It essentially marks the class as a configuration class, allowing it to define beans using @Bean annotated methods.
-@EnableAutoConfiguration:
-Enables Spring Boot's auto-configuration mechanism, which automatically configures the application based on the dependencies added in the classpath. It attempts to infer and configure beans that are likely needed based on the project's dependencies. 
-@ComponentScan:
-Enables component scanning, allowing Spring to automatically discover and register beans in the application context within the package of the annotated class and its sub-packages.
-By combining these three annotations, @SpringBootApplication simplifies the setup and configuration of Spring Boot applications. It serves as a convenient and concise way to bootstrap a Spring Boot application, reducing the need for manual configuration and boilerplate code.
+## 66. @SpringBootApplication Annotation in Spring Boot
+The `@SpringBootApplication` annotation is a **composite annotation** in Spring Boot that combines three other annotations:  
+
+1. **`@Configuration`**  
+   - Marks the class as a configuration class.  
+   - Allows defining beans using `@Bean` annotated methods.  
+
+2. **`@EnableAutoConfiguration`**  
+   - Enables **Spring Boot’s auto-configuration mechanism**.  
+   - Automatically configures beans based on the classpath dependencies.  
+
+3. **`@ComponentScan`**  
+   - Enables **component scanning**.  
+   - Automatically discovers and registers Spring beans within the package and its sub-packages.  
+
+### **Purpose of `@SpringBootApplication`**  
+- Marks the **main class** of a Spring Boot application.  
+- Simplifies the setup by reducing the need for manual configuration.  
+- Provides a **concise way** to bootstrap a Spring Boot application.  
+
+### **Example Usage:**  
+```java
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class MySpringBootApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MySpringBootApplication.class, args);
+    }
+}
+```
 
 ---
 
@@ -2510,13 +2533,7 @@ public DataSource secondaryDataSource() {
 ---
 
 ## 68. Object class methods:
-Here’s your reformatted version with improved readability and structure:  
-
----
-
-### The Object Class in Java  
-
-In Java, the `Object` class serves as the root of the class hierarchy, meaning every class implicitly or explicitly inherits from it. This class provides several essential methods available to all Java objects.  
+In Java, the `Object` class serves as the root of the class hierarchy, meaning every class implicitly or explicitly inherits from it. This class provides several essential methods available to all Java objects. 
 
 Below is an overview of the commonly used methods in the `Object` class:  
 
@@ -2623,9 +2640,49 @@ public class HashtableExample {
 
 ---
 
-## 70. 
+## 70. nth Highest salary
+#### Approach 1: 
+	SELECT DISTINCT salary 
+	FROM employees 
+	ORDER BY salary DESC 
+	LIMIT 1 OFFSET N-1;
+
+#### In MongoDB:
+db.employees.aggregate([
+  { $group: { _id: "$salary" } },   // Group by salary
+  { $sort: { _id: -1 } },           // Sort salaries in descending order
+  { $limit: N },                    // Limit to top N salaries
+  { $skip: N-1 }                    // Skip (N-1) results to get the Nth
+])
+
 
 ---
+
+## 71. MySQL vs PostgreSQL: A Detailed Comparison  
+
+| Feature            | **MySQL**  | **PostgreSQL**  |
+|--------------------|-----------|----------------|
+| **Architecture**  | Relational Database (RDBMS) | Object-Relational Database (ORDBMS) |
+| **ACID Compliance** | Fully ACID-compliant (with InnoDB) | Fully ACID-compliant |
+| **Performance**  | Faster for **read-heavy** workloads | Better for **write-heavy** and complex queries |
+| **SQL Compliance** | Partially SQL-compliant | More SQL-compliant (supports advanced SQL features) |
+| **Indexing** | Supports B-Tree, Full-text, and Hash Indexing | Supports B-Tree, Hash, GiST, GIN, BRIN Indexing |
+| **JSON Support** | Basic JSON functions | Advanced JSON and JSONB support |
+| **Concurrency Control** | Uses **row-level locking** (InnoDB) | Uses **MVCC (Multi-Version Concurrency Control)** |
+| **Replication** | Supports Master-Slave & Group Replication | Supports Master-Slave, Logical & Streaming Replication |
+| **Partitioning** | Limited support (Range & List) | Advanced Partitioning (Range, List, Hash) |
+| **Stored Procedures** | Supports **PL/SQL-like** syntax | Supports **PL/pgSQL**, Python, Java, etc. |
+| **Extensions & Customization** | Limited extensibility | Highly extensible (e.g., TimescaleDB, PostGIS) |
+| **Security** | Basic authentication & SSL | Advanced security with role-based access, RLS |
+| **Use Cases** | Web applications, CMS (e.g., WordPress, Joomla) | Data analytics, OLAP, GIS, complex queries |
+
+### **Which One to Choose?**
+- **Choose MySQL if:** You need a simple, fast, and lightweight database for web apps.  
+- **Choose PostgreSQL if:** You need complex queries, high scalability, and advanced features like JSON, GIS, and full ACID compliance.
+
+---
+
+
 
 ## n. Best Websites to Practice JavaScript Output-Based Questions
 
