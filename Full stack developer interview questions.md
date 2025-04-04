@@ -2772,13 +2772,13 @@ db.employees.aggregate([
 
 ---
 
-## 73. What happened when a duplicate is added to a HashMap. 
+## 73. What happened when a duplicate is added to a HashMap? 
 When a duplicate key is added to a HashMap, the old value associated with that key is replaced by the new value, and the HashMap continues to store only one value for that key.
 
 Here's a more detailed explanation: 
-• HashMap and Unique Keys: HashMaps, by design, are intended to store unique keys, meaning each key can map to only one value.
-• Duplicate Key Handling: If you attempt to insert a key that already exists, the HashMap will not insert a new entry. Instead, it will update the value associated with that existing key with the new value you've provided.
-• No Exception Thrown: Adding a duplicate key does not cause a runtime exception or error; it simply overwrites the existing value.  
+- HashMap and Unique Keys: HashMaps, by design, are intended to store unique keys, meaning each key can map to only one value.
+- Duplicate Key Handling: If you attempt to insert a key that already exists, the HashMap will not insert a new entry. Instead, it will update the value associated with that existing key with the new value you've provided.
+- No Exception Thrown: Adding a duplicate key does not cause a runtime exception or error; it simply overwrites the existing value.  
 
 Example: 
 ```java
@@ -2788,7 +2788,7 @@ Example:
 ```
 ---
 
-## 74. How hashmap works internally
+## 74. How hashmap works internally?
 A HashMap in Java uses a hash table to store key-value pairs. The hash table is made up of an array of buckets, and each bucket can contain multiple key-value pairs.
 
 **How it works**
@@ -2799,25 +2799,48 @@ A HashMap in Java uses a hash table to store key-value pairs. The hash table is 
 5. When a value is retrieved, the hash function is used to calculate the index of the key.
 6. If there is a linked list at that index, the linked list is traversed until the key is found.
 
-**Collisions** 
+- **Collisions** 
 When two keys hash to the same index, this is called a collision. To handle collisions, HashMap uses separate chaining (linked list or tree).  
-**Performance**
+- **Performance**
 A good hash function distributes objects evenly. A good implementation of hashCode and equals method is required to avoid unwanted behavior.
 
 
 ---
 
-## 75. How does garbage collection work in java
+## 75. How does garbage collection work in java?
 Garbage collection in Java is the process of automatically managing memory by reclaiming space occupied by objects that are no longer in use. The Java Virtual Machine (JVM) handles garbage collection, relieving developers from manual memory management. Garbage collection operates primarily on the heap, the area of memory where objects are stored. It identifies and removes unreachable objects, which are objects no longer referenced by the program. 
 
-The most common garbage collection algorithm is the mark-and-sweep algorithm, which involves the following steps: 
-Marking: The garbage collector identifies and marks all reachable objects starting from root objects (e.g., global variables, local variables, and method parameters). 
-Sweeping: The garbage collector scans the heap and removes unmarked objects, freeing up the memory they occupied. 
-Compacting: After sweeping, the garbage collector may compact the remaining objects to reduce memory fragmentation. 
+The most common garbage collection algorithm is the mark-and-sweep algorithm, which involves the following steps:
+- Marking: The garbage collector identifies and marks all reachable objects starting from root objects (e.g., global variables, local variables, and method parameters). 
+- Sweeping: The garbage collector scans the heap and removes unmarked objects, freeing up the memory they occupied. 
+- Compacting: After sweeping, the garbage collector may compact the remaining objects to reduce memory fragmentation. 
 
 Garbage collection is triggered automatically by the JVM when it detects low memory or when an object cannot be allocated due to insufficient space. Developers can also manually request garbage collection using System.gc(), although this is generally discouraged as it can impact performance. 
 Java uses generational garbage collection, dividing the heap into generations (young, old/tenured). Newly created objects are placed in the young generation, and objects that survive multiple garbage collection cycles are promoted to older generations. This approach optimizes garbage collection by focusing on the young generation, where most objects are short-lived. 
 
+---
+
+## 76. Can we override main method in java?
+The main method in Java cannot be overridden in the traditional sense due to it being a static method. Overriding applies to instance methods in the context of inheritance. However, the main method can be overloaded. 
+Overloading the main method means creating multiple methods with the same name but different signatures (different parameter lists). When the Java Virtual Machine (JVM) starts a program, it specifically looks for the main method with the signature public static void main(String[] args). Other overloaded main methods will not be executed automatically by the JVM; they must be called explicitly from within the public static void main(String[] args) method or other parts of the code. 
+```java
+class MainMethodExample {
+
+    public static void main(String[] args) {
+        System.out.println("Main method with String[] args");
+        main("Hello"); // Calling overloaded main method
+        main(10);      // Calling overloaded main method
+    }
+
+    public static void main(String arg1) {
+        System.out.println("Overloaded main method with String argument: " + arg1);
+    }
+
+    public static void main(int arg1) {
+         System.out.println("Overloaded main method with int argument: " + arg1);
+    }
+}
+```
 ---
 
 ## n. Best Websites to Practice JavaScript Output-Based Questions
