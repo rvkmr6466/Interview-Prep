@@ -28,14 +28,40 @@
 
 ## 3. Creating an Immutable Class in Java  
 
+In Java, an **immutable class** is one whose **instances cannot be modified after creation, ensuring their state remains constant**. To create an immutable class, you need to:  
+- Make the class `final`  
+- Declare fields as `private` and `final`  
+- Provide a constructor to initialize fields  
+- Use **defensive copying** for mutable objects  
+
+### **Steps to Create an Immutable Class in Java**  
+1. **Make the class `final`**  
+   - Prevents inheritance, which could allow modification through subclassing.  
+2. **Make all fields `private` and `final`**  
+   - Prevents direct access and modification of fields after object creation.  
+3. **Provide a constructor to initialize all fields**  
+   - Use a constructor to set initial values.  
+   - Perform deep copies for mutable objects to avoid unintended modifications.  
+4. **Do not provide setter methods**  
+   - Since the object's state is immutable, there should be no methods to modify its fields.  
+5. **Use getter methods carefully**  
+   - If fields are mutable, return a **copy** of the object instead of exposing the original reference.  
+6. **Use defensive copying for mutable objects**  
+   - If the class contains references to mutable objects, create and return a copy in getter methods to **prevent external modification** of the internal state.  
+
+
+### **Example: Immutable Class in Java**
 ```java
-public final class ImmutableExample {
+ public final class Person {
     private final String name;
     private final int age;
+    private final String[] hobbies; // Example of a mutable object
 
-    public ImmutableExample(String name, int age) {
+    public Person(String name, int age, String[] hobbies) {
         this.name = name;
         this.age = age;
+        // Defensive copy for mutable object
+        this.hobbies = hobbies.clone();
     }
 
     public String getName() {
@@ -45,8 +71,22 @@ public final class ImmutableExample {
     public int getAge() {
         return age;
     }
-}
+
+    // Defensive copy for mutable object in getter method
+    public String[] getHobbies() {
+        return hobbies.clone();
+    }
+ }
 ```
+
+### **Benefits of Immutable Classes**  
+✔ **Thread Safety:** Immutable objects are inherently thread-safe as their state cannot change, eliminating the need for synchronization.  
+✔ **Caching:** Since values remain constant, immutable objects can be safely cached and reused.  
+✔ **Data Integrity:** Immutability ensures the object’s data remains consistent throughout its lifecycle.  
+✔ **Functional Programming:** Immutability is a core principle of functional programming, making code easier to understand and debug.  
+✔ **Security:** Prevents accidental or malicious modification of sensitive data.  
+✔ **Example – `String` Class:**  
+   - The `String` class in Java is immutable. Once a `String` object is created, its value cannot be changed.  
 
 ---
 
@@ -96,16 +136,44 @@ List<String> stringList = numbers.stream()
 
 ---
 
-## 6. Functional Interface  
+## 6. What are functional interfaces, and how are they used?  
 
-A **functional interface** has exactly one abstract method.
+A functional interface in Java is an interface with exactly one abstract method, allowing it to be used with lambda expressions and method references. These interfaces are a cornerstone of functional programming in Java, enabling concise and expressive code.  
 
+Here's a breakdown of functional interfaces: 
+• **Single Abstract Method (SAM)**: A functional interface must have only one abstract method, also known as the "functional method". 
+• **Lambda Expressions & Method References:** The presence of a single abstract method makes the interface a target type for lambda expressions and method references, allowing for concise and functional code. 
+• **Optional @FunctionalInterface Annotation:** While not mandatory, the @FunctionalInterface annotation can be used to explicitly declare an interface as a functional interface, helping the compiler catch errors if the interface definition violates the SAM rule. 
+• **Default and Static Methods:** Functional interfaces can also contain default and static methods, in addition to the single abstract method. 
+• **Examples**: Runnable, ActionListener, Consumer<T>, Supplier<T>, Function<T, R>, and Predicate<T> are common examples of functional interfaces provided by Java.
+
+How to Use Functional Interfaces:
+1. **Create a Functional Interface:** Define an interface with only one abstract method.
+2. **Implement with Lambda Expressions:** Use lambda expressions to provide implementations for the functional method.  
+3. **Use with Method References:** Use method references to provide implementations for the functional method. 
+4. **Pass as Arguments:** Pass functional interface instances (lambda expressions or method references) as arguments to methods that expect them.  
+5. **Return as Values:** Return functional interface instances (lambda expressions or method references) from methods. 
+
+**Example**: 
 ```java
-@FunctionalInterface
-interface MyFunction {
-    void sayHello();
-}
+ @FunctionalInterface
+ interface MyInterface {
+    void doSomething(String input);
+ }
+
+ public class Main {
+    public static void main(String[] args) {
+        // Using a lambda expression
+        MyInterface lambdaImpl = (String input) -> System.out.println("Lambda: " + input);
+        lambdaImpl.doSomething("Hello");
+
+        // Using a method reference
+        MyInterface methodRefImpl = System.out::println;
+        methodRefImpl.doSomething("Method Reference");
+    }
+ }
 ```
+
 
 ---
 
@@ -2682,6 +2750,42 @@ db.employees.aggregate([
 
 ---
 
+## 72. Find the output:
+	1. String s = "A";
+           s = "B";
+	   System.out.println(list);
+	output: "B"
+ 
+        2. final int x = 10;
+           x=20;
+	   System.out.println(list);
+	output: The Java code will result in a compile-time error because you cannot reassign a value to a final variable after its initialization.
+ 
+        3. final List<Integer> list = new ArrayList<>();
+           list.add(2);
+           list.add(3);
+           list.add(4);
+           list.remove(2);
+           System.out.println(list);
+
+       output: [2,3]
+
+---
+
+## 73. What happened when a duplicate is added to a HashMap. 
+When a duplicate key is added to a HashMap, the old value associated with that key is replaced by the new value, and the HashMap continues to store only one value for that key.
+
+Here's a more detailed explanation: 
+• HashMap and Unique Keys: HashMaps, by design, are intended to store unique keys, meaning each key can map to only one value.
+• Duplicate Key Handling: If you attempt to insert a key that already exists, the HashMap will not insert a new entry. Instead, it will update the value associated with that existing key with the new value you've provided.
+• No Exception Thrown: Adding a duplicate key does not cause a runtime exception or error; it simply overwrites the existing value.  
+
+Example: 
+    HashMap<String, String> map = new HashMap<>();
+    map.put("key1", "value1"); // map now contains {"key1": "value1"}
+    map.put("key1", "value2"); // map now contains {"key1": "value2"} (value1 is replaced)
+
+---
 
 
 ## n. Best Websites to Practice JavaScript Output-Based Questions
