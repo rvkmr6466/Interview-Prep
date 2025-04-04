@@ -2781,12 +2781,44 @@ Here's a more detailed explanation:
 • No Exception Thrown: Adding a duplicate key does not cause a runtime exception or error; it simply overwrites the existing value.  
 
 Example: 
+```java
     HashMap<String, String> map = new HashMap<>();
     map.put("key1", "value1"); // map now contains {"key1": "value1"}
     map.put("key1", "value2"); // map now contains {"key1": "value2"} (value1 is replaced)
+```
+---
+
+## 74. How hashmap works internally
+A HashMap in Java uses a hash table to store key-value pairs. The hash table is made up of an array of buckets, and each bucket can contain multiple key-value pairs.
+
+**How it works**
+1. When a key-value pair is added, the key's hashCode() method is called to calculate an integer hash value.
+2. The hash value is used to determine the bucket where the entry will be placed.
+3. If the bucket is empty, the entry is placed there.
+4. If the bucket is not empty, the entry is added to the linked list at that bucket.
+5. When a value is retrieved, the hash function is used to calculate the index of the key.
+6. If there is a linked list at that index, the linked list is traversed until the key is found.
+
+**Collisions** 
+When two keys hash to the same index, this is called a collision. To handle collisions, HashMap uses separate chaining (linked list or tree).  
+**Performance**
+A good hash function distributes objects evenly. A good implementation of hashCode and equals method is required to avoid unwanted behavior.
+
 
 ---
 
+## 75. How does garbage collection work in java
+Garbage collection in Java is the process of automatically managing memory by reclaiming space occupied by objects that are no longer in use. The Java Virtual Machine (JVM) handles garbage collection, relieving developers from manual memory management. Garbage collection operates primarily on the heap, the area of memory where objects are stored. It identifies and removes unreachable objects, which are objects no longer referenced by the program. 
+
+The most common garbage collection algorithm is the mark-and-sweep algorithm, which involves the following steps: 
+Marking: The garbage collector identifies and marks all reachable objects starting from root objects (e.g., global variables, local variables, and method parameters). 
+Sweeping: The garbage collector scans the heap and removes unmarked objects, freeing up the memory they occupied. 
+Compacting: After sweeping, the garbage collector may compact the remaining objects to reduce memory fragmentation. 
+
+Garbage collection is triggered automatically by the JVM when it detects low memory or when an object cannot be allocated due to insufficient space. Developers can also manually request garbage collection using System.gc(), although this is generally discouraged as it can impact performance. 
+Java uses generational garbage collection, dividing the heap into generations (young, old/tenured). Newly created objects are placed in the young generation, and objects that survive multiple garbage collection cycles are promoted to older generations. This approach optimizes garbage collection by focusing on the young generation, where most objects are short-lived. 
+
+---
 
 ## n. Best Websites to Practice JavaScript Output-Based Questions
 
