@@ -346,4 +346,3 @@ Use event.preventDefault() inside the event listener to prevent the default acti
  import { add } from './math.js';
  console.log(add(2, 3)); // 5
  ```
-    ```
