@@ -348,7 +348,7 @@ Use event.preventDefault() inside the event listener to prevent the default acti
  ```
 
 ## Addon questions
-1. #### what is javascript and why it is used for backend?
+1. #### What is javascript and why it is used for backend?
 JavaScript (JS) is a high-level, interpreted programming language that is commonly used to create interactive effects within web browsers. It is a dynamic, prototype-based language that supports object-oriented, imperative, and functional programming styles.
 
 Node.js is a runtime environment that allows JavaScript to be executed on the server side. It is used for backend development because:
@@ -358,4 +358,59 @@ Node.js is a runtime environment that allows JavaScript to be executed on the se
 3. **Package management**: Node.js has a vast ecosystem of libraries and modules through npm (Node Package Manager), which accelerates development by providing reusable code.
 4. **Performance**: Node.js is built on the V8 JavaScript engine from Google, which compiles JavaScript to native machine code, resulting in high performance.
 
-Would you like to know more about a specific aspect?
+2. #### What will be the output?
+ ```
+ console.log(a);
+ var a = 10;
+ ```
+ _**Output:**_ undefined
+ 
+ ```
+ console.log(b);
+ let b = 10;
+ ```
+ _**Output:**_ d is not defined
+ ```
+ console.log("start");
+ setTimeout(()=>{console.log("settimeout1")});
+ setTimeout(()=>{console.log("settimeout2")},0);
+ Promise.resolve().then(()=>console.log("promise"));
+ console.log("end");
+ ```
+_**Output:**_
+start
+end
+promise
+settimeout1
+settimeout2
+ 
+**Note:** Promise has more priority than setTimeout.
+
+3. #### How Asynchronous call works?
+Asynchronous calls allow a program to start a task and continue executing other code without waiting for the task to finish, using mechanisms like callbacks or promises to handle the result later. 
+Here's a more detailed explanation:
+1. **_The Concept of Asynchronous Operations_**
+- **Non-Blocking:** Asynchronous operations are non-blocking, meaning the program doesn't halt while waiting for a task to complete. 
+- **Parallel Execution:** This allows the program to perform other tasks concurrently, improving efficiency and responsiveness. 
+- **Common Use Cases:** Asynchronous operations are crucial for tasks that take time, such as network requests, file I/O, or database operations. 
+2. _**How Asynchronous Calls Work**_
+- **Initiating the Task:** The program initiates an asynchronous task, such as making a network request. 
+- **Continuing Execution:** The program doesn't wait for the task to complete; it continues executing other code. 
+- **Handling the Result:** When the task completes, a mechanism (like a callback or promise) is used to notify the program and provide the result. 
+- **Callback:** A callback is a function passed as an argument to another function, which is then called when the asynchronous operation is finished. 
+- **Promises:** Promises are objects that represent the eventual completion (or failure) of an asynchronous operation and its resulting value. 
+3. _**Examples**_
+#### **JavaScript:**
+- **`setTimeout()`** and **`setInterval()`**  
+  Used to execute code after a delay or at regular intervals, respectively. These functions demonstrate asynchronous behavior in JavaScript.
+- **`fetch()`**  
+  Utilized to make network requests. It operates asynchronously and returns a **Promise**, allowing you to handle the response once it's available.
+- **`addEventListener()`**  
+  Enables attaching event handlers (callbacks) to events such as button clicks, key presses, or form submissions. These handlers are executed asynchronously when the specified event occurs.
+
+4. #### Add a delay of two second between two console.log.
+ ```
+ console.log(1);
+ await new Promise(resolve => setTimeout(resolve, 3000)); // 3 sec
+ console.log(2);
+ ```
