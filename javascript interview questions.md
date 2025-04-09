@@ -346,3 +346,16 @@ Use event.preventDefault() inside the event listener to prevent the default acti
  import { add } from './math.js';
  console.log(add(2, 3)); // 5
  ```
+
+## Addon questions
+1. #### what is javascript and why it is used for backend?
+JavaScript (JS) is a high-level, interpreted programming language that is commonly used to create interactive effects within web browsers. It is a dynamic, prototype-based language that supports object-oriented, imperative, and functional programming styles.
+
+Node.js is a runtime environment that allows JavaScript to be executed on the server side. It is used for backend development because:
+
+1. **Event-driven architecture**: Node.js uses an event-driven, non-blocking I/O model, which makes it efficient and suitable for building scalable network applications.
+2. **Single language**: Developers can use JavaScript for both frontend and backend development, which simplifies the development process and allows for code reuse.
+3. **Package management**: Node.js has a vast ecosystem of libraries and modules through npm (Node Package Manager), which accelerates development by providing reusable code.
+4. **Performance**: Node.js is built on the V8 JavaScript engine from Google, which compiles JavaScript to native machine code, resulting in high performance.
+
+Would you like to know more about a specific aspect?
