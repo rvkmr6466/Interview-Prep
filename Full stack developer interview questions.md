@@ -2938,6 +2938,8 @@ Optional<String> filtered2 = name.filter(n -> n.startsWith("B"));
 System.out.println(filtered2.isPresent()); // false
 ```
 
+---
+
 ## n. Best Websites to Practice JavaScript Output-Based Questions
 
 1. **[JSitor](https://jsitor.com/)**
