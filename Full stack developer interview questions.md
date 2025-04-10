@@ -174,6 +174,7 @@ How to Use Functional Interfaces:
  }
 ```
 
+We don’t need to define the method with an abstract keyword because by default functional interface will allow only one abstract method, if we try to define more than one abstract method in the functional interface we will get a compile time error.
 
 ---
 
