@@ -141,11 +141,11 @@ List<String> stringList = numbers.stream()
 A functional interface in Java is an interface with exactly one abstract method, allowing it to be used with lambda expressions and method references. These interfaces are a cornerstone of functional programming in Java, enabling concise and expressive code.  
 
 Here's a breakdown of functional interfaces: 
-• **Single Abstract Method (SAM)**: A functional interface must have only one abstract method, also known as the "functional method". 
-• **Lambda Expressions & Method References:** The presence of a single abstract method makes the interface a target type for lambda expressions and method references, allowing for concise and functional code. 
-• **Optional @FunctionalInterface Annotation:** While not mandatory, the @FunctionalInterface annotation can be used to explicitly declare an interface as a functional interface, helping the compiler catch errors if the interface definition violates the SAM rule. 
-• **Default and Static Methods:** Functional interfaces can also contain default and static methods, in addition to the single abstract method. 
-• **Examples**: Runnable, ActionListener, Consumer<T>, Supplier<T>, Function<T, R>, and Predicate<T> are common examples of functional interfaces provided by Java.
+- **Single Abstract Method (SAM)**: A functional interface must have only one abstract method, also known as the "functional method". 
+- **Lambda Expressions & Method References:** The presence of a single abstract method makes the interface a target type for lambda expressions and method references, allowing for concise and functional code. 
+- **Optional @FunctionalInterface Annotation:** While not mandatory, the @FunctionalInterface annotation can be used to explicitly declare an interface as a functional interface, helping the compiler catch errors if the interface definition violates the SAM rule. 
+- **Default and Static Methods:** Functional interfaces can also contain default and static methods, in addition to the single abstract method. 
+- **Examples**: Runnable, ActionListener, Consumer<T>, Supplier<T>, Function<T, R>, and Predicate<T> are common examples of functional interfaces provided by Java.
 
 How to Use Functional Interfaces:
 1. **Create a Functional Interface:** Define an interface with only one abstract method.
@@ -174,7 +174,9 @@ How to Use Functional Interfaces:
  }
 ```
 
-We don’t need to define the method with an abstract keyword because by default functional interface will allow only one abstract method, if we try to define more than one abstract method in the functional interface we will get a compile time error.
+We don’t need to define the method with an abstract keyword because by default functional interface will allow only one abstract method, if we try to define more than one abstract method in the functional interface we will get a _compile time error_.
+![image](https://github.com/user-attachments/assets/202f7155-752c-4bb3-b562-73961290eda9)
+
 
 ---
 
@@ -2842,7 +2844,99 @@ class MainMethodExample {
     }
 }
 ```
+
 ---
+
+## 77. What are the methods of Optional in java
+Here are the commonly used **methods of `Optional`** in Java 8, categorized by purpose for better clarity:
+
+---
+
+#### ✅ **Creation Methods**
+- `Optional.of(value)`  
+  → Creates an Optional with a non-null value (throws `NullPointerException` if value is null).
+
+- `Optional.ofNullable(value)`  
+  → Creates an Optional that may hold a null value.
+
+- `Optional.empty()`  
+  → Returns an empty Optional.
+
+```
+Optional<String> opt1 = Optional.of("Hello");           // Non-null value
+Optional<String> opt2 = Optional.ofNullable(null);      // Can be null
+Optional<String> opt3 = Optional.empty();               // Empty optional
+```
+
+#### 🔍 **Value Access & Checks**
+- `get()`  
+  → Returns the value if present; otherwise throws `NoSuchElementException`.
+
+- `isPresent()`  
+  → Returns `true` if the value is present, else `false`.
+
+- `isEmpty()` *(Java 11+)*  
+  → Returns `true` if the value is not present.
+
+```
+Optional<String> name = Optional.of("Alice");
+
+System.out.println(name.get());           // Alice
+System.out.println(name.isPresent());     // true
+System.out.println(name.isEmpty());       // false (Java 11+)
+```
+
+#### 🛡️ **Fallbacks & Defaults**
+- `orElse(defaultValue)`  
+  → Returns the value if present, else returns `defaultValue`.
+
+- `orElseGet(Supplier)`  
+  → Returns the value if present, else computes value using `Supplier`.
+
+- `orElseThrow()`  
+  → Returns the value if present, else throws `NoSuchElementException`.
+
+- `orElseThrow(Supplier)`  
+  → Returns the value if present, else throws an exception provided by the `Supplier`.
+
+```
+Optional<String> emptyOpt = Optional.empty();
+
+String val1 = emptyOpt.orElse("Default");               // "Default"
+String val2 = emptyOpt.orElseGet(() -> "From Supplier");// "From Supplier"
+String val3 = emptyOpt.orElseThrow(() -> new RuntimeException("No value")); // throws RuntimeException
+```
+
+#### 🔧 **Transformation Methods**
+- `map(Function)`  
+  → Applies the function if value is present and wraps the result in an Optional.
+
+- `flatMap(Function)`  
+  → Like `map`, but avoids nested Optionals if the function already returns an Optional.
+
+```
+Optional<String> opt = Optional.of("java");
+
+Optional<String> upper = opt.map(String::toUpperCase);  
+System.out.println(upper.get()); // "JAVA"
+
+Optional<Integer> length = opt.map(String::length);
+System.out.println(length.get()); // 4
+```
+
+#### 🧪 **Filtering**
+- `filter(Predicate)`  
+  → Returns the same Optional if the value matches the predicate; otherwise returns empty.
+
+```
+Optional<String> name = Optional.of("Alice");
+
+Optional<String> filtered = name.filter(n -> n.startsWith("A"));
+System.out.println(filtered.isPresent()); // true
+
+Optional<String> filtered2 = name.filter(n -> n.startsWith("B"));
+System.out.println(filtered2.isPresent()); // false
+```
 
 ## n. Best Websites to Practice JavaScript Output-Based Questions
 
