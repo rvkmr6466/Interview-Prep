@@ -1,4 +1,4 @@
-## Basic JavaScript - Interview Answers
+### Basic JavaScript - Interview Answers
 1. ##### What are the different data types in JavaScript?
 JavaScript has:
 - Primitive Types: String, Number, Boolean, Undefined, Null, BigInt, and Symbol.
@@ -414,3 +414,186 @@ Here's a more detailed explanation:
  await new Promise(resolve => setTimeout(resolve, 3000)); // 3 sec
  console.log(2);
  ```
+
+---
+
+
+
+## Angular Interview Questions
+
+### 1. Angular 17 Features with Examples
+
+Angular 17 brought a fresh syntax, performance improvements, and better dev ergonomics. Here's a section-wise guide with examples to explore the new capabilities.
+
+#### 1. Built-in Control Flow (`@if`, `@for`, `@switch`)
+
+Angular now supports native control flow syntax directly in templates, replacing structural directives like `*ngIf`, `*ngFor`.
+
+##### Example: `@if` and `@else`
+
+```
+<!-- user.component.html -->
+@if (user?.isLoggedIn) {
+  <p>Welcome, {{ user.name }}!</p>
+} @else {
+  <p>Please log in.</p>
+}
+```
+
+##### Example: `@for`
+
+```html
+<!-- items.component.html -->
+<ul>
+  @for (item of items; track item.id) {
+    <li>{{ item.name }}</li>
+  }
+</ul>
+```
+
+---
+
+#### Example: `@switch`
+
+```html
+<!-- status.component.html -->
+@switch (status) {
+  @case ('loading') {
+    <p>Loading...</p>
+  }
+  @case ('error') {
+    <p>Error occurred.</p>
+  }
+  @default {
+    <p>Data loaded!</p>
+  }
+}
+```
+
+#### 🧱 2. Deferrable Views (`@defer`)
+
+Deferrable views let you lazy-load parts of the UI based on triggers.
+
+##### Example: Lazy load on idle
+
+```html
+<!-- dashboard.component.html -->
+@defer (on idle) {
+  <analytics-chart></analytics-chart>
+}
+```
+
+Other triggers:  
+- `on timer(3000)`
+- `on interaction`
+- `on condition(isLoaded)`
+
+#### ⚡ 3. View Transitions API
+
+Enable animated route/page transitions with the [View Transitions API](https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API).
+
+##### Example: `app.component.ts`
+
+```ts
+// app.component.ts
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  templateUrl: './app.component.html',
+})
+export class AppComponent {
+  constructor(private router: Router) {}
+
+  navigate(path: string) {
+    document.startViewTransition(() => {
+      this.router.navigate([path]);
+    });
+  }
+}
+```
+
+```html
+<!-- app.component.html -->
+<button (click)="navigate('/about')">Go to About</button>
+```
+
+##### 4. Standalone Components
+
+No more need for `NgModule`. Use `standalone: true` and import directly.
+
+##### Example: `hello.component.ts`
+
+```ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-hello',
+  standalone: true,
+  template: `<h2>Hello Angular 17!</h2>`
+})
+export class HelloComponent {}
+```
+
+Use in routing:
+
+```ts
+// app.routes.ts
+import { Routes } from '@angular/router';
+import { HelloComponent } from './hello.component';
+
+export const routes: Routes = [
+  { path: 'hello', component: HelloComponent }
+];
+```
+
+#### 5. SSR & Hydration Enhancements
+
+Angular 17 improves hydration time with better server-to-client DOM reconciliation.
+
+```bash
+ng add @angular/ssr
+```
+
+Hydration is now enabled by default when SSR is configured.
+
+#### 6. Strictly Typed Reactive Forms
+
+Now forms are fully type-safe.
+
+##### Example:
+
+```ts
+const loginForm = new FormGroup({
+  email: new FormControl<string>('', { nonNullable: true }),
+  password: new FormControl<string>('', { nonNullable: true }),
+});
+```
+
+> TypeScript will now help catch mistakes like assigning numbers to strings.
+
+#### ⚡ 7. Vite + Esbuild (Experimental)
+
+Angular now supports Vite + Esbuild for fast development builds.
+
+```bash
+ng build --configuration=esbuild
+```
+
+Enable via experimental builder in `angular.json`.
+
+#### 📘 Summary Table
+
+| Feature              | Description                                  | Syntax/Usage                 |
+|----------------------|----------------------------------------------|------------------------------|
+| `@if`, `@for`, `@switch` | Modern control flow in templates         | `@if`, `@for`, `@switch`     |
+| `@defer`             | Lazy load components/views                   | `@defer (on idle) {}`        |
+| View Transitions API | Native animated routing                      | `document.startViewTransition()` |
+| Standalone Components| Decluttered structure, no `NgModule` needed  | `standalone: true`           |
+| SSR & Hydration      | Faster rendering and reactivity              | `ng add @angular/ssr`        |
+| Typed Forms          | Type-safe reactive forms                     | `FormControl<string>`        |
+| Vite/Esbuild         | Fast experimental build system               | `--configuration=esbuild`    |
+
+---
