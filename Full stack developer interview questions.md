@@ -2939,10 +2939,11 @@ System.out.println(filtered2.isPresent()); // false
 ```
 
 ---
+
 ## 78. What is Transaction Propagation?
 Transaction propagation defines how transactional methods should behave when called by other transactional methods. It determines whether a method should run within an existing transaction or start a new one. Understanding the different types of propagation is essential for building reliable and maintainable applications.
-Types of Transaction Propagation.
-Spring Boot supports several types of transaction propagation:
+
+Types of Transaction Propagation. Spring Boot supports several types of transaction propagation:
 - REQUIRED
 - REQUIRES_NEW
 - MANDATORY
@@ -2952,9 +2953,10 @@ Spring Boot supports several types of transaction propagation:
 - SUPPORTS
 
 Let’s dive into each of these types with detailed explanations and examples.
-1. REQUIRED
-REQUIRED is the default propagation type in Spring. It means that the method must run within a transaction. If a transaction already exists, the method will run within that transaction. If there is no existing transaction, a new one will be started.
+**1. REQUIRED**
+It is the default propagation type in Spring. It means that the method must run within a transaction. If a transaction already exists, the method will run within that transaction. If there is no existing transaction, a new one will be started.
 Example:
+```
 @Service
 public class TransactionService {
 
@@ -2963,11 +2965,14 @@ public class TransactionService {
         // business logic
     }
 }
+```
 Use Case:
 Use REQUIRED when you want your method to participate in an existing transaction if one exists, or to create a new one if not. This is useful for methods that need to ensure that all database operations are part of a single transaction.
-2. REQUIRES_NEW
-REQUIRES_NEW always starts a new transaction. If an existing transaction is present, it will be suspended until the new transaction completes.
+
+**2. REQUIRES_NEW**
+It always starts a new transaction. If an existing transaction is present, it will be suspended until the new transaction completes.
 Example:
+```
 @Service
 public class TransactionService {
 
@@ -2976,9 +2981,12 @@ public class TransactionService {
         // business logic
     }
 }
-3. MANDATORY
-MANDATORY requires an existing transaction. If there is no active transaction, an exception will be thrown.
+```
+
+**3. MANDATORY**
+It requires an existing transaction. If there is no active transaction, an exception will be thrown.
 Example:
+```
 @Service
 public class TransactionService {
 
@@ -2987,11 +2995,14 @@ public class TransactionService {
         // business logic
     }
 }
-Use Case:
+```
+**Use Case:**
 Use MANDATORY when a method must be called within an existing transaction context, such as methods that depend on the integrity of the outer transaction.
-4. NESTED
-NESTED creates a nested transaction if an existing transaction is present. Otherwise, it behaves like REQUIRED and starts a new transaction.
+
+**4. NESTED**
+It creates a nested transaction if an existing transaction is present. Otherwise, it behaves like REQUIRED and starts a new transaction.
 Example:
+```
 @Service
 public class TransactionService {
 
@@ -3000,11 +3011,15 @@ public class TransactionService {
         // business logic
     }
 }
-Use Case:
+```
+**Use Case:**
 Use NESTED for scenarios where you need savepoints and rollback capabilities within a larger transaction. This is useful for complex operations that require partial rollbacks.
-5. NOT_SUPPORTED
-NOT_SUPPORTED executes the method without a transaction. If a transaction is present, it will be suspended during the method execution.
+
+**5. NOT_SUPPORTED**
+It executes the method without a transaction. If a transaction is present, it will be suspended during the method execution.
 Example:
+
+```
 @Service
 public class TransactionService {
 
@@ -3013,11 +3028,14 @@ public class TransactionService {
         // business logic
     }
 }
-Use Case:
+```
+**Use Case:**
 Use NOT_SUPPORTED when you want to ensure that a method does not run within a transaction context, such as for non-transactional operations like reading configuration data.
-6. NEVER
-NEVER ensures that the method is never executed within a transaction. If an existing transaction is present, an exception will be thrown.
+
+**6. NEVER**
+It ensures that the method is never executed within a transaction. If an existing transaction is present, an exception will be thrown.
 Example:
+```
 @Service
 public class TransactionService {
 
@@ -3026,11 +3044,14 @@ public class TransactionService {
         // business logic
     }
 }
-Use Case:
+```
+**Use Case:**
 Use NEVER when you need to guarantee that a method runs outside of any transaction context, typically for operations that should fail if invoked within a transaction.
-7. SUPPORTS
-SUPPORTS runs the method within a transaction if one exists, but does not start a new transaction if none exists.
+
+**7. SUPPORTS**
+It runs the method within a transaction if one exists, but does not start a new transaction if none exists.
 Example:
+```
 @Service
 public class TransactionService {
 
@@ -3039,16 +3060,20 @@ public class TransactionService {
         // business logic
     }
 }
-Use Case:
+```
+**Use Case:**
 Use SUPPORTS for methods that can optionally run within a transaction, such as read-only operations that don't necessarily require transaction management.
-Best Practices
+
+**Best Practices**
 Choose the Right Propagation Type: Select the appropriate propagation type based on your method’s transactional requirements and the overall transaction management strategy.
 Avoid Overusing REQUIRES_NEW: Starting new transactions frequently can lead to performance issues and increased complexity. Use REQUIRES_NEW sparingly.
 Use MANDATORY and NEVER Wisely: These propagation types enforce strict transactional requirements and should be used with a clear understanding of their implications.
-Summary
+
+**Summary**
 Understanding and correctly using transaction propagation in Spring Boot is essential for building robust and reliable applications. By choosing the right propagation type, you can ensure that your transactional methods behave as expected, maintaining data consistency and integrity.
 
 ---
+
 ## n. Best Websites to Practice JavaScript Output-Based Questions
 
 1. **[JSitor](https://jsitor.com/)**
