@@ -597,3 +597,27 @@ Enable via experimental builder in `angular.json`.
 | Vite/Esbuild         | Fast experimental build system               | `--configuration=esbuild`    |
 
 ---
+
+## Handle Exception in Angular  
+
+```typescript
+@Injectable()
+export class GlobalErrorHandler implements ErrorHandler {
+  handleError(error: any): void {
+    console.error('An error occurred:', error);
+  }
+}
+```
+---
+
+## Signal in Angular  
+
+Signals help manage reactive state.
+
+---
+
+## Zone.js  
+
+Manages asynchronous operations in Angular.
+
+---
