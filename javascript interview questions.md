@@ -452,8 +452,56 @@ for(let i=s.length-1; i>=0; i--) {
 console.log(s1); // ramuK iv
 console.log(s3); // ramuK ivar
 ```
+---
+### Q. Middleware in Node.js
+Middleware in Node.js refers to functions that intercept requests before they reach the final route handler. These functions have access to the request object (`req`), the response object (`res`), and the `next()` function, which allows them to pass control to the subsequent middleware in the chain. Middleware functions can perform a variety of tasks, including modifying request or response objects, executing code, ending the request-response cycle, or calling the next middleware function.
+There are several types of middleware: 
+- _Application-level middleware:_ Bound to an instance of `express` using `app.use()`. It applies to all routes defined after it. 
+- _Router-level middleware:_ Bound to an instance of `express.Router()`. It applies only to the routes defined within that router. 
+- _Third-party middleware:_ External packages installed via npm, such as `body-parser` or `cookie-parser`, which add specific functionalities. 
+- _Built-in middleware:_ Included with Express, like express.static for serving static files or express.json for parsing JSON request bodies. 
+- _Error-handling middleware:_ Functions with four arguments (err, req, res, next) that handle errors passed down the middleware chain. 
+Middleware is useful for tasks like: 
+- Authentication and authorization 
+- Logging 
+- Request parsing (e.g., JSON, URL-encoded data) 
+- Serving static files 
+- Error handling
+
+```
+const express = require('express');
+const app = express();
+
+// Application-level middleware
+app.use((req, res, next) => {
+  console.log('Time:', Date.now());
+  next();
+});
+
+// Route-specific middleware
+const myLogger = (req, res, next) => {
+  console.log('LOGGED');
+  next();
+};
+
+app.get('/example', myLogger, (req, res) => {
+  res.send('Example Route');
+});
+
+// Error-handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
+```
 
 ---
+---
+
 
 
 ## Angular Interview Questions
@@ -592,31 +640,137 @@ Enable via experimental builder in `angular.json`.
 | Vite/Esbuild         | Fast experimental build system               | `--configuration=esbuild`    |
 
 ---
-### Q. Handle Exception in Angular  
+### Q. Exception handling in Angular  
+Angular applications can handle exceptions using several approaches: 
+**Try...Catch Blocks** 
+As in standard JavaScript, try...catch blocks manage errors within specific code sections, particularly for synchronous operations. 
+```
+try {
+  // Code that may throw an error
+  const result = synchronousFunction();
+  console.log('Result:', result);
+} catch (error) {
+  // Handle the error
+  console.error('An error occurred:', error);
+}
+```
+**ErrorHandler** 
+Angular's ErrorHandler provides centralized error handling across the application. By extending this class, developers can customize how errors are managed globally. 
+```
+import { ErrorHandler, Injectable } from '@angular/core';
 
-```typescript
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
-  handleError(error: any): void {
-    console.error('An error occurred:', error);
+  handleError(error: any) {
+    // Custom error handling logic
+    console.error('Global error handler:', error);
+    // Send error to server, display user-friendly message, etc.
   }
 }
 ```
----
+// In module or application configuration:
+providers: [{ provide: ErrorHandler, useClass: GlobalErrorHandler }]
+**RxJS catchError Operator** 
+```
+For asynchronous operations with observables, catchError from RxJS intercepts and handles errors gracefully. 
+import { of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
+this.http.get('/api/data').pipe(
+  tap(data => console.log('Data received:', data)),
+  catchError(error => {
+    console.error('HTTP error:', error);
+    // Handle error (e.g., log, return default value, rethrow)
+    return of([]); // Return a new observable to continue the stream
+  })
+).subscribe(data => {
+  // Process data or handle completion
+});
+```
+**HttpInterceptor** 
+```
+HttpInterceptor provides a robust way to handle errors related to the server and network by intercepting HTTP requests and responses. 
+import { Injectable } from '@angular/core';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
+@Injectable()
+export class HttpErrorInterceptor implements HttpInterceptor {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return next.handle(request)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          // Handle error
+          console.error('HTTP error intercepted:', error);
+          return throwError(() => error); // Re-throw the error
+        })
+      );
+  }
+}
+```
+//In module or application configuration:
+providers: [{ provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }]
+You can define multiple interceptors, and they will be called in the order they are provided. 
+
+---
 ### Q. Signal in Angular  
+Signals in Angular are a reactivity primitive that notifies interested consumers when a wrapped value changes. They optimize change detection by tracking where values are used, ensuring updates only occur when necessary. 
 
-Signals help manage reactive state.
+Key Concepts 
+- _Signal_: A wrapper around a value that notifies consumers upon changes.
+- _Computed Signal_: A read-only signal whose value is derived from other signals.
+- _Effect_: A side effect that runs when signal values it depends on change.
+**Basic Usage** 
+```
+Creating a Signal:
+import { signal } from '@angular/core';
+const count = signal(0);
+```
+```
+Reading a Signal: 
+const currentCount = count(); // Access the value
+```
+```
+Updating a Signal:
+count.set(1); // Sets the value to 1
+count.update(value => value + 1); // Increments the value
+count.mutate(value => value.push(newValue)); // Mutates the value
+```
+```
+Computed Signals: 
+import { computed, signal } from '@angular/core';
+const firstName = signal('John');
+const lastName = signal('Doe');
+const fullName = computed(() => `${firstName()} ${lastName()}`);
+  
+console.log(fullName()); // Output: John Doe
+```
+```
+effects:
+import { effect, signal } from '@angular/core';
+   
+const counter = signal(0);
+ 
+effect(() => {
+     console.log('Counter value changed:', counter());
+});
+counter.set(1); // Triggers the effect and logs "Counter value changed: 1"
+```
+**Benefits:**
+- _Improved Performance:_ Granular change detection reduces unnecessary updates.
+- _Simpler Syntax_: More straightforward than Observables for simple state management.
+- _Predictable Updates_: Ensures glitch-free and consistent data flow. 
 
 ---
-
 ### Q. Zone.js  
-
-Manages asynchronous operations in Angular.
+`zone.js` is a crucial library for Angular applications, managing and tracking asynchronous operations. It essentially creates execution contexts, or "zones," that monitor tasks like event handling, timers, promises, and HTTP requests. This allows Angular to automatically detect changes and update the UI accordingly, ensuring efficient change detection. 
+`zone.js` intercepts and wraps asynchronous tasks, enabling Angular to run code before and after these tasks. This mechanism is vital for triggering Angular's change detection cycle whenever an asynchronous operation completes, ensuring the UI remains synchronized with the application state. While change detection is not part of zone.js itself, Angular utilizes `zone.js` to initiate it automatically. 
+Angular offers the `NgZone` service, which allows developers to run code outside the context of zone.js when necessary, such as for performance optimization. This can be useful when dealing with tasks that don't require UI updates. 
+It's worth noting that Angular is moving towards a zoneless architecture, with `zone.js` no longer accepting new features. This shift aims to provide more fine-grained control over change detection and potentially improve performance. 
 
 ---
-
-## SwitchMap
+## Q. SwitchMap
 `switchMap` is an **RxJS operator** used in Angular to map an observable to another observable while **canceling previous subscriptions** if a new value comes in.  
 ### **How it Works?**  
 - Ideal for handling **API calls, user inputs, and search functionalities** where only the latest request matters.
@@ -637,8 +791,7 @@ this.searchInput.valueChanges.pipe(
 - **Auto-refresh API calls** (avoid outdated responses).
 
 ---
-
-## What is component in angular?
+## Q. What is component in angular?
 A component in Angular is a fundamental building block for creating user interfaces. It encapsulates a portion of the user interface's logic and presentation. Each component consists of three main parts:
 - Template: Defines the HTML structure and layout of the component's view.
 - Class: Contains the logic, data, and methods that control the component's behavior.
@@ -646,8 +799,7 @@ A component in Angular is a fundamental building block for creating user interfa
 Components are designed to be reusable and modular, promoting a structured and maintainable application architecture. They facilitate the separation of concerns, making it easier to develop, test, and update different parts of the application independently.
 
 ---
-
-## What is template driven form vs reactive driven form.
+## Q. What is template driven form vs reactive driven form.
 Angular provides two ways to build forms: **Template-Driven Forms** and **Reactive Forms**.  
 | Feature | Template-Driven Forms | Reactive Forms |
 |---------|----------------------|---------------|
@@ -658,19 +810,17 @@ Angular provides two ways to build forms: **Template-Driven Forms** and **Reacti
 | **Scalability** | Best for **simple forms** | Better for **complex, dynamic forms** |
 | **Flexibility** | Less flexible, tightly coupled to the template | More flexible, easier to manage dynamically |
 | **Testing** | Harder to unit test | Easier to unit test |
-
 ### **When to Use What?**  
 - **Template-Driven Forms** – Best for simple forms with minimal logic.  
 - **Reactive Forms** – Ideal for complex forms, dynamic validations, and better testability.  
-
 **Example:**  
-- **Template-Driven Form:**  
+**Template-Driven Form:**  
   ```html
   <form #userForm="ngForm">
     <input type="text" name="username" ngModel required />
   </form>
   ```
-- **Reactive Form:**  
+**Reactive Form:**  
   ```typescript
   userForm = new FormGroup({
     username: new FormControl('', Validators.required)
@@ -679,8 +829,7 @@ Angular provides two ways to build forms: **Template-Driven Forms** and **Reacti
 **Note:** Reactive Forms are recommended for most real-world applications due to better flexibility and maintainability.
 
 ---
-
-## What is SPA?
+## Q. What is SPA?
 A **Single Page Application (SPA)** loads a single HTML page and dynamically updates content **without full page reloads**. It improves performance and user experience by using **JavaScript frameworks (Angular, React, Vue)** to handle UI updates and fetch data via APIs.  
 
 ### **Key Features:**  
@@ -691,10 +840,8 @@ A **Single Page Application (SPA)** loads a single HTML page and dynamically upd
 🔹 **Efficient but needs SEO optimization & initial load handling.**
 
 ---
-
-## How Angular works?
+## Q. How Angular works?
 Angular is a **component-based** frontend framework that uses **TypeScript**. It follows the **MVC** pattern and works by:  
-
 1. **Bootstrapping** – Loads the root module (`AppModule`) and component (`AppComponent`).  
 2. **Templates & Data Binding** – Uses **HTML templates** and **binding** (`{{ }}`) to display dynamic data.  
 3. **Directives & Components** – Components control the UI, while directives add behavior.  
@@ -704,10 +851,54 @@ Angular is a **component-based** frontend framework that uses **TypeScript**. It
 7. **RxJS & Observables** – Handles async data streams efficiently.
 8. **Compilation & Optimization**
     1. Ahead-of-Time (AOT) Compilation improves performance.
-    2. Lazy Loading loads modules only when needed, optimizing performance.  
+    2. Lazy Loading loads modules only when needed, optimizing performance.
+  
+---
+## Q. Interceptors in Angular 
+Interceptors in Angular are services that allow you to intercept and modify HTTP requests and responses. They are useful for tasks such as adding headers, handling authentication, logging, or caching. Interceptors work by sitting between your application and the backend server, intercepting requests before they are sent and responses before they are received. They can modify these requests and responses, or handle them directly.
+To create an interceptor, you need to create a class that implements the HttpInterceptor interface and define the intercept method. This method takes two arguments: the HttpRequest object and the HttpHandler object. The HttpRequest object represents the outgoing request, and the HttpHandler object represents the next interceptor in the chain, or the backend server if there are no more interceptors. [1]  
+```
+import { Injectable } from '@angular/core';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable()
+export class MyInterceptor implements HttpInterceptor {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // Modify the request
+    const modifiedRequest = request.clone({
+      setHeaders: {
+        'Authorization': 'Bearer my-token'
+      }
+    });
+
+    // Handle the request
+    return next.handle(modifiedRequest);
+  }
+}
+```
+To use an interceptor, you need to provide it in your application module or component. 
+```
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MyInterceptor } from './my.interceptor';
+
+@NgModule({
+  imports: [
+    BrowserModule,
+    HttpClientModule
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: MyInterceptor, multi: true }
+  ]
+})
+export class AppModule { }
+```
+You can define multiple interceptors, and they will be called in the order they are provided. 
 
 ---
-##  nth Highest salary
+## Q.  nth Highest salary in MongoDB
 #### Approach 1: 
 	SELECT DISTINCT salary 
 	FROM employees 
@@ -715,9 +906,123 @@ Angular is a **component-based** frontend framework that uses **TypeScript**. It
 	LIMIT 1 OFFSET N-1;
 
 #### In MongoDB:
+```
 db.employees.aggregate([
   { $group: { _id: "$salary" } },   // Group by salary
   { $sort: { _id: -1 } },           // Sort salaries in descending order
   { $limit: N },                    // Limit to top N salaries
   { $skip: N-1 }                    // Skip (N-1) results to get the Nth
 ])
+```
+
+---
+## Q. Service injection in Angular
+Service injection in Angular can be achieved through constructor injection or by using the `@Inject` decorator or the inject() function. Here's a breakdown of the differences:
+**Constructor Injection**
+This is the most common and traditional way to inject dependencies.
+_Mechanism:_ Dependencies are declared as parameters in the class constructor. Angular's dependency injection system automatically resolves and provides these dependencies when the class is instantiated.
+    ```
+    import { Injectable } from '@angular/core';
+
+    @Injectable({
+      providedIn: 'root'
+    })
+    export class MyService {
+      getValue(): string {
+        return 'Hello from MyService';
+      }
+    }
+
+    import { Component } from '@angular/core';
+
+    @Component({
+      selector: 'app-my-component',
+      template: `{{ message }}`,
+    })
+    export class MyComponent {
+      message: string;
+
+      constructor(private myService: MyService) {
+        this.message = this.myService.getValue();
+      }
+    }
+    ```
+_Advantages:_
+- Clear and explicit dependency declaration, improving code readability.
+- Easier to test, as dependencies can be easily mocked or stubbed during unit testing.
+- Promotes immutability, as dependencies are typically assigned to readonly properties.
+_Disadvantages:_
+- Can become verbose with many dependencies.
+- May lead to circular dependency issues in complex scenarios.
+- Inheritance can become cumbersome as derived classes need to call the base class constructor with all dependencies.
+**@Inject Decorator**
+The `@Inject` decorator is used to specify the dependency token when the type of the dependency is not readily available or when using custom tokens.
+_Mechanism_: It is placed before a constructor parameter to explicitly define the token associated with the dependency.
+```
+import { Inject, Injectable } from '@angular/core';
+    @Injectable({
+      providedIn: 'root'
+    })
+export class MyService {
+      getValue(): string {
+        return 'Hello from MyService';
+      }
+}
+
+import { Component } from '@angular/core';
+
+const MY_TOKEN = 'myToken';
+
+@Component({
+      selector: 'app-my-component',
+      template: `{{ message }}`,
+      providers: [{ provide: MY_TOKEN, useValue: 'Injected Value' }]
+})
+export class MyComponent {
+      message: string;
+
+      constructor(@Inject(MY_TOKEN) public injectedValue: string, private myService: MyService) {
+        this.message = this.myService.getValue() + ' ' + this.injectedValue;
+      }
+}
+```
+_Advantages:_
+- Allows injecting dependencies using tokens, useful for non-class dependencies or abstract types.
+_Disadvantages:_
+- Less common in typical scenarios where the dependency type is a class.
+- Can make code less readable compared to constructor injection with type inference.
+
+**inject() Function**
+The inject() function provides a functional way to inject dependencies, especially useful in newer Angular versions and in situations outside of constructors.
+_Mechanism:_ It retrieves a dependency directly from the injector using the provided token.
+```
+import { Component, inject, Injectable } from '@angular/core';
+
+@Injectable({
+      providedIn: 'root'
+    })
+    export class MyService {
+      getValue(): string {
+        return 'Hello from MyService';
+      }
+    }
+
+@Component({
+      selector: 'app-my-component',
+      template: `{{ message }}`,
+})
+export class MyComponent {
+      private myService = inject(MyService);
+      message: string = this.myService.getValue();
+}
+```
+_Advantages:_ 
+- More readable, especially with many dependencies, as it keeps the constructor clean.
+- Enables injecting dependencies in functions, computed properties, and other contexts outside the constructor.
+- Simplifies inheritance scenarios, as derived classes don't need to pass dependencies to the base class constructor.
+_Disadvantages:_
+- Can be less explicit about dependencies compared to constructor injection.
+- Might be less familiar to developers accustomed to constructor injection.
+
+---
+## Q. 
