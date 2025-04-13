@@ -1,7 +1,6 @@
 # Angular, Java & Spring Boot Interview Questions  
 
 ## 1. Difference Between Parallelism and Concurrency  
-
 | S.NO | Concurrency | Parallelism |
 |:----:|:-------------------------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
 |  1.  | Concurrency is the task of running and managing multiple computations at the same time. | Parallelism is the task of running multiple computations simultaneously. |
@@ -15,7 +14,6 @@
 ---
 
 ## 2. List vs Set  
-
 | S.NO | List | Set |
 |:----:|:-----------------------------------------:|:-------------------------------------------:|
 |  1.  | Allows duplicate elements | Does not allow duplicate elements |
@@ -25,15 +23,12 @@
 |  5.  | Implementations: ArrayList, LinkedList | Implementations: HashSet, TreeSet, LinkedHashSet |
 
 ---
-
 ## 3. Creating an Immutable Class in Java  
-
 In Java, an **immutable class** is one whose **instances cannot be modified after creation, ensuring their state remains constant**. To create an immutable class, you need to:  
 - Make the class `final`  
 - Declare fields as `private` and `final`  
 - Provide a constructor to initialize fields  
 - Use **defensive copying** for mutable objects  
-
 ### **Steps to Create an Immutable Class in Java**  
 1. **Make the class `final`**  
    - Prevents inheritance, which could allow modification through subclassing.  
@@ -48,8 +43,6 @@ In Java, an **immutable class** is one whose **instances cannot be modified afte
    - If fields are mutable, return a **copy** of the object instead of exposing the original reference.  
 6. **Use defensive copying for mutable objects**  
    - If the class contains references to mutable objects, create and return a copy in getter methods to **prevent external modification** of the internal state.  
-
-
 ### **Example: Immutable Class in Java**
 ```java
  public final class Person {
@@ -78,7 +71,6 @@ In Java, an **immutable class** is one whose **instances cannot be modified afte
     }
  }
 ```
-
 ### **Benefits of Immutable Classes**  
 ✔ **Thread Safety:** Immutable objects are inherently thread-safe as their state cannot change, eliminating the need for synchronization.  
 ✔ **Caching:** Since values remain constant, immutable objects can be safely cached and reused.  
@@ -89,13 +81,9 @@ In Java, an **immutable class** is one whose **instances cannot be modified afte
    - The `String` class in Java is immutable. Once a `String` object is created, its value cannot be changed.  
 
 ---
-
 ## 4. Validation in Spring Boot  
-
 Spring Boot provides `javax.validation` and `Spring Validator` for validation.
-
 Example using `@Valid`:
-
 ```java
 public class User {
     @NotBlank
@@ -105,9 +93,7 @@ public class User {
     private String email;
 }
 ```
-
 In a Controller:
-
 ```java
 @PostMapping("/users")
 public ResponseEntity<String> addUser(@Valid @RequestBody User user, BindingResult result) {
@@ -119,11 +105,9 @@ public ResponseEntity<String> addUser(@Valid @RequestBody User user, BindingResu
 ```
 
 ---
-
-## 5. Questions on Stream API  
-
+## 5. Stream API  
+Stream API in Java is used for processing collections efficiently.
 Examples:
-
 ```java
 List<Integer> evenNumbers = numbers.stream()
     .filter(n -> n % 2 == 0)
@@ -133,27 +117,21 @@ List<String> stringList = numbers.stream()
     .map(String::valueOf)
     .collect(Collectors.toList());
 ```
-
 ---
-
 ## 6. What are functional interfaces, and how are they used?  
-
 A functional interface in Java is an interface with exactly one abstract method, allowing it to be used with lambda expressions and method references. These interfaces are a cornerstone of functional programming in Java, enabling concise and expressive code.  
-
 Here's a breakdown of functional interfaces: 
 - **Single Abstract Method (SAM)**: A functional interface must have only one abstract method, also known as the "functional method". 
 - **Lambda Expressions & Method References:** The presence of a single abstract method makes the interface a target type for lambda expressions and method references, allowing for concise and functional code. 
 - **Optional @FunctionalInterface Annotation:** While not mandatory, the @FunctionalInterface annotation can be used to explicitly declare an interface as a functional interface, helping the compiler catch errors if the interface definition violates the SAM rule. 
 - **Default and Static Methods:** Functional interfaces can also contain default and static methods, in addition to the single abstract method. 
 - **Examples**: Runnable, ActionListener, Consumer<T>, Supplier<T>, Function<T, R>, and Predicate<T> are common examples of functional interfaces provided by Java.
-
 How to Use Functional Interfaces:
 1. **Create a Functional Interface:** Define an interface with only one abstract method.
 2. **Implement with Lambda Expressions:** Use lambda expressions to provide implementations for the functional method.  
 3. **Use with Method References:** Use method references to provide implementations for the functional method. 
 4. **Pass as Arguments:** Pass functional interface instances (lambda expressions or method references) as arguments to methods that expect them.  
 5. **Return as Values:** Return functional interface instances (lambda expressions or method references) from methods. 
-
 **Example**: 
 ```java
  @FunctionalInterface
@@ -177,11 +155,8 @@ How to Use Functional Interfaces:
 We don’t need to define the method with an abstract keyword because by default functional interface will allow only one abstract method, if we try to define more than one abstract method in the functional interface we will get a _compile time error_.
 ![image](https://github.com/user-attachments/assets/202f7155-752c-4bb3-b562-73961290eda9)
 
-
 ---
-
 ## 7. SOLID Principles  
-
 1. **Single Responsibility** - A class should have only one reason to change.  
 2. **Open/Closed** - Open for extension, closed for modification.  
 3. **Liskov Substitution** - Subtypes must be substitutable for base types.  
@@ -189,9 +164,7 @@ We don’t need to define the method with an abstract keyword because by default
 5. **Dependency Inversion** - Depend on abstractions, not concretions.  
 
 ---
-
 ## 8. Difference Between Hibernate and JDBC  
-
 | Feature | Hibernate | JDBC |
 |---------|----------|------|
 | ORM | Yes | No |
@@ -201,9 +174,7 @@ We don’t need to define the method with an abstract keyword because by default
 | Database Independence | Yes | No |
 
 ---
-
 ## 9. Annotations Used in Java  
-
 - `@Override`
 - `@FunctionalInterface`
 - `@Deprecated`
@@ -213,7 +184,6 @@ We don’t need to define the method with an abstract keyword because by default
 ---
 
 ## 10. Find Longest Substring Without Repeating Characters  
-
 ```java
 public int lengthOfLongestSubstring(String s) {
     Set<Character> set = new HashSet<>();
@@ -232,18 +202,14 @@ public int lengthOfLongestSubstring(String s) {
 ```
 
 ---
-
 ## 11. Technical Architecture  
-
 Spring Boot follows **Microservices architecture** and includes:
 - **Controller Layer** - API Handling
 - **Service Layer** - Business Logic
 - **Repository Layer** - Database Interaction  
 
 ---
-
 ## 12. SQL vs NoSQL  
-
 | SQL | NoSQL |
 |-----|-------|
 | Structured | Unstructured |
@@ -251,9 +217,7 @@ Spring Boot follows **Microservices architecture** and includes:
 | ACID | BASE |
 
 ---
-
 ## 13. Factory Design Pattern  
-
 ```java
 class Factory {
     static Car getCar(String type) {
@@ -264,22 +228,17 @@ class Factory {
 ```
 
 ---
-
 ## 14. Algorithm Behind `Collections.sort()`  
-
 It uses **TimSort**, which is a hybrid of **MergeSort and InsertionSort**.
 
 ---
 
 ## 15. Challenges Faced as an Engineer  
-
 - **Performance Issues** → Optimized SQL Queries  
 - **Scalability** → Used Caching Mechanisms  
 
 ---
-
 ## 16. How JVM Works?  
-
 JVM Components:
 - **Class Loader**
 - **Heap Memory**
@@ -287,13 +246,9 @@ JVM Components:
 - **Garbage Collector**
 
 ---
-
 ## 17. Spring Actuator  
-
 It provides health checks, metrics, and monitoring.
-
 Enable Actuator:
-
 ```yaml
 management:
   endpoints:
@@ -305,7 +260,6 @@ management:
 ---
 
 ## 18. Abstract Class vs Interface  
-
 | Abstract Class | Interface |
 |---------------|----------|
 | Can have method implementations | Only method signatures (before Java 8) |
@@ -314,31 +268,27 @@ management:
 ---
 
 ## 19. Understanding Browser Caching  
-
 - **Cache-Control: max-age=3600**  
 - **ETag for validation**  
 
 ---
-
-## 20. UX Design Principles  
-
-- Simplicity  
-- Consistency  
-- Accessibility  
+## 20. What happened when we add value in a certain size of a HashMap?
+When a value is added to a HashMap when it reaches a certain size (defined by the load factor), the HashMap automatically re-sizes itself. This involves creating a new, larger internal array and then re-hashing all the existing key-value pairs into the new array. This process is called "rehashing" or "resizing".  
+Elaboration:
+- _Load Factor:_ HashMap uses a "load factor" (default is 0.75) to determine when to resize. This factor specifies the threshold at which the HashMap will resize.
+- _Threshold_: The threshold is calculated by multiplying the current capacity of the HashMap by the load factor. For example, if the initial capacity is 16 and the load factor is 0.75, the threshold would be 12. 
+- _Resizing_: When the number of key-value pairs in the HashMap exceeds the threshold, it triggers resizing.
+- _Rehashing_: During resizing, the HashMap creates a new array with a larger capacity (typically twice the size of the previous one). Then, it iterates through all the existing key-value pairs and calculates their new hash codes based on the new capacity. These key-value pairs are then placed in the new array based on their new hash codes.
+- _Performance_: Rehashing can be computationally expensive, but it helps to maintain the efficiency of the HashMap by preventing excessive collisions and ensuring good average-case performance.
 
 ---
-
 ## 21. Event-Driven Implementation Using Kafka  
-
 - **Producer** sends message to **Kafka Topic**  
 - **Consumer** reads message from topic  
 
 ---
 
-## 22. HTML5 & CSS  
-
-- **HTML5** → Semantic tags (`<article>`, `<section>`)  
-- **CSS** → Flexbox, Grid, Animations  
+## 22. 
 
 ---
 
@@ -348,30 +298,25 @@ Here's a breakdown of the Circuit Breaker pattern in microservices: [1, 2, 3, 4]
 **Purpose:** 
 - **Prevent Cascading Failures:** When one microservice fails, it can cause a chain reaction of failures as other services depend on it. The Circuit Breaker pattern interrupts this chain by preventing further calls to the failing service.
 - **Improve Resilience:** By handling failures gracefully, the Circuit Breaker pattern makes the system more resilient to disruptions and outages. Minimize Impact on Users: When a service is unavailable, the Circuit Breaker pattern can provide a fallback response or error message to the user, preventing a complete system outage. 
-
 **How it Works:** 
 * **States:** The Circuit Breaker pattern operates in three states:
   ** **Closed:** The service is healthy, and calls are allowed to pass through.
   ** **Open:** The service is failing, and calls are rejected, and a fallback mechanism is used.
   ** **Half-Open:** After a timeout period, the Circuit Breaker allows a limited number of test calls to determine if the service has recovered. 
-
 **Monitoring:** 
 The Circuit Breaker monitors the calls to a remote service. 
 - **Threshold:** If the number of failures exceeds a predefined threshold within a specified time period, the Circuit Breaker "opens". 
 - **Fallback:** When the Circuit Breaker is in the "Open" state, subsequent calls to the remote service are automatically redirected to a fallback mechanism, such as returning a cached response or providing a default value.
 - **Recovery:** After a timeout period, the Circuit Breaker transitions to the "Half-Open" state to check if the service has recovered. If the test calls succeed, the Circuit Breaker returns to the "Closed" state; otherwise, it remains in the "Open" state.
-
 **Benefits:** 
 - **Reduced Downtime:** By preventing cascading failures, the Circuit Breaker pattern reduces the risk of prolonged downtime. Improved User Experience: Fallback mechanisms ensure that users continue to have a usable experience even when a service is temporarily unavailable.
 - **Simplified Debugging:** The Circuit Breaker pattern makes it easier to identify and isolate failing services. Enhanced Resiliency: The Circuit Breaker pattern significantly enhances the overall resilience of the microservices architecture.
-
 **Example:** 
 Imagine a shopping cart microservice that depends on a product catalog microservice to fetch product information. If the product catalog service goes down, the shopping cart service could be bombarded with requests, potentially leading to its own failure. By implementing a circuit breaker, the shopping cart service can monitor the product catalog service for failures, open the circuit when the failure rate exceeds a threshold, and reject requests to the product catalog. The shopping cart service can then display a message to the user that the product information is temporarily unavailable.
 
 ---
 
 ## 24. Lazy Loading in Hibernate  
-
 ```java
 @OneToMany(fetch = FetchType.LAZY)
 private List<Order> orders;
@@ -380,7 +325,6 @@ private List<Order> orders;
 ---
 
 ## 25. Reverse a String  
-
 ```java
 String reversed = new StringBuilder(str).reverse().toString();
 ```
@@ -389,25 +333,19 @@ String reversed = new StringBuilder(str).reverse().toString();
 
 ## 26. Orchestration vs Choreography in microservices
 In microservices architecture, orchestration uses a central controller to manage interactions between services, while choreography relies on decentralized, event-driven communication where services interact independently.  
-
 **Orchestration:**  
 - _Centralized Control:_ A central orchestrator or conductor manages the flow of interactions between microservices.
 - _Command-Driven:_ The orchestrator sends commands or instructions to other services, dictating the sequence of operations.
 - _Simpler to Implement:_ Orchestration can be easier to implement and maintain, as the control logic is centralized.
 - _Potential Single Point of Failure:_ The orchestrator itself can become a single point of failure if it fails.
-
 **Example:** Think of a conductor leading an orchestra, where the conductor dictates the timing and actions of each musician.
-
 **Choreography:**
 - _Decentralized Communication:_ Microservices communicate directly with each other through events or messages, without a central controller.
 - _Event-Driven:_ Services react to events published by other services, triggering their own actions. [2, 4]
 - _Loosely Coupled:_ Microservices are loosely coupled, meaning they can operate independently and asynchronously. [2, 4]
 - _More Complex to Debug:_ Debugging and understanding the flow of interactions can be more challenging in a choreography-based system. [2, 5]
-
 **Example:** Imagine a dance where each dancer knows their steps and when to interact with other dancers, but there's no central leader directing the dance. [2, 3]  
-
 **Key Differences Summarized:** 
-
 | Feature | Orchestration | Choreography  |
 | --- | --- | --- |
 | Control | Centralized (by an orchestrator) | Decentralized (services interact directly)  |
@@ -427,15 +365,13 @@ In microservices architecture, orchestration uses a central controller to manage
 ---
 
 ## 29. Second Highest Salary in SQL  
-
 ```sql
 SELECT salary FROM employees ORDER BY salary DESC LIMIT 1 OFFSET 1;
 ```
 
 ---
 
-## 30. Shift an Array by 3 to the Right  
-
+## 30. Shift an Array by 3 to the Right
 ```java
 public static void rotateRight(int[] arr, int k) {
     Collections.rotate(Arrays.asList(arr), k);
@@ -444,13 +380,11 @@ public static void rotateRight(int[] arr, int k) {
 
 ---
 
-## 31. Stream API in Java  
-Used for processing collections efficiently.
+## 31. 
 
 ---
 
 ## 32. First Repeating Character in a String  
-
 ```java
 public static Optional<Character> findFirstRepeatedCharacter(String input) {
     Set<Character> seen = new HashSet<>();
@@ -461,7 +395,6 @@ public static Optional<Character> findFirstRepeatedCharacter(String input) {
 ---
 
 ## 33. Find Employees Who Are Managers  
-
 ```sql
 SELECT e1.name FROM emp e1 JOIN emp e2 ON e1.emp_id = e2.emp_mgr_id;
 ```
@@ -469,204 +402,54 @@ SELECT e1.name FROM emp e1 JOIN emp e2 ON e1.emp_id = e2.emp_mgr_id;
 ---
 
 ## 34. Common HTTP Status Codes
-
-- **200**: OK  
-- **201**: Created  
-- **403**: Forbidden  
-- **500**: Internal Server Error  
-- **502**: Bad Gateway  
-
----
-
-## 35. Output
-    let obj1 = { key: "value" };
-    let obj2 = obj1;
-    let obj3 = obj2;
-    obj1.key = "new value";
-    obj2 = { key: "another value" };
-    console.log(obj1.key); 
-    console.log(obj2.key); 
-    console.log(obj3.key); 
-    
-    Output=>
-    new value
-    another value
-    new value
-
-## 36. Reverse string and remove duplicate in javascript
-```
-let s = "ravi Kumar";
-let s1 ="";
-let s3 = "";
-let arr = s.split("");
-let s2 = new Set(arr);
-
-for(let i=s.length-1; i>=0; i--) {
-    s3+=s[i];
-    if (!s1.includes(s[i])) {
-        s1+=s[i];
-    }
-}
-console.log(s1); // ramuK iv
-console.log(s3); // ramuK ivar
-```
-
-## 37. SwitchMap
-`switchMap` is an **RxJS operator** used in Angular to map an observable to another observable while **canceling previous subscriptions** if a new value comes in.  
-
-### **How it Works?**  
-- Ideal for handling **API calls, user inputs, and search functionalities** where only the latest request matters.
-- Prevents **unnecessary network requests** and **race conditions**.  
-
-### **Example Usage in Angular HTTP Calls**  
-```typescript
-this.searchInput.valueChanges.pipe(
-  debounceTime(300), // Wait before firing request
-  switchMap(query => this.apiService.search(query)) // Cancels previous request
-).subscribe(results => console.log(results));
-```
-
-### **Key Differences (vs `mergeMap`)**  
-- **`switchMap`** → Cancels previous requests, keeps only the latest one.  
-- **`mergeMap`** → Runs all requests concurrently without canceling.  
-
-### **Best Use Cases**  
-- **Live search** (cancel previous search request).  
-- **Authentication (Login)** (only last request matters).  
-- **Auto-refresh API calls** (avoid outdated responses).
-
----
-## 38. What is component in angular?
-A component in Angular is a fundamental building block for creating user interfaces. It encapsulates a portion of the user interface's logic and presentation. Each component consists of three main parts:
- - Template: Defines the HTML structure and layout of the component's view.
-- Class: Contains the logic, data, and methods that control the component's behavior.
-- Metadata: Provides information about the component, such as its selector, template, and styles.
-Components are designed to be reusable and modular, promoting a structured and maintainable application architecture. They facilitate the separation of concerns, making it easier to develop, test, and update different parts of the application independently.
+Common HTTP status codes include 200 OK, 301 Moved Permanently, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 500 Internal Server Error, and 503 Service Unavailable. These codes indicate the outcome of a request made to a web server. 
+Here's a breakdown of some common codes: 
+• 200 OK: The request was successful, and the server has delivered the requested resource. 
+• 301 Moved Permanently: The requested resource has been moved to a new location, and the browser should update its address. 
+• 400 Bad Request: The server cannot process the request due to an error in the request itself, such as incorrect syntax. 
+• 401 Unauthorized: The client needs to authenticate with the server before being able to access the resource. 
+• 403 Forbidden: The server understands the request but refuses to authorize it. 
+• 404 Not Found: The server cannot find the requested resource. 
+• 500 Internal Server Error: The server encountered an unexpected condition that prevented it from fulfilling the request. 
+• 503 Service Unavailable: The server is temporarily unable to handle the request due to overload or maintenance.
+These codes are categorized into groups based on their meaning, such as 1xx (informational), 2xx (success), 3xx (redirection), 4xx (client errors), and 5xx (server errors).
 
 ---
 
-## 39. What is template driven form vs reactive driven form.
-
-Angular provides two ways to build forms: **Template-Driven Forms** and **Reactive Forms**.  
-
-| Feature | Template-Driven Forms | Reactive Forms |
-|---------|----------------------|---------------|
-| **Approach** | Uses **directives** in the template (HTML-driven) | Uses **form controls** in the TypeScript code (code-driven) |
-| **Form Creation** | Uses `FormsModule` | Uses `ReactiveFormsModule` |
-| **Binding** | **Two-way data binding** with `ngModel` | **Explicit form control binding** using `FormControl` and `FormGroup` |
-| **Validation** | Uses **HTML-based validators** (`required`, `minlength`, etc.) | Uses **programmatic validators** (`Validators.required`, `Validators.minLength()`, etc.) |
-| **Scalability** | Best for **simple forms** | Better for **complex, dynamic forms** |
-| **Flexibility** | Less flexible, tightly coupled to the template | More flexible, easier to manage dynamically |
-| **Testing** | Harder to unit test | Easier to unit test |
-
-### **When to Use What?**  
-- **Template-Driven Forms** – Best for simple forms with minimal logic.  
-- **Reactive Forms** – Ideal for complex forms, dynamic validations, and better testability.  
-
-**Example:**  
-- **Template-Driven Form:**  
-  ```html
-  <form #userForm="ngForm">
-    <input type="text" name="username" ngModel required />
-  </form>
-  ```
-- **Reactive Form:**  
-  ```typescript
-  userForm = new FormGroup({
-    username: new FormControl('', Validators.required)
-  });
-  ```
-**Note:** Reactive Forms are recommended for most real-world applications due to better flexibility and maintainability.
+## 35. 
 
 ---
 
-## 40. What is SPA?
-A **Single Page Application (SPA)** loads a single HTML page and dynamically updates content **without full page reloads**. It improves performance and user experience by using **JavaScript frameworks (Angular, React, Vue)** to handle UI updates and fetch data via APIs.  
-
-### **Key Features:**  
-- Faster navigation, no flickering.  
-- Uses **AJAX/REST API/GraphQL** for data fetching.  
-- Examples: **Gmail, Facebook, Google Maps**.  
-
-🔹 **Efficient but needs SEO optimization & initial load handling.**
+## 36. 
 
 ---
 
-## 41. How Angular works?
-Angular is a **component-based** frontend framework that uses **TypeScript**. It follows the **MVC** pattern and works by:  
-
-1. **Bootstrapping** – Loads the root module (`AppModule`) and component (`AppComponent`).  
-2. **Templates & Data Binding** – Uses **HTML templates** and **binding** (`{{ }}`) to display dynamic data.  
-3. **Directives & Components** – Components control the UI, while directives add behavior.  
-4. **Dependency Injection** – Services are injected into components for reusability.  
-5. **Routing** – `RouterModule` enables navigation between pages.  
-6. **Change Detection** – Updates the DOM when data changes, using **Zone.js**.  
-7. **RxJS & Observables** – Handles async data streams efficiently.
-8. **Compilation & Optimization**
-    1. Ahead-of-Time (AOT) Compilation improves performance.
-    2. Lazy Loading loads modules only when needed, optimizing performance.  
+## 37. 
 
 ---
 
-## 42. Block vs Inline vs Inline-Block in CSS
+## 38. 
 
-| Property      | Block | Inline | Inline-Block |
-|--------------|-------|--------|--------------|
-| **Starts on a new line?** | ✅ Yes | ❌ No | ❌ No |
-| **Takes full width?** | ✅ Yes (by default) | ❌ No (only as wide as content) | ❌ No (only as wide as content) |
-| **Supports width & height?** | ✅ Yes | ❌ No | ✅ Yes |
-| **Supports margin & padding?** | ✅ Yes (all sides) | 🚫 No (only horizontal) | ✅ Yes (all sides) |
+---
 
+## 39. 
 
-### **Examples for Better Understanding**  
+---
 
-#### **1️⃣ Block Elements (`display: block`)**  
-✅ Takes the full width, starts on a new line  
-📌 Examples: `<div>`, `<p>`, `<h1>`, `<section>`
+## 40. 
 
-```html
-<div style="background: lightblue; width: 300px;">I am a block element</div>
-<p style="background: lightcoral;">I also take full width</p>
-```
+---
 
-#### **2️⃣ Inline Elements (`display: inline`)**  
-✅ Stays in line, only takes up as much space as needed  
-📌 Examples: `<span>`, `<a>`, `<strong>`
+## 41. 
 
-```html
-<span style="background: yellow;">I am inline</span>
-<a href="#" style="background: orange;">I am also inline</a>
-```
+---
 
-#### **3️⃣ Inline-Block Elements (`display: inline-block`)**  
-✅ Stays in line **but** supports width & height  
-📌 Examples: `<button>`, `<input>`, custom `<span>` styling  
-
-```html
-<span style="display: inline-block; width: 150px; background: lightgreen;">I have width & height</span>
-<button style="display: inline-block; width: 100px;">Button</button>
-```
-
-### **Visual Representation**
-```
-[BLOCK]          (Takes full width)
-[BLOCK]
-
-[INLINE] [INLINE] [INLINE]   (Stays in line)
-
-[INLINE-BLOCK] [INLINE-BLOCK]   (Stays in line but supports width)
-```
-
-### **When to Use?**
-- **Use `block`** for sections, divs, and paragraphs.
-- **Use `inline`** for text elements that should flow naturally (like links & spans).
-- **Use `inline-block`** when you need inline elements but want to set width & height.
+## 42. 
 
 ---
 
 ## 43. Class level annotation in spring boot
 In Spring Boot, class-level annotations are used to define configurations, components, and behaviors at the class level. Here are some commonly used class-level annotations:
-
 ### 1. **[@RestController](w)**
    - Used in Spring MVC to define a RESTful controller.
    ```java
@@ -678,7 +461,6 @@ In Spring Boot, class-level annotations are used to define configurations, compo
        }
    }
    ```
-
 ### 2. **[@Controller](w)**
    - Marks a class as a Spring MVC controller (typically used with views like Thymeleaf).
    ```java
@@ -690,7 +472,6 @@ In Spring Boot, class-level annotations are used to define configurations, compo
        }
    }
    ```
-
 ### 3. **[@Service](w)**
    - Marks a class as a service component in the business layer.
    ```java
@@ -701,7 +482,6 @@ In Spring Boot, class-level annotations are used to define configurations, compo
        }
    }
    ```
-
 ### 4. **[@Repository](w)**
    - Indicates a DAO (Data Access Object) and enables exception translation.
    ```java
@@ -710,7 +490,6 @@ In Spring Boot, class-level annotations are used to define configurations, compo
        // Data access logic
    }
    ```
-
 ### 5. **[@Component](w)**
    - Generic stereotype for any Spring-managed component.
    ```java
@@ -721,7 +500,6 @@ In Spring Boot, class-level annotations are used to define configurations, compo
        }
    }
    ```
-
 ### 6. **[@Configuration](w)**
    - Marks a class as a source of Spring bean definitions.
    ```java
@@ -733,7 +511,6 @@ In Spring Boot, class-level annotations are used to define configurations, compo
        }
    }
    ```
-
 ### 7. **[@SpringBootApplication](w)**
    - Combination of `@Configuration`, `@EnableAutoConfiguration`, and `@ComponentScan`.
    ```java
@@ -744,7 +521,6 @@ In Spring Boot, class-level annotations are used to define configurations, compo
        }
    }
    ```
-
 ### 8. **[@EnableScheduling](w)**
    - Enables scheduling for running scheduled tasks.
    ```java
@@ -753,26 +529,22 @@ In Spring Boot, class-level annotations are used to define configurations, compo
    public class SchedulerConfig {
    }
    ```
-
 These annotations help configure and organize a Spring Boot application efficiently.
 
+---
 ## 44. PUT vs PATCH in REST APIs
-
 Both **PATCH** and **PUT** are HTTP methods used to update resources, but they have key differences:
-
 | Feature  | **PUT** | **PATCH** |
 |----------|--------|-----------|
 | **Purpose** | Replaces the entire resource with a new one | Partially updates specific fields of a resource |
 | **Request Body** | Contains the full resource, even unchanged fields | Contains only the fields that need to be updated |
 | **Idempotency** | Yes (multiple identical requests produce the same result) | Not necessarily (repeated requests may change the resource differently) |
 | **Use Case** | Updating an entire object (e.g., replacing a user profile) | Modifying specific attributes (e.g., changing just the email) |
-
 ### **Example**
 #### **PUT Request (Full Update)**
 ```http
 PUT /users/1
 Content-Type: application/json
-
 {
   "name": "John Doe",
   "email": "john@example.com",
@@ -780,7 +552,6 @@ Content-Type: application/json
 }
 ```
 - Requires sending all fields, even if only one needs updating.
-
 #### **PATCH Request (Partial Update)**
 ```http
 PATCH /users/1
@@ -791,14 +562,13 @@ Content-Type: application/json
 }
 ```
 - Updates only the `email` field while keeping other fields unchanged.
-
 ### **When to Use What?**
 - Use **PUT** when replacing the entire resource.
 - Use **PATCH** when modifying only specific attributes.
-
 **PATCH is more efficient** when updating a small part of a resource.
 
-## 45. Second highest element in an Array
+---
+## 45. Second highest element in an Array using stream
     public static void main(String[] args) {
         int[] arr = {21, 2, 43, 114, 45, 6, 32, 54};
 
@@ -824,12 +594,10 @@ Content-Type: application/json
         } else {
             System.out.println("First Highest: " + firstHighest);
             System.out.println("Second Highest: " + secondHighest);
-        }
-        
+        }    
     }
-
 **Using Stream API**
-
+    ```
     public static void main(String[] args) {
         int[] arr = {21, 2, 43, 114, 45, 6, 32, 54};
         Optional<Integer> secondHighest = Arrays.stream(arr)
@@ -845,17 +613,16 @@ Content-Type: application/json
             System.out.println("No second highest element found.");
         }
     }
+    ```
 
 ---
 
 ## 46. Stream vs Parallelstream
 In Java, both `stream()` and `parallelStream()` are methods used to create streams from collections, but they have different execution models.
-
 - `stream()`: Creates a sequential stream that processes elements one at a time in a single thread.
 - `parallelStream()`: Creates a parallel stream that can process elements concurrently using multiple threads, potentially improving performance for large datasets.
-
 Here is an example demonstrating the difference:
-
+    ```
     import java.util.Arrays;
     import java.util.List;
     
@@ -872,15 +639,11 @@ Here is an example demonstrating the difference:
                     .forEach(n -> System.out.println("Parallel: " + n));
         }
     }
-
+    ```
 In this example, the `stream()` method processes the elements sequentially, while the `parallelStream()` method processes the elements in parallel, potentially out of order.
-
 **Note**: if I have 1 lakh records then which should use
-
 For processing a large dataset like 1 lakh records, you should consider using `parallelStream()` as it can leverage multiple threads to process the elements concurrently, potentially improving performance.
-
 Here is an example:
-
 ```java
 import java.util.Arrays;
 import java.util.List;
@@ -902,8 +665,7 @@ public class Main {
 }
 ```
 
-This code demonstrates how to use `parallelStream()` to process a large list of integers concurrently.
-
+---
 ## 47. Sort a HashMap on the basis of key
 ```java
 import java.util.*;
@@ -986,14 +748,11 @@ Three -> 3
 Two -> 2
 ```
 
+---
 ## 48. How to Use Caching in Spring Boot
 Spring Boot provides built-in support for caching using the **Spring Cache Abstraction**. This allows caching data in memory or using external cache providers like **Redis**, **EhCache**, and **Caffeine**.
-
----
-
 ### **1. Enable Caching in Spring Boot**
 First, enable caching in your Spring Boot application by adding the `@EnableCaching` annotation in your main class or a configuration class.
-
 ```java
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.boot.SpringApplication;
@@ -1007,10 +766,8 @@ public class CachingExampleApplication {
     }
 }
 ```
-
 ### **2. Use @Cacheable Annotation**
 You can use `@Cacheable` to cache method results so that subsequent calls with the same arguments return the cached result instead of executing the method again.
-
 #### **Example: Caching a Method Result**
 ```java
 import org.springframework.cache.annotation.Cacheable;
@@ -1029,11 +786,8 @@ public class UserService {
 #### **How It Works:**
 1. The first time `getUserById(1)` is called, it fetches data and stores it in the cache.
 2. The next time `getUserById(1)` is called, it returns the cached result instead of executing the method.
-
-
 ### **3. Clear Cache with @CacheEvict**
 If data changes and you need to remove it from the cache, use `@CacheEvict`.
-
 ```java
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -1049,11 +803,8 @@ public class UserService {
 ```
 - `allEntries = true` clears all cached entries under "users".
 - `@CacheEvict(value = "users", key = "#userId")` clears a specific entry.
-
-
 ### **4. Update Cache with @CachePut**
 Use `@CachePut` to update the cache when a method is called.
-
 ```java
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
@@ -1068,36 +819,27 @@ public class UserService {
     }
 }
 ```
-
-
 ### **5. Configure Cache in application.properties**
 Spring Boot uses **ConcurrentHashMap** as the default cache. You can configure other cache providers like **EhCache, Redis, or Caffeine**.
-
 #### **For Simple In-Memory Cache:**
 ```properties
 spring.cache.type=simple
 ```
-
 #### **For Redis Cache:**
 ```properties
 spring.cache.type=redis
 spring.redis.host=localhost
 spring.redis.port=6379
 ```
-
-
 ### **6. Example with Redis Cache**
 If you want to use Redis as a cache, add the following dependency in `pom.xml`:
-
 ```xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-data-redis</artifactId>
 </dependency>
 ```
-
 Then, define a RedisCacheConfiguration:
-
 ```java
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -1118,11 +860,8 @@ public class RedisConfig {
     }
 }
 ```
-
-
 ### **Conclusion**
 Spring Boot provides simple caching mechanisms using annotations. The best caching approach depends on your use case:
-
 - **For small applications** → Use default simple cache (`ConcurrentHashMap`).
 - **For distributed caching** → Use **Redis**.
 - **For advanced caching** → Use **EhCache, Caffeine, or Hazelcast**.
@@ -1184,7 +923,6 @@ public class FixWithIterator {
     }
 }
 ```
-
 #### **2. Use `CopyOnWriteArrayList` (Thread-Safe)**
 `CopyOnWriteArrayList` creates a copy of the list whenever modified, avoiding modification issues.
 ```java
@@ -1207,7 +945,6 @@ public class FixWithCopyOnWriteArrayList {
     }
 }
 ```
-
 #### **3. Use `removeIf()` Method (Java 8+)**
 Java 8 introduced `removeIf()`, which removes elements safely while iterating.
 ```java
@@ -1226,7 +963,6 @@ public class FixWithRemoveIf {
     }
 }
 ```
-
 #### **4. Use `Stream API` for Filtering (Java 8+)**
 Instead of modifying a list during iteration, create a new list with filtered values.
 ```java
@@ -1249,7 +985,6 @@ public class FixWithStreams {
     }
 }
 ```
-
 #### **Conclusion**
 | Approach | Safe? | Best For |
 |----------|------|---------|
@@ -1258,17 +993,13 @@ public class FixWithStreams {
 | `removeIf()` | ✅ Yes | Simple removals (Java 8+) |
 | `Stream API` | ✅ Yes | Functional-style filtering |
 
-Would you like a deeper explanation of any approach? 🚀
-
+---
 ## 50. Thread Communication in Java
 Threads in Java communicate with each other mainly using **wait(), notify(), and notifyAll()**, which are part of the `Object` class. This is commonly used for **inter-thread synchronization**.
-
-
 ### **1. Using wait() and notify()**
 - `wait()`: Causes the current thread to wait until another thread calls `notify()` or `notifyAll()`.
 - `notify()`: Wakes up one thread that is waiting on the same object's monitor.
 - `notifyAll()`: Wakes up all threads waiting on the object's monitor.
-
 ### **Example: Producer-Consumer Problem**
 ```java
 class SharedResource {
@@ -1359,12 +1090,8 @@ Consumed: 5
 1. The **producer** produces data and calls `notify()` to wake up the consumer.
 2. The **consumer** waits using `wait()` until the producer notifies it.
 3. This continues until all elements are processed.
-
-
-
 ## **2. Using Locks and Condition (Better than wait/notify)**
 Java `Lock` and `Condition` provide a more flexible way for thread communication.
-
 ### **Example: Using `ReentrantLock` and `Condition`**
 ```java
 import java.util.concurrent.locks.*;
@@ -1420,11 +1147,8 @@ public class ThreadCommunicationWithLock {
 ### **Why Use Locks?**
 - More control over synchronization.
 - Avoids issues like **spurious wakeups**.
-
-
 ## **3. Using `BlockingQueue` (Simplest Approach)**
 Instead of manually using `wait/notify`, Java provides `BlockingQueue`, which handles inter-thread communication automatically.
-
 ### **Example Using `LinkedBlockingQueue`**
 ```java
 import java.util.concurrent.*;
@@ -1493,12 +1217,9 @@ For most cases, **`BlockingQueue` is recommended** because it simplifies inter-t
 
 ## 51. **Can We Create a Fixed (Immutable) List in Java?**
 Yes! Java provides multiple ways to create **fixed-size** or **immutable** lists. Here are different approaches:
-
-
-## **1. Using `Arrays.asList()` (Fixed-Size, But Mutable)**
+### **1. Using `Arrays.asList()` (Fixed-Size, But Mutable)**
 - The list is **fixed-size**, meaning you **cannot add or remove elements**.
 - However, you **can modify existing elements**.
-
 ```java
 import java.util.Arrays;
 import java.util.List;
@@ -1515,14 +1236,11 @@ public class FixedListExample {
     }
 }
 ```
-
 ### **Key Points**
 ✅ **Can modify elements (`set()`)**  
 ❌ **Cannot add/remove elements (`add()/remove()`)**
-
 ## **2. Using `List.of()` (Completely Immutable)**
 Introduced in Java 9, `List.of()` creates **a truly immutable list**.
-
 ```java
 import java.util.List;
 
@@ -1536,15 +1254,11 @@ public class ImmutableListExample {
     }
 }
 ```
-
 ### **Key Points**
 ✅ **Best for creating read-only lists**  
 ❌ **Cannot modify, add, or remove elements**
-
-
-## **3. Using `Collections.unmodifiableList()`**
+### **3. Using `Collections.unmodifiableList()`**
 This method wraps a list and **makes it immutable**, but modifications to the original list will reflect in the unmodifiable list.
-
 ```java
 import java.util.*;
 
@@ -1561,14 +1275,11 @@ public class UnmodifiableListExample {
     }
 }
 ```
-
 ### **Key Points**
 ✅ **Wraps an existing list**  
 ❌ **Changes in the original list will reflect in the unmodifiable list**
-
 ## **4. Using `Collections.singletonList()` (Single Element Fixed List)**
 Creates an **immutable list with only one element**.
-
 ```java
 import java.util.Collections;
 import java.util.List;
@@ -1583,11 +1294,9 @@ public class SingletonListExample {
     }
 }
 ```
-
 ### **Key Points**
 ✅ **Single-element list (Can modify the element but not the size)**  
 ❌ **Cannot add or remove elements**
-
 ### **Comparison of Fixed List Methods**
 | Method | Can Modify Elements? | Can Add/Remove? | Java Version |
 |--------|----------------|---------------|--------------|
@@ -1595,8 +1304,6 @@ public class SingletonListExample {
 | `List.of()` | ❌ No | ❌ No | Java 9 |
 | `Collections.unmodifiableList()` | ❌ No | ❌ No | Java 1.2 |
 | `Collections.singletonList()` | ✅ Yes (for single element) | ❌ No | Java 1.3 |
-
-
 ### **Which One to Use?**
 - **Need a fixed-size but modifiable list?** → Use `Arrays.asList()`
 - **Need a completely immutable list?** → Use `List.of()`
@@ -1604,30 +1311,23 @@ public class SingletonListExample {
 - **Need a single-element immutable list?** → Use `Collections.singletonList()`
 
 ---
-
 ## 52. Reasons Why Java is Not Fully OOP
 Java is **not considered a "pure" Object-Oriented Programming (OOP) language** because it does not strictly enforce all object-oriented principles. While Java follows OOP concepts like **encapsulation, inheritance, and polymorphism**, it includes some features that break the pure OOP model.  
-
 ### **1. Presence of Primitive Data Types (`int`, `char`, etc.)**
 - Java has **primitive types** (`int`, `char`, `double`, `boolean`, etc.) that are **not objects**.
 - In a fully OOP language, everything should be an object.
-  
 🔹 **Example:**
 ```java
 int num = 10;  // num is not an object
 ```
 👉 **In pure OOP languages like Smalltalk, even numbers are objects.**  
-
 **Workaround:** Java provides wrapper classes (`Integer`, `Double`, etc.) to convert primitives into objects, but primitives still exist.  
 ```java
 Integer num = Integer.valueOf(10);  // Now, num is an object
 ```
-
-
 ### **2. Static Methods and Variables**
 - Java allows **static methods** and **static variables** that belong to a class rather than an object.
 - In **pure OOP**, everything should be associated with objects.
-
 🔹 **Example:**
 ```java
 class Example {
@@ -1645,12 +1345,9 @@ public class Main {
 }
 ```
 👉 **In pure OOP, you would need to create an instance to access any method.**
-
-
 ### **3. Use of `static` Keyword in Main Method**
 - The `main()` method is **static**, meaning it can run without creating an object.
 - In **true OOP**, execution should start with an object.
-
 🔹 **Example:**
 ```java
 public class Main {
@@ -1660,12 +1357,9 @@ public class Main {
 }
 ```
 👉 **In a fully OOP language, the entry point should require an object instance.**
-
-
 ### **4. Lack of Multiple Inheritance (Uses Interfaces Instead)**
 - Java **does not support multiple inheritance** for classes due to the **diamond problem**.
 - Instead, Java uses **interfaces** as a workaround.
-
 🔹 **Example (Not Allowed in Java):**
 ```java
 class A {
@@ -1683,9 +1377,7 @@ class B {
 // ❌ Java does not allow multiple inheritance
 class C extends A, B {}  // Compilation error
 ```
-
 👉 **In fully OOP languages like C++, multiple inheritance is supported.**
-
 **Java Workaround:**
 ```java
 interface A {
@@ -1706,31 +1398,24 @@ class C implements A, B {  // ✅ Using interfaces
     }
 }
 ```
-
 ### **5. Non-OOP Features Like Operators and Control Statements**
 - Java still uses **procedural programming** constructs like:
   - `if`, `for`, `while` loops (not object-based)
   - Arithmetic operators (`+`, `-`, `*`, `/`) are not method calls.
-
 🔹 **Example:**
 ```java
 int a = 5, b = 10;
 int sum = a + b;  // Using `+` instead of a method call
 ```
 👉 **In pure OOP, even operations should be done through objects (e.g., `a.add(b)`).**
-
-
 ## **Is Java an Object-Oriented Language?**
 ✅ **Yes, Java is primarily OOP-based, but not 100% OOP.**  
 ❌ **It has features that break pure OOP principles (like primitives and static methods).**  
-
 💡 **A Fully OOP Language Would Have:**
 - No primitives (everything is an object)
 - No static methods or variables
 - No direct use of operators (`+`, `-`, etc.)
 - Object-based execution (no `static main()`)
-
-
 ### **Conclusion**
 | Feature | Java | Fully OOP (e.g., Smalltalk) |
 |---------|------|----------------|
@@ -1739,22 +1424,18 @@ int sum = a + b;  // Using `+` instead of a method call
 | Static Methods | ✅ Yes | ❌ No |
 | Operators as Methods | ❌ No | ✅ Yes |
 | Execution Without Object | ✅ Yes (`static main()`) | ❌ No |
+Java follows **OOP principles**, but its design **includes non-OOP features** for performance and simplicity. That’s why Java is called **"not a fully object-oriented language" but an "OOP-based language."** 🚀 
 
-Java follows **OOP principles**, but its design **includes non-OOP features** for performance and simplicity. That’s why Java is called **"not a fully object-oriented language" but an "OOP-based language."** 🚀  ---
-
+---
 ## 53. If you have two default methods in a functional interface and you are printing ram from one method and Shyam from other method then how to print Shyam using other class
 A **functional interface** in Java is an interface that has only **one abstract method**. However, it can have **multiple default methods**.  
-
 ### Problem Breakdown:
 - You have two `default` methods in a functional interface.
 - One method prints `"Ram"`, and the other prints `"Shyam"`.
 - You want to print `"Shyam"` using another class.
-
 ### Solution:
 You can achieve this by **overriding** the `default` method in a class that implements the interface. Here’s how you can do it:
-
 ### Code Implementation:
-
 #### **1. Define the Functional Interface**
 ```java
 @FunctionalInterface
@@ -1770,7 +1451,6 @@ interface MyInterface {
     }
 }
 ```
-
 #### **2. Implement the Interface in a Class**
 ```java
 class MyClass implements MyInterface {
@@ -1786,7 +1466,6 @@ class MyClass implements MyInterface {
     }
 }
 ```
-
 #### **3. Test the Implementation**
 ```java
 public class Main {
@@ -1797,41 +1476,29 @@ public class Main {
     }
 }
 ```
-
 ### **Explanation:**
 1. The `MyInterface` has **two default methods**: `printRam()` and `printShyam()`.
 2. The `MyClass` implements `MyInterface` and **overrides** the `printShyam()` method.
 3. When calling `obj.printShyam()`, the overridden method in `MyClass` executes and prints `"Shyam"`.
-
 Here are a few interview questions based on **functional interfaces and default methods** that test a candidate’s understanding of Java 8 features:  
-
 ### **1. Default Methods in Functional Interfaces**  
 > **Question:**  
 If a functional interface has two default methods, and both print different values (e.g., `"Ram"` and `"Shyam"`), how can you ensure that `"Shyam"` is printed when calling the method from another class?  
-
 > **Follow-up Question:**  
 Can you override default methods in a class that implements the functional interface? If yes, how does method resolution work?  
-
-
 ### **2. Multiple Default Methods Conflict**  
 > **Question:**  
 If a class implements two interfaces, and both interfaces have a default method with the **same signature**, how can you resolve the conflict?  
-
 > **Expected Answer:**  
 The implementing class must **override** the conflicting method explicitly to resolve ambiguity.  
-
 ### **3. Functional Interface with Multiple Default Methods**  
 > **Question:**  
 Is it valid for a **functional interface** to have multiple **default methods**? If yes, how does it still satisfy the functional interface definition?  
-
 > **Hint:**  
 A functional interface must have exactly **one abstract method**, but it **can** have multiple `default` and `static` methods.  
-
-
 ### **4. Calling Superclass Default Method from Implementing Class**  
 > **Question:**  
 If an interface provides a default method, how can an implementing class explicitly call that interface’s default method from an overridden method?  
-
 > **Example:**  
 ```java
 interface MyInterface {
@@ -1853,27 +1520,19 @@ class MyClass implements MyInterface {
 Interface default method
 Overridden method
 ```
-
 ### **5. Can a Functional Interface Extend Another Interface?**  
 > **Question:**  
 Can a functional interface extend another interface that has a default method? If yes, will the default method be available to the implementing class?  
-
 > **Hint:**  
 Yes, a functional interface **can** extend another interface. The implementing class will inherit the default method unless it overrides it.  
-
 Here are some **scenario-based** and **real-world** interview questions on **functional interfaces and default methods** in Java:  
-
 ### **1. Real-World Scenario: Logging Mechanism**  
 > **Question:**  
 Imagine you are designing a logging framework where multiple classes need a default logging method. You want to provide a `log()` method in an interface, but also allow classes to override it if needed.  
->
 > - How would you design the interface using default methods?  
 > - How can a class use the interface’s default `log()` method without overriding it?  
-
 > **Hint:**  
 Use a default method in the interface for logging, and allow implementing classes to override it selectively.  
-
-
 ### **2. Diamond Problem with Default Methods**  
 > **Question:**  
 You have two interfaces, `InterfaceA` and `InterfaceB`, both containing a default method with the **same name and implementation**. If a class `MyClass` implements both interfaces, how will Java resolve this conflict?  
@@ -1897,61 +1556,45 @@ class MyClass implements InterfaceA, InterfaceB {
 ```
 - What happens if you don’t override the `greet()` method in `MyClass`?  
 - How can you explicitly call `greet()` from `InterfaceA` inside `MyClass`?  
-
 > **Expected Answer:**  
 Java will throw a **compilation error** due to ambiguity. You must override `greet()` in `MyClass` and use `InterfaceA.super.greet()` or `InterfaceB.super.greet()` to specify which one to call.  
-
-
 ### **3. Designing a Payment Gateway Using Functional Interface**  
 > **Question:**  
 You are designing a payment gateway where different payment processors (PayPal, Stripe, Razorpay) must implement a `processPayment()` method. You also want a **default method** to **validate payments** before processing.  
-
 > - How would you design a functional interface for this use case?  
 > - If a new payment provider wants to modify only the validation logic, how can it override the default method?  
-
 > **Hint:**  
 Use a **functional interface** with one abstract method (`processPayment()`) and a default method (`validatePayment()`). Allow implementing classes to override validation logic if necessary.  
-
 ### **4. Combining Functional Interfaces and Streams**  
 > **Question:**  
 Suppose you have a `List<String>` of employee names and you need to:  
 1. Convert all names to uppercase  
 2. Filter names that start with "A"  
 3. Print them using a method from a functional interface  
-
 - How can you achieve this using Java Streams and a custom functional interface?  
 - Can a default method in the functional interface be used to provide a common transformation logic?  
-
-
 ### **5. Modifying Default Method Behavior Dynamically**  
 > **Question:**  
 You have a functional interface with a default method for sending notifications. Some users prefer **email**, while others prefer **SMS**.  
-
 - How can you modify the default method dynamically based on user preference **without modifying the interface**?  
 - Can this be achieved using **lambda expressions** or **method references**?  
-
 > **Hint:**  
 Pass a custom implementation using lambda expressions or override the default method in an anonymous class.  
-
 ### **6. Default Methods vs. Abstract Classes**  
 > **Question:**  
 Both **default methods in interfaces** and **methods in abstract classes** allow code reuse.  
 - When should you **prefer default methods** over an **abstract class**?  
 - Can an interface with default methods completely replace an abstract class?  
-
 > **Expected Answer:**  
 - Default methods allow multiple inheritance, while abstract classes don’t.  
 - If shared behavior is needed but the class should still extend another class, **default methods** are better.  
 - If state (fields) needs to be maintained, an **abstract class** is preferred.  
 
 ---
-
 ## 54. Questions on Hibernate: 
-
 1️⃣ Hibernate Basics – What is Hibernate? How does it work? Why is it better than JDBC? 
 ### **What is Hibernate?**  
 **Hibernate** is a **Java-based ORM (Object-Relational Mapping) framework** that simplifies database interactions by mapping Java objects to database tables. It eliminates the need for writing complex SQL queries and handles **database CRUD operations** efficiently.  
-
 ✅ **Key Features of Hibernate:**  
 - **ORM-Based**: Maps Java classes to database tables.  
 - **HQL (Hibernate Query Language)**: Supports database-independent queries.  
@@ -1959,27 +1602,21 @@ Both **default methods in interfaces** and **methods in abstract classes** allow
 - **Caching**: Improves performance by reducing database hits.  
 - **Lazy & Eager Loading**: Optimizes data fetching.  
 - **Transaction Management**: Works seamlessly with JPA and Spring Boot.  
-
 ### **How Does Hibernate Work?**
 1. **Configuration**  
    - Uses `hibernate.cfg.xml` or `persistence.xml` (if using JPA).  
    - Defines database connection properties and entity mappings.  
-
 2. **SessionFactory Creation**  
    - `SessionFactory` is created once (expensive operation).  
    - Manages `Session` instances for database operations.  
-
 3. **Session & Transaction Management**  
    - `Session` is used to perform CRUD operations.  
    - `Transaction` ensures data consistency.  
-
 4. **Query Execution**  
    - Uses **HQL (Hibernate Query Language)** or **Criteria API** instead of raw SQL.  
-
 5. **Caching & Optimization**  
    - First-level cache (default) and second-level cache (optional).  
    - Lazy loading prevents unnecessary data retrieval.  
-
 ### **Why Hibernate is Better Than JDBC?**
 | Feature | Hibernate | JDBC |
 |---------|----------|------|
@@ -1990,10 +1627,7 @@ Both **default methods in interfaces** and **methods in abstract classes** allow
 | **Transaction Management** | Built-in support | Manual handling required |
 | **Performance Optimization** | Lazy loading, caching, batching | No built-in optimization |
 | **Scalability** | Works well with large applications | Becomes complex with large codebases |
-
 ✅ **Hibernate reduces boilerplate code, improves maintainability, and provides flexibility across different databases.**  
-
-
 ### **Example: Hibernate vs. JDBC**
 #### **JDBC Approach (Manual SQL Queries)**
 ```java
@@ -2006,7 +1640,6 @@ ps.executeUpdate();
 - 🚨 Requires **manual SQL handling**.  
 - 🚨 **DB-specific queries** → Less flexible.  
 - 🚨 **No built-in caching** → Slower performance.  
-
 #### **Hibernate Approach (Entity-Based)**
 ```java
 @Entity
@@ -2030,56 +1663,37 @@ session.close();
 - ✅ **Auto table creation** via `@Entity`.  
 - ✅ **Database independent** (Works with MySQL, PostgreSQL, etc.).  
 - ✅ **Faster performance** via caching.  
-
 ### **When Should You Use Hibernate?**
 ✔ **Enterprise Applications** (Spring Boot, Microservices).  
 ✔ **Projects Needing DB Portability** (Supports MySQL, PostgreSQL, Oracle, etc.).  
 ✔ **Scalable & Maintainable Apps** (Less SQL, more object-oriented).  
-
 ⛔ **When Not to Use Hibernate?**  
 - If **performance is extremely critical**, raw JDBC **may be faster** for simple queries.  
 - If the project **does not involve relational databases** (NoSQL, Redis).  
-
-
 ### **Conclusion**
 Hibernate simplifies database interactions **by removing the need for raw SQL** and handling **transactions, caching, and object mappings** efficiently. 🚀  
-
 2️⃣ Configuration & Annotations – Setting up Hibernate with `hibernate.cfg.xml` and using JPA annotations like `@Entity`, `@Table`, `@Column`, etc. 
-
 3️⃣ Session & SessionFactory – Understanding how Hibernate manages database operations using Session and SessionFactory. 
-
 4️⃣ Hibernate CRUD Operations – Performing Create, Read, Update, Delete operations using Hibernate. 
-
 5️⃣ HQL (Hibernate Query Language) – Writing database-independent queries using HQL instead of raw SQL. 
-
 6️⃣ Criteria API – Fetching data dynamically using Hibernate's Criteria API. 
-
 7️⃣ Lazy & Eager Loading – Controlling how Hibernate fetches related data (`@OneToMany`, `@ManyToOne`). 
-
 8️⃣ Caching in Hibernate – First-level vs. Second-level caching, using EhCache or Redis for performance optimization. 
-
 9️⃣ Transaction Management – Handling transactions with commit, rollback, and exception handling. 
-
 🔟 Hibernate Relationships & Mappings – Implementing `@OneToOne`, `@OneToMany`, `@ManyToOne`, and `@ManyToMany` mappings. 
-
 1️⃣1️⃣ Pagination in Hibernate – Efficiently fetching large datasets using pagination. 
-
 1️⃣2️⃣ Native SQL Queries – Using createNativeQuery() to run raw SQL queries when needed. 
 
 ---
-
 ## 55. DTO vs Entity
 Both **DTO (Data Transfer Object)** and **Entity** are commonly used in Java applications, but they serve different purposes. Let’s break down their differences:
-
 ### **1. What is an Entity?**
 An **Entity** is a Java class that represents a **database table**. It is directly mapped to a table using **JPA annotations** (`@Entity`).  
-
 ✅ **Key Features of an Entity:**  
 - Represents a **database table**.  
 - Managed by **Hibernate/JPA**.  
 - Contains **database-specific fields** (e.g., `@Id`, `@Column`).  
 - **Tightly coupled** with the database.  
-
 ### **Example: Entity Class**
 ```java
 import jakarta.persistence.*;
@@ -2100,20 +1714,15 @@ public class User {
 - **`@Entity`** → Marks it as a JPA entity.  
 - **`@Table(name = "users")`** → Maps to the database table "users".  
 - **`@Id`** → Primary key.  
-
 🔹 **Used for:** Database operations (CRUD).  
-
-
 ### **2. What is a DTO (Data Transfer Object)?**
 A **DTO** is a **plain Java class** used to **transfer data** between layers (Controller ↔ Service ↔ Client).  
 DTOs are **not managed by JPA** and usually contain only required fields.  
-
 ✅ **Key Features of a DTO:**  
 - **Not mapped to the database** (No `@Entity`).  
 - Used to transfer data between layers.  
 - Improves **performance & security** (only necessary fields exposed).  
 - Helps **avoid exposing entity structure** to external clients (REST APIs).  
-
 #### **Example: DTO Class**
 ```java
 public class UserDTO {
@@ -2131,9 +1740,7 @@ public class UserDTO {
 ```
 - **No `@Entity` annotations**.  
 - **Only essential fields** (No `id` here).  
-
 🔹 **Used for:** API responses, reducing data exposure.  
-
 ### **3. Differences Between DTO and Entity**
 | Feature        | Entity | DTO |
 |---------------|--------|-----|
@@ -2143,11 +1750,8 @@ public class UserDTO {
 | **Contains**  | All database fields | Only required fields |
 | **Performance** | Can be slow (large data fetch) | Optimized, lightweight |
 | **Security** | Exposes all fields (risk) | Can hide sensitive fields |
-
-
 ### **4. How to Convert Between DTO and Entity?**
 Since DTOs and Entities serve different purposes, we need to **convert** between them using a **Mapper** function.
-
 ### **Example: Convert Entity → DTO in a Service Layer**
 ```java
 @Service
@@ -2162,7 +1766,6 @@ public class UserService {
     }
 }
 ```
-
 ### **Example: Convert DTO → Entity (For Saving to Database)**
 ```java
 public User convertToEntity(UserDTO userDTO) {
@@ -2173,7 +1776,6 @@ public User convertToEntity(UserDTO userDTO) {
 }
 ```
 ✅ **Using a DTO ensures the API does not expose database fields like `id`, `password`, etc.**  
-
 ### **5. When to Use DTO vs. Entity?**
 | **Scenario** | **Use DTO?** | **Use Entity?** |
 |-------------|-------------|-------------|
@@ -2181,7 +1783,6 @@ public User convertToEntity(UserDTO userDTO) {
 | **Saving/updating data in DB** | ✅ Yes (for validation) | ✅ Yes (JPA manages persistence) |
 | **Internal database operations** | ❌ No | ✅ Yes |
 | **Avoiding lazy loading issues** | ✅ Yes | ❌ No |
-
 ### **6. Why Use DTOs Instead of Entities in APIs?**
 🚀 **Advantages of DTOs in REST APIs:**  
 1. **Prevents over-exposure of database fields** (e.g., `password`, `createdAt`).  
@@ -2203,30 +1804,25 @@ public UserDTO getUser(@PathVariable Long id) { // ✅ Uses DTO
     return userService.getUserById(id);
 }
 ```
-
 ### **7. Conclusion**
 ✅ **Use `Entity` for database operations (JPA/Hibernate).**  
 ✅ **Use `DTO` for API responses, improving security & performance.**  
 ✅ **Convert between `Entity` ↔ `DTO` using Mapper functions.**  
 
-
+---
 ## 56. Why Choose Spring Boot over spring MVC?
 Spring MVC and Spring Boot both help build Java web applications, but **Spring Boot simplifies development** significantly. Let’s compare them and see why **Spring Boot is the preferred choice.**
-
 ### **📌 Spring MVC** (Traditional Approach)  
 - Requires **manual configuration** of dependencies, database, and web server.  
 - Needs **boilerplate code** for XML or Java-based configurations.  
 - Requires an **external** server (Tomcat, Jetty) to run.  
 - Complex **integration of third-party libraries** (Jackson, Hibernate, etc.).  
-
 ### **🚀 Spring Boot** (Modern Approach)  
 - **Auto-configures** dependencies, database, and embedded servers.  
 - Provides **built-in Tomcat/Jetty** (No need for an external server).  
 - **Production-ready features** (Actuator, Metrics, Logging).  
 - Requires **less code**, reducing development time.  
-
 ### **2. Key Differences Between Spring Boot & Spring MVC**  
-
 | Feature             | Spring MVC | Spring Boot |
 |---------------------|-----------|-------------|
 | **Setup Complexity** | High (Requires manual setup) | Low (Auto-configuration) |
@@ -2239,9 +1835,7 @@ Spring MVC and Spring Boot both help build Java web applications, but **Spring B
 | **Production-Ready Features** | Not included | Actuator, Logging, Monitoring |
 | **REST API Support** | Needs manual configuration | Built-in REST support |
 | **Security** | Needs extra setup | Auto-configured with Spring Security |
-
 When to Use Spring Boot vs Spring MVC?**  
-
 | **Scenario** | **Use Spring MVC** | **Use Spring Boot** |
 |-------------|--------------------|---------------------|
 | **Building a traditional web app** | ✅ Yes | ✅ Yes |
@@ -2250,22 +1844,17 @@ When to Use Spring Boot vs Spring MVC?**
 | **Need auto-configuration** | ❌ No | ✅ Yes |
 | **Want production-ready features** | ❌ No | ✅ Yes |
 | **Need fast development** | ❌ No | ✅ Yes |
-
 #### **6. Conclusion: Why Choose Spring Boot?**  
-
 ✅ **Easier Setup** → No XML, embedded Tomcat, auto-configured.  
 ✅ **Less Boilerplate Code** → Just write business logic.  
 ✅ **Better Performance** → Optimized defaults, Actuator.  
 ✅ **Great for REST & Microservices** → API development is easy.  
 ✅ **Production-Ready** → Monitoring, Logging, Security.  
 
-💡 **Spring Boot is the future of Spring development!** 🚀 Would you like a real-world example, like **a REST API with authentication**? 😊
-
 ---
 
 ## 57. Java Singleton Design Pattern
 The **Singleton pattern** ensures that a class has **only one instance** and provides a **global point of access** to that instance. This is useful for scenarios like **database connections, logging, configuration management, and thread pools**.
-
 ### 1. Implementing Singleton Pattern in Java**
 #### A. Eager Initialization (Thread-Safe)**
 In this approach, the instance is created **at the time of class loading**.  
@@ -2282,8 +1871,6 @@ public class Singleton {
 ```
 ✅ **Pros:** Simple, thread-safe  
 ❌ **Cons:** Instance is created even if not used  
-
-
 #### **B. Lazy Initialization (Not Thread-Safe)**
 Instance is created **only when needed**, but this is **not thread-safe**.
 ```java
@@ -2302,9 +1889,6 @@ public class Singleton {
 ```
 ✅ **Pros:** Saves memory if the instance is never used  
 ❌ **Cons:** **Not thread-safe** in multi-threaded environments  
-
----
-
 #### **C. Thread-Safe Singleton (Double-Checked Locking)**
 A better approach to make the Singleton thread-safe **without performance issues**.
 ```java
@@ -2327,9 +1911,6 @@ public class Singleton {
 ```
 ✅ **Pros:** Thread-safe, efficient performance  
 ❌ **Cons:** More complex  
-
----
-
 #### **D. Bill Pugh Singleton (Best Approach)**
 This approach uses an **inner static helper class**, which ensures **lazy initialization and thread safety**.
 ```java
@@ -2347,9 +1928,6 @@ public class Singleton {
 ```
 ✅ **Pros:** Lazy-loaded, thread-safe, best performance  
 ❌ **Cons:** None  
-
----
-
 #### **E. Enum Singleton (Recommended for Thread-Safety)**
 Using an `enum` prevents multiple instances **even during serialization and reflection**.
 ```java
@@ -2363,25 +1941,18 @@ public enum Singleton {
 ```
 ✅ **Pros:** Simplest, thread-safe, prevents reflection attacks  
 ❌ **Cons:** Cannot support lazy initialization  
-
----
-
 #### **2. When to Use Singleton Pattern?**
 - **Database connections** (JDBC, Hibernate)
 - **Logging framework** (Log4j, SLF4J)
 - **Configuration management** (properties, environment variables)
 - **Caching mechanisms** (storing frequently used objects)
 - **Thread pools** (managing reusable worker threads)
-
----
-
 #### **3. Avoiding Issues with Singleton**
 #### 🔴 **Common Problems**
 1. **Multi-threading issues** (use **Double-Checked Locking** or **Bill Pugh method**)
 2. **Serialization creates multiple instances** (implement `readResolve()` method)
 3. **Reflection can break Singleton** (use `Enum Singleton`)
 4. **Cloning can break Singleton** (override `clone()` and throw exception)
-
 #### ✅ **Best Practices**
 - Prefer **Enum Singleton** for the safest implementation.
 - Use **Bill Pugh Singleton** for **lazy initialization with thread safety**.
@@ -2415,7 +1986,7 @@ Output:
 
 ---
 
-## 59. Count repeating numbers and from an array.
+## 59. Count repeating numbers from an array in java.
   ```java
   import java.util.*;
 
@@ -2441,8 +2012,55 @@ Output:
 
 ---
 
-## 60. Find palindrome or not for an Integer (12345 & 1234321) and a String ("ravi" & "kammak").
+## 60. Write a program to find a string or a number is palindrome or not?.
+```
+class Main {
+  public static void main(String[] args) {
 
+    String str = "Radar", reverseStr = "";
+    
+    int strLength = str.length();
+
+    for (int i = (strLength - 1); i >=0; --i) {
+      reverseStr = reverseStr + str.charAt(i);
+    }
+
+    if (str.toLowerCase().equals(reverseStr.toLowerCase())) {
+      System.out.println(str + " is a Palindrome String.");
+    }
+    else {
+      System.out.println(str + " is not a Palindrome String.");
+    }
+  }
+}
+```
+```
+class Main {
+  public static void main(String[] args) {
+    
+    int num = 3553, reversedNum = 0, remainder;
+    
+    // store the number to originalNum
+    int originalNum = num;
+    
+    // get the reverse of originalNum
+    // store it in variable
+    while (num != 0) {
+      remainder = num % 10;
+      reversedNum = reversedNum * 10 + remainder;
+      num /= 10;
+    }
+    
+    // check if reversedNum and originalNum are equal
+    if (originalNum == reversedNum) {
+      System.out.println(originalNum + " is Palindrome.");
+    }
+    else {
+      System.out.println(originalNum + " is not Palindrome.");
+    }
+  }
+}
+```
 
 ---
 
@@ -2512,10 +2130,9 @@ Refer to methods easily.
  ```
 
 ---
-
 ## 61. Strings are immutable or not.
 Strings are immutable. Once a string is created, its value cannot be changed. Any operation that appears to modify a string actually creates a new string object. This immutability offers several benefits, including thread safety, security, and efficient memory management. 
-
+**Example 1:**
  ```java
   public class StringImmutability {
     public static void main(String[] args) {
@@ -2527,21 +2144,33 @@ Strings are immutable. Once a string is created, its value cannot be changed. An
     }
   }
   ```
+**Example 2:**
+```
+public class StringImmutabilityExample {
+    public static void main(String[] args) {
+        String str1 = "Hello";
+        String str2 = str1.concat(", World!");
+
+        System.out.println("str1: " + str1); // Output: str1: Hello
+        System.out.println("str2: " + str2); // Output: str2: Hello, World!
+    }
+}
+```
+In this example, `str1` is initialized with the value "Hello". When the `concat()` method is called on `str1` to append ", World!", a new String object is created with the value "Hello, World!", and `str2` is assigned to this new object. The original `str1` remains unchanged. This behavior demonstrates that String objects are immutable; their values cannot be modified after they are created. Any operation that appears to modify a String actually results in the creation of a new String object.
 
 ---
 
 ## 63. @Component vs @Service vs @Controller
 In the Spring framework, @Component, @Service, and @Controller are annotations used for dependency injection and component scanning, each with a specific semantic meaning.
-@Component:
+_@Component:_
 This is the most generic annotation and marks a class as a Spring-managed component. It indicates that Spring should detect and register the class as a bean in the application context. It is used for general-purpose components that don't fit neatly into the roles of @Service or @Controller.
-@Service:
+_@Service:_
 This annotation specializes @Component and designates a class as belonging to the service layer. It's used for classes containing business logic and operations. While it doesn't add specific functionality beyond @Component, it provides better code organization and clarity, indicating the purpose of the class within the application architecture.
-@Controller:
+_@Controller:_
 This annotation, also a specialization of @Component, is used for classes that handle incoming web requests in Spring MVC applications. It marks a class as a controller, enabling it to define request handling methods and interact with the view layer. It is mainly used in the presentation layer.
 In essence, @Service and @Controller are specialized forms of @Component. They don't inherently add new technical capabilities but provide semantic meaning, making the code more readable and maintainable by clearly defining the role of each component within the application's architecture.
 
 ---
-
 ## 64. ArrayList vs LinkedList
 |     |                                                                                   ArrayList                                                                                   |                                                                                                 LinkedList                                                                                                |
 |:---:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
@@ -2571,7 +2200,6 @@ WHERE your_column IN (
 );
 
 ---
-
 ## 66. @SpringBootApplication Annotation in Spring Boot
 The `@SpringBootApplication` annotation is a **composite annotation** in Spring Boot that combines three other annotations:  
 
@@ -2637,8 +2265,7 @@ public DataSource secondaryDataSource() {
 }
 
 ---
-
-## 68. Object class methods:
+## 68. Object class methods in java:
 In Java, the `Object` class serves as the root of the class hierarchy, meaning every class implicitly or explicitly inherits from it. This class provides several essential methods available to all Java objects. 
 
 Below is an overview of the commonly used methods in the `Object` class:  
@@ -2688,9 +2315,7 @@ Below is an overview of the commonly used methods in the `Object` class:
 ### Conclusion  
 These methods provide fundamental functionalities for all Java objects, including object creation, comparison, string representation, and thread synchronization. Understanding them is crucial for effective Java programming.  
 
-
 ---
-
 ## 69.  HashMap vs Hashtable in Java 
 
 Both `HashMap` and `Hashtable` are used to store key-value pairs in Java, but they have some key differences in terms of performance, synchronization, and usage.  
@@ -2746,21 +2371,7 @@ public class HashtableExample {
 
 ---
 
-## 70. nth Highest salary
-#### Approach 1: 
-	SELECT DISTINCT salary 
-	FROM employees 
-	ORDER BY salary DESC 
-	LIMIT 1 OFFSET N-1;
-
-#### In MongoDB:
-db.employees.aggregate([
-  { $group: { _id: "$salary" } },   // Group by salary
-  { $sort: { _id: -1 } },           // Sort salaries in descending order
-  { $limit: N },                    // Limit to top N salaries
-  { $skip: N-1 }                    // Skip (N-1) results to get the Nth
-])
-
+## 70.
 
 ---
 
@@ -2796,7 +2407,7 @@ db.employees.aggregate([
  
         2. final int x = 10;
            x=20;
-	   System.out.println(list);
+	   System.out.println(x);
 	output: The Java code will result in a compile-time error because you cannot reassign a value to a final variable after its initialization.
  
         3. final List<Integer> list = new ArrayList<>();
@@ -2842,9 +2453,7 @@ When two keys hash to the same index, this is called a collision. To handle coll
 - **Performance**
 A good hash function distributes objects evenly. A good implementation of hashCode and equals method is required to avoid unwanted behavior.
 
-
 ---
-
 ## 75. How does garbage collection work in java?
 Garbage collection in Java is the process of automatically managing memory by reclaiming space occupied by objects that are no longer in use. The Java Virtual Machine (JVM) handles garbage collection, relieving developers from manual memory management. Garbage collection operates primarily on the heap, the area of memory where objects are stored. It identifies and removes unreachable objects, which are objects no longer referenced by the program. 
 
@@ -2881,13 +2490,9 @@ class MainMethodExample {
 ```
 
 ---
-
 ## 77. What are the methods of Optional in java
 Here are the commonly used **methods of `Optional`** in Java 8, categorized by purpose for better clarity:
-
----
-
-#### ✅ **Creation Methods**
+#### **Creation Methods**
 - `Optional.of(value)`  
   → Creates an Optional with a non-null value (throws `NullPointerException` if value is null).
 
