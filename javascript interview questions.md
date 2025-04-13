@@ -459,8 +459,8 @@ There are several types of middleware:
 - _Application-level middleware:_ Bound to an instance of `express` using `app.use()`. It applies to all routes defined after it. 
 - _Router-level middleware:_ Bound to an instance of `express.Router()`. It applies only to the routes defined within that router. 
 - _Third-party middleware:_ External packages installed via npm, such as `body-parser` or `cookie-parser`, which add specific functionalities. 
-- _Built-in middleware:_ Included with Express, like express.static for serving static files or express.json for parsing JSON request bodies. 
-- _Error-handling middleware:_ Functions with four arguments (err, req, res, next) that handle errors passed down the middleware chain. 
+- _Built-in middleware:_ Included with Express, like `express.static` for serving static files or `express.json` for parsing JSON request bodies. 
+- _Error-handling middleware:_ Functions with four arguments (`err`, `req`, `res`, `next`) that handle errors passed down the middleware chain. 
 Middleware is useful for tasks like: 
 - Authentication and authorization 
 - Logging 
