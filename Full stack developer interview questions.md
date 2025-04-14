@@ -78,7 +78,20 @@ In Java, an **immutable class** is one whose **instances cannot be modified afte
 ✔ **Functional Programming:** Immutability is a core principle of functional programming, making code easier to understand and debug.  
 ✔ **Security:** Prevents accidental or malicious modification of sensitive data.  
 ✔ **Example – `String` Class:**  
-   - The `String` class in Java is immutable. Once a `String` object is created, its value cannot be changed.  
+   - The `String` class in Java is immutable. Once a `String` object is created, its value cannot be changed.
+In Java, the term "immutable" means that once a String object is created, its content cannot be changed. This implies that any operation that appears to modify a String actually creates a new String object with the modified content, leaving the original String unchanged. 
+**Elaboration:**
+- No In-Place Modification: Unlike mutable objects (like StringBuffer or StringBuilder), you cannot directly alter the internal character array of a String object once it's been initialized. [2, 4]  
+- New Object Creation: When you try to modify a String (e.g., by concatenating or using methods like substring), the Java runtime creates a new String object containing the desired changes. The original String object remains unchanged. [1, 4]  
+- Memory Efficiency and Thread Safety: Immutability is crucial for memory management and thread safety. Because String objects are immutable, they can be shared across threads without synchronization concerns, as their value will never change unexpectedly. [1, 5]  
+- String Pool: Immutability also allows for the implementation of the String pool, where the JVM caches String objects with the same content. This can save memory by reusing the same object when multiple String variables refer to the same value. [3, 5]  
+**Example: **
+    ```
+    String str1 = "Hello";
+    String str2 = str1 + " World";
+    System.out.println(str1); // Output: Hello (str1 remains unchanged)
+    System.out.println(str2); // Output: Hello World (str2 is a new string)
+    ```
 
 ---
 ## 4. Validation in Spring Boot  
