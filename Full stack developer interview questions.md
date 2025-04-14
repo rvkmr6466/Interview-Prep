@@ -317,26 +317,26 @@ Because of the inheritance mentioned above, `JpaRepository` will have all the fu
 
 ## 23. Circuit Breaker Pattern in Microservices
 In microservices, the **Circuit Breaker pattern** helps prevent cascading failures by detecting and reacting to service failures. It switches to a fallback mechanism to maintain system stability and prevent overload.
-### **Purpose**
+**Purpose**
 - **Prevent Cascading Failures:** When one microservice fails, it can trigger a chain reaction of failures in dependent services. The Circuit Breaker pattern interrupts this chain by preventing further calls to the failing service.
 - **Improve Resilience:** Handles failures gracefully, making the system more resilient to disruptions and outages.
 - **Minimize Impact on Users:** When a service is unavailable, the Circuit Breaker can provide a fallback response or error message, preventing a complete system outage.
-### **How It Works**
-#### **States of the Circuit Breaker:**
+**How It Works**
+**States of the Circuit Breaker:**
 - **Closed:**  
   The service is healthy, and calls are allowed to pass through normally.
 - **Open:**  
   The service is failing; further calls are rejected, and a fallback mechanism is used instead.
 - **Half-Open:**  
   After a timeout period, a limited number of test calls are allowed to check if the service has recovered.
-#### **Monitoring Mechanism:**
+**Monitoring Mechanism:**
 - **Threshold:**  
   If the number of failures exceeds a predefined threshold within a certain time period, the Circuit Breaker "opens".
 - **Fallback:**  
   While in the "Open" state, subsequent calls are automatically redirected to a fallback mechanism (e.g., cached response, default value).
 - **Recovery:**  
   After a timeout, the Circuit Breaker enters the "Half-Open" state. If test calls succeed, it transitions back to "Closed". If not, it remains "Open".
-### **Benefits**
+**Benefits**
 - **Reduced Downtime:**  
   Prevents cascading failures, reducing prolonged outages.
 - **Improved User Experience:**  
@@ -345,7 +345,7 @@ In microservices, the **Circuit Breaker pattern** helps prevent cascading failur
   Easier to identify and isolate failing services.
 - **Enhanced Resiliency:**  
   Increases the robustness of the overall microservices architecture.
-### **Example**
+**Example**
 Imagine a **Shopping Cart** microservice that depends on a **Product Catalog** microservice to fetch product details. If the Product Catalog service goes down, the Shopping Cart service could be overwhelmed with requests and may fail too.
 By implementing a **Circuit Breaker**, the Shopping Cart service can:
 - Monitor the Product Catalog service.
@@ -353,10 +353,6 @@ By implementing a **Circuit Breaker**, the Shopping Cart service can:
 - Stop calling the failing service temporarily.
 - Display a user-friendly message like _"Product details are temporarily unavailable."_  
 - Retry after a timeout to check if the Product Catalog service has recovered.
-
----
-
-Let me know if you'd like to add a diagram or code implementation as well!
 ---
 
 ## 24. Lazy Loading in Hibernate  
