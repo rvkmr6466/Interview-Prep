@@ -313,15 +313,15 @@ Because of the inheritance mentioned above, `JpaRepository` will have all the fu
 
 ## 23. Circuit Breaker pattern in microservices
 In microservices, the Circuit Breaker pattern helps prevent cascading failures by detecting and reacting to service failures, switching to a fallback mechanism to maintain system stability and prevent overload. 
-Here's a breakdown of the Circuit Breaker pattern in microservices: [1, 2, 3, 4] 
+Here's a breakdown of the Circuit Breaker pattern in microservices:
 **Purpose:** 
 - **Prevent Cascading Failures:** When one microservice fails, it can cause a chain reaction of failures as other services depend on it. The Circuit Breaker pattern interrupts this chain by preventing further calls to the failing service.
-- **Improve Resilience:** By handling failures gracefully, the Circuit Breaker pattern makes the system more resilient to disruptions and outages. Minimize Impact on Users: When a service is unavailable, the Circuit Breaker pattern can provide a fallback response or error message to the user, preventing a complete system outage. 
-**How it Works:** 
-* **States:** The Circuit Breaker pattern operates in three states:
-  ** **Closed:** The service is healthy, and calls are allowed to pass through.
-  ** **Open:** The service is failing, and calls are rejected, and a fallback mechanism is used.
-  ** **Half-Open:** After a timeout period, the Circuit Breaker allows a limited number of test calls to determine if the service has recovered. 
+- **Improve Resilience:** By handling failures gracefully, the Circuit Breaker pattern makes the system more resilient to disruptions and outages. Minimize Impact on Users: When a service is unavailable, the Circuit Breaker pattern can provide a fallback response or error message to the user, preventing a complete system outage
+**How it Works:**
+  **States:** The Circuit Breaker pattern operates in three states:
+  **Closed:** The service is healthy, and calls are allowed to pass through.
+  **Open:** The service is failing, and calls are rejected, and a fallback mechanism is used.
+  **Half-Open:** After a timeout period, the Circuit Breaker allows a limited number of test calls to determine if the service has recovered.
 **Monitoring:** 
 The Circuit Breaker monitors the calls to a remote service. 
 - **Threshold:** If the number of failures exceeds a predefined threshold within a specified time period, the Circuit Breaker "opens". 
