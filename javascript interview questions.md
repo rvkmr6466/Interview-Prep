@@ -498,6 +498,21 @@ app.listen(3000, () => {
   console.log('Server is running on port 3000');
 });
 ```
+---
+### Q. Implement a function fn in JavaScript that can be invoked multiple times in a chain, where each call increments a count of how many times it was invoked. When the final call is made with 0 as an argument, the function should return the total number of times it was previously invoked in the chain. // Examples: // fn()()()(0) should return 3 because fn was called 3 times before passing 0. // fn()()()()()(0) should return 5 because fn was called 5 times before passing 0.
+```
+function fn(count = 1) {
+  return function inner(arg) {
+    if (arg === 0) {
+      return count;
+    }
+    return fn(count + 1);
+  };
+}
+
+console.log(fn()()()()(0));
+```
+
 
 ---
 ---
