@@ -460,7 +460,8 @@ There are several types of middleware:
 - _Router-level middleware:_ Bound to an instance of `express.Router()`. It applies only to the routes defined within that router. 
 - _Third-party middleware:_ External packages installed via npm, such as `body-parser` or `cookie-parser`, which add specific functionalities. 
 - _Built-in middleware:_ Included with Express, like `express.static` for serving static files or `express.json` for parsing JSON request bodies. 
-- _Error-handling middleware:_ Functions with four arguments (`err`, `req`, `res`, `next`) that handle errors passed down the middleware chain. 
+- _Error-handling middleware:_ Functions with four arguments (`err`, `req`, `res`, `next`) that handle errors passed down the middleware chain.
+
 Middleware is useful for tasks like: 
 - Authentication and authorization 
 - Logging 
@@ -512,7 +513,45 @@ function fn(count = 1) {
 
 console.log(fn()()()()(0));
 ```
+---
+### Q. Streams in NodeJS
+In Node.js, streams facilitate handling streaming data, allowing data to be processed piece by piece. This approach is efficient for working with large datasets, such as files or network communications, as it avoids loading the entire dataset into memory at once. 
+There are four main types of streams:
+- _Readable_: Used for reading data from a source. 
+- _Writable_: Used for writing data to a destination. 
+- _Duplex_: Combines both readable and writable streams. 
+- _Transform_: A type of duplex stream that modifies or transforms data as it passes through.
 
+Streams inherit from the EventEmitter class, enabling them to emit events during data processing. The pipe() method is commonly used to efficiently move data from a readable stream to a writable stream. Streams are essential for managing I/O operations, handling large files, and building scalable applications in Node.js.
+```
+const fs = require('fs');
+
+// Create a readable stream from a file
+const readableStream = fs.createReadStream('input.txt');
+
+// Create a writable stream to a file
+const writableStream = fs.createWriteStream('output.txt');
+
+// Pipe data from the readable stream to the writable stream
+readableStream.pipe(writableStream);
+
+// Handle events
+readableStream.on('data', (chunk) => {
+  console.log('Received chunk:', chunk);
+});
+
+readableStream.on('end', () => {
+  console.log('Finished reading');
+});
+
+readableStream.on('error', (err) => {
+  console.error('Error:', err);
+});
+
+writableStream.on('finish', () => {
+    console.log('Finished writing');
+});
+```
 
 ---
 ---
