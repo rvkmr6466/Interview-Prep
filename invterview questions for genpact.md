@@ -74,6 +74,39 @@ public class UserService {
 ```
 This allows loose coupling and makes testing and maintenance easier.
 
+- _Constructor Based_
+```
+public class SimpleMovieLister {
+
+	// the SimpleMovieLister has a dependency on a MovieFinder
+	private final MovieFinder movieFinder;
+
+	// a constructor so that the Spring container can inject a MovieFinder
+	public SimpleMovieLister(MovieFinder movieFinder) {
+		this.movieFinder = movieFinder;
+	}
+
+	// business logic that actually uses the injected MovieFinder is omitted...
+}
+```
+
+- _Setter Based_
+```
+public class SimpleMovieLister {
+
+	// the SimpleMovieLister has a dependency on the MovieFinder
+	private MovieFinder movieFinder;
+
+	// a setter method so that the Spring container can inject a MovieFinder
+	public void setMovieFinder(MovieFinder movieFinder) {
+		this.movieFinder = movieFinder;
+	}
+
+	// business logic that actually uses the injected MovieFinder is omitted...
+}
+```
+
+- 
 ---
 
 ### 5. How do you handle exceptions in Spring Boot?
