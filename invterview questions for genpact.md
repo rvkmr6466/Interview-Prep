@@ -1686,3 +1686,13 @@ Clean code reduces bugs, improves onboarding, and accelerates future enhancement
     Includes Ivy compiler, differential loading, lazy loading with dynamic imports, etc.
 
 ---
+
+1. **ACID in Database**
+ACID refers to a set of four key properties in database transactions: Atomicity, Consistency, Isolation, and Durability. These properties are crucial for ensuring the reliability and integrity of data within a database system.  
+Here's a breakdown of each property:
+- Atomicity: Ensures that a transaction is treated as a single, indivisible unit. If any part of the transaction fails, the entire transaction is rolled back to its original state, as if it never happened. This prevents partial or incomplete updates from corrupting the database.
+- Consistency: Guarantees that each transaction brings the database from one valid state to another. This means that the data must always adhere to the database's rules and constraints, ensuring that the data is always in a consistent and meaningful state.
+- Isolation: Ensures that concurrent transactions do not interfere with each other. Each transaction appears to be running in isolation, preventing one transaction from observing the partially completed state of another transaction.
+- Durability: Ensures that once a transaction is committed, the changes are permanently stored and will persist even in the event of system failures or crashes. This ensures that the data is not lost, even if there is a power outage or hardware malfunction.  
+
+ACID properties are particularly important in relational database management systems (RDBMS) and are often used to ensure the integrity of data in applications like banking systems, e-commerce platforms, and other mission-critical systems.
