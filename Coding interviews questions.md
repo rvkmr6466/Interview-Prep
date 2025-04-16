@@ -37,16 +37,12 @@ public class Main {
 ```
 ---
 ## 2. Find the longest uniform substring.
-Input: "aaabbbbccda" the longest uniform substring is "bbbb" (which starts at index 3 and is 4 characters long). 
-
-Ex 1 : s = "abc"
-Output = [0, 1] 
- 
-Ex 2 s = "aabbbc"
-Output = [2, 3] 
-
-Ex 3 s = "aabbbaaaa"
-Output = [5, 4]
+### Examples:
+| Input            | Output | Explanation                          |
+|-----------------|--------|--------------------------------------|
+| `s = "aaabbbbccda"` | `"[3,4]"`  | "bbbb" the longest uniform substring (which starts at index 3 and is 4 characters long).  |
+| `s = "aabbbc"` | `"[2, 3]"`  | "bbb" is the longest uniform substring.  |
+| `s = "aabbbaaaa"` | `"[5, 4]"`  | "aaaa" is the longest uniform substring.         |
 
 ```
 public class Main {
@@ -64,36 +60,24 @@ public class Main {
               count=1;
               left = right;
           }
-
-        }
-        
-        
+        }       
       }
-      
       if (count> maxLen) {
         maxLen = count;
         maxStart = left;
-      }
-      
-      
+      }      
       System.out.println(maxStart + "::" + maxLen);
   }
-  
 }
 ```
 ---
 ## 3. Find Longest Substring Without Repeating Characters  
-Input: s = “geeksforgeeks”
-Output: 7 
-Explanation: The longest substrings without repeating characters are “eksforg” and “ksforge”, with lengths of 7.
-
-Input: s = “aaa”
-Output: 1
-Explanation: The longest substring without repeating characters is “a”
-
-Input: s = “abcdefabcbb”
-Output: 6
-Explanation: The longest substring without repeating characters is “abcdef”.
+### Examples:
+| Input            | Output | Explanation                          |
+|-----------------|--------|--------------------------------------|
+| `s = "geeksforgeeks"` | `"7"`  | The longest substrings without repeating characters are “eksforg” and “ksforge”, with lengths of 7.  |
+| `s = "aaa"` | `"1"`  | The longest substring without repeating characters is “a”.  |
+| `s = "abcdefabcbb"` | `"6"`  | The longest substring without repeating characters is “abcdef”.         |
 
 ```java
 public int lengthOfLongestSubstring(String s) {
@@ -109,5 +93,27 @@ public int lengthOfLongestSubstring(String s) {
         maxLength = Math.max(maxLength, right - left + 1);
     }
     return maxLength;
+}
+```
+```
+public class Main {
+    public static void main(String[] args) {
+      String s = "aaa";
+      String str = "";
+      int left = 0, count=0, maxLen = 0;
+      String maxStr = "";
+      
+      for (int right=0; right<s.length(); right++) {
+        if(str.indexOf(s.charAt(right))==-1) { // 
+          str+=s.charAt(right);
+        } else {
+          if (str.length() > maxStr.length()) {
+            maxStr = str.toString();
+          }
+          str = "";
+        }
+      }
+      System.out.println(maxStr +"::"+maxStr.length());
+  } 
 }
 ```
