@@ -1230,52 +1230,357 @@ Code reviews should be respectful, focused on maintainability, security, readabi
 
 ---
 
-Let me know if you want these answers in PDF or Markdown format!
----
-
 ### 🔹 **Section 3: Advanced Level (30 Questions)**
 
-**Java & Spring Boot**
-1. How does Spring handle AOP (Aspect Oriented Programming)?
-2. How do you design and implement microservices in Spring Boot?
-3. Explain the Circuit Breaker pattern. Have you implemented it?
-4. What’s your experience with API Gateways (e.g., Zuul, Spring Cloud Gateway)?
-5. How do you version REST APIs?
+Here are detailed answers to your questions across **Java & Spring Boot**, **Angular**, and **Cloud & DevOps**:
 
-**Angular**
-6. What are Angular lifecycle hooks and their purpose?
-7. How do you optimize Angular performance for large applications?
-8. How do you write custom pipes and directives?
-9. Explain Change Detection in Angular.
-10. What is zone.js?
+---
 
-**Cloud & DevOps**
-11. How do you monitor applications in GCP?
-12. What is Helm and how do you use it with Kubernetes?
-13. What is Blue-Green deployment?
-14. Explain autoscaling in Kubernetes.
-15. How do you handle secrets management in cloud environments?
+### **Java & Spring Boot**
 
-**Architecture & Patterns**
-16. Explain the repository pattern.
-17. What’s your approach to service-to-service communication?
-18. What are design considerations for a scalable architecture?
-19. How do you handle transactional boundaries in microservices?
-20. How do you ensure fault tolerance and resilience?
+**1. How does Spring handle AOP (Aspect-Oriented Programming)?**
 
-**Testing & Quality**
-21. How do you write tests for Angular services?
-22. Explain code coverage and tools used.
-23. How do you mock external dependencies?
-24. What is contract testing in microservices?
-25. What are your best practices for testing in CI/CD?
+Spring implements AOP to modularize cross-cutting concerns like logging, security, and transaction management. It uses proxies to intercept method calls and apply additional behavior. Developers can define aspects using the `@Aspect` annotation and specify pointcuts with expressions to target specific join points. Advice types like `@Before`, `@After`, and `@Around` determine when the aspect's code runs relative to the join point. citeturn0search0
 
-**Leadership & Ownership**
-26. How do you lead a feature track?
-27. How do you handle production incidents?
-28. What metrics do you use to measure feature success?
-29. How do you plan for technical debt?
-30. How do you advocate for clean code and architecture in a team?
+**2. How do you design and implement microservices in Spring Boot?**
+
+Designing microservices with Spring Boot involves creating independent services that handle specific business capabilities. Each service has its own database and communicates with others through REST APIs or messaging systems. Spring Cloud provides tools for service discovery, configuration management, and resilience patterns. Implementing microservices includes defining REST controllers, service layers, and repositories, and configuring properties for each service. citeturn0search17
+
+**3. Explain the Circuit Breaker pattern. Have you implemented it?**
+
+The Circuit Breaker pattern prevents a system from repeatedly trying to execute an operation that's likely to fail, allowing it to recover gracefully. In Spring Boot, this can be implemented using Resilience4j or Spring Cloud Circuit Breaker. By annotating methods with `@CircuitBreaker`, you can define fallback methods that execute when the primary method fails. citeturn0search18
+
+**4. What’s your experience with API Gateways (e.g., Zuul, Spring Cloud Gateway)?**
+
+API Gateways like Zuul and Spring Cloud Gateway act as entry points for microservices, handling routing, security, and monitoring. Spring Cloud Gateway, being a newer, non-blocking alternative to Zuul, offers better performance and integration with Spring Boot applications. It allows for easy configuration of routes, filters, and predicates to manage traffic effectively. citeturn0search3
+
+**5. How do you version REST APIs?**
+
+Versioning REST APIs ensures backward compatibility and smooth transitions for clients. Common strategies include:
+
+- **URI Versioning**: e.g., `/api/v1/resource`
+- **Header Versioning**: e.g., using a custom header like `X-API-Version`
+- **Media Type Versioning**: e.g., `application/vnd.company.v1+json`
+
+It's essential to document all versions and communicate changes clearly to users. citeturn0search4
+
+---
+
+### **Angular**
+
+**6. What are Angular lifecycle hooks and their purpose?**
+
+Angular lifecycle hooks are methods that provide visibility into key moments in a component's lifecycle:
+
+- `ngOnInit()`: Called after the component is initialized.
+- `ngOnChanges()`: Called when input properties change.
+- `ngOnDestroy()`: Called just before the component is destroyed.
+
+These hooks allow developers to execute custom logic during specific phases of a component's existence. citeturn0search5
+
+**7. How do you optimize Angular performance for large applications?**
+
+Optimizing Angular applications involves several strategies:
+
+- **Lazy Loading**: Load modules only when needed.
+- **Change Detection Strategy**: Use `OnPush` to reduce unnecessary checks.
+- **TrackBy Function**: Improve performance in `*ngFor` loops.
+- **Avoid Complex Expressions**: Simplify expressions in templates.
+
+These practices help in reducing the initial load time and improving the overall responsiveness of the application. citeturn0search6
+
+**8. How do you write custom pipes and directives?**
+
+Custom pipes transform data in templates. For example, a pipe to capitalize text:
+
+
+```typescript
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({ name: 'capitalize' })
+export class CapitalizePipe implements PipeTransform {
+  transform(value: string): string {
+    return value.charAt(0).toUpperCase() + value.slice(1);
+  }
+}
+```
+
+
+Custom directives modify the behavior of elements. For instance, a directive to highlight text on hover:
+
+
+```typescript
+import { Directive, ElementRef, HostListener } from '@angular/core';
+
+@Directive({ selector: '[appHighlight]' })
+export class HighlightDirective {
+  constructor(private el: ElementRef) {}
+
+  @HostListener('mouseenter') onMouseEnter() {
+    this.el.nativeElement.style.backgroundColor = 'yellow';
+  }
+
+  @HostListener('mouseleave') onMouseLeave() {
+    this.el.nativeElement.style.backgroundColor = null;
+  }
+}
+```
+
+These customizations enhance the reusability and functionality of components. 
+
+**9. Explain Change Detection in Angular.**
+
+Angular's change detection mechanism updates the view whenever the application's state changes. It checks for changes in component properties and updates the DOM accordingly. By default, Angular uses the `Default` strategy, checking all components. The `OnPush` strategy checks only when input properties change, improving performance. citeturn0search8
+
+**10. What is zone.js?**
+
+Zone.js is a library that patches asynchronous operations (like setTimeout, Promises, and events) to keep track of changes in your application and automatically update the UI. In simpler terms, it ensures that when you change the state of your Angular app, it will automatically reflect those changes on the screen without you having to lift a finger.  
+
+Great! Here are detailed answers (200+ words each with examples) to the expert-level questions in the categories: **Architecture & Patterns**, **Testing & Quality**, and **Leadership & Ownership**.
+
+---
+
+### **Architecture & Patterns**
+
+**16. Explain the repository pattern.**
+
+The Repository Pattern is a design abstraction used to isolate the data access layer from the business logic layer. Its primary purpose is to encapsulate the logic needed to access data sources like databases, APIs, or file systems.
+
+In Spring Data JPA, this pattern is implemented by interfaces such as `CrudRepository`, `JpaRepository`, or `PagingAndSortingRepository`. These interfaces provide common CRUD operations, which means the developer doesn't need to write boilerplate code for basic DB access.
+
+**Example:**
+
+```java
+@Repository
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+    List<Employee> findByDepartment(String department);
+}
+```
+
+With this interface, the application logic doesn't need to know how data is stored or retrieved. It simply calls methods on `EmployeeRepository`.
+
+The benefit of this pattern is that it promotes separation of concerns, making the code more maintainable and testable. It also provides a single point of change for data access logic, easing future modifications.
+
+---
+
+**17. What’s your approach to service-to-service communication?**
+
+In a microservices architecture, services must interact efficiently and securely. There are two primary ways:
+
+1. **Synchronous communication** using REST or gRPC.
+2. **Asynchronous communication** using message brokers like Kafka or RabbitMQ.
+
+I typically choose based on use-case complexity. For simple CRUD operations, REST APIs are appropriate. For high throughput or loosely coupled operations, asynchronous messaging provides better resilience and scalability.
+
+To improve communication reliability, I implement:
+- **Retry mechanisms** with exponential backoff.
+- **Circuit breakers** (e.g., with Resilience4j) to prevent cascading failures.
+- **Service discovery** (e.g., Eureka or Consul) for dynamic service registration and lookup.
+
+Security is handled using **OAuth2/JWT** tokens and API gateways like Spring Cloud Gateway for routing and request filtering.
+
+---
+
+**18. What are design considerations for a scalable architecture?**
+
+Scalability ensures a system can handle growth in traffic or data without performance degradation. My design approach includes:
+
+- **Stateless services**: Easier to scale horizontally.
+- **Load balancing**: Distribute requests evenly.
+- **Database sharding or partitioning**: For handling large data volumes.
+- **Asynchronous processing**: Using queues to decouple services and smooth traffic spikes.
+- **Caching**: With Redis or in-memory caches to reduce DB hits.
+- **Auto-scaling**: In cloud environments (e.g., GCP or AWS) based on CPU/memory thresholds.
+
+Monitoring (via Prometheus, Grafana) and performance tuning are essential for proactive scaling.
+
+---
+
+**19. How do you handle transactional boundaries in microservices?**
+
+Microservices should be loosely coupled and independently deployable, so managing transactions across services is tricky. Traditional ACID transactions don't scale across services. I use the **Saga Pattern**, which manages long-running transactions through a sequence of local transactions.
+
+There are two types of Saga:
+- **Choreography-based**: Services communicate via events.
+- **Orchestration-based**: A central orchestrator coordinates steps.
+
+Each step updates the state and emits an event. In case of failure, compensating transactions are triggered.
+
+**Example:** If Service A debits an account and Service B books a ticket, a failure in B would trigger A to refund the amount.
+
+---
+
+**20. How do you ensure fault tolerance and resilience?**
+
+Fault tolerance involves designing systems to continue functioning during failures. My strategies include:
+
+- **Retries with exponential backoff**: For temporary outages.
+- **Circuit breakers (Resilience4j/Hystrix)**: To prevent system overload.
+- **Timeouts**: To avoid resource hogging by failing services.
+- **Bulkheads**: Isolate resources to prevent cascading failures.
+- **Failover systems**: Automatically redirect to backups.
+
+**Example:** In GCP, setting up health checks and using load balancers helps redirect traffic from unhealthy to healthy instances automatically.
+
+---
+
+### **Testing & Quality**
+
+**21. How do you write tests for Angular services?**
+
+Angular services are tested using Jasmine and Karma. A service should be tested in isolation with dependencies mocked.
+
+**Example:**
+
+```typescript
+describe('UserService', () => {
+  let service: UserService;
+  let httpMock: HttpTestingController;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [UserService],
+      imports: [HttpClientTestingModule],
+    });
+    service = TestBed.inject(UserService);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  it('should fetch users', () => {
+    const dummyUsers = [{ name: 'John' }];
+    service.getUsers().subscribe(users => {
+      expect(users.length).toBe(1);
+    });
+
+    const req = httpMock.expectOne('/api/users');
+    expect(req.request.method).toBe('GET');
+    req.flush(dummyUsers);
+  });
+});
+```
+
+---
+
+**22. Explain code coverage and tools used.**
+
+Code coverage measures how much of your code is exercised by automated tests. Higher coverage implies better-tested software, but 100% is not always necessary.
+
+**Tools:**
+- **Java**: JaCoCo, Cobertura
+- **JavaScript/Angular**: Istanbul, Karma
+
+**Types of coverage:**
+- **Line coverage**: Lines executed.
+- **Branch coverage**: Decision points (if/else).
+- **Path coverage**: Unique execution paths.
+
+I integrate these tools into CI pipelines and enforce coverage thresholds.
+
+---
+
+**23. How do you mock external dependencies?**
+
+Mocking helps isolate units during testing by replacing real services with simulated ones.
+
+**Java Example (JUnit + Mockito):**
+
+```java
+@Mock
+private PaymentService paymentService;
+
+@InjectMocks
+private OrderService orderService;
+
+@Test
+public void testPlaceOrder() {
+    when(paymentService.process()).thenReturn("Success");
+    String status = orderService.placeOrder();
+    assertEquals("Success", status);
+}
+```
+
+**Angular Example:**
+
+Use Jasmine spies or HttpClientTestingModule to mock HTTP requests.
+
+---
+
+**24. What is contract testing in microservices?**
+
+Contract testing ensures that a service adheres to the contract it shares with its consumers. Tools like **Pact** are used.
+
+For example, if a consumer expects a field `email`, but the provider stops sending it, contract tests will fail before production, preventing a broken integration.
+
+This testing is crucial when teams work independently and deploy frequently.
+
+---
+
+**25. What are your best practices for testing in CI/CD?**
+
+- Run **unit tests** on each commit.
+- Execute **integration tests** in staging.
+- Include **contract testing** to validate APIs.
+- Use **static analysis** tools (SonarQube) for code quality.
+- Automate **test reports** and alerts.
+
+Test failures should block deployment to ensure stable code releases.
+
+---
+
+### **Leadership & Ownership**
+
+**26. How do you lead a feature track?**
+
+I start by understanding the business problem, breaking down the requirements into epics/stories, estimating tasks, and assigning them to the team.
+
+During development:
+- I encourage pair programming and daily standups.
+- Maintain communication with product managers and QA.
+- Ensure code is reviewed, tested, and adheres to standards.
+
+I’m also responsible for delivery timelines, handling blockers, and ensuring a quality release.
+
+---
+
+**27. How do you handle production incidents?**
+
+I follow a **triage, isolate, and resolve** approach:
+- Monitor alerts (e.g., from Stackdriver, New Relic).
+- Analyze logs and metrics.
+- Roll back if needed.
+- Communicate with stakeholders.
+- Document root cause and preventive actions.
+
+Post-incident reviews are crucial to learn and avoid recurrence.
+
+---
+
+**28. What metrics do you use to measure feature success?**
+
+- **Usage metrics** (clicks, logins, API hits)
+- **Performance metrics** (response time, error rate)
+- **Adoption rate** (user engagement)
+- **Customer satisfaction** (feedback, support tickets)
+
+These are tracked via tools like Google Analytics, New Relic, and user feedback channels.
+
+---
+
+**29. How do you plan for technical debt?**
+
+I maintain a backlog of tech debt and review it during sprint planning. I allocate dedicated time (10–20% of each sprint) for refactoring or updating dependencies. I also highlight risks of not addressing debt early to stakeholders.
+
+---
+
+**30. How do you advocate for clean code and architecture in a team?**
+
+- I lead by example: readable code, proper naming, documentation.
+- Encourage peer reviews and use static analysis tools.
+- Conduct knowledge-sharing sessions on SOLID, design patterns, refactoring.
+- Use architecture diagrams and ADRs to maintain clarity.
+
+Clean code reduces bugs, improves onboarding, and accelerates future enhancements.
+
 
 ---
 
