@@ -395,10 +395,24 @@ In microservices architecture, orchestration uses a central controller to manage
 
 ---
 
-## 27. 
+## 27. Default method vs static method
+In interfaces, default methods provide default implementations, allowing classes implementing the interface to optionally override them, while static methods provide utility functions directly on the interface itself and cannot be overridden. [1, 2, 3]  
+Default Methods: [4, 5]  
+
+• Provide a concrete implementation for a method within the interface. [4, 5]  
+• Can be overridden by implementing classes, allowing them to provide their own specialized implementations. [1, 6]  
+• Enable interface evolution without breaking backward compatibility; new default methods can be added without requiring implementing classes to change their code. [1, 2, 3]  
+• Used to provide default implementations for common functionality, which can be inherited by implementing classes. [7, 8]  
+
+Static Methods: [4, 5]  
+
+• Are declared with the static keyword and belong to the interface itself. [4, 5]  
+• Cannot be overridden by implementing classes. [8, 9]  
+• Typically used for utility functions or helper methods related to the interface, without requiring an instance of the implementing class. [8, 10]  
+• Can be accessed directly through the interface name, e.g., InterfaceName.staticMethod(). [4, 9]  
+• Provide security by preventing implementation classes from overriding them. [8]  
 
 ---
-
 ## 28. 
 
 ---
