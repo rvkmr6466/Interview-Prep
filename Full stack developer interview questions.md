@@ -3307,9 +3307,35 @@ Understanding and correctly using transaction propagation in Spring Boot is esse
 
 ---
 
+## What is the difference between a class and an object? 
+In Java, a class is a blueprint or template that defines the structure and behavior of objects. It contains fields (variables) and methods (functions) that define what the object will hold and what it can do. Think of a class like an architectural blueprint for a house — it outlines the design but is not an actual house itself.
 
-#Core Java & OOP Concept
-✅ What is the difference between a class and an object? 
+An object, on the other hand, is an instance of a class. When you create an object using the `new` keyword, you are creating a real entity in memory based on that class. You can create multiple objects from the same class, each with its own set of values.
+
+**Example**:
+```java
+class Car {
+    String color;
+    void drive() {
+        System.out.println("Driving...");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Car car1 = new Car(); // Object
+        car1.color = "Red";
+        car1.drive(); // Accessing method via object
+    }
+}
+```
+Here, `Car` is the class. `car1` is an object of the `Car` class. You can create many such cars, each with different properties.
+
+Classes define the behavior and structure; objects are the actual things created based on those definitions. Without a class, you cannot create an object, and without creating an object, the class serves as just a concept. Objects allow you to use and manipulate the behavior defined in classes during runtime.
+
+---
+## 
+
 ✅ Explain OOP principles (Encapsulation, Inheritance, Polymorphism, Abstraction) with examples. 
 ✅ What is method overloading vs. method overriding? 
 ✅ How does Java handle memory management (Heap vs. Stack, Garbage Collection)? 
