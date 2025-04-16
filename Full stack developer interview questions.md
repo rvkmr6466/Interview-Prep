@@ -139,12 +139,14 @@ Here's a breakdown of functional interfaces:
 - **Optional @FunctionalInterface Annotation:** While not mandatory, the @FunctionalInterface annotation can be used to explicitly declare an interface as a functional interface, helping the compiler catch errors if the interface definition violates the SAM rule. 
 - **Default and Static Methods:** Functional interfaces can also contain default and static methods, in addition to the single abstract method. 
 - **Examples**: Runnable, ActionListener, Consumer<T>, Supplier<T>, Function<T, R>, and Predicate<T> are common examples of functional interfaces provided by Java.
+ 
 How to Use Functional Interfaces:
 1. **Create a Functional Interface:** Define an interface with only one abstract method.
 2. **Implement with Lambda Expressions:** Use lambda expressions to provide implementations for the functional method.  
 3. **Use with Method References:** Use method references to provide implementations for the functional method. 
 4. **Pass as Arguments:** Pass functional interface instances (lambda expressions or method references) as arguments to methods that expect them.  
-5. **Return as Values:** Return functional interface instances (lambda expressions or method references) from methods. 
+5. **Return as Values:** Return functional interface instances (lambda expressions or method references) from methods.
+
 **Example**: 
 ```java
  @FunctionalInterface
@@ -170,11 +172,241 @@ We don’t need to define the method with an abstract keyword because by default
 
 ---
 ## 7. SOLID Principles  
-1. **Single Responsibility** - A class should have only one reason to change.  
-2. **Open/Closed** - Open for extension, closed for modification.  
-3. **Liskov Substitution** - Subtypes must be substitutable for base types.  
-4. **Interface Segregation** - Prefer multiple small interfaces.  
-5. **Dependency Inversion** - Depend on abstractions, not concretions.  
+The SOLID principles are a set of design principles in object-oriented programming that make the software design more understandable, flexible, and maintainable. They were introduced by **Robert C. Martin (Uncle Bob)**.
+
+#### S- Single Responsibility Principle (SRP)
+**Definition**: A class should have only one reason to change, meaning it should have only one job or responsibility.
+**Why it matters:**
+- Improves cohesion
+- Easier to test, maintain, and refactor
+
+**Example:**
+
+```java
+// ❌ Violates SRP: Class doing too many things
+public class Invoice {
+    public void calculateTotal() { /* logic */ }
+    public void printInvoice() { /* logic */ }
+    public void saveToDatabase() { /* logic */ }
+}
+
+// ✅ Following SRP: Each class has a single responsibility
+public class Invoice {
+    public void calculateTotal() { /* logic */ }
+}
+
+public class InvoicePrinter {
+    public void print(Invoice invoice) { /* logic */ }
+}
+
+public class InvoiceRepository {
+    public void save(Invoice invoice) { /* logic */ }
+}
+```
+
+#### O- Open/Closed Principle (OCP)
+**Definition**: A class should be open for extension but closed for modification.
+**Why it matters:**
+- Encourages reuse
+- Reduces risk of bugs when changing code
+
+**Example:**
+
+```java
+// ❌ Violates OCP: Adding new shape breaks existing class
+public class AreaCalculator {
+    public double calculate(Object shape) {
+        if (shape instanceof Circle) {
+            return Math.PI * ((Circle) shape).radius * ((Circle) shape).radius;
+        } else if (shape instanceof Rectangle) {
+            return ((Rectangle) shape).length * ((Rectangle) shape).width;
+        }
+        return 0;
+    }
+}
+
+// ✅ Following OCP using Polymorphism
+interface Shape {
+    double area();
+}
+
+class Circle implements Shape {
+    double radius;
+    public Circle(double r) { this.radius = r; }
+    public double area() {
+        return Math.PI * radius * radius;
+    }
+}
+
+class Rectangle implements Shape {
+    double length, width;
+    public Rectangle(double l, double w) {
+        this.length = l;
+        this.width = w;
+    }
+    public double area() {
+        return length * width;
+    }
+}
+
+class AreaCalculator {
+    public double calculate(Shape shape) {
+        return shape.area();
+    }
+}
+```
+
+#### L- Liskov Substitution Principle (LSP)
+**Definition**: Subtypes must be substitutable for their base types without altering the correctness of the program.
+**Why it matters:**
+- Ensures inheritance works as expected
+- Prevents runtime surprises
+
+**Example:**
+
+```java
+// ✅ Good Example
+class Bird {
+    public void fly() {
+        System.out.println("Bird is flying");
+    }
+}
+
+class Sparrow extends Bird {
+    public void fly() {
+        System.out.println("Sparrow is flying");
+    }
+}
+
+// ❌ Bad Example: Violates LSP
+class Ostrich extends Bird {
+    public void fly() {
+        throw new UnsupportedOperationException("Ostrich can't fly");
+    }
+}
+```
+
+**Solution**: Refactor the hierarchy.
+
+```java
+interface Flyable {
+    void fly();
+}
+
+class Sparrow implements Flyable {
+    public void fly() {
+        System.out.println("Sparrow flying");
+    }
+}
+
+class Ostrich {
+    public void walk() {
+        System.out.println("Ostrich walking");
+    }
+}
+```
+
+#### I- Interface Segregation Principle (ISP)
+**Definition**: Clients should not be forced to implement interfaces they do not use.
+
+**Why it matters:**
+- Prevents bloated interfaces
+- Increases flexibility
+
+**Example:**
+```java
+// ❌ Violates ISP
+interface Worker {
+    void work();
+    void eat();
+}
+
+class Robot implements Worker {
+    public void work() { System.out.println("Robot working"); }
+    public void eat() { /* Not applicable */ } // Bad design
+}
+
+// ✅ Follows ISP
+interface Workable {
+    void work();
+}
+
+interface Eatable {
+    void eat();
+}
+
+class Human implements Workable, Eatable {
+    public void work() { System.out.println("Human working"); }
+    public void eat() { System.out.println("Human eating"); }
+}
+
+class Robot implements Workable {
+    public void work() { System.out.println("Robot working"); }
+}
+```
+
+#### ✅ 5. Dependency Inversion Principle (DIP)
+
+**Definition**: High-level modules should not depend on low-level modules. Both should depend on abstractions.
+
+**Why it matters:**
+- Promotes decoupling
+- Improves testability
+
+**Example:**
+```java
+// ❌ Violates DIP
+class LightBulb {
+    public void turnOn() { System.out.println("LightBulb ON"); }
+}
+
+class Switch {
+    private LightBulb bulb;
+
+    public Switch(LightBulb bulb) {
+        this.bulb = bulb;
+    }
+
+    public void operate() {
+        bulb.turnOn();
+    }
+}
+
+// ✅ Follows DIP
+interface Switchable {
+    void turnOn();
+}
+
+class LightBulb implements Switchable {
+    public void turnOn() { System.out.println("LightBulb ON"); }
+}
+
+class Fan implements Switchable {
+    public void turnOn() { System.out.println("Fan ON"); }
+}
+
+class Switch {
+    private Switchable device;
+
+    public Switch(Switchable device) {
+        this.device = device;
+    }
+
+    public void operate() {
+        device.turnOn();
+    }
+}
+```
+
+**Summary**
+
+| Principle | Meaning | Benefit |
+|----------|---------|---------|
+| SRP | One responsibility per class | Easier to maintain and test |
+| OCP | Extend without modifying | Future-proof code |
+| LSP | Subtypes replace base types | Reliable polymorphism |
+| ISP | Focused interfaces | Cleaner contracts |
+| DIP | Depend on abstractions | Looser coupling |
 
 ---
 ## 8. Difference Between Hibernate and JDBC  
@@ -230,15 +462,83 @@ Spring Boot follows **Microservices architecture** and includes:
 | ACID | BASE |
 
 ---
-## 13. Factory Design Pattern  
+## 13. What is the Factory Pattern?
+The **Factory Design Pattern** is a **creational design pattern** used to create objects **without exposing the instantiation logic to the client**. It provides an interface for creating objects in a **superclass**, but allows **subclasses to alter the type of objects** that will be created.
+
+**When to Use:**
+- When the **object creation process is complex** or involves many steps.
+- When you want to **decouple the instantiation logic** from the usage.
+- When the code **needs to handle multiple object types based on input**.
+
+**Example Scenario:**
+Suppose we want to create a `Shape` object, but the exact type (`Circle`, `Rectangle`, etc.) is determined at runtime.
+
+**Step-by-Step Implementation**
+**Step 1: Define the interface or abstract class**
 ```java
-class Factory {
-    static Car getCar(String type) {
-        if (type.equals("Sedan")) return new Sedan();
-        else return new SUV();
+public interface Shape {
+    void draw();
+}
+```
+
+**Step 2: Create concrete classes that implement the interface**
+```java
+public class Circle implements Shape {
+    public void draw() {
+        System.out.println("Drawing a Circle");
+    }
+}
+
+public class Rectangle implements Shape {
+    public void draw() {
+        System.out.println("Drawing a Rectangle");
     }
 }
 ```
+
+**Step 3: Create the Factory class**
+```java
+public class ShapeFactory {
+    // Factory method
+    public Shape getShape(String shapeType) {
+        if (shapeType == null) return null;
+        if (shapeType.equalsIgnoreCase("CIRCLE")) return new Circle();
+        else if (shapeType.equalsIgnoreCase("RECTANGLE")) return new Rectangle();
+        return null;
+    }
+}
+```
+
+**Step 4: Use the Factory in the client code**
+```java
+public class FactoryPatternDemo {
+    public static void main(String[] args) {
+        ShapeFactory shapeFactory = new ShapeFactory();
+
+        Shape shape1 = shapeFactory.getShape("CIRCLE");
+        shape1.draw();  // Output: Drawing a Circle
+
+        Shape shape2 = shapeFactory.getShape("RECTANGLE");
+        shape2.draw();  // Output: Drawing a Rectangle
+    }
+}
+```
+
+**Advantages**
+- Encapsulates object creation logic.
+- Adds flexibility in changing the implementation.
+- Reduces tight coupling between classes.
+- Simplifies code when dealing with complex object creation.
+
+**Disadvantages**
+- Increases number of classes.
+- Can become complex with many concrete classes and if-else conditions.
+- May need to refactor to use other creational patterns like **Abstract Factory** or **Builder** for more complex needs.
+
+**Best Practices**
+- Combine with **Interface Segregation** and **Open/Closed Principle**.
+- Use **Enum** or **Reflection** for cleaner factory logic (optional).
+- Consider Spring’s **BeanFactory** as a real-world use case.
 
 ---
 ## 14. Algorithm Behind `Collections.sort()`  
@@ -252,28 +552,30 @@ It uses **TimSort**, which is a hybrid of **MergeSort and InsertionSort**.
 
 ---
 ## 16. How JVM Works?  
-The JVM acts as an intermediary between Java bytecode and the underlying hardware, providing a platform-independent environment for executing Java applications. It compiles Java code into bytecode, then interprets or compiles it into machine code at runtime using a Just-in-Time (JIT) compiler. This compiled code is stored in memory for later reuse. [1, 2, 3, 4]  
+The JVM acts as an intermediary between Java bytecode and the underlying hardware, providing a platform-independent environment for executing Java applications. It compiles Java code into bytecode, then interprets or compiles it into machine code at runtime using a Just-in-Time (JIT) compiler. This compiled code is stored in memory for later reuse. 
 Here's a more detailed breakdown:
-1. Java Code Compilation:
+**1. Java Code Compilation:**
 - Java source code is first compiled by the javac compiler into bytecode, which is a set of instructions independent of a specific operating system or hardware architecture.
-- This bytecode is then loaded into the JVM. 
+- This bytecode is then loaded into the JVM.
 
-2. JVM Architecture: 
+**2. JVM Architecture:**
 - Class Loader: Loads class files (bytecode) into memory, manages the class hierarchy, and ensures that classes are loaded only once.
 - Execution Engine: Interprets or compiles bytecode into native machine code using the JIT compiler.  
 - Runtime Data Areas: These are memory regions used during program execution, including:  
-	• Heap: Stores objects.
-	• Method Area: Stores class metadata, method code, and constant pool.
-	• Stack: Manages local variables, method calls, and return addresses. 
-	• Native Stack: Used for native method calls.
-	• Program Counters: Keep track of the current instruction.
+  - Heap: Stores objects.
+  - Method Area: Stores class metadata, method code, and constant pool.
+  - Stack: Manages local variables, method calls, and return addresses. 
+  - Native Stack: Used for native method calls.
+  - Program Counters: Keep track of the current instruction.
 - Java Native Interface (JNI): Enables Java code to interact with native (non-Java) code and libraries. 
 - Garbage Collector: Automatically manages memory allocation and deallocation, reclaiming unused memory.
-3. Bytecode Interpretation/Compilation: 
+
+**3. Bytecode Interpretation/Compilation:** 
 - The JVM interprets or compiles bytecode into machine code.
 - The JIT compiler optimizes frequently used bytecode, improving performance.
-- This optimized code is stored in cached memory for reuse. 
-4. Memory Management: 
+- This optimized code is stored in cached memory for reuse.
+
+**4. Memory Management:** 
 - The JVM automatically manages memory through allocation and garbage collection.
 - Objects are allocated in the heap, and when no longer referenced, the garbage collector reclaims their memory. 
 5. Platform Independence:  
