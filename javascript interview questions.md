@@ -1080,3 +1080,106 @@ _Disadvantages:_
 
 ---
 ## Q. 
+
+
+### **Section 1: Angular & Frontend (Basic to Advanced)**
+
+1. **What is Angular and why is it used?**  
+   Angular is a TypeScript-based frontend framework used for building dynamic single-page applications (SPAs). It offers tools for two-way binding, dependency injection, routing, and more.
+
+2. **What are components in Angular?**  
+   Components are the building blocks of Angular apps. Each component has a TypeScript file, HTML template, CSS for styling, and metadata defined in a decorator.
+
+3. **Difference between Template-driven and Reactive forms?**  
+   - *Template-driven*: Easy to use, suitable for simple forms. Uses directives in HTML.
+   - *Reactive*: More scalable, uses explicit form model in TypeScript.
+
+4. **What is data binding in Angular?**  
+   Connecting the template and the component. Types include:
+   - Interpolation (`{{ }}`)
+   - Property binding (`[property]`)
+   - Event binding (`(event)`)
+   - Two-way binding (`[(ngModel)]`)
+
+5. **What are services and dependency injection in Angular?**  
+   Services hold business logic and can be injected into components using Angular’s dependency injection system.
+
+6. **What is a directive in Angular?**
+   - *Structural*: Changes DOM layout (e.g. `*ngIf`, `*ngFor`)
+   - *Attribute*: Changes appearance or behavior (e.g. `ngClass`, `ngStyle`)
+
+7. **What is Angular CLI and its advantages?**  
+   Angular CLI automates project scaffolding, building, serving, testing, and more.
+
+8. **How does routing work in Angular?**  
+   The `RouterModule` maps URLs to components using `Routes`.
+
+9. **How does change detection work in Angular?**  
+   Angular’s change detection checks for component data changes and updates the DOM accordingly.
+
+10. **What is Lazy Loading in Angular?**  
+    It loads modules only when required, improving performance.
+
+11. **What is an observable in Angular?**  
+    Part of RxJS, observables represent streams of data used for asynchronous programming.
+
+12. **What is the role of `ngOnInit()`?**  
+    Lifecycle hook that runs once after component initialization.
+
+13. **What is the difference between BehaviorSubject and Subject?**  
+    - `Subject`: No initial value, emits to current subscribers.
+    - `BehaviorSubject`: Requires initial value and emits last emitted value to new subscribers.
+
+14. **What is ViewChild and ContentChild in Angular?**  
+    Used to get references to components/elements within the template (`ViewChild`) or projected content (`ContentChild`).
+
+15. **What is a pipe? How to create custom pipes?**  
+    Pipes transform data in templates. Custom pipes implement `PipeTransform`.
+
+16. **How do you test Angular components and services (TDD)?**  
+    Use Jasmine/Karma for unit testing, with mocks for services and Angular TestBed.
+
+17. **What is AoT and JiT compilation?**  
+    - AoT: Ahead-of-Time (compile during build)
+    - JiT: Just-in-Time (compile during runtime)
+
+18. **What is the difference between promises and observables?**  
+    - Promise resolves once.  
+    - Observable supports multiple values over time and operators like `map`, `filter`.
+
+19. **Explain `switchMap` in RxJS.**  
+    Cancels previous observable and switches to new one. Useful in search/autocomplete.
+
+20. **How do you manage state in Angular apps?**  
+    Use services or libraries like NgRx, Akita for centralized state management.
+
+21. **What is HttpClient in Angular?**  
+    Built-in service to make HTTP calls. Supports interceptors for auth/logging.
+
+22. **What are Angular lifecycle hooks?**  
+    Hooks like `ngOnInit`, `ngOnDestroy`, `ngAfterViewInit` let you tap into component life stages.
+
+23. **How do you handle forms validation?**  
+    Use `Validators` (required, minLength, pattern etc.) in template-driven or reactive forms.
+
+24. **What are guards in Angular?**  
+    Control navigation using `CanActivate`, `CanDeactivate`, `Resolve` etc.
+
+25. **How do you optimize Angular app performance?**  
+    Lazy loading, `OnPush` change detection, trackBy in `*ngFor`, reduce DOM operations.
+
+26. **What is SSR in Angular?**  
+    Server-Side Rendering improves SEO and initial load performance (via Angular Universal).
+
+27. **How do you manage modules and shared components?**  
+    Break into feature modules and use `SharedModule` for reusable components/pipes.
+
+28. **How do you handle authentication in Angular?**  
+    JWT tokens stored in cookies/localStorage, guarded routes, interceptors for attaching tokens.
+
+29. **What is the use of `Renderer2`?**  
+    Provides abstraction for DOM manipulation in a safe, platform-independent way.
+
+30. **What’s your experience with Angular 8+ specific features?**  
+    Includes Ivy compiler, differential loading, lazy loading with dynamic imports, etc.
+
