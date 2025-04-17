@@ -117,3 +117,54 @@ public class Main {
   } 
 }
 ```
+---
+
+## 4. Find Output
+String str1 = new String("Java");
+String str2 = new String("Java");
+System.out.println(str1 == str2);      
+System.out.println(str1.equals(str2));
+
+String str3 = "Java";
+String str4 = "Java";
+System.out.println(str3 == str2);      
+System.out.println(str3.equals(str2));
+System.out.println(str3 == str4);      
+System.out.println(str3.equals(str4));
+String str5 = str3.intern();
+
+System.out.println(str3 == str5);
+System.out.println(str3.equals(str5));
+
+```
+false
+true
+false
+true
+true
+true
+true
+true
+```
+
+**Explanation:**
+
+1.  **`String str1 = new String("Java");` and `String str2 = new String("Java");`**
+    * `str1` and `str2` are created using the `new` keyword. This explicitly creates two separate `String` objects in the heap memory.
+    * `System.out.println(str1 == str2);` compares the references of `str1` and `str2`. Since they are different objects in memory, the result is `false`.
+    * `System.out.println(str1.equals(str2));` compares the content of the `String` objects. Both `str1` and `str2` contain the same sequence of characters "Java", so the result is `true`.
+
+2.  **`String str3 = "Java";` and `String str4 = "Java";`**
+    * `str3` and `str4` are created using String literals. Java maintains a "String constant pool" in the method area (part of the heap in newer JVMs). When a String literal is encountered, the JVM first checks if a String with the same value already exists in the pool.
+    * For `str3`, "Java" is added to the pool (if it's not already there).
+    * For `str4`, the JVM finds that "Java" already exists in the pool, so `str4` is assigned a reference to the same String object in the pool as `str3`.
+    * `System.out.println(str3 == str2);` compares the reference of `str3` (which points to the string pool) with the reference of `str2` (which points to an object in the heap). They are different, so the result is `false`.
+    * `System.out.println(str3.equals(str2));` compares the content of `str3` and `str2`, which is the same ("Java"), so the result is `true`.
+    * `System.out.println(str3 == str4);` compares the references of `str3` and `str4`. Since they both point to the same String object in the pool, the result is `true`.
+    * `System.out.println(str3.equals(str4));` compares the content of `str3` and `str4`, which is the same, so the result is `true`.
+
+3.  **`String str5 = str3.intern();`**
+    * The `intern()` method is called on `str3`. This method checks if a String equal to `str3` (i.e., "Java") exists in the String constant pool.
+    * Since `str3` itself is a literal "Java", it already resides in the pool. The `intern()` method returns a reference to the String in the pool. In this case, it will return the same reference that `str3` already holds.
+    * `System.out.println(str3 == str5);` compares the references of `str3` and `str5`. Since `intern()` returns the existing reference from the pool, `str3` and `str5` point to the same object, and the result is `true`.
+    * `System.out.println(str3.equals(str5));` compares the content of `str3` and `str5`, which is the same, so the result is `true`.
