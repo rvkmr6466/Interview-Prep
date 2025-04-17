@@ -232,12 +232,18 @@ TODO:
 ```
 
 ---
-## 7. 
+## 7. Reverse words in a String.
 ### Examples:
 | Input            | Output | Explanation                          |
 |-----------------|--------|--------------------------------------|
-| `s = "This is java interveiw"` | `"7"`  | The longest substrings without repeating characters are “eksforg” and “ksforge”, with lengths of 7.  |
+| `s = "the sky is blue"` | `"blue is sky the"`  |   |
+| `s = "  hello world  "` | `"world hello"`  |  Your reversed string should not contain leading or trailing spaces.  |
+| `s = "a good   example"` | `"example good a"`  | You need to reduce multiple spaces between two words to a single space in the reversed string.  |
+
+```
+TODO:
+
 ```
 
 ---
-## 6. 
+## 8. 
