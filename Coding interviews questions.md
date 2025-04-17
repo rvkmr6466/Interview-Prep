@@ -95,6 +95,7 @@ public int lengthOfLongestSubstring(String s) {
     return maxLength;
 }
 ```
+**Alternate:**
 ```
 public class Main {
     public static void main(String[] args) {
