@@ -800,12 +800,9 @@ In microservices, the **Circuit Breaker pattern** helps prevent cascading failur
 - 
 **How It Works**
 **States of the Circuit Breaker:**
-	- _Closed_:  
-  		The service is healthy, and calls are allowed to pass through normally.
-	- _Open_:  
-  		The service is failing; further calls are rejected, and a fallback mechanism is used instead.
-	- _Half-Open_:  
-  		After a timeout period, a limited number of test calls are allowed to check if the service has recovered.
+- _Closed_: The service is healthy, and calls are allowed to pass through normally.
+- _Open_: The service is failing; further calls are rejected, and a fallback mechanism is used instead.
+- _Half-Open_: After a timeout period, a limited number of test calls are allowed to check if the service has recovered.
 
 **Monitoring Mechanism:**
 - _Threshold_:  
@@ -896,10 +893,81 @@ In interfaces, default methods provide default implementations, allowing classes
 - Provide security by preventing implementation classes from overriding them.
 
 ---
-## 28. 
+## 28. Practical example when and how to use an abstract class vs. an interface in Java, based on a real-world scenario.
+
+**Scenario: Payment System**
+Let’s say you're designing a payment system that supports different payment methods like **Credit Card**, **UPI**, and **PayPal**.
+
+**Using an Interface**
+
+You use an interface when you want to define a **contract** that multiple classes can implement **regardless of their inheritance hierarchy**.
+
+```java
+interface PaymentMethod {
+    void pay(double amount);
+}
+```
+
+Now, different payment types implement the `PaymentMethod` interface:
+
+```java
+class CreditCardPayment implements PaymentMethod {
+    public void pay(double amount) {
+        System.out.println("Paid ₹" + amount + " using Credit Card.");
+    }
+}
+
+class UpiPayment implements PaymentMethod {
+    public void pay(double amount) {
+        System.out.println("Paid ₹" + amount + " using UPI.");
+    }
+}
+```
+
+**Why use an interface?**
+- You want flexibility: any class can implement `PaymentMethod`.
+- You don’t care about inheritance, only about behavior (`pay()` method must be implemented).
+
+**Using an Abstract Class**
+
+You use an abstract class when you want to provide **common behavior** but also enforce that certain methods must be implemented by subclasses.
+
+```java
+abstract class OnlinePayment {
+    void login() {
+        System.out.println("User logged in.");
+    }
+
+    abstract void pay(double amount);
+}
+```
+
+Subclasses must implement `pay()`, but they **inherit** common code like `login()`:
+
+```java
+class PayPalPayment extends OnlinePayment {
+    public void pay(double amount) {
+        System.out.println("Paid ₹" + amount + " using PayPal.");
+    }
+}
+```
+
+**When to Use What**
+
+| Use | Interface | Abstract Class |
+|-----|-----------|----------------|
+| Multiple inheritance | ✅ | ❌ |
+| Common logic | ❌ | ✅ |
+| Pure abstraction | ✅ | ❌ |
+| Shared code | ❌ | ✅ |
+| Flexibility | ✅ | ❌ |
+
+**Summary:**
+
+- Use **interface** when you just want to define capabilities (`pay()`).
+- Use **abstract class** when you want to share code across related classes and enforce specific structure.
 
 ---
-
 ## 29. Second Highest Salary in SQL  
 ```sql
 SELECT salary FROM employees ORDER BY salary DESC LIMIT 1 OFFSET 1;
@@ -912,13 +980,91 @@ public static void rotateRight(int[] arr, int k) {
     Collections.rotate(Arrays.asList(arr), k);
 }
 ```
+---
+## 31. class variable, instance variable, and method (local) variable
+In Java, variables can be declared at different levels within a class. Each type of variable **class variable**, **instance variable**, and **method (local) variable** has its own purpose, scope, and lifecycle. 
+
+**1. Class Variable (Static Variable)**
+A **class variable** is declared using the `static` keyword inside a class but **outside any method**. It is **shared among all instances** of the class.
+
+**When to use:**
+- When you want to **share a value across all objects** of a class.
+- For **global counters**, constants, or configuration shared across instances.
+
+**Example:**
+```java
+public class Employee {
+    static int count = 0; // class variable
+
+    Employee() {
+        count++; // increases each time a new object is created
+    }
+
+    static void showCount() {
+        System.out.println("Total Employees: " + count);
+    }
+}
+```
+
+**Use case:**
+- Track how many instances of a class have been created.
+- Common configuration like database URL, app constants.
+
+**2. Instance Variable**
+An **instance variable** is **non-static** and is declared inside a class but outside any method. Each object of the class has its **own copy**.
+
+**When to use:**
+- When each object should maintain its **own state or data**.
+- For **attributes** that define object-specific properties.
+
+**Example:**
+```java
+public class Employee {
+    String name;  // instance variable
+    int id;
+
+    Employee(String name, int id) {
+        this.name = name;
+        this.id = id;
+    }
+
+    void display() {
+        System.out.println("Name: " + name + ", ID: " + id);
+    }
+}
+```
+
+**Use case:**
+- Store personal information like name, age, salary per object.
+
+**3. Method Variable (Local Variable)**
+
+A **method variable** is declared **inside a method** and is accessible only within that method. It is created when the method is called and destroyed once the method ends.
+
+**When to use:**
+- For **temporary storage** or calculation within methods.
+- When the value is **not needed beyond method scope**.
+
+**Example:**
+```java
+public void calculateBonus() {
+    double bonus = 1000.0; // method variable
+    System.out.println("Bonus: " + bonus);
+}
+```
+
+**Use case:**
+- Counters, intermediate values, loops, parameters inside methods.
+
+**Summary Table:**
+
+| Variable Type     | Scope               | Lifetime           | When to Use                                               |
+|-------------------|---------------------|---------------------|------------------------------------------------------------|
+| Class Variable     | Whole class (shared) | Class loaded in memory | Shared config, counters, constants                         |
+| Instance Variable  | Per object           | As long as object lives | Object-specific data like name, age                        |
+| Method Variable    | Inside method        | During method execution | Temporary calculations or helper values inside methods     |
 
 ---
-
-## 31. 
-
----
-
 ## 32. First Repeating Character in a String  
 ```java
 public static Optional<Character> findFirstRepeatedCharacter(String input) {
