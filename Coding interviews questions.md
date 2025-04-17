@@ -98,23 +98,23 @@ public int lengthOfLongestSubstring(String s) {
 **Alternate:**
 ```
 public void lengthOfLongestSubstring {
-  String s = "aaa";
-  String str = "";
-  int left = 0, count=0, maxLen = 0;
-  String maxStr = "";
+    String s = "aaa";
+    String str = "";
+    int left = 0, count=0, maxLen = 0;
+    String maxStr = "";
       
-  for (int right=0; right<s.length(); right++) {
-  if(str.indexOf(s.charAt(right))==-1) { // 
-      str+=s.charAt(right);
-  } else {
-      if (str.length() > maxStr.length()) {
-        maxStr = str.toString();
-      }
-      str = "";
+    for (int right=0; right<s.length(); right++) {
+        if(str.indexOf(s.charAt(right))==-1) { // 
+          str+=s.charAt(right);
+        } else {
+          if (str.length() > maxStr.length()) {
+            maxStr = str.toString();
+          }
+          str = "";
+        }
     }
-  }
-  System.out.println(maxStr +"::"+maxStr.length());
-  }
+    System.out.println(maxStr +"::"+maxStr.length());
+    }
 }
 ```
 ---
