@@ -120,6 +120,7 @@ public class Main {
 ---
 
 ## 4. Find Output
+```
 String str1 = new String("Java");
 String str2 = new String("Java");
 System.out.println(str1 == str2);      
@@ -135,7 +136,7 @@ String str5 = str3.intern();
 
 System.out.println(str3 == str5);
 System.out.println(str3.equals(str5));
-
+```
 ```
 false
 true
