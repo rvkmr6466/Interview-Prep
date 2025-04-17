@@ -169,3 +169,59 @@ true
     * Since `str3` itself is a literal "Java", it already resides in the pool. The `intern()` method returns a reference to the String in the pool. In this case, it will return the same reference that `str3` already holds.
     * `System.out.println(str3 == str5);` compares the references of `str3` and `str5`. Since `intern()` returns the existing reference from the pool, `str3` and `str5` point to the same object, and the result is `true`.
     * `System.out.println(str3.equals(str5));` compares the content of `str3` and `str5`, which is the same, so the result is `true`.
+  
+---
+## 5. Find the character count from a string in java using getordefault.
+### Examples:
+| Input            | Output | Explanation                          |
+|-----------------|--------|--------------------------------------|
+| `s = "This is java interveiw"` | `"7"`  | The longest substrings without repeating characters are “eksforg” and “ksforge”, with lengths of 7.  |
+| `s = "aaa"` | `"1"`  | The longest substring without repeating characters is “a”.  |
+| `s = "abcdefabcbb"` | `"6"`  | The longest substring without repeating characters is “abcdef”.         |
+
+```
+import java.util.HashMap;
+import java.util.Map;
+
+public class CharacterCount {
+    public static void main(String[] args) {
+        String str = "This is java interveiw";
+        Map<Character, Integer> charCountMap = getCharacterCount(str);
+
+        for (Map.Entry<Character, Integer> entry : charCountMap.entrySet()) {
+            System.out.println("Character: '" + entry.getKey() + "', Count: " + entry.getValue());
+        }
+    }
+
+    public static Map<Character, Integer> getCharacterCount(String str) {
+        Map<Character, Integer> countMap = new HashMap<>();
+
+        for (int i = 0; i < str.length(); i++) {
+            char currentChar = str.charAt(i);
+            // Use getOrDefault to get the current count or 0 if the character is not yet in the map
+            int currentCount = countMap.getOrDefault(currentChar, 0);
+            countMap.put(currentChar, currentCount + 1);
+        }
+        return countMap;
+    }
+}
+```
+**Output of the Code:**
+```
+Character: 'T', Count: 1
+Character: 'h', Count: 1
+Character: 'i', Count: 3
+Character: 's', Count: 2
+Character: ' ', Count: 3
+Character: 'j', Count: 1
+Character: 'a', Count: 2
+Character: 'v', Count: 1
+Character: 'e', Count: 1
+Character: 'r', Count: 1
+Character: 'n', Count: 1
+Character: 't', Count: 1
+Character: 'w', Count: 1
+```
+
+---
+## 6. 
