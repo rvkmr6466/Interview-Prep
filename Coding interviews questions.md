@@ -225,4 +225,27 @@ Character: 'w', Count: 1
 ```
 
 ---
+## 6. Valid Paranthesis
+### Examples:
+| Input            | Output | Explanation                          |
+|-----------------|--------|--------------------------------------|
+| `s = "()"` | `"true"`  | Follow the same pattern  |
+| `s = s = "()[]{}"` | `"true"`  | Doesn't follow the pattern |
+| `s = "(]"` | `"false"`  |   Doesn't follow the pattern       |
+| `s = "([])"` | `"true"`  | Follow the pattern         |
+
+```
+TODO:
+
+```
+
+---
+## 7. 
+### Examples:
+| Input            | Output | Explanation                          |
+|-----------------|--------|--------------------------------------|
+| `s = "This is java interveiw"` | `"7"`  | The longest substrings without repeating characters are “eksforg” and “ksforge”, with lengths of 7.  |
+```
+
+---
 ## 6. 
