@@ -172,13 +172,6 @@ true
   
 ---
 ## 5. Find the character count from a string in java using getordefault.
-### Examples:
-| Input            | Output | Explanation                          |
-|-----------------|--------|--------------------------------------|
-| `s = "This is java interveiw"` | `"7"`  | The longest substrings without repeating characters are “eksforg” and “ksforge”, with lengths of 7.  |
-| `s = "aaa"` | `"1"`  | The longest substring without repeating characters is “a”.  |
-| `s = "abcdefabcbb"` | `"6"`  | The longest substring without repeating characters is “abcdef”.         |
-
 ```
 import java.util.HashMap;
 import java.util.Map;
