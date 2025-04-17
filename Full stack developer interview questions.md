@@ -981,7 +981,7 @@ public static void rotateRight(int[] arr, int k) {
 }
 ```
 ---
-## 31. class variable, instance variable, and method (local) variable
+## 31. Class variable, instance variable, and method (local) variable
 In Java, variables can be declared at different levels within a class. Each type of variable **class variable**, **instance variable**, and **method (local) variable** has its own purpose, scope, and lifecycle. 
 
 **1. Class Variable (Static Variable)**
@@ -1370,7 +1370,7 @@ public class HashMapSorting {
 
 ```
 **Alternative**: Using Stream API
-```java
+```
 import java.util.*;
 import java.util.stream.Collectors;
 
