@@ -1629,68 +1629,68 @@ Exception in thread "main" java.util.ConcurrentModificationException
 
 **2. Use `CopyOnWriteArrayList` (Thread-Safe)**
 `CopyOnWriteArrayList` creates a copy of the list whenever modified, avoiding modification issues.
-	```java
-	import java.util.concurrent.CopyOnWriteArrayList;
-	
-	public class FixWithCopyOnWriteArrayList {
-	    public static void main(String[] args) {
-	        CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
-	        list.add("A");
-	        list.add("B");
-	        list.add("C");
-	
-	        for (String s : list) {
-	            if (s.equals("B")) {
-	                list.remove(s); // No ConcurrentModificationException
-	            }
-	        }
-	
-	        System.out.println(list); // Output: [A, C]
+```
+import java.util.concurrent.CopyOnWriteArrayList;
+
+public class FixWithCopyOnWriteArrayList {
+    public static void main(String[] args) {
+	CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
+	list.add("A");
+	list.add("B");
+	list.add("C");
+
+	for (String s : list) {
+	    if (s.equals("B")) {
+		list.remove(s); // No ConcurrentModificationException
 	    }
 	}
-	```
+
+	System.out.println(list); // Output: [A, C]
+    }
+}
+```
 
 **3. Use `removeIf()` Method (Java 8+)**
 Java 8 introduced `removeIf()`, which removes elements safely while iterating.
-	```java
-	import java.util.*;
-	
-	public class FixWithRemoveIf {
-	    public static void main(String[] args) {
-	        List<String> list = new ArrayList<>();
-	        list.add("A");
-	        list.add("B");
-	        list.add("C");
-	
-	        list.removeIf(s -> s.equals("B")); // No exception
-	
-	        System.out.println(list); // Output: [A, C]
-	    }
-	}
-	```
+```java
+import java.util.*;
+
+public class FixWithRemoveIf {
+    public static void main(String[] args) {
+	List<String> list = new ArrayList<>();
+	list.add("A");
+	list.add("B");
+	list.add("C");
+
+	list.removeIf(s -> s.equals("B")); // No exception
+
+	System.out.println(list); // Output: [A, C]
+    }
+}
+```
 
 **4. Use `Stream API` for Filtering (Java 8+)**
 Instead of modifying a list during iteration, create a new list with filtered values.
-	```java
-	import java.util.*;
-	import java.util.stream.Collectors;
-	
-	public class FixWithStreams {
-	    public static void main(String[] args) {
-	        List<String> list = new ArrayList<>();
-	        list.add("A");
-	        list.add("B");
-	        list.add("C");
-	
-	        // Create a new list without "B"
-	        list = list.stream()
-	                   .filter(s -> !s.equals("B"))
-	                   .collect(Collectors.toList());
-	
-	        System.out.println(list); // Output: [A, C]
-	    }
-	}
-	```
+```java
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class FixWithStreams {
+    public static void main(String[] args) {
+	List<String> list = new ArrayList<>();
+	list.add("A");
+	list.add("B");
+	list.add("C");
+
+	// Create a new list without "B"
+	list = list.stream()
+		   .filter(s -> !s.equals("B"))
+		   .collect(Collectors.toList());
+
+	System.out.println(list); // Output: [A, C]
+    }
+}
+```
 
 **Conclusion**
 | Approach | Safe? | Best For |
@@ -1709,92 +1709,92 @@ Threads in Java communicate with each other mainly using **wait(), notify(), and
 - `notifyAll()`: Wakes up all threads waiting on the object's monitor.
 
 **Example: Producer-Consumer Problem**
-	```java
-	class SharedResource {
-	    private int data;
-	    private boolean available = false;
-	
-	    public synchronized void produce(int value) {
-	        while (available) { // Wait if data is already produced
-	            try {
-	                wait();
-	            } catch (InterruptedException e) {
-	                e.printStackTrace();
-	            }
-	        }
-	        data = value;
-	        System.out.println("Produced: " + data);
-	        available = true;
-	        notify(); // Notify the consumer
-	    }
-	
-	    public synchronized void consume() {
-	        while (!available) { // Wait if no data is available
-	            try {
-	                wait();
-	            } catch (InterruptedException e) {
-	                e.printStackTrace();
-	            }
-	        }
-	        System.out.println("Consumed: " + data);
-	        available = false;
-	        notify(); // Notify the producer
+```java
+class SharedResource {
+    private int data;
+    private boolean available = false;
+
+    public synchronized void produce(int value) {
+	while (available) { // Wait if data is already produced
+	    try {
+		wait();
+	    } catch (InterruptedException e) {
+		e.printStackTrace();
 	    }
 	}
-	
-	class Producer extends Thread {
-	    private SharedResource resource;
-	
-	    public Producer(SharedResource resource) {
-	        this.resource = resource;
-	    }
-	
-	    public void run() {
-	        for (int i = 1; i <= 5; i++) {
-	            resource.produce(i);
-	        }
-	    }
-	}
-	
-	class Consumer extends Thread {
-	    private SharedResource resource;
-	
-	    public Consumer(SharedResource resource) {
-	        this.resource = resource;
-	    }
-	
-	    public void run() {
-	        for (int i = 1; i <= 5; i++) {
-	            resource.consume();
-	        }
+	data = value;
+	System.out.println("Produced: " + data);
+	available = true;
+	notify(); // Notify the consumer
+    }
+
+    public synchronized void consume() {
+	while (!available) { // Wait if no data is available
+	    try {
+		wait();
+	    } catch (InterruptedException e) {
+		e.printStackTrace();
 	    }
 	}
-	
-	public class ThreadCommunicationExample {
-	    public static void main(String[] args) {
-	        SharedResource resource = new SharedResource();
-	        Producer producer = new Producer(resource);
-	        Consumer consumer = new Consumer(resource);
-	
-	        producer.start();
-	        consumer.start();
-	    }
+	System.out.println("Consumed: " + data);
+	available = false;
+	notify(); // Notify the producer
+    }
+}
+
+class Producer extends Thread {
+    private SharedResource resource;
+
+    public Producer(SharedResource resource) {
+	this.resource = resource;
+    }
+
+    public void run() {
+	for (int i = 1; i <= 5; i++) {
+	    resource.produce(i);
 	}
-	```
+    }
+}
+
+class Consumer extends Thread {
+    private SharedResource resource;
+
+    public Consumer(SharedResource resource) {
+	this.resource = resource;
+    }
+
+    public void run() {
+	for (int i = 1; i <= 5; i++) {
+	    resource.consume();
+	}
+    }
+}
+
+public class ThreadCommunicationExample {
+    public static void main(String[] args) {
+	SharedResource resource = new SharedResource();
+	Producer producer = new Producer(resource);
+	Consumer consumer = new Consumer(resource);
+
+	producer.start();
+	consumer.start();
+    }
+}
+```
 
 **Output (Order may vary)**
-	```
-	Produced: 1
-	Consumed: 1
-	Produced: 2
-	Consumed: 2
-	Produced: 3
-	Consumed: 3
-	Produced: 4
-	Consumed: 4
-	Produced: 5
-	Consumed: 5
-	```
+```
+Produced: 1
+Consumed: 1
+Produced: 2
+Consumed: 2
+Produced: 3
+Consumed: 3
+Produced: 4
+Consumed: 4
+Produced: 5
+Consumed: 5
+```
 **Explanation**
 1. The **producer** produces data and calls `notify()` to wake up the consumer.
 2. The **consumer** waits using `wait()` until the producer notifies it.
@@ -1803,57 +1803,57 @@ Threads in Java communicate with each other mainly using **wait(), notify(), and
 **2. Using Locks and Condition (Better than wait/notify)**
 Java `Lock` and `Condition` provide a more flexible way for thread communication.
 **Example: Using `ReentrantLock` and `Condition`**
-	```java
-	import java.util.concurrent.locks.*;
-	
-	class SharedResource {
-	    private int data;
-	    private boolean available = false;
-	    private final Lock lock = new ReentrantLock();
-	    private final Condition condition = lock.newCondition();
-	
-	    public void produce(int value) {
-	        lock.lock();
-	        try {
-	            while (available) {
-	                condition.await(); // Wait if data is already produced
-	            }
-	            data = value;
-	            System.out.println("Produced: " + data);
-	            available = true;
-	            condition.signal(); // Notify the consumer
-	        } catch (InterruptedException e) {
-	            e.printStackTrace();
-	        } finally {
-	            lock.unlock();
-	        }
+```java
+import java.util.concurrent.locks.*;
+
+class SharedResource {
+    private int data;
+    private boolean available = false;
+    private final Lock lock = new ReentrantLock();
+    private final Condition condition = lock.newCondition();
+
+    public void produce(int value) {
+	lock.lock();
+	try {
+	    while (available) {
+		condition.await(); // Wait if data is already produced
 	    }
-	
-	    public void consume() {
-	        lock.lock();
-	        try {
-	            while (!available) {
-	                condition.await(); // Wait if no data is available
-	            }
-	            System.out.println("Consumed: " + data);
-	            available = false;
-	            condition.signal(); // Notify the producer
-	        } catch (InterruptedException e) {
-	            e.printStackTrace();
-	        } finally {
-	            lock.unlock();
-	        }
-	    }
+	    data = value;
+	    System.out.println("Produced: " + data);
+	    available = true;
+	    condition.signal(); // Notify the consumer
+	} catch (InterruptedException e) {
+	    e.printStackTrace();
+	} finally {
+	    lock.unlock();
 	}
-	
-	public class ThreadCommunicationWithLock {
-	    public static void main(String[] args) {
-	        SharedResource resource = new SharedResource();
-	        new Thread(() -> { for (int i = 1; i <= 5; i++) resource.produce(i); }).start();
-	        new Thread(resource::consume).start();
+    }
+
+    public void consume() {
+	lock.lock();
+	try {
+	    while (!available) {
+		condition.await(); // Wait if no data is available
 	    }
+	    System.out.println("Consumed: " + data);
+	    available = false;
+	    condition.signal(); // Notify the producer
+	} catch (InterruptedException e) {
+	    e.printStackTrace();
+	} finally {
+	    lock.unlock();
 	}
-	```
+    }
+}
+
+public class ThreadCommunicationWithLock {
+    public static void main(String[] args) {
+	SharedResource resource = new SharedResource();
+	new Thread(() -> { for (int i = 1; i <= 5; i++) resource.produce(i); }).start();
+	new Thread(resource::consume).start();
+    }
+}
+```
 
 **Why Use Locks?**
 - More control over synchronization.
@@ -1862,56 +1862,56 @@ Java `Lock` and `Condition` provide a more flexible way for thread communication
 **3. Using `BlockingQueue` (Simplest Approach)**
 Instead of manually using `wait/notify`, Java provides `BlockingQueue`, which handles inter-thread communication automatically.
 **Example Using `LinkedBlockingQueue`**
-	```java
-	import java.util.concurrent.*;
-	
-	class Producer implements Runnable {
-	    private BlockingQueue<Integer> queue;
-	
-	    public Producer(BlockingQueue<Integer> queue) {
-	        this.queue = queue;
+```java
+import java.util.concurrent.*;
+
+class Producer implements Runnable {
+    private BlockingQueue<Integer> queue;
+
+    public Producer(BlockingQueue<Integer> queue) {
+	this.queue = queue;
+    }
+
+    public void run() {
+	try {
+	    for (int i = 1; i <= 5; i++) {
+		queue.put(i); // Puts element, waits if full
+		System.out.println("Produced: " + i);
+		Thread.sleep(1000);
 	    }
-	
-	    public void run() {
-	        try {
-	            for (int i = 1; i <= 5; i++) {
-	                queue.put(i); // Puts element, waits if full
-	                System.out.println("Produced: " + i);
-	                Thread.sleep(1000);
-	            }
-	        } catch (InterruptedException e) {
-	            e.printStackTrace();
-	        }
-	    }
+	} catch (InterruptedException e) {
+	    e.printStackTrace();
 	}
-	
-	class Consumer implements Runnable {
-	    private BlockingQueue<Integer> queue;
-	
-	    public Consumer(BlockingQueue<Integer> queue) {
-	        this.queue = queue;
+    }
+}
+
+class Consumer implements Runnable {
+    private BlockingQueue<Integer> queue;
+
+    public Consumer(BlockingQueue<Integer> queue) {
+	this.queue = queue;
+    }
+
+    public void run() {
+	try {
+	    for (int i = 1; i <= 5; i++) {
+		int value = queue.take(); // Takes element, waits if empty
+		System.out.println("Consumed: " + value);
 	    }
-	
-	    public void run() {
-	        try {
-	            for (int i = 1; i <= 5; i++) {
-	                int value = queue.take(); // Takes element, waits if empty
-	                System.out.println("Consumed: " + value);
-	            }
-	        } catch (InterruptedException e) {
-	            e.printStackTrace();
-	        }
-	    }
+	} catch (InterruptedException e) {
+	    e.printStackTrace();
 	}
-	
-	public class BlockingQueueExample {
-	    public static void main(String[] args) {
-	        BlockingQueue<Integer> queue = new LinkedBlockingQueue<>(2);
-	        new Thread(new Producer(queue)).start();
-	        new Thread(new Consumer(queue)).start();
-	    }
-	}
-	```
+    }
+}
+
+public class BlockingQueueExample {
+    public static void main(String[] args) {
+	BlockingQueue<Integer> queue = new LinkedBlockingQueue<>(2);
+	new Thread(new Producer(queue)).start();
+	new Thread(new Consumer(queue)).start();
+    }
+}
+```
 
 **Why Use `BlockingQueue`?**
 - Handles `wait/notify` internally.
@@ -1932,41 +1932,41 @@ Yes! Java provides multiple ways to create **fixed-size** or **immutable** lists
 **1. Using `Arrays.asList()` (Fixed-Size, But Mutable)**
 - The list is **fixed-size**, meaning you **cannot add or remove elements**.
 - However, you **can modify existing elements**.
-	```java
-	import java.util.Arrays;
-	import java.util.List;
-	
-	public class FixedListExample {
-	    public static void main(String[] args) {
-	        List<String> list = Arrays.asList("A", "B", "C");
-	
-	        list.set(1, "X"); // ✅ Allowed
-	        System.out.println(list); // Output: [A, X, C]
-	
-	        list.add("D"); // ❌ UnsupportedOperationException
-	        list.remove("A"); // ❌ UnsupportedOperationException
-	    }
-	}
-	```
+```java
+import java.util.Arrays;
+import java.util.List;
+
+public class FixedListExample {
+    public static void main(String[] args) {
+	List<String> list = Arrays.asList("A", "B", "C");
+
+	list.set(1, "X"); // ✅ Allowed
+	System.out.println(list); // Output: [A, X, C]
+
+	list.add("D"); // ❌ UnsupportedOperationException
+	list.remove("A"); // ❌ UnsupportedOperationException
+    }
+}
+```
 **Key Points**
 - Can modify elements (`set()`)
 - Cannot add/remove elements (`add()/remove()`)
 
 **2. Using `List.of()` (Completely Immutable)**
 Introduced in Java 9, `List.of()` creates **a truly immutable list**.
-	```java
-	import java.util.List;
-	
-	public class ImmutableListExample {
-	    public static void main(String[] args) {
-	        List<String> list = List.of("A", "B", "C");
-	
-	        list.set(1, "X"); // ❌ UnsupportedOperationException
-	        list.add("D"); // ❌ UnsupportedOperationException
-	        list.remove("A"); // ❌ UnsupportedOperationException
-	    }
-	}
-	```
+```java
+import java.util.List;
+
+public class ImmutableListExample {
+    public static void main(String[] args) {
+	List<String> list = List.of("A", "B", "C");
+
+	list.set(1, "X"); // ❌ UnsupportedOperationException
+	list.add("D"); // ❌ UnsupportedOperationException
+	list.remove("A"); // ❌ UnsupportedOperationException
+    }
+}
+```
 
 **Key Points**
 - Best for creating read-only lists  
@@ -1974,22 +1974,22 @@ Introduced in Java 9, `List.of()` creates **a truly immutable list**.
 
 **3. Using `Collections.unmodifiableList()`**
 This method wraps a list and **makes it immutable**, but modifications to the original list will reflect in the unmodifiable list.
-	```java
-	import java.util.*;
-	
-	public class UnmodifiableListExample {
-	    public static void main(String[] args) {
-	        List<String> original = new ArrayList<>(Arrays.asList("A", "B", "C"));
-	        List<String> fixedList = Collections.unmodifiableList(original);
-	
-	        fixedList.set(1, "X"); // ❌ UnsupportedOperationException
-	        fixedList.add("D"); // ❌ UnsupportedOperationException
-	
-	        original.set(1, "X"); // ✅ Changes reflect in fixedList
-	        System.out.println(fixedList); // Output: [A, X, C]
-	    }
-	}
-	```
+```java
+import java.util.*;
+
+public class UnmodifiableListExample {
+    public static void main(String[] args) {
+	List<String> original = new ArrayList<>(Arrays.asList("A", "B", "C"));
+	List<String> fixedList = Collections.unmodifiableList(original);
+
+	fixedList.set(1, "X"); // ❌ UnsupportedOperationException
+	fixedList.add("D"); // ❌ UnsupportedOperationException
+
+	original.set(1, "X"); // ✅ Changes reflect in fixedList
+	System.out.println(fixedList); // Output: [A, X, C]
+    }
+}
+```
  
 **Key Points**
 - Wraps an existing list
@@ -1997,20 +1997,20 @@ This method wraps a list and **makes it immutable**, but modifications to the or
 
 **4. Using `Collections.singletonList()` (Single Element Fixed List)**
 Creates an **immutable list with only one element**.
-	```java
-	import java.util.Collections;
-	import java.util.List;
-	
-	public class SingletonListExample {
-	    public static void main(String[] args) {
-	        List<String> list = Collections.singletonList("A");
-	
-	        list.set(0, "X"); // ✅ Allowed
-	        list.add("B"); // ❌ UnsupportedOperationException
-	        list.remove(0); // ❌ UnsupportedOperationException
-	    }
-	}
-	```
+```java
+import java.util.Collections;
+import java.util.List;
+
+public class SingletonListExample {
+    public static void main(String[] args) {
+	List<String> list = Collections.singletonList("A");
+
+	list.set(0, "X"); // ✅ Allowed
+	list.add("B"); // ❌ UnsupportedOperationException
+	list.remove(0); // ❌ UnsupportedOperationException
+    }
+}
+```
 **Key Points**
 Single-element list (Can modify the element but not the size)
 Cannot add or remove elements
@@ -2050,34 +2050,34 @@ Java is **not considered a "pure" Object-Oriented Programming (OOP) language** b
 - In **pure OOP**, everything should be associated with objects.
 
 **Example:**
-	```java
-	class Example {
-	    static int count = 0;  // Not associated with an object
-	
-	    static void show() {   // Can be called without an object
-	        System.out.println("Static method");
-	    }
-	}
-	
-	public class Main {
-	    public static void main(String[] args) {
-	        Example.show();  // ✅ No object required
-	    }
-	}
-	```
+```java
+class Example {
+    static int count = 0;  // Not associated with an object
+
+    static void show() {   // Can be called without an object
+	System.out.println("Static method");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+	Example.show();  // ✅ No object required
+    }
+}
+```
 **In pure OOP, you would need to create an instance to access any method.**
 
 **3. Use of `static` Keyword in Main Method**
 - The `main()` method is **static**, meaning it can run without creating an object.
 - In **true OOP**, execution should start with an object.
 **Example:**
-	```java
-	public class Main {
-	    public static void main(String[] args) {  // static method
-	        System.out.println("Hello, Java!");
-	    }
-	}
-	```
+```java
+public class Main {
+    public static void main(String[] args) {  // static method
+	System.out.println("Hello, Java!");
+    }
+}
+```
 **In a fully OOP language, the entry point should require an object instance.**
 
 **4. Lack of Multiple Inheritance (Uses Interfaces Instead)**
@@ -2085,43 +2085,43 @@ Java is **not considered a "pure" Object-Oriented Programming (OOP) language** b
 - Instead, Java uses **interfaces** as a workaround.
 
 **Example (Not Allowed in Java):**
-	```java
-	class A {
-	    void show() {
-	        System.out.println("A");
-	    }
-	}
-	
-	class B {
-	    void show() {
-	        System.out.println("B");
-	    }
-	}
-	
-	// ❌ Java does not allow multiple inheritance
-	class C extends A, B {}  // Compilation error
-	```
+```java
+class A {
+    void show() {
+	System.out.println("A");
+    }
+}
+
+class B {
+    void show() {
+	System.out.println("B");
+    }
+}
+
+// ❌ Java does not allow multiple inheritance
+class C extends A, B {}  // Compilation error
+```
 **In fully OOP languages like C++, multiple inheritance is supported.**
 **Java Workaround:**
-	```java
-	interface A {
-	    void show();
-	}
-	
-	interface B {
-	    void display();
-	}
-	
-	class C implements A, B {  // ✅ Using interfaces
-	    public void show() {
-	        System.out.println("A");
-	    }
-	
-	    public void display() {
-	        System.out.println("B");
-	    }
-	}
-	```
+```java
+interface A {
+    void show();
+}
+
+interface B {
+    void display();
+}
+
+class C implements A, B {  // ✅ Using interfaces
+    public void show() {
+	System.out.println("A");
+    }
+
+    public void display() {
+	System.out.println("B");
+    }
+}
+```
 
 **5. Non-OOP Features Like Operators and Control Statements**
 - Java still uses **procedural programming** constructs like:
@@ -2129,10 +2129,10 @@ Java is **not considered a "pure" Object-Oriented Programming (OOP) language** b
 - Arithmetic operators (`+`, `-`, `*`, `/`) are not method calls.
 
 **Example:**
-	```java
-	int a = 5, b = 10;
-	int sum = a + b;  // Using `+` instead of a method call
-	```
+```java
+int a = 5, b = 10;
+int sum = a + b;  // Using `+` instead of a method call
+```
 **In pure OOP, even operations should be done through objects (e.g., `a.add(b)`).**
 
 **Is Java an Object-Oriented Language?**
@@ -2153,7 +2153,8 @@ Java is **not considered a "pure" Object-Oriented Programming (OOP) language** b
 | Static Methods | ✅ Yes | ❌ No |
 | Operators as Methods | ❌ No | ✅ Yes |
 | Execution Without Object | ✅ Yes (`static main()`) | ❌ No |
-Java follows **OOP principles**, but its design **includes non-OOP features** for performance and simplicity. That’s why Java is called **"not a fully object-oriented language" but an "OOP-based language."** 🚀 
+
+Java follows **OOP principles**, but its design **includes non-OOP features** for performance and simplicity. That’s why Java is called **"not a fully object-oriented language" but an "OOP-based language."**
 
 ---
 ## 53. If you have two default methods in a functional interface and you are printing ram from one method and Shyam from other method then how to print Shyam using other class
@@ -2166,45 +2167,45 @@ A **functional interface** in Java is an interface that has only **one abstract 
 You can achieve this by **overriding** the `default` method in a class that implements the interface. Here’s how you can do it:
 ### Code Implementation:
 #### **1. Define the Functional Interface**
-	```java
-	@FunctionalInterface
-	interface MyInterface {
-	    void abstractMethod(); // Functional interface must have one abstract method
-	
-	    default void printRam() {
-	        System.out.println("Ram");
-	    }
-	
-	    default void printShyam() {
-	        System.out.println("Shyam");
-	    }
-	}
-	```
+```java
+@FunctionalInterface
+interface MyInterface {
+    void abstractMethod(); // Functional interface must have one abstract method
+
+    default void printRam() {
+	System.out.println("Ram");
+    }
+
+    default void printShyam() {
+	System.out.println("Shyam");
+    }
+}
+```
 #### **2. Implement the Interface in a Class**
-	```java
-	class MyClass implements MyInterface {
-	    @Override
-	    public void abstractMethod() {
-	        // Implementation of the abstract method
-	        System.out.println("Abstract Method Implementation");
-	    }
-	
-	    @Override
-	    public void printShyam() {
-	        System.out.println("Shyam"); // Overriding the default method
-	    }
-	}
-	```
+```java
+class MyClass implements MyInterface {
+    @Override
+    public void abstractMethod() {
+	// Implementation of the abstract method
+	System.out.println("Abstract Method Implementation");
+    }
+
+    @Override
+    public void printShyam() {
+	System.out.println("Shyam"); // Overriding the default method
+    }
+}
+```
 #### **3. Test the Implementation**
-	```java
-	public class Main {
-	    public static void main(String[] args) {
-	        MyClass obj = new MyClass();
-	        
-	        obj.printShyam();  // This will print "Shyam"
-	    }
-	}
-	```
+```java
+public class Main {
+    public static void main(String[] args) {
+	MyClass obj = new MyClass();
+	
+	obj.printShyam();  // This will print "Shyam"
+    }
+}
+```
 ### **Explanation:**
 1. The `MyInterface` has **two default methods**: `printRam()` and `printShyam()`.
 2. The `MyClass` implements `MyInterface` and **overrides** the `printShyam()` method.
@@ -2212,97 +2213,97 @@ You can achieve this by **overriding** the `default` method in a class that impl
 Here are a few interview questions based on **functional interfaces and default methods** that test a candidate’s understanding of Java 8 features:  
 
 ### **1. Default Methods in Functional Interfaces**  
-> **Question:**  
+**Question:**  
 If a functional interface has two default methods, and both print different values (e.g., `"Ram"` and `"Shyam"`), how can you ensure that `"Shyam"` is printed when calling the method from another class?  
-> **Follow-up Question:**  
+**Follow-up Question:**  
 Can you override default methods in a class that implements the functional interface? If yes, how does method resolution work?  
 
 ### **2. Multiple Default Methods Conflict**  
-> **Question:**  
+**Question:**  
 If a class implements two interfaces, and both interfaces have a default method with the **same signature**, how can you resolve the conflict?  
-> **Expected Answer:**  
+**Expected Answer:**  
 The implementing class must **override** the conflicting method explicitly to resolve ambiguity.  
 
 ### **3. Functional Interface with Multiple Default Methods**  
-> **Question:**  
+**Question:**  
 Is it valid for a **functional interface** to have multiple **default methods**? If yes, how does it still satisfy the functional interface definition?  
-> **Hint:**  
+**Hint:**  
 A functional interface must have exactly **one abstract method**, but it **can** have multiple `default` and `static` methods.  
 
 ### **4. Calling Superclass Default Method from Implementing Class**  
-> **Question:**  
+**Question:**  
 If an interface provides a default method, how can an implementing class explicitly call that interface’s default method from an overridden method?  
-> **Example:**  
-	```java
-	interface MyInterface {
-	    default void show() {
-	        System.out.println("Interface default method");
-	    }
-	}
-	
-	class MyClass implements MyInterface {
-	    @Override
-	    public void show() {
-	        MyInterface.super.show(); // Calling interface's default method
-	        System.out.println("Overridden method");
-	    }
-	}
-	```
-> **What will be the output of the above code?**  
+**Example:**  
+```java
+interface MyInterface {
+    default void show() {
+	System.out.println("Interface default method");
+    }
+}
+
+class MyClass implements MyInterface {
+    @Override
+    public void show() {
+	MyInterface.super.show(); // Calling interface's default method
+	System.out.println("Overridden method");
+    }
+}
+```
+**What will be the output of the above code?**  
 	```java
 	Interface default method
 	Overridden method
 	```
 ### **5. Can a Functional Interface Extend Another Interface?**  
-> **Question:**  
+**Question:**  
 Can a functional interface extend another interface that has a default method? If yes, will the default method be available to the implementing class?  
-> **Hint:**  
+**Hint:**  
 Yes, a functional interface **can** extend another interface. The implementing class will inherit the default method unless it overrides it.  
 Here are some **scenario-based** and **real-world** interview questions on **functional interfaces and default methods** in Java:  
 
 ### **1. Real-World Scenario: Logging Mechanism**  
-> **Question:**  
+**Question:**  
 Imagine you are designing a logging framework where multiple classes need a default logging method. You want to provide a `log()` method in an interface, but also allow classes to override it if needed.  
-> - How would you design the interface using default methods?  
-> - How can a class use the interface’s default `log()` method without overriding it?  
-> **Hint:**  
+- How would you design the interface using default methods?  
+- How can a class use the interface’s default `log()` method without overriding it?  
+**Hint:**  
 Use a default method in the interface for logging, and allow implementing classes to override it selectively.  
 
 ### **2. Diamond Problem with Default Methods**  
-> **Question:**  
+**Question:**  
 You have two interfaces, `InterfaceA` and `InterfaceB`, both containing a default method with the **same name and implementation**. If a class `MyClass` implements both interfaces, how will Java resolve this conflict?  
-	```java
-	interface InterfaceA {
-	    default void greet() {
-	        System.out.println("Hello from A");
-	    }
-	}
-	
-	interface InterfaceB {
-	    default void greet() {
-	        System.out.println("Hello from B");
-	    }
-	}
-	
-	class MyClass implements InterfaceA, InterfaceB {
-	    // What should you do here to resolve the conflict?
-	}
-	```
+```java
+interface InterfaceA {
+    default void greet() {
+	System.out.println("Hello from A");
+    }
+}
+
+interface InterfaceB {
+    default void greet() {
+	System.out.println("Hello from B");
+    }
+}
+
+class MyClass implements InterfaceA, InterfaceB {
+    // What should you do here to resolve the conflict?
+}
+```
 - What happens if you don’t override the `greet()` method in `MyClass`?  
 - How can you explicitly call `greet()` from `InterfaceA` inside `MyClass`?  
-> **Expected Answer:**  
+**Expected Answer:**  
 Java will throw a **compilation error** due to ambiguity. You must override `greet()` in `MyClass` and use `InterfaceA.super.greet()` or `InterfaceB.super.greet()` to specify which one to call.  
 
 ### **3. Designing a Payment Gateway Using Functional Interface**  
-> **Question:**  
+**Question:**  
 You are designing a payment gateway where different payment processors (PayPal, Stripe, Razorpay) must implement a `processPayment()` method. You also want a **default method** to **validate payments** before processing.  
-> - How would you design a functional interface for this use case?  
-> - If a new payment provider wants to modify only the validation logic, how can it override the default method?  
-> **Hint:**  
+- How would you design a functional interface for this use case?  
+- If a new payment provider wants to modify only the validation logic, how can it override the default method?  
+**Hint:**  
 Use a **functional interface** with one abstract method (`processPayment()`) and a default method (`validatePayment()`). Allow implementing classes to override validation logic if necessary.  
 
 ### **4. Combining Functional Interfaces and Streams**  
-> **Question:**  
+**Question:**  
 Suppose you have a `List<String>` of employee names and you need to:  
 1. Convert all names to uppercase  
 2. Filter names that start with "A"  
@@ -2311,19 +2312,19 @@ Suppose you have a `List<String>` of employee names and you need to:
 - Can a default method in the functional interface be used to provide a common transformation logic?  
 
 ### **5. Modifying Default Method Behavior Dynamically**  
-> **Question:**  
+**Question:**  
 You have a functional interface with a default method for sending notifications. Some users prefer **email**, while others prefer **SMS**.  
 - How can you modify the default method dynamically based on user preference **without modifying the interface**?  
 - Can this be achieved using **lambda expressions** or **method references**?  
-> **Hint:**  
+**Hint:**  
 Pass a custom implementation using lambda expressions or override the default method in an anonymous class.  
 
 ### **6. Default Methods vs. Abstract Classes**  
-> **Question:**  
+**Question:**  
 Both **default methods in interfaces** and **methods in abstract classes** allow code reuse.  
 - When should you **prefer default methods** over an **abstract class**?  
 - Can an interface with default methods completely replace an abstract class?  
-> **Expected Answer:**  
+**Expected Answer:**  
 - Default methods allow multiple inheritance, while abstract classes don’t.  
 - If shared behavior is needed but the class should still extend another class, **default methods** are better.  
 - If state (fields) needs to be maintained, an **abstract class** is preferred.  
@@ -2365,6 +2366,7 @@ Both **default methods in interfaces** and **methods in abstract classes** allow
 | **Transaction Management** | Built-in support | Manual handling required |
 | **Performance Optimization** | Lazy loading, caching, batching | No built-in optimization |
 | **Scalability** | Works well with large applications | Becomes complex with large codebases |
+
 ✅ **Hibernate reduces boilerplate code, improves maintainability, and provides flexibility across different databases.**  
 ### **Example: Hibernate vs. JDBC**
 #### **JDBC Approach (Manual SQL Queries)**
@@ -2879,9 +2881,10 @@ Refer to methods easily.
 ---
 ## 61. Strings are immutable or not.
 Strings are immutable. Once a string is created, its value cannot be changed. Any operation that appears to modify a string actually creates a new string object. This immutability offers several benefits, including thread safety, security, and efficient memory management. 
+
 **Example 1:**
- ```java
-  public class StringImmutability {
+```java
+public class StringImmutability {
     public static void main(String[] args) {
         String str1 = "Hello";
         String str2 = str1.toUpperCase(); // Creates a new string "HELLO"
@@ -2889,8 +2892,8 @@ Strings are immutable. Once a string is created, its value cannot be changed. An
         System.out.println(str1); // Output: Hello
         System.out.println(str2); // Output: HELLO
     }
-  }
-  ```
+}
+```
 **Example 2:**
 ```
 public class StringImmutabilityExample {
@@ -2906,7 +2909,6 @@ public class StringImmutabilityExample {
 In this example, `str1` is initialized with the value "Hello". When the `concat()` method is called on `str1` to append ", World!", a new String object is created with the value "Hello, World!", and `str2` is assigned to this new object. The original `str1` remains unchanged. This behavior demonstrates that String objects are immutable; their values cannot be modified after they are created. Any operation that appears to modify a String actually results in the creation of a new String object.
 
 ---
-
 ## 63. @Component vs @Service vs @Controller
 In the Spring framework, @Component, @Service, and @Controller are annotations used for dependency injection and component scanning, each with a specific semantic meaning.
 
@@ -2936,8 +2938,19 @@ In essence, @Service and @Controller are specialized forms of @Component. They d
 | 12. |                                                                   This is known as static memory allocation.                                                                  |                                                                                This is known as dynamic memory allocation.                                                                                |
 
 ---
-
 ## 65. Duplicate records from a table.
+| EmployeeID | FirstName | LastName | Email                   | Department | Salary  | HireDate   |
+|------------|-----------|----------|-------------------------|------------|---------|------------|
+| 1          | John      | Doe      | john.doe@example.com    | Sales      | 50000.00| 2023-01-15 |
+| 2          | Jane      | Smith    | jane.smith@example.com  | Marketing  | 60000.00| 2022-05-20 |
+| 3          | Peter     | Jones    | peter.jones@example.com | IT         | 75000.00| 2024-03-01 |
+| 4          | John      | Doe      | john.doe@example.com    | Sales      | 50000.00| 2023-01-15 |
+| 5          | Alice     | Brown    | alice.brown@example.com | HR         | 55000.00| 2023-11-10 |
+| 6          | Jane      | Smith    | jane.smith@example.com  | Marketing  | 60000.00| 2022-05-20 |
+| 7          | Peter     | Jones    | p.jones@sample.com      | IT         | 78000.00| 2024-04-01 |
+| 8          | David     | Wilson   | david.wilson@example.com| Finance    | 65000.00| 2023-07-01 |
+
+```
 SELECT * 
 FROM your_table 
 WHERE your_column IN (
@@ -2946,7 +2959,13 @@ WHERE your_column IN (
     GROUP BY your_column 
     HAVING COUNT(*) > 1
 );
-
+```
+```
+SELECT FirstName, LastName, Email, Department, Salary, HireDate, COUNT(*) AS DuplicateCount
+FROM Employee
+GROUP BY FirstName, LastName, Email, Department, Salary, HireDate
+HAVING COUNT(*) > 1;
+```
 ---
 ## 66. @SpringBootApplication Annotation in Spring Boot
 The `@SpringBootApplication` annotation is a **composite annotation** in Spring Boot that combines three other annotations:  
