@@ -431,7 +431,45 @@ class Switch {
 
 ---
 
-## 10. 
+## 10. ConcurrentHashMap vs HashMap
+A `ConcurrentHashMap` and a `HashMap` are both part of the Java Collections Framework, but they differ significantly in terms of how they handle concurrency and thread safety. Here's a comparison:
+
+ 1. **Thread Safety**
+   - **HashMap**: Not thread-safe. It is not designed to be used in concurrent applications without additional synchronization.
+   - **ConcurrentHashMap**: Thread-safe. It is designed for use in concurrent applications and allows multiple threads to read and write safely without explicit synchronization.
+
+ 2. **Concurrency Mechanism**
+   - **HashMap**: If you need to use it in a multi-threaded environment, you must synchronize access manually (e.g., using `Collections.synchronizedMap()` or external synchronization).
+   - **ConcurrentHashMap**: Uses a concept of segmentation or bucket-level locking (internally, it uses a form of lock striping). This allows multiple threads to operate on different parts of the map simultaneously, improving performance in concurrent environments.
+
+ 3. **Performance**
+   - **HashMap**: Better performance in single-threaded environments since there is no overhead of synchronization.
+   - **ConcurrentHashMap**: Better performance in multi-threaded environments compared to a synchronized `HashMap`, as it reduces contention by allowing concurrent access to different segments.
+
+ 4. **Null Keys and Values**
+   - **HashMap**: Allows one null key and multiple null values.
+   - **ConcurrentHashMap**: Does not allow null keys or null values. This restriction helps avoid potential ambiguities and NullPointerExceptions in concurrent scenarios.
+
+ 5. **Iteration**
+   - **HashMap**: Not fail-safe. Modifications to the map during iteration can result in a `ConcurrentModificationException`.
+   - **ConcurrentHashMap**: Fail-safe for iteration. It provides a "weakly consistent" iterator, meaning it does not throw exceptions if the map is modified during iteration, but it may not reflect the most recent updates.
+
+ 6. **Use Cases**
+   - **HashMap**: Suitable for single-threaded applications or where manual synchronization is acceptable.
+   - **ConcurrentHashMap**: Ideal for multi-threaded applications where high concurrency is needed, such as caching, counters, and managing shared states.
+
+**Example:**
+```java
+// HashMap Example
+HashMap<Integer, String> map = new HashMap<>();
+map.put(1, "A");
+
+// ConcurrentHashMap Example
+ConcurrentHashMap<Integer, String> concurrentMap = new ConcurrentHashMap<>();
+concurrentMap.put(1, "A");
+```
+
+In summary, choose `HashMap` for single-threaded applications and `ConcurrentHashMap` for multi-threaded environments where thread safety is a concern.
 
 ---
 ## 11. Technical Architecture  
