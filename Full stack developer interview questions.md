@@ -2587,6 +2587,7 @@ Spring MVC and Spring Boot both help build Java web applications, but **Spring B
 | **Production-Ready Features** | Not included | Actuator, Logging, Monitoring |
 | **REST API Support** | Needs manual configuration | Built-in REST support |
 | **Security** | Needs extra setup | Auto-configured with Spring Security |
+
 When to Use Spring Boot vs Spring MVC?**  
 | **Scenario** | **Use Spring MVC** | **Use Spring Boot** |
 |-------------|--------------------|---------------------|
