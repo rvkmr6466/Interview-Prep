@@ -241,9 +241,15 @@ TODO:
 | `s = "a good   example"` | `"example good a"`  | You need to reduce multiple spaces between two words to a single space in the reversed string.  |
 
 ```
-TODO:
+public static void reverseWordsInString(){
+    String s = "the sky is blue";
 
+    List<String> list = Arrays.asList(s.split("\s+")); // "\s+" is mandatory to multiple remove space in between the words 
+    Collections.reverse(list);
+    System.out.println("Original: \"" + String.join(" ", list) + "\"");
+}
 ```
+_**List.of():**_ This method (introduced in Java 9) creates an immutable list. This is a space-efficient way to create a small list when you know you won't need to change its contents.
 
 ---
 ## 8. Find output
@@ -273,3 +279,10 @@ System.out.println(i + " " + j); // corrected output
 ```
 20 40
 ```
+
+---
+## 9. Reverse
+
+
+
+
