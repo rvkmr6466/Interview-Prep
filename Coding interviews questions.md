@@ -1,10 +1,7 @@
-# Coding Questions for Interviews
+## Coding Questions for Interviews
 
----
-
-## 1. First Repeating Character from a String
-
-### Examples:
+### 1. First Repeating Character from a String
+#### Examples:
 
 | Input            | Output | Explanation                          |
 |-----------------|--------|--------------------------------------|
@@ -12,7 +9,7 @@
 | `s = "hellogeeks"` | `"l"`  | 'l' repeats at fourth position.  |
 | `s = "abc"` | `"-1"`  | No repeated character found.         |
 
-### Solution:
+#### Solution:
 
 ```java
 import java.util.*;
@@ -36,14 +33,15 @@ public class Main {
 }
 ```
 ---
-## 2. Find the longest uniform substring.
-### Examples:
+### 2. Find the longest uniform substring.
+#### Examples:
 | Input            | Output | Explanation                          |
 |-----------------|--------|--------------------------------------|
 | `s = "aaabbbbccda"` | `"[3,4]"`  | "bbbb" the longest uniform substring (which starts at index 3 and is 4 characters long).  |
 | `s = "aabbbc"` | `"[2, 3]"`  | "bbb" is the longest uniform substring.  |
 | `s = "aabbbaaaa"` | `"[5, 4]"`  | "aaaa" is the longest uniform substring.         |
 
+#### Solution:
 ```
 public class Main {
     public static void main(String[] args) {
@@ -71,14 +69,15 @@ public class Main {
 }
 ```
 ---
-## 3. Find Longest Substring Without Repeating Characters  
-### Examples:
+### 3. Find Longest Substring Without Repeating Characters  
+#### Examples:
 | Input            | Output | Explanation                          |
 |-----------------|--------|--------------------------------------|
 | `s = "geeksforgeeks"` | `"7"`  | The longest substrings without repeating characters are “eksforg” and “ksforge”, with lengths of 7.  |
 | `s = "aaa"` | `"1"`  | The longest substring without repeating characters is “a”.  |
 | `s = "abcdefabcbb"` | `"6"`  | The longest substring without repeating characters is “abcdef”.         |
 
+#### Solution:
 ```java
 public int lengthOfLongestSubstring(String s) {
     Set<Character> set = new HashSet<>();
@@ -95,7 +94,7 @@ public int lengthOfLongestSubstring(String s) {
     return maxLength;
 }
 ```
-**Alternate:**
+#### Alternate Solution:
 ```
 public void lengthOfLongestSubstring {
     String s = "aaa";
@@ -119,7 +118,7 @@ public void lengthOfLongestSubstring {
 ```
 ---
 
-## 4. Find Output
+#### 4. Find Output
 ```
 String str1 = new String("Java");
 String str2 = new String("Java");
@@ -171,7 +170,7 @@ true
     * `System.out.println(str3.equals(str5));` compares the content of `str3` and `str5`, which is the same, so the result is `true`.
   
 ---
-## 5. Find the character count from a string in java using getOrDefault().
+### 5. Find the character count from a string in java using getOrDefault().
 ```
 import java.util.HashMap;
 import java.util.Map;
@@ -217,8 +216,8 @@ Character: 'w', Count: 1
 ```
 
 ---
-## 6. Valid Paranthesis
-### Examples:
+### 6. Valid Paranthesis
+#### Examples:
 | Input            | Output | Explanation                          |
 |-----------------|--------|--------------------------------------|
 | `s = "()"` | `"true"`  | Follow the same pattern  |
@@ -226,20 +225,22 @@ Character: 'w', Count: 1
 | `s = "(]"` | `"false"`  |   Doesn't follow the pattern       |
 | `s = "([])"` | `"true"`  | Follow the pattern         |
 
+### Solution:
 ```
 TODO:
 
 ```
 
 ---
-## 7. Reverse words in a String.
-### Examples:
+### 7. Reverse words in a String.
+#### Examples:
 | Input            | Output | Explanation                          |
 |-----------------|--------|--------------------------------------|
 | `s = "the sky is blue"` | `"blue is sky the"`  |   |
 | `s = "  hello world  "` | `"world hello"`  |  Your reversed string should not contain leading or trailing spaces.  |
 | `s = "a good   example"` | `"example good a"`  | You need to reduce multiple spaces between two words to a single space in the reversed string.  |
 
+#### Solution:
 ```
 public static void reverseWordsInString(){
     String s = "the sky is blue";
@@ -252,7 +253,7 @@ public static void reverseWordsInString(){
 _**List.of():**_ This method (introduced in Java 9) creates an immutable list. This is a space-efficient way to create a small list when you know you won't need to change its contents.
 
 ---
-## 8. Find output
+### 8. Find output
 ```
 final int i;
 i = 20;
@@ -281,7 +282,7 @@ System.out.println(i + " " + j); // corrected output
 ```
 
 ---
-## 9. Reverse
+### 9. 
 
 
 
