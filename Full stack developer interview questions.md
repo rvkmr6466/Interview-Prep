@@ -1,6 +1,6 @@
 # Angular, Java & Spring Boot Interview Questions  
 
-## 1. Difference Between Parallelism and Concurrency  
+## Q1. Difference Between Parallelism and Concurrency  
 | S.NO | Concurrency | Parallelism |
 |:----:|:-------------------------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
 |  1.  | Concurrency is the task of running and managing multiple computations at the same time. | Parallelism is the task of running multiple computations simultaneously. |
@@ -13,7 +13,7 @@
 
 ---
 
-## 2. List vs Set  
+## Q2. List vs Set  
 | S.NO | List | Set |
 |:----:|:-----------------------------------------:|:-------------------------------------------:|
 |  1.  | Allows duplicate elements | Does not allow duplicate elements |
@@ -23,7 +23,7 @@
 |  5.  | Implementations: ArrayList, LinkedList | Implementations: HashSet, TreeSet, LinkedHashSet |
 
 ---
-## 3. Creating an Immutable Class in Java  
+## Q3. Creating an Immutable Class in Java  
 In Java, an **immutable class** is one whose **instances cannot be modified after creation, ensuring their state remains constant**. To create an immutable class, you need to:  
 - Make the class `final`  
 - Declare fields as `private` and `final`  
@@ -88,36 +88,114 @@ In Java, the term "immutable" means that once a String object is created, its co
 - _String Pool_: Immutability also allows for the implementation of the String pool, where the JVM caches String objects with the same content. This can save memory by reusing the same object when multiple String variables refer to the same value.
 
 **Example:**
-    ```
-    String str1 = "Hello";
-    String str2 = str1 + " World";
-    System.out.println(str1); // Output: Hello (str1 remains unchanged)
-    System.out.println(str2); // Output: Hello World (str2 is a new string)
-    ```
+```
+String str1 = "Hello";
+String str2 = str1 + " World";
+System.out.println(str1); // Output: Hello (str1 remains unchanged)
+System.out.println(str2); // Output: Hello World (str2 is a new string)
+```
 
 ---
-## 4. Validation in Spring Boot  
-Spring Boot provides `javax.validation` and `Spring Validator` for validation.
-Example using `@Valid`:
-```java
-public class User {
-    @NotBlank
+## Q4. Validation in Spring Boot  
+Spring Boot provides robust support for validating data, especially in the context of handling web requests and ensuring data integrity.  The primary mechanism for validation in Spring Boot is through the use of the Bean Validation API (JSR-380), with Hibernate Validator being the most commonly used implementation.
+**Key Concepts and Components**
+- **1. Bean Validation API (JSR-380)**:A specification that defines a set of annotations for expressing constraints on Java objects.These annotations specify rules for validating the data within the fields of a class.
+
+**2. Hibernate Validator:** The reference implementation of the Bean Validation API.Provides a concrete implementation of the validation annotations and the validation engine.Spring Boot automatically integrates with Hibernate Validator when it's included in your project.
+
+**3. Validation Annotations:** Annotations used to specify validation constraints on fields.
+- Some common annotations include:
+  - `@NotNull`:  The field cannot be null.
+  - `@NotEmpty`:  The field cannot be null or empty (for strings, collections, maps).
+  - `@NotBlank`: The field cannot be null or blank (for strings).
+  - `@Size`: The field size (for strings, collections, maps) must be within the specified range.
+  - `@Min`, `@Max`: The field value must be within the specified range (for numbers).
+  - `@Email`: The field must be a valid email address.
+  - `@Pattern`: The field must match the specified regular expression.
+  - `@Valid`: Used to trigger validation on a nested object.
+
+**4. `@Valid` Annotation:** This annotation is crucial for triggering the validation process.When applied to a method parameter (e.g., in a controller), it tells Spring Boot to validate the object against the constraints defined by the validation annotations.
+
+**5. BindingResult:** An interface that holds the result of a validation.In a Spring MVC controller, a `BindingResult` parameter can be included next to the `@Valid` parameter to access any validation errors.
+
+**6. `@Validated` Annotation:** A class-level annotation that tells Spring to enable validation of @Constraint annotations defined on method parameters.
+
+**How Validation Works in Spring Boot**
+
+* _Define Constraints:_ 
+Add validation annotations to the fields of the class you want to validate (e.g., a data transfer object (DTO) or an entity).
+* _Trigger Validation:_
+In your controller or service layer, annotate the parameter you want to validate with the `@Valid` annotation.
+* _Handle Validation Results:_
+  * If validation succeeds, the program proceeds normally. 
+  * If validation fails, Spring Boot throws a `MethodArgumentNotValidException` (for request body validation in controllers) or a `ConstraintViolationException` (for method parameter validation with `@Validated`).
+* _Error Handling:_
+You can handle these exceptions to customize the response sent to the client (e.g., return a JSON object with error messages).  Spring provides mechanisms like `@ExceptionHandler` and `@RestControllerAdvice` for this.
+
+**Example**
+```
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+
+@Data
+public class UserRequest {
+    @NotBlank(message = "Name is required")
+    @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
     private String name;
-    
-    @Email
+
+    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email format")
     private String email;
+
+    @NotBlank(message = "Password is required")
+    @Size(min = 8, message = "Password must be at least 8 characters")
+    private String password;
 }
-```
-In a Controller:
-```java
-@PostMapping("/users")
-public ResponseEntity<String> addUser(@Valid @RequestBody User user, BindingResult result) {
-    if (result.hasErrors()) {
-        return ResponseEntity.badRequest().body("Invalid data");
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
+public class UserController {
+
+    @PostMapping("/users")
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserRequest userRequest, BindingResult result) {
+        if (result.hasErrors()) {
+            // Manual error handling (not recommended for typical cases)
+            Map<String, String> errors = new HashMap<>();
+            result.getFieldErrors().forEach(error ->
+                    errors.put(error.getField(), error.getDefaultMessage())
+            );
+            return ResponseEntity.badRequest().body(errors);
+        }
+        // Process the valid user data
+        return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
     }
-    return ResponseEntity.ok("User added");
+
+    // Global exception handler for MethodArgumentNotValidException
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+                errors.put(error.getField(), error.getDefaultMessage())
+        );
+        return errors;
+    }
 }
 ```
+**In this example:**
+- The `UserRequest` class defines the structure of the expected request body and includes validation annotations.
+- The `createUser` method in the `UserController` is annotated with `@PostMapping` to handle `POST` requests to `/users`.  The `@Valid` annotation ensures that the `userRequest` object is validated before the method logic is executed.
+- The `@ExceptionHandler` method `handleValidationExceptions` is defined within the controller to handle `MethodArgumentNotValidException`.  When validation fails, this method is invoked, and it formats the error messages into a user-friendly JSON response. The `@ResponseStatus` annotation ensures that a 400 Bad Request status is returned.
 
 ---
 ## 5. Stream API  
