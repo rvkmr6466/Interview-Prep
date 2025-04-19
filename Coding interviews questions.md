@@ -387,3 +387,11 @@ class Main {
 }
 ```
 
+---
+### 12. Shift an Array by 3 to the Right
+```java
+public static void rotateRight(int[] arr, int k) {
+    Collections.rotate(Arrays.asList(arr), k);
+}
+```
+
