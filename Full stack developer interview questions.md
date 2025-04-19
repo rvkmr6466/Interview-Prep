@@ -939,6 +939,7 @@ POST to `http://localhost:8080/users`
 }
 ```
 You should see a message published by the producer and consumed by the listener.
+
 **application.yml (or properties)**
 ```yaml
 spring:
@@ -1022,14 +1023,12 @@ private List<Order> orders;
 ```
 
 ---
-
 ## 25. Reverse a String  
 ```java
 String reversed = new StringBuilder(str).reverse().toString();
 ```
 
 ---
-
 ## 26. Orchestration vs Choreography in microservices
 In microservices architecture, orchestration uses a central controller to manage interactions between services, while choreography relies on decentralized, event-driven communication where services interact independently. 
 
@@ -1157,12 +1156,160 @@ SELECT salary FROM employees ORDER BY salary DESC LIMIT 1 OFFSET 1;
 ```
 
 ---
-## 30. Shift an Array by 3 to the Right
-```java
-public static void rotateRight(int[] arr, int k) {
-    Collections.rotate(Arrays.asList(arr), k);
+## 30. Exception Handling in Spring Boot
+Spring Boot provides robust mechanisms for handling exceptions in your applications. Here's an overview of the key approaches:
+
+#### 1. Using `@ExceptionHandler`
+- You can define methods within your controller or a controller advice class to handle specific exceptions.
+- The `@ExceptionHandler` annotation is used to specify which exception a method should handle.
+```
+@ControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(Exception.class)  // Handles all other exceptions
+    public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
+        ErrorResponse error = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "An unexpected error occurred");
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
+
+// Example Exception
+public class ResourceNotFoundException extends RuntimeException {
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
+}
+
+//Error Response
+public class ErrorResponse {
+    private int statusCode;
+    private String message;
+
+    public ErrorResponse(int statusCode, String message) {
+        this.statusCode = statusCode;
+        this.message = message;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }
 ```
+
+#### 2. Using `@ResponseStatus`
+You can annotate your custom exception classes with `@ResponseStatus` to specify the HTTP status code that should be returned when that exception is thrown.
+```
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class ResourceNotFoundException extends RuntimeException {
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
+}
+
+@RestController
+public class MyController {
+
+    @GetMapping("/resource/{id}")
+    public String getResource(@PathVariable Long id) {
+        if (id == null) {
+            throw new ResourceNotFoundException("Resource not found");
+        }
+        return "some data";
+    }
+}
+```
+
+#### 3. Implementing `HandlerExceptionResolver`
+- For more advanced customization, you can implement the HandlerExceptionResolver interface.
+- This allows you to define custom logic for resolving exceptions, such as choosing a specific view or handling the exception in a particular way.
+```
+@Component
+public class MyHandlerExceptionResolver implements HandlerExceptionResolver {
+
+    @Override
+    public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+        if (ex instanceof ResourceNotFoundException) {
+            //  returns a ModelAndView object that represents a specific view and model.
+            ModelAndView modelAndView = new ModelAndView("error/404");
+            modelAndView.addObject("errorMessage", ex.getMessage());
+            response.setStatus(HttpStatus.NOT_FOUND.value());
+            return modelAndView;
+        }
+        return null;  // Let Spring handle other exceptions
+    }
+}
+```
+
+#### 4. `ResponseEntityExceptionHandler`
+- Spring provides a convenient base class, `ResponseEntityExceptionHandler`, that provides default handling for many standard Spring MVC exceptions.
+- You can extend this class and override its methods to customize the handling of these exceptions or add handling for your own custom exceptions.
+```
+@ControllerAdvice
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+        MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        List<String> errors = ex.getBindingResult().getFieldErrors().stream()
+            .map(FieldError::getDefaultMessage)
+            .collect(Collectors.toList());
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Validation error", errors);
+        return new ResponseEntity<>(errorResponse, headers, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    //Error Response
+    public class ErrorResponse {
+        private int statusCode;
+        private String message;
+        private List<String> errors; // Add this field
+
+        public ErrorResponse(int statusCode, String message) {
+            this.statusCode = statusCode;
+            this.message = message;
+        }
+        public ErrorResponse(int statusCode, String message, List<String> errors) {
+            this.statusCode = statusCode;
+            this.message = message;
+            this.errors = errors;
+        }
+
+        public int getStatusCode() {
+            return statusCode;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+        public List<String> getErrors() {
+            return errors;
+        }
+    }
+}
+```
+**Best Practices**
+- Use specific exception types: Avoid catching generic Exception unless absolutely necessary.  Catching specific exceptions allows for more targeted error handling.
+- Use `@ControllerAdvice` for global exception handling:  This keeps your controller code clean and organized.
+- _Return consistent error responses:_  Define a standard format for your error responses (e.g., JSON with status code and message) to make it easier for clients to handle errors.
+- _Log exceptions:_  Log the full exception details (including stack traces) to help with debugging.  Be careful not to log sensitive information.
+- _Handle exceptions gracefully:_  Don't just let exceptions propagate up the stack.  Handle them in a way that provides a user-friendly error message and prevents the application from crashing.
+
 ---
 ## 31. Class variable, instance variable, and method (local) variable
 In Java, variables can be declared at different levels within a class. Each type of variable **class variable**, **instance variable**, and **method (local) variable** has its own purpose, scope, and lifecycle. 
