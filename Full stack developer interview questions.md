@@ -100,7 +100,8 @@ System.out.println(str2); // Output: Hello World (str2 is a new string)
 Spring Boot provides robust support for validating data, especially in the context of handling web requests and ensuring data integrity.  The primary mechanism for validation in Spring Boot is through the use of the Bean Validation API (JSR-380), with Hibernate Validator being the most commonly used implementation.
 
 **Key Concepts and Components**
-- **1. Bean Validation API (JSR-380)**:A specification that defines a set of annotations for expressing constraints on Java objects.These annotations specify rules for validating the data within the fields of a class.
+
+**1. Bean Validation API (JSR-380)**:A specification that defines a set of annotations for expressing constraints on Java objects.These annotations specify rules for validating the data within the fields of a class.
 
 **2. Hibernate Validator:** The reference implementation of the Bean Validation API.Provides a concrete implementation of the validation annotations and the validation engine.Spring Boot automatically integrates with Hibernate Validator when it's included in your project.
 
@@ -200,6 +201,7 @@ public class UserController {
 ---
 ## 5. Stream API  
 Stream API in Java is used for processing collections efficiently.
+
 Examples:
 ```java
 List<Integer> evenNumbers = numbers.stream()
@@ -667,7 +669,6 @@ public class FactoryPatternDemo {
 It uses **TimSort**, which is a hybrid of **MergeSort and InsertionSort**.
 
 ---
-
 ## 15. Challenges Faced as an Engineer  
 - **Performance Issues** → Optimized SQL Queries  
 - **Scalability** → Used Caching Mechanisms  
@@ -700,8 +701,9 @@ Here's a more detailed breakdown:
 
 **4. Memory Management:** 
 - The JVM automatically manages memory through allocation and garbage collection.
-- Objects are allocated in the heap, and when no longer referenced, the garbage collector reclaims their memory. 
-5. Platform Independence:  
+- Objects are allocated in the heap, and when no longer referenced, the garbage collector reclaims their memory.
+
+**5. Platform Independence:**  
 - The JVM provides a platform-independent environment, meaning Java applications can run on different operating systems and hardware architectures without modification.
 - This is achieved by the JVM handling the translation of bytecode into machine code specific to the underlying platform. 
 
@@ -752,19 +754,44 @@ While Java's automatic memory management (garbage collection) helps prevent many
   }
   ```
 
-**4. Object Caching:** Improperly implemented object caching can lead to memory leaks if objects are added to the cache but never removed, causing the cache to grow indefinitely.Map<String, Object> cache = new HashMap<>();
+**4. Object Caching:**
+  - Improperly implemented object caching can lead to memory leaks if objects are added to the cache but never removed, causing the cache to grow indefinitely.
+```
+Map<String, Object> cache = new HashMap<>();
 
 public void addToCache(String key, Object obj) {
     cache.put(key, obj); // No removal policy
 }
-Internalization of Strings:Using String.intern() adds a string to the string pool. Excessive or unnecessary use of intern() can lead to the string pool growing very large, as these strings are typically not garbage collected.String data = "some data";
+```
+**5. Internalization of Strings:**
+Using `String.intern()` adds a string to the string pool. Excessive or unnecessary use of `intern()` can lead to the string pool growing very large, as these strings are typically not garbage collected.
+```
+String data = "some data";
 String internedData = data.intern(); // Added to string pool
-Finalizers:While finalizers were intended for cleanup, their execution is unpredictable and they can even cause memory leaks.  If a finalizer creates new references, it can prevent objects from being collected in a timely manner, or even indefinitely.  Finalizers are largely obsolete and should be avoided.@Override
+```
+
+**6. Finalizers:**
+While finalizers were intended for cleanup, their execution is unpredictable and they can even cause memory leaks. If a finalizer creates new references, it can prevent objects from being collected in a timely manner, or even indefinitely.  Finalizers are largely obsolete and should be avoided.
+```
+@Override
 protected void finalize() {
    //create a reference to another object.
    myObj = new Object();  //avoid using finalizers, this is bad.
 }
-Identifying and Preventing Memory LeaksCode Reviews: Thorough code reviews can help identify potential memory leak issues early in the development process.Profiling Tools: Tools like VisualVM, YourKit, and JProfiler can help monitor memory usage, identify objects that are not being garbage collected, and pinpoint the source of memory leaks.Heap Dumps: Analyzing heap dumps can provide a snapshot of the objects in memory and help identify the objects that are consuming the most memory.Best Practices:Always close resources in finally blocks or use try-with-resources.Be mindful of object lifetimes and remove objects from collections when they are no longer needed.Unregister listeners and callbacks when appropriate.Implement cache eviction policies (e.g., LRU, FIFO) for object caches.Avoid excessive use of String.intern().Avoid finalizers.By understanding the causes of memory leaks and following best practices, you can significantly reduce the risk of memory leaks in your Java applications.
+```
+**Identifying and Preventing Memory Leaks**
+- _Code Reviews:_ Thorough code reviews can help identify potential memory leak issues early in the development process.
+- _Profiling Tools:_ Tools like VisualVM, YourKit, and JProfiler can help monitor memory usage, identify objects that are not being garbage collected, and pinpoint the source of memory leaks.
+- _Heap Dumps:_ Analyzing heap dumps can provide a snapshot of the objects in memory and help identify the objects that are consuming the most memory.
+- _Best Practices:_
+  - Always close resources in `finally` blocks or use try-with-resources.
+  - Be mindful of object lifetimes and remove objects from collections when they are no longer needed.
+  - Unregister listeners and callbacks when appropriate.
+  - Implement cache eviction policies (e.g., LRU, FIFO) for object caches.
+  - Avoid excessive use of `String.intern()`.
+  - Avoid finalizers.
+
+By understanding the causes of memory leaks and following best practices, you can significantly reduce the risk of memory leaks in your Java applications.
 
 ---
 ## 19. Understanding Browser Caching  
