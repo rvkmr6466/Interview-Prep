@@ -961,7 +961,7 @@ spring:
 - Easy integration of new consumers
 
 **Summary**
-The **Kafka + Spring Boot** combo enables a powerful event-driven architecture. Producers publish domain events, and consumers react to them asynchronously — making your microservices resilient, loosely coupled, and scalable.
+- The **Kafka + Spring Boot** combo enables a powerful event-driven architecture. Producers publish domain events, and consumers react to them asynchronously — making your microservices resilient, loosely coupled, and scalable.
 
 ---
 ## 22. JpaRepository vs CrudRepository in SpringBoot
@@ -1006,7 +1006,7 @@ In microservices, the **Circuit Breaker pattern** helps prevent cascading failur
   	Increases the robustness of the overall microservices architecture.
 
 **Example**
-Imagine a **Shopping Cart** microservice that depends on a **Product Catalog** microservice to fetch product details. If the Product Catalog service goes down, the Shopping Cart service could be overwhelmed with requests and may fail too.
+- Imagine a **Shopping Cart** microservice that depends on a **Product Catalog** microservice to fetch product details. If the Product Catalog service goes down, the Shopping Cart service could be overwhelmed with requests and may fail too.
 By implementing a **Circuit Breaker**, the Shopping Cart service can:
 - Monitor the Product Catalog service.
 - Open the circuit if failures exceed a threshold.
