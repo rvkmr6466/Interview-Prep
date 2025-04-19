@@ -282,8 +282,55 @@ System.out.println(i + " " + j); // corrected output
 ```
 
 ---
-### 9. 
+### 9. Find the output:
+```
+class Parent {
+	public void print() throws FileNotFoundException {
+		System.out.println("Parent");
+    	}
+    }
+    
+    public class Child extends Parent{
+    	@Override
+    	public void print() throws  IOException{
+    		System.out.println("Child ");
+    	}
+    
+    	public static void main(String[] args) throws IOException {
+    		Parent p = new Child();
+    		p.print();
+    }
+}
+```
+**Output:**
+```
+Child
+```
 
+---
+### 10. Count repeating numbers from an array in map in java.
+```java
+mport java.util.*;
 
-
+public class Main {
+    public static void main(String[] args) {
+        int[] arr = {1,2,3,4,2,2,3};
+        int count=0;
+        Map<Integer, Integer> h = new HashMap<>();
+        
+        for (Integer n: arr) {
+          if (h.get(n)==null) {
+            h.put(n, 1);
+          } else {
+            int x = h.get(n);
+            h.put(n, x+1);
+          }
+        }  
+      System.out.println(h);
+}
+  ``` 
+**Output:**
+```
+{1=1, 2=3, 3=2, 4=1}
+```
 
