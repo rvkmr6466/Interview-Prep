@@ -98,6 +98,7 @@ System.out.println(str2); // Output: Hello World (str2 is a new string)
 ---
 ## Q4. Validation in Spring Boot  
 Spring Boot provides robust support for validating data, especially in the context of handling web requests and ensuring data integrity.  The primary mechanism for validation in Spring Boot is through the use of the Bean Validation API (JSR-380), with Hibernate Validator being the most commonly used implementation.
+
 **Key Concepts and Components**
 - **1. Bean Validation API (JSR-380)**:A specification that defines a set of annotations for expressing constraints on Java objects.These annotations specify rules for validating the data within the fields of a class.
 
@@ -121,7 +122,6 @@ Spring Boot provides robust support for validating data, especially in the conte
 **6. `@Validated` Annotation:** A class-level annotation that tells Spring to enable validation of @Constraint annotations defined on method parameters.
 
 **How Validation Works in Spring Boot**
-
 * _Define Constraints:_ 
 Add validation annotations to the fields of the class you want to validate (e.g., a data transfer object (DTO) or an entity).
 * _Trigger Validation:_
@@ -1851,6 +1851,7 @@ Two -> 2
 ---
 ## 48. How to Use Caching in Spring Boot
 Spring Boot provides built-in support for caching using the **Spring Cache Abstraction**. This allows caching data in memory or using external cache providers like **Redis**, **EhCache**, and **Caffeine**.
+
 **1. Enable Caching in Spring Boot**
 First, enable caching in your Spring Boot application by adding the `@EnableCaching` annotation in your main class or a configuration class.
 ```java
@@ -1866,6 +1867,7 @@ public class CachingExampleApplication {
     }
 }
 ```
+
 **2. Use @Cacheable Annotation**
 You can use `@Cacheable` to cache method results so that subsequent calls with the same arguments return the cached result instead of executing the method again.
 **Example: Caching a Method Result**
@@ -1934,6 +1936,7 @@ spring.cache.type=redis
 spring.redis.host=localhost
 spring.redis.port=6379
 ```
+
 **6. Example with Redis Cache**
 If you want to use Redis as a cache, add the following dependency in `pom.xml`:
 ```xml
@@ -2002,29 +2005,29 @@ Exception in thread "main" java.util.ConcurrentModificationException
 
 **Ways to Avoid ConcurrentModificationException**
 - **1. Use Iterator’s remove() Method**
-	Instead of modifying the list directly, use `Iterator.remove()`.
-	```java
-	import java.util.*;
+Instead of modifying the list directly, use `Iterator.remove()`.
+```java
+import java.util.*;
 
-	public class FixWithIterator {
-    		public static void main(String[] args) {
-        		List<String> list = new ArrayList<>();
-        		list.add("A");
-        		list.add("B");
-        		list.add("C");
+public class FixWithIterator {
+	public static void main(String[] args) {
+		List<String> list = new ArrayList<>();
+		list.add("A");
+		list.add("B");
+		list.add("C");
 
-        		Iterator<String> iterator = list.iterator();
-        		while (iterator.hasNext()) {
-            			String s = iterator.next();
-		        	if (s.equals("B")) {
-                			iterator.remove(); // Safe removal
-            			}
-        		}
+		Iterator<String> iterator = list.iterator();
+		while (iterator.hasNext()) {
+			String s = iterator.next();
+			if (s.equals("B")) {
+				iterator.remove(); // Safe removal
+			}
+		}
 
-		        System.out.println(list); // Output: [A, C]
-    		}
+		System.out.println(list); // Output: [A, C]
 	}
-	```
+}
+```
 
 **2. Use `CopyOnWriteArrayList` (Thread-Safe)**
 `CopyOnWriteArrayList` creates a copy of the list whenever modified, avoiding modification issues.
@@ -3369,35 +3372,146 @@ public class MySpringBootApplication {
 ```
 
 ---
-
 ## 67. How to configure multiple database in Spring Boot.
-Add in your application.properties file:
+It's common for applications to interact with multiple databases. 
+Here's how you can configure this in Spring Boot:
+### 1. Define Data Source Properties
+- In your `application.properties` or `application.yml` file, define the properties for each data source. Use distinct prefixes to differentiate them.
+```properties
+# Primary database
+spring.datasource.primary.url=jdbc:mysql://localhost:3306/primarydb
+spring.datasource.primary.username=user
+spring.datasource.primary.password=password
+spring.datasource.primary.driver-class-name=com.mysql.cj.jdbc.Driver
 
-#first db
-spring.datasource.url = [url]
-spring.datasource.username = [username]
-spring.datasource.password = [password]
-spring.datasource.driverClassName = oracle.jdbc.OracleDriver
+# Secondary database
+spring.datasource.secondary.url=jdbc:postgresql://localhost:5432/secondarydb
+spring.datasource.secondary.username=user2
+spring.datasource.secondary.password=password2
+spring.datasource.secondary.driver-class-name=org.postgresql.Driver
+```
 
-#second db ...
-spring.secondDatasource.url = [url]
-spring.secondDatasource.username = [username]
-spring.secondDatasource.password = [password]
-spring.secondDatasource.driverClassName = oracle.jdbc.OracleDriver
-Add in any class annotated with @Configuration the following methods:
+### 2. Create DataSource Configurations
+- Create configuration classes to define each `DataSource`. Use `@ConfigurationProperties` to bind the properties defined in the `application.properties` file. Mark one `DataSource` as `@Primary` if it should be the default.
+```java
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import javax.sql.DataSource;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 
-@Bean
-@Primary
-@ConfigurationProperties(prefix="spring.datasource")
-public DataSource primaryDataSource() {
-    return DataSourceBuilder.create().build();
+@Configuration
+public class DataSourceConfig {
+
+    @Primary
+    @Bean("primaryDataSourceProperties")
+    @ConfigurationProperties("spring.datasource.primary")
+    public DataSourceProperties primaryDataSourceProperties() {
+        return new DataSourceProperties();
+    }
+
+    @Primary
+    @Bean("primaryDataSource")
+    public DataSource primaryDataSource() {
+        return primaryDataSourceProperties().initializeDataSourceBuilder().build();
+    }
+
+    @Bean("secondaryDataSourceProperties")
+    @ConfigurationProperties("spring.datasource.secondary")
+    public DataSourceProperties secondaryDataSourceProperties() {
+        return new DataSourceProperties();
+    }
+
+    @Bean("secondaryDataSource")
+    public DataSource secondaryDataSource() {
+        return secondaryDataSourceProperties().initializeDataSourceBuilder().build();
+    }
+}
+```
+
+### 3. Configure EntityManagerFactories (JPA)
+If you're using Spring Data JPA, you'll need to configure separate `EntityManagerFactory` beans for each data source. This ensures that JPA knows which database to use for which entities.
+```java
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
+
+@Configuration
+public class JpaConfig {
+
+    @Bean("primaryEntityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean primaryEntityManagerFactory(
+            @Qualifier("primaryDataSource") DataSource dataSource) {
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(dataSource);
+        em.setPackagesToScan("com.example.model.primary"); // Package for primary DB entities
+        em.setPersistenceUnitName("primary");
+
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        em.setJpaVendorAdapter(vendorAdapter);
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect"); // Or your dialect
+        em.setJpaPropertyMap(properties);
+        return em;
+    }
+
+    @Bean("secondaryEntityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean secondaryEntityManagerFactory(
+            @Qualifier("secondaryDataSource") DataSource dataSource) {
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(dataSource);
+        em.setPackagesToScan("com.example.model.secondary"); // Package for secondary DB entities
+        em.setPersistenceUnitName("secondary");
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        em.setJpaVendorAdapter(vendorAdapter);
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect"); // Or your dialect
+        em.setJpaPropertyMap(properties);
+        return em;
+    }
+
+    @Bean("primaryTransactionManager")
+    public PlatformTransactionManager primaryTransactionManager(
+            @Qualifier("primaryEntityManagerFactory") LocalContainerEntityManagerFactoryBean entityManagerFactory) {
+        return new JpaTransactionManager(entityManagerFactory.getObject());
+    }
+
+    @Bean("secondaryTransactionManager")
+    public PlatformTransactionManager secondaryTransactionManager(
+            @Qualifier("secondaryEntityManagerFactory") LocalContainerEntityManagerFactoryBean entityManagerFactory) {
+        return new JpaTransactionManager(entityManagerFactory.getObject());
+    }
+}
+```
+
+### 4. Configure Spring Data JPA Repositories
+Create separate Spring Data JPA repository interfaces for each database, specifying the correct `entityManagerFactoryRef` and `transactionManagerRef`.
+```java
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface PrimaryRepository extends JpaRepository<PrimaryEntity, Long> {
 }
 
-@Bean
-@ConfigurationProperties(prefix="spring.secondDatasource")
-public DataSource secondaryDataSource() {
-    return DataSourceBuilder.create().build();
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+@Repository
+@Transactional("secondaryTransactionManager") // Use the correct transaction manager
+public interface SecondaryRepository extends JpaRepository<SecondaryEntity, Long> {
 }
+```
 
 ---
 ## 68. Object class methods in java:
@@ -3601,7 +3715,6 @@ Garbage collection is triggered automatically by the JVM when it detects low mem
 Java uses generational garbage collection, dividing the heap into generations (young, old/tenured). Newly created objects are placed in the young generation, and objects that survive multiple garbage collection cycles are promoted to older generations. This approach optimizes garbage collection by focusing on the young generation, where most objects are short-lived. 
 
 ---
-
 ## 76. Can we override main method in java?
 The main method in Java cannot be overridden in the traditional sense due to it being a static method. Overriding applies to instance methods in the context of inheritance. However, the main method can be overloaded. 
 Overloading the main method means creating multiple methods with the same name but different signatures (different parameter lists). When the Java Virtual Machine (JVM) starts a program, it specifically looks for the main method with the signature public static void main(String[] args). Other overloaded main methods will not be executed automatically by the JVM; they must be called explicitly from within the public static void main(String[] args) method or other parts of the code. 
