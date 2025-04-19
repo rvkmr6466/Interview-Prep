@@ -134,44 +134,63 @@ List<String> stringList = numbers.stream()
 ```
 
 ---
-## 6. What are functional interfaces, and how are they used?  
-A functional interface in Java is an interface with exactly one abstract method, allowing it to be used with lambda expressions and method references. These interfaces are a cornerstone of functional programming in Java, enabling concise and expressive code.  
-Here's a breakdown of functional interfaces: 
-- **Single Abstract Method (SAM)**: A functional interface must have only one abstract method, also known as the "functional method". 
-- **Lambda Expressions & Method References:** The presence of a single abstract method makes the interface a target type for lambda expressions and method references, allowing for concise and functional code. 
-- **Optional @FunctionalInterface Annotation:** While not mandatory, the @FunctionalInterface annotation can be used to explicitly declare an interface as a functional interface, helping the compiler catch errors if the interface definition violates the SAM rule. 
-- **Default and Static Methods:** Functional interfaces can also contain default and static methods, in addition to the single abstract method. 
-- **Examples**: Runnable, ActionListener, Consumer<T>, Supplier<T>, Function<T, R>, and Predicate<T> are common examples of functional interfaces provided by Java.
- 
-How to Use Functional Interfaces:
-1. **Create a Functional Interface:** Define an interface with only one abstract method.
-2. **Implement with Lambda Expressions:** Use lambda expressions to provide implementations for the functional method.  
-3. **Use with Method References:** Use method references to provide implementations for the functional method. 
-4. **Pass as Arguments:** Pass functional interface instances (lambda expressions or method references) as arguments to methods that expect them.  
-5. **Return as Values:** Return functional interface instances (lambda expressions or method references) from methods.
+## 6. What are functional interfaces, and how are they used? 
+A **functional interface** in Java is an interface that contains exactly one abstract method. These interfaces can have multiple default or static methods, but they must have only one abstract method. Functional interfaces are a key concept in Java's support for functional programming, introduced in Java 8.
 
-**Example**: 
-```java
- @FunctionalInterface
- interface MyInterface {
-    void doSomething(String input);
- }
+Functional interfaces can be used as the assignment target for a lambda expression or method reference. They provide a way to represent a single behavior or action, making it easier to pass around functionality as parameters.
 
- public class Main {
-    public static void main(String[] args) {
-        // Using a lambda expression
-        MyInterface lambdaImpl = (String input) -> System.out.println("Lambda: " + input);
-        lambdaImpl.doSomething("Hello");
+### Key Characteristics of Functional Interfaces:
+1. **Single Abstract Method**: A functional interface must have exactly one abstract method. This is the method that will be implemented by a lambda expression or method reference.
+2. **@FunctionalInterface Annotation**: While not mandatory, it is a good practice to annotate a functional interface with `@FunctionalInterface`. This annotation helps to enforce the rule of having only one abstract method and provides compile-time checking.
+3. **Default and Static Methods**: Functional interfaces can have multiple default and static methods. These methods can provide additional functionality without affecting the functional nature of the interface.
 
-        // Using a method reference
-        MyInterface methodRefImpl = System.out::println;
-        methodRefImpl.doSomething("Method Reference");
-    }
- }
-```
+### Common Examples of Functional Interfaces:
+Java provides several built-in functional interfaces in the `java.util.function` package, including:
+1. **Predicate<T>**: Represents a boolean-valued function of one argument. It has a method `test(T t)`.
+   ```java
+   Predicate<String> isNotEmpty = str -> !str.isEmpty();
+   ```
+2. **Function<T, R>**: Represents a function that takes one argument and produces a result. It has a method `apply(T t)`.
+   ```java
+   Function<String, Integer> stringLength = str -> str.length();
+   ```
+3. **Consumer<T>**: Represents an operation that accepts a single input argument and returns no result. It has a method `accept(T t)`.
+   ```java
+   Consumer<String> print = str -> System.out.println(str);
+   ```
+4. **Supplier<T>**: Represents a supplier of results. It has a method `get()` that returns a value.
+   ```java
+   Supplier<Double> randomValue = () -> Math.random();
+   ```
+5. **BinaryOperator<T>**: Represents an operation on two operands of the same type, producing a result of the same type. It has a method `apply(T t1, T t2)`.
+   ```java
+   BinaryOperator<Integer> add = (a, b) -> a + b;
+   ```
 
-We don’t need to define the method with an abstract keyword because by default functional interface will allow only one abstract method, if we try to define more than one abstract method in the functional interface we will get a _compile time error_.
-![image](https://github.com/user-attachments/assets/202f7155-752c-4bb3-b562-73961290eda9)
+#### **How are Functional Interfaces Used?**
+Functional interfaces are primarily used in the context of lambda expressions and method references. Here are some common use cases:
+1. **Lambda Expressions**: You can use a lambda expression to provide the implementation of a functional interface.
+   ```java
+   // Using a functional interface with a lambda expression
+   Runnable runnable = () -> System.out.println("Running in a thread");
+   new Thread(runnable).start();
+   ```
+2. **Method References**: You can use method references to refer to methods by their names, which can be used as implementations of functional interfaces.
+   ```java
+   // Using a method reference
+   List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+   names.forEach(System.out::println); // Method reference to println
+   ```
+3. **Stream API**: Functional interfaces are heavily used in the Stream API for operations like filtering, mapping, and reducing.
+   ```java
+   List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+   List<String> filteredNames = names.stream()
+                                      .filter(name -> name.startsWith("A"))
+                                      .collect(Collectors.toList());
+   ```
+4. **Event Handling**: Functional interfaces can be used in event handling scenarios, such as in GUI applications, where you can define actions for button clicks or other events.
+**Conclusion**
+Functional interfaces are a powerful feature in Java that enable functional programming paradigms. They allow for cleaner, more concise code by enabling the use of lambda expressions and method references, making it easier to pass behavior as parameters and work with collections and streams.
 
 ---
 ## 7. SOLID Principles  
@@ -1343,7 +1362,95 @@ Heap memory and stack memory are two distinct areas of memory used by programs t
 - Stack memory is like a temporary workspace for a function, while heap memory is a general pool of memory for creating and managing objects or data structures with longer lifespans.
 
 ---
-## 38. 
+## 38. Spring Boot - Dependency Injection
+Dependency Injection (DI) is a fundamental concept in Spring Boot and the Spring Framework as a whole. It allows for the creation of loosely coupled applications by managing the dependencies between different components. Here’s a brief overview of how Dependency Injection works in Spring Boot, along with examples.
+
+**Key Concepts**
+1. **Inversion of Control (IoC)**: This is the principle that underlies Dependency Injection. Instead of the application code controlling the flow of the program, the framework (Spring) takes control and manages the instantiation and lifecycle of objects.
+
+2. **Beans**: In Spring, objects that are managed by the Spring IoC container are called beans. You define beans in your application context, and Spring takes care of their creation and dependency management.
+
+3. **Annotations**: Spring provides several annotations to facilitate Dependency Injection, including:
+   - `@Component`: Indicates that a class is a Spring-managed component.
+   - `@Service`: A specialization of `@Component`, used for service layer classes.
+   - `@Repository`: A specialization of `@Component`, used for data access layer classes.
+   - `@Controller`: A specialization of `@Component`, used for web controllers.
+   - `@Autowired`: Used to inject dependencies automatically.
+   - `@Configuration`: Indicates that a class can be used by the Spring IoC container as a source of bean definitions.
+   - `@Bean`: Indicates that a method produces a bean to be managed by the Spring container.
+
+**Example of Dependency Injection**
+Here’s a simple example to illustrate Dependency Injection in a Spring Boot application.
+
+1. **Create a Service Interface**:
+
+```java
+public interface GreetingService {
+    String greet(String name);
+}
+```
+
+2. **Implement the Service**:
+
+```java
+import org.springframework.stereotype.Service;
+
+@Service
+public class GreetingServiceImpl implements GreetingService {
+    @Override
+    public String greet(String name) {
+        return "Hello, " + name + "!";
+    }
+}
+```
+
+3. **Create a Controller**:
+
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class GreetingController {
+
+    private final GreetingService greetingService;
+
+    @Autowired
+    public GreetingController(GreetingService greetingService) {
+        this.greetingService = greetingService;
+    }
+
+    @GetMapping("/greet")
+    public String greet(@RequestParam String name) {
+        return greetingService.greet(name);
+    }
+}
+```
+
+4. **Application Class**:
+
+```java
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DemoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
+```
+
+**Explanation**
+- **GreetingService**: This is an interface that defines a method for greeting.
+- **GreetingServiceImpl**: This class implements the `GreetingService` interface and is annotated with `@Service`, making it a Spring-managed bean.
+- **GreetingController**: This class is a REST controller that uses the `GreetingService`. The `@Autowired` annotation is used to inject the `GreetingService` dependency into the controller's constructor.
+- **DemoApplication**: This is the main class that bootstraps the Spring Boot application.
+
+**Conclusion**
+Dependency Injection in Spring Boot promotes loose coupling and enhances testability. By using annotations, you can easily manage your application's components and their dependencies, making your code cleaner and more maintainable.
 
 ---
 
@@ -3663,21 +3770,7 @@ Use MANDATORY and NEVER Wisely: These propagation types enforce strict transacti
 Understanding and correctly using transaction propagation in Spring Boot is essential for building robust and reliable applications. By choosing the right propagation type, you can ensure that your transactional methods behave as expected, maintaining data consistency and integrity.
 
 ---
-
-## n. Best Websites to Practice JavaScript Output-Based Questions
-
-1. **[JSitor](https://jsitor.com/)**
-2. **[JSBench.me](https://jsbench.me/)**
-3. **[W3Schools JavaScript Quiz](https://www.w3schools.com/js/js_quiz.asp)**
-4. **[GeeksforGeeks JavaScript Quiz](https://www.geeksforgeeks.org/javascript-quiz-set-1/)**
-5. **[Codewars](https://www.codewars.com/)**
-6. **[Edabit](https://edabit.com/challenges)**
-7. **[LeetCode JavaScript Challenges](https://leetcode.com/tag/javascript/)**
-8. **[HackerRank JavaScript Challenges](https://www.hackerrank.com/domains/tutorials/10-days-of-javascript)**
-
----
-
-## What is the difference between a class and an object? 
+## Q. What is the difference between a class and an object? 
 In Java, a class is a blueprint or template that defines the structure and behavior of objects. It contains fields (variables) and methods (functions) that define what the object will hold and what it can do. Think of a class like an architectural blueprint for a house — it outlines the design but is not an actual house itself.
 
 An object, on the other hand, is an instance of a class. When you create an object using the `new` keyword, you are creating a real entity in memory based on that class. You can create multiple objects from the same class, each with its own set of values.
@@ -3704,31 +3797,1514 @@ Here, `Car` is the class. `car1` is an object of the `Car` class. You can create
 Classes define the behavior and structure; objects are the actual things created based on those definitions. Without a class, you cannot create an object, and without creating an object, the class serves as just a concept. Objects allow you to use and manipulate the behavior defined in classes during runtime.
 
 ---
-## 
+## Q. What are key annotations in Spring Boot?
+Spring Boot provides several key annotations that simplify the development of Spring applications. Some of the most important ones include:
+1. **@SpringBootApplication**: A convenience annotation that combines `@Configuration`, `@EnableAutoConfiguration`, and `@ComponentScan`. It is typically placed on the main class to enable Spring Boot features.
+2. **@Component**: Indicates that a class is a Spring-managed component. It can be used for any Spring-managed bean.
+3. **@Service**: A specialization of `@Component`, used to annotate service layer classes.
+4. **@Repository**: A specialization of `@Component`, used for data access layer classes. It also provides additional features like exception translation.
+5. **@Controller**: Used to define a web controller in a Spring MVC application.
+6. **@RestController**: A convenience annotation that combines `@Controller` and `@ResponseBody`, indicating that the controller's methods return data directly in the response body.
+7. **@Autowired**: Used for automatic dependency injection. It can be applied to constructors, fields, or setter methods.
+8. **@Value**: Used to inject values from application properties or environment variables.
+9. **@Configuration**: Indicates that a class can be used by the Spring IoC container as a source of bean definitions.
+10. **@Bean**: Indicates that a method produces a bean to be managed by the Spring container.
+11. **@Transactional**: Used to define the scope of a single database transaction.
 
-✅ Explain OOP principles (Encapsulation, Inheritance, Polymorphism, Abstraction) with examples. 
-✅ What is method overloading vs. method overriding? 
-✅ How does Java handle memory management (Heap vs. Stack, Garbage Collection)? 
-✅ Explain shallow copy vs. deep copy in Java. 
-✅ What are static methods and variables, and when should you use them? 
+---
+## Q. Difference between @Controller vs. @RestController?
+- **@Controller**:
+  - Used in Spring MVC to define a controller that handles web requests.
+  - Typically returns a view name (e.g., JSP, Thymeleaf) that is resolved by a view resolver.
+  - Requires the use of `@ResponseBody` to return data directly in the response body.
 
-hashtag#Comparator vs. Comparable 
-✅ What is the difference between Comparator and Comparable? 
-✅ How do you sort a list using Comparator? 
-✅ Can a class implement both Comparator and Comparable? 
-✅ How do you handle multiple sorting criteria in Java? 
+- **@RestController**:
+  - A convenience annotation that combines `@Controller` and `@ResponseBody`.
+  - Used for RESTful web services, where the response is typically in JSON or XML format.
+  - Automatically serializes the return value of methods into the response body, eliminating the need for `@ResponseBody`.
 
-hashtag#Functional Programming & Streams 
-✅ What are functional interfaces, and how are they used? 
-✅ Explain filter, map, reduce operations in Java Streams. 
-✅ How do you handle parallel streams, and when should you use them? 
-✅ What is the difference between findFirst() and findAny()? 
-✅ Can you modify a collection while iterating using streams? 
+---
+## Q. What is the Bean Lifecycle in Spring?
+The Bean Lifecycle in Spring consists of several phases:
+1. **Instantiation**: The Spring container creates an instance of the bean.
+2. **Populate Properties**: The container injects the dependencies into the bean's properties.
+3. **Bean Name Aware**: If the bean implements `BeanNameAware`, the container calls `setBeanName()` to provide the bean's ID.
+4. **Bean Factory Aware**: If the bean implements `BeanFactoryAware`, the container calls `setBeanFactory()` to provide the bean factory.
+5. **Application Context Aware**: If the bean implements `ApplicationContextAware`, the container calls `setApplicationContext()` to provide the application context.
+6. **Pre-Initialization**: The container applies any `BeanPostProcessors` before the initialization callback.
+7. **Initialization**: If the bean implements `InitializingBean`, the `afterPropertiesSet()` method is called. Additionally, any custom initialization methods defined with `@PostConstruct` are invoked.
+8. **Post-Initialization**: The container applies any `BeanPostProcessors` after the initialization callback.
+9. **Destruction**: When the application context is closed, the container calls the `destroy()` method if the bean implements `DisposableBean`. Any custom destruction methods defined with `@PreDestroy` are also invoked.
 
-hashtag#Spring Boot & Advanced Java 
-✅ What are key annotations in Spring Boot? 
-✅ Difference between @Controller vs. @RestController? 
-✅ What is the Bean Lifecycle in Spring? 
-✅ How does Spring Boot handle dependency injection? 
-✅ What are proxies in Spring, and why are they needed? 
-✅ How does @Transactional work in Spring Boot? 
+---
+## Q. What are proxies in Spring, and why are they needed?
+**Proxies** in Spring are objects that act as intermediaries for other objects. They are used primarily for:
+1. **Aspect-Oriented Programming (AOP)**: Proxies allow Spring to apply cross-cutting concerns (like logging, security, and transactions) to methods without modifying the actual business logic.
+2. **Lazy Initialization**: Proxies can be used to delay the creation of a bean until it is needed, which can improve application startup time.
+3. **Transaction Management**: Proxies are used to manage transactions by wrapping the target bean and intercepting method calls to handle transaction boundaries.
+
+Spring supports two types of proxies:
+- **JDK Dynamic Proxies**: Used for interfaces. The proxy implements the interface and delegates calls to the target object.
+- **CGLIB Proxies**: Used for classes. The proxy is a subclass of the target class and overrides its methods.
+
+---
+## Q. How does @Transactional work in Spring Boot?
+The `@Transactional` annotation in Spring Boot is used to manage transactions declaratively. It can be applied at the class or method level. Here’s how it works:
+1. **Transaction Management**: When a method annotated with `@Transactional` is called, Spring creates a new transaction or joins an existing one, depending on the propagation settings.
+2. **Rollback Behavior**: If an unchecked exception (like `RuntimeException`) occurs within the transactional method, the transaction is automatically rolled back. You can customize the rollback behavior by specifying which exceptions should trigger a rollback.
+3. **Isolation Levels**: You can define the isolation level of the transaction using the `isolation` attribute of the `@Transactional` annotation. This controls how transactions interact with each other.
+4. **Propagation Settings**: The `propagation` attribute determines how transactions are handled when a method annotated with `@Transactional` is called from another transactional method. For example, `REQUIRED` means that the existing transaction will be used, while `REQUIRES_NEW` will create a new transaction.
+5. **Transaction Manager**: Spring uses a transaction manager (like `DataSourceTransactionManager` for JDBC or `JpaTransactionManager` for JPA) to manage the transaction lifecycle. The appropriate transaction manager is automatically selected based on the configuration.
+6. **Commit and Rollback**: At the end of the method execution, if no exceptions were thrown, the transaction is committed. If an exception occurs, the transaction is rolled back, ensuring data integrity.
+By using `@Transactional`, developers can simplify transaction management and ensure that operations are executed atomically, enhancing the reliability of the application.
+
+---
+## Q. Explain filter, map, reduce operations in Java Streams.
+Java Streams provide a powerful way to process sequences of elements (like collections) in a functional style. The three primary operations are **filter**, **map**, and **reduce**.
+
+1. **filter**:
+   - The `filter` operation is used to select elements from a stream that match a given predicate (a condition).
+   - It returns a new stream containing only the elements that satisfy the condition specified in the predicate.
+
+   **Example**:
+   ```java
+   List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David");
+   List<String> filteredNames = names.stream()
+                                     .filter(name -> name.startsWith("A"))
+                                     .collect(Collectors.toList());
+   // filteredNames will contain ["Alice"]
+   ```
+
+2. **map**:
+   - The `map` operation is used to transform each element in the stream into another form. It applies a function to each element and returns a new stream containing the transformed elements.
+   - The function provided to `map` takes an element of the original stream and produces a new element.
+
+   **Example**:
+   ```java
+   List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+   List<Integer> nameLengths = names.stream()
+                                    .map(String::length)
+                                    .collect(Collectors.toList());
+   // nameLengths will contain [5, 3, 7]
+   ```
+
+3. **reduce**:
+   - The `reduce` operation is used to combine the elements of a stream into a single result. It takes a binary operator (a function that combines two elements) and returns an `Optional` containing the result.
+   - It is often used for operations like summing numbers, concatenating strings, or finding the maximum/minimum value.
+
+   **Example**:
+   ```java
+   List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+   Optional<Integer> sum = numbers.stream()
+                                  .reduce((a, b) -> a + b);
+   // sum will contain Optional[15]
+   ```
+
+## Q. How do you handle parallel streams, and when should you use them?
+**Handling Parallel Streams**:
+- You can create a parallel stream by calling the `parallelStream()` method on a collection or by using the `parallel()` method on an existing stream.
+- Parallel streams utilize multiple threads to process elements concurrently, which can lead to performance improvements for large datasets.
+
+**Example**:
+```java
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+int sum = numbers.parallelStream()
+                 .mapToInt(Integer::intValue)
+                 .sum();
+```
+
+**When to Use Parallel Streams**:
+- **Large Datasets**: Parallel streams are beneficial when processing large collections where the overhead of managing multiple threads is outweighed by the performance gains from parallel processing.
+- **CPU-bound Operations**: They are most effective for CPU-bound operations (e.g., complex calculations) rather than I/O-bound operations (e.g., reading files).
+- **Stateless Operations**: Ensure that the operations performed on the stream are stateless and do not modify shared mutable state, as this can lead to unpredictable results.
+
+**Caution**:
+- Avoid using parallel streams for small datasets, as the overhead of managing threads may lead to worse performance.
+- Be cautious with thread safety and shared mutable state when using parallel streams.
+
+## Q. What is the difference between findFirst() and findAny()?
+
+- **findFirst()**:
+  - Returns the first element of the stream that matches the given predicate, if any.
+  - It is ordered and guarantees that the first element encountered in the stream will be returned.
+  - It is typically used with ordered streams.
+
+  **Example**:
+  ```java
+  List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+  Optional<String> firstName = names.stream()
+                                     .filter(name -> name.startsWith("C"))
+                                     .findFirst();
+  // firstName will contain Optional[Charlie]
+  ```
+
+- **findAny()**:
+  - Returns any element of the stream that matches the given predicate, if any.
+  - It is not guaranteed to return the first element; it can return any element that matches the condition.
+  - It is typically used with unordered streams and can be more efficient in parallel processing.
+
+  **Example**:
+  ```java
+  List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+  Optional<String> anyName = names.stream()
+                                   .filter(name -> name.startsWith("C"))
+                                   .findAny();
+  // anyName could be Optional[Charlie] or any other matching element
+  ```
+
+## Q. Can you modify a collection while iterating using streams?
+No, you **cannot** modify a collection while iterating over it using streams. Doing so can lead to `ConcurrentModificationException` or unpredictable behavior. Streams are designed to provide a functional approach to processing data, and modifying the underlying collection during iteration goes against this paradigm.
+If you need to modify a collection based on the results of a stream operation, consider collecting the results into a new collection or using other methods to handle the modifications outside of the stream processing.
+
+**Example of Incorrect Modification**:
+```java
+List<String> names = new ArrayList<>(Arrays.asList("Alice", "Bob", "Charlie"));
+names.stream()
+     .filter(name -> name.startsWith("A"))
+     .forEach(name -> names.remove(name)); // This will throw ConcurrentModificationException
+```
+
+**Correct Approach**:
+Instead, you can create a new list based on the filtered results:
+```java
+List<String> names = new ArrayList<>(Arrays.asList("Alice", "Bob", "Charlie"));
+List<String> filteredNames = names.stream()
+                                   .filter(name -> name.startsWith("A"))
+                                   .collect(Collectors.toList());
+// Now you can safely modify the original list if needed
+```
+
+### Additional Information on Stream Operations
+#### Collectors
+In addition to filter, map, and reduce, the `Collectors` utility class provides various methods to accumulate elements from a stream into collections, such as lists, sets, or maps. 
+
+**Example**:
+```java
+List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+Set<String> nameSet = names.stream()
+                           .collect(Collectors.toSet());
+// nameSet will contain {"Alice", "Bob", "Charlie"}
+```
+
+#### FlatMap
+The `flatMap` operation is used to flatten nested structures. It takes a function that returns a stream for each element and combines all the resulting streams into a single stream.
+
+**Example**:
+```java
+List<List<String>> listOfLists = Arrays.asList(
+    Arrays.asList("A", "B"),
+    Arrays.asList("C", "D")
+);
+List<String> flatList = listOfLists.stream()
+                                    .flatMap(List::stream)
+                                    .collect(Collectors.toList());
+// flatList will contain ["A", "B", "C", "D"]
+```
+
+### Performance Considerations
+
+When using streams, it's essential to consider the performance implications of the operations being performed. For instance, operations like `filter` and `map` are intermediate operations and are lazy, meaning they are not executed until a terminal operation (like `collect`, `forEach`, etc.) is invoked. This can lead to performance optimizations as the stream processes elements only when necessary.
+
+### Conclusion
+
+Java Streams provide a robust framework for processing collections in a functional style. Understanding operations like filter, map, reduce, and their variations, along with the appropriate use of parallel streams, can significantly enhance the efficiency and readability of your code. Always be mindful of the context in which you use these operations to ensure optimal performance and maintainability. ### Additional Stream Operations
+
+#### Distinct
+
+The `distinct` operation is used to filter out duplicate elements from a stream. It returns a stream that contains only unique elements based on their natural equality.
+
+**Example**:
+```java
+List<Integer> numbers = Arrays.asList(1, 2, 2, 3, 4, 4, 5);
+List<Integer> distinctNumbers = numbers.stream()
+                                       .distinct()
+                                       .collect(Collectors.toList());
+// distinctNumbers will contain [1, 2, 3, 4, 5]
+```
+
+#### Sorted
+The `sorted` operation is used to sort the elements of a stream. You can sort the elements in their natural order or provide a custom comparator.
+
+**Example**:
+```java
+List<String> names = Arrays.asList("Charlie", "Alice", "Bob");
+List<String> sortedNames = names.stream()
+                                 .sorted()
+                                 .collect(Collectors.toList());
+// sortedNames will contain ["Alice", "Bob", "Charlie"]
+```
+
+#### Peek
+The `peek` operation is an intermediate operation that allows you to perform a specified action on each element of the stream as it is processed. It is primarily used for debugging purposes.
+
+**Example**:
+```java
+List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+names.stream()
+     .peek(name -> System.out.println("Processing: " + name))
+     .collect(Collectors.toList());
+```
+
+#### Limit and Skip
+The `limit` operation is used to truncate the stream to a specified number of elements, while `skip` is used to skip a specified number of elements.
+
+**Example**:
+```java
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+List<Integer> limitedNumbers = numbers.stream()
+                                      .limit(3)
+                                      .collect(Collectors.toList());
+// limitedNumbers will contain [1, 2, 3]
+
+List<Integer> skippedNumbers = numbers.stream()
+                                      .skip(2)
+                                      .collect(Collectors.toList());
+// skippedNumbers will contain [3, 4, 5]
+```
+
+### Conclusion
+Java Streams offer a rich set of operations that allow for expressive and efficient data processing. Understanding these operations, including distinct, sorted, peek, limit, and skip, can help you manipulate collections effectively while maintaining clean and readable code. Always consider the context and performance implications when using these operations to ensure optimal results. ### Additional Stream Operations
+
+#### GroupingBy
+The `groupingBy` operation is a powerful collector that allows you to group elements of a stream by a classifier function. It returns a `Map` where the keys are the result of applying the classifier function, and the values are Lists of items.
+
+**Example**:
+```java
+List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David", "Eve");
+Map<Integer, List<String>> groupedByLength = names.stream()
+    .collect(Collectors.groupingBy(String::length));
+// groupedByLength will contain {3=[Bob], 5=[Alice, David, Eve], 7=[Charlie]}
+```
+
+#### PartitioningBy
+The `partitioningBy` operation is a specialized form of `groupingBy` that partitions the elements of a stream into two groups based on a predicate. It returns a Map with Boolean keys.
+
+**Example**:
+```java
+List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David");
+Map<Boolean, List<String>> partitioned = names.stream()
+    .collect(Collectors.partitioningBy(name -> name.length() > 3));
+// partitioned will contain {false=[Bob], true=[Alice, Charlie, David]}
+```
+
+#### CollectingAndThen
+The `collectingAndThen` operation allows you to perform a finishing transformation on the result of a collector. This is useful when you want to apply an additional operation after collecting.
+
+**Example**:
+```java
+List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+List<String> upperCaseNames = names.stream()
+    .collect(Collectors.collectingAndThen(Collectors.toList(), 
+        list -> {
+            list.replaceAll(String::toUpperCase);
+            return list;
+        }));
+// upperCaseNames will contain ["ALICE", "BOB", "CHARLIE"]
+```
+
+### Performance Considerations
+When using streams, it's essential to consider the performance implications of the operations being performed. For instance, operations like `filter` and `map` are intermediate operations and are lazy, meaning they are not executed until a terminal operation (like `collect`, `forEach`, etc.) is invoked. This can lead to performance optimizations as the stream processes elements only when necessary.
+
+### Conclusion
+Java Streams provide a robust framework for processing collections in a functional style. Understanding operations like groupingBy, partitioningBy, and collectingAndThen, along with the appropriate use of parallel streams, can significantly enhance the efficiency and readability of your code. Always be mindful of the context in which you use these operations to ensure optimal performance and maintainability. ### Additional Stream Operations
+
+#### Mapping
+The `map` operation can also be used in conjunction with other operations to transform data in more complex ways. For instance, you can use it to convert objects to a different type or to extract specific fields from objects.
+
+**Example**:
+```java
+List<Person> people = Arrays.asList(new Person("Alice", 30), new Person("Bob", 25));
+List<String> names = people.stream()
+                           .map(Person::getName)
+                           .collect(Collectors.toList());
+// names will contain ["Alice", "Bob"]
+```
+
+#### Chaining Operations
+
+Streams allow you to chain multiple operations together, creating a pipeline of transformations and actions. This can lead to concise and expressive code.
+
+**Example**:
+```java
+List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David");
+List<String> result = names.stream()
+                           .filter(name -> name.length() > 3)
+                           .map(String::toUpperCase)
+                           .sorted()
+                           .collect(Collectors.toList());
+// result will contain ["ALICE", "CHARLIE", "DAVID"]
+```
+
+#### Summary Statistics
+The `summaryStatistics` operation provides a convenient way to obtain various statistics (count, sum, min, average, max) from a stream of numbers.
+
+**Example**:
+```java
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+IntSummaryStatistics stats = numbers.stream()
+                                     .mapToInt(Integer::intValue)
+                                     .summaryStatistics();
+// stats will contain count=5, sum=15, min=1, average=3.0, max=5
+```
+
+### Conclusion
+Java Streams offer a rich set of operations that allow for expressive and efficient data processing. Understanding these operations, including mapping, chaining, and summary statistics, can help you manipulate collections effectively while maintaining clean and readable code. Always consider the context and performance implications when using these operations to ensure optimal results.
+
+## Q. What is the difference between Comparator and Comparable? 
+In Java, both `Comparator` and `Comparable` are interfaces used for sorting objects, but they serve different purposes and are used in different contexts. Here’s a detailed explanation of the differences between the two:
+
+### 1. **Definition**
+- **Comparable**:
+  - The `Comparable` interface is used to define the natural ordering of objects of a class. A class that implements `Comparable` must override the `compareTo(T o)` method, which compares the current object with the specified object.
+  - It is typically used when you want to define a default sorting order for the objects of a class.
+
+- **Comparator**:
+  - The `Comparator` interface is used to define an external ordering of objects. It allows you to create multiple comparison strategies for the same class without modifying the class itself.
+  - A class that implements `Comparator` must override the `compare(T o1, T o2)` method, which compares two objects and returns an integer indicating their relative order.
+
+### 2. **Method Signature**
+- **Comparable**:
+  - Method: `int compareTo(T o)`
+  - It compares the current object with the specified object and returns:
+    - A negative integer if the current object is less than the specified object.
+    - Zero if they are equal.
+    - A positive integer if the current object is greater than the specified object.
+
+- **Comparator**:
+  - Method: `int compare(T o1, T o2)`
+  - It compares two specified objects and returns:
+    - A negative integer if the first object is less than the second object.
+    - Zero if they are equal.
+    - A positive integer if the first object is greater than the second object.
+
+### 3. **Usage**
+- **Comparable**:
+  - Used when you want to define a default sorting order for a class.
+  - The class itself must implement the `Comparable` interface.
+  - Example: Sorting a list of `Person` objects by their age.
+
+  ```java
+  public class Person implements Comparable<Person> {
+      private String name;
+      private int age;
+
+      public Person(String name, int age) {
+          this.name = name;
+          this.age = age;
+      }
+
+      @Override
+      public int compareTo(Person other) {
+          return Integer.compare(this.age, other.age); // Sort by age
+      }
+  }
+  ```
+
+- **Comparator**:
+  - Used when you want to define multiple sorting strategies for a class or when you cannot modify the class (e.g., when using third-party classes).
+  - You can create separate comparator classes or use lambda expressions for inline comparisons.
+  - Example: Sorting a list of `Person` objects by their name.
+
+  ```java
+  Comparator<Person> nameComparator = new Comparator<Person>() {
+      @Override
+      public int compare(Person p1, Person p2) {
+          return p1.name.compareTo(p2.name); // Sort by name
+      }
+  };
+
+  // Using a lambda expression
+  Comparator<Person> ageComparator = (p1, p2) -> Integer.compare(p1.age, p2.age);
+  ```
+
+### 4. **Flexibility**
+
+- **Comparable**:
+  - A class can implement only one `compareTo` method, which means it can have only one natural ordering.
+
+- **Comparator**:
+  - You can create multiple `Comparator` implementations for the same class, allowing for different sorting strategies without modifying the class itself.
+
+### 5. **Example Usage**
+
+Here’s an example demonstrating both `Comparable` and `Comparator`:
+
+```java
+import java.util.*;
+
+class Person implements Comparable<Person> {
+    String name;
+    int age;
+
+    Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public int compareTo(Person other) {
+        return Integer.compare(this.age, other.age); // Natural ordering by age
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + age + ")";
+    }
+}
+
+class NameComparator implements Comparator<Person> {
+    @Override
+    public int compare(Person p1, Person p2) {
+        return p1.name.compareTo(p2.name); // Comparator for sorting by name
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        List<Person> people = Arrays.asList(
+            new Person("Alice", 30),
+            new Person("Bob", 25),
+            new Person("Charlie", 35)
+        );
+
+        // Sorting using Comparable (by age)
+        Collections.sort(people);
+        System.out.println("Sorted by age: " + people);
+
+        // Sorting using Comparator (by name)
+        Collections.sort(people, new NameComparator());
+        System.out.println("Sorted by name: " + people);
+    }
+}
+```
+
+### Conclusion
+
+In summary, `Comparable` is used for defining a natural ordering of objects within the class itself, while `Comparator ` is used for defining external ordering strategies that can be applied to objects of a class. This distinction allows for greater flexibility in sorting, enabling multiple comparison methods without altering the original class structure. Understanding when to use each interface is crucial for effective data manipulation and sorting in Java.
+
+
+## Q. How do you sort a list using Comparator? 
+To sort a list using a `Comparator` in Java, you can follow these steps:
+1. **Create a Comparator**: Define a `Comparator` that specifies the sorting logic. You can do this either by implementing the `Comparator` interface or by using a lambda expression.
+2. **Use the `Collections.sort()` method**: Call the `Collections.sort()` method, passing the list and the `Comparator` as arguments.
+3. **Alternatively, use the `List.sort()` method**: You can also use the `sort()` method directly on the list, which is available in the `List` interface.
+
+### Example
+Here’s a complete example demonstrating how to sort a list of custom objects using a `Comparator`.
+#### Step 1: Create a Class
+Let's create a simple `Person` class with `name` and `age` attributes.
+```java
+public class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + age + ")";
+    }
+}
+```
+
+#### Step 2: Create a Comparator
+You can create a `Comparator` to sort `Person` objects by their age or name.
+**Using an Anonymous Class**:
+```java
+Comparator<Person> ageComparator = new Comparator<Person>() {
+    @Override
+    public int compare(Person p1, Person p2) {
+        return Integer.compare(p1.getAge(), p2.getAge());
+    }
+};
+```
+
+**Using a Lambda Expression**:
+```java
+Comparator<Person> nameComparator = (p1, p2) -> p1.getName().compareTo(p2.getName());
+```
+
+#### Step 3: Sort the List
+Now, you can sort a list of `Person` objects using the `Comparator`.
+```java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Person> people = Arrays.asList(
+            new Person("Alice", 30),
+            new Person("Bob", 25),
+            new Person("Charlie", 35)
+        );
+
+        // Sort by age using Collections.sort() with a Comparator
+        Collections.sort(people, ageComparator);
+        System.out.println("Sorted by age: " + people);
+
+        // Sort by name using List.sort() with a Comparator
+        people.sort(nameComparator);
+        System.out.println("Sorted by name: " + people);
+    }
+}
+```
+
+### Output
+When you run the above code, you will get the following output:
+```
+Sorted by age: [Bob (25), Alice (30), Charlie (35)]
+Sorted by name: [Alice (30), Bob (25), Charlie (35)]
+```
+
+### Summary
+- You can sort a list using a `Comparator` by defining the comparison logic either through an anonymous class or a lambda expression.
+- Use `Collections.sort(list, comparator)` or `list.sort(comparator)` to perform the sorting.
+- This approach allows you to sort objects based on different criteria without modifying the original class.
+
+### Additional Sorting Techniques
+
+You can also utilize Java's built-in methods for sorting with `Comparator` in a more concise manner, especially with the introduction of the `Comparator.comparing()` method.
+
+#### Using `Comparator.comparing()`
+This method allows you to create a comparator based on a specific property of the objects. Here’s how you can use it:
+
+```java
+Comparator<Person> ageComparator = Comparator.comparing(Person::getAge);
+Comparator<Person> nameComparator = Comparator.comparing(Person::getName);
+```
+
+#### Example with `Comparator.comparing()`
+Here’s how you can implement this in the sorting example:
+
+```java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Person> people = Arrays.asList(
+            new Person("Alice", 30),
+            new Person("Bob", 25),
+            new Person("Charlie", 35)
+        );
+
+        // Sort by age using Comparator.comparing()
+        people.sort(Comparator.comparing(Person::getAge));
+        System.out.println("Sorted by age: " + people);
+
+        // Sort by name using Comparator.comparing()
+        people.sort(Comparator.comparing(Person::getName));
+        System.out.println("Sorted by name: " + people);
+    }
+}
+```
+
+### Output
+The output remains the same, but the code is more readable and concise:
+
+```
+Sorted by age: [Bob (25), Alice (30), Charlie (35)]
+Sorted by name: [Alice (30), Bob (25), Charlie (35)]
+```
+
+### Chaining Comparators
+
+You can also chain multiple comparators to sort by multiple criteria. For example, if you want to sort by age and then by name:
+
+```java
+Comparator<Person> ageThenNameComparator = Comparator.comparing(Person::getAge)
+                                                      .thenComparing(Person::getName);
+```
+
+### Example of Chaining Comparators
+
+```java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Person> people = Arrays.asList(
+            new Person("Alice", 30),
+            new Person("Bob", 25),
+            new Person("Charlie", 30),
+            new Person("David", 25)
+        );
+
+        // Sort by age, then by name
+        people.sort(Comparator.comparing(Person::getAge)
+                               .thenComparing(Person::getName));
+        System.out.println("Sorted by age, then by name: " + people);
+    }
+}
+```
+
+### Output
+
+This will sort the list first by age and then by name for those with the same age:
+
+```
+Sorted by age, then by name: [Bob (25), David (25), Alice (30), Charlie (30)]
+```
+
+### Conclusion
+Using `Comparator` provides flexibility in sorting collections in Java. You can define custom sorting logic, use built-in methods for cleaner code, and even chain comparators for complex sorting scenarios. This makes it a powerful tool for managing collections effectively.
+
+---
+## Q. Can a class implement both Comparator and Comparable?
+Yes, a class in Java can implement both the `Comparator` and `Comparable` interfaces, but they serve different purposes and are used in different contexts. Here’s a detailed explanation of how and why you might want to do this:
+
+### 1. **Comparable Interface**
+
+- **Purpose**: The `Comparable` interface is used to define the natural ordering of objects of a class. When a class implements `Comparable`, it provides a method `compareTo(T o)` that defines how instances of that class should be compared to each other.
+- **Usage**: This is typically used when you want to define a default sorting order for the objects of that class.
+
+**Example**:
+```java
+public class Person implements Comparable<Person> {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public int compareTo(Person other) {
+        return Integer.compare(this.age, other.age); // Natural ordering by age
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + age + ")";
+    }
+}
+```
+
+### 2. **Comparator Interface**
+
+- **Purpose**: The `Comparator` interface is used to define an external ordering of objects. It allows you to create multiple comparison strategies for the same class without modifying the class itself.
+- **Usage**: This is useful when you want to sort objects in different ways (e.g., by name, by age, etc.) or when you cannot modify the class (e.g., when using third-party classes).
+
+**Example**:
+```java
+import java.util.Comparator;
+
+public class NameComparator implements Comparator<Person> {
+    @Override
+    public int compare(Person p1, Person p2) {
+        return p1.getName().compareTo(p2.getName()); // Sort by name
+    }
+}
+```
+
+### 3. **Implementing Both in a Class**
+
+A class can implement both `Comparable` and provide one or more `Comparator` implementations. This allows you to have a natural ordering (defined by `Comparable`) and additional custom orderings (defined by `Comparator`).
+
+**Example**:
+```java
+import java.util.*;
+
+public class Person implements Comparable<Person> {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public int compareTo(Person other) {
+        return Integer.compare(this.age, other.age); // Natural ordering by age
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + age + ")";
+    }
+
+    // Comparator for sorting by name
+    public static Comparator<Person> nameComparator = new Comparator<Person>() {
+        @Override
+        public int compare(Person p1, Person p2) {
+            return p1.getName().compareTo(p2.getName());
+        }
+    };
+}
+
+public class Main {
+    public static void main(String[] args) {
+        List<Person> people = Arrays.asList(
+            new Person("Alice", 30),
+            new Person("Bob", 25),
+            new Person("Charlie", 35)
+        );
+
+        // Sort by age (natural ordering)
+        Collections.sort(people);
+        System.out.println("Sorted by age: " + people);
+
+        // Sort by name using the Comparator
+        Collections.sort(people, Person.nameComparator);
+        System.out.println("Sorted by name: " + people);
+    }
+}
+```
+
+### Output
+
+When you run the above code, you will get the following output:
+
+```
+Sorted by age: [Bob (25), Alice (30), Charlie (35)]
+Sorted by name: [Alice (30), Bob (25), Charlie (35)]
+```
+
+### Conclusion
+
+In summary, a class can implement both `Comparator` and `Comparable` interfaces. This allows you to define a natural ordering for the class while also providing additional sorting strategies through comparators. This flexibility is useful for sorting objects in different ways without modifying the original class structure.
+
+## Q. How do you handle multiple sorting criteria in Java? 
+Sorting with Multiple Criteria in Java
+When you need to sort a collection of objects based on more than one attribute, you can use a `Comparator` in Java.  Here's how to do it, along with explanations and an example:
+1. Create a Comparator
+* You can create a `Comparator` in a few ways:
+ * Anonymous Inner Class: (As shown in the previous examples)
+ * Lambda Expression: (More concise, preferred for modern Java)
+ * Named Class: (For more complex or reusable comparators)
+2. Define the Sorting Logic
+- Within the `compare()` method of the `Comparator`, you specify the order in which the objects should be sorted.  For multiple criteria, you chain the comparisons.
+
+**Example**
+Let's say you have a `Person` class, and you want to sort a list of `Person` objects first by last name (ascending) and then by first name (ascending) for people with the same last name.
+```
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+public class MultiSortExample {
+
+    // Define a Person class
+    static class Person {
+        String firstName;
+        String lastName;
+        int age;
+
+        public Person(String firstName, String lastName, int age) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.age = age;
+        }
+
+        @Override
+        public String toString() {
+            return firstName + " " + lastName + " (" + age + ")";
+        }
+    }
+
+    public static void main(String[] args) {
+        // Create a list of Person objects
+        List<Person> people = new ArrayList<>();
+        people.add(new Person("John", "Doe", 30));
+        people.add(new Person("Jane", "Doe", 25));
+        people.add(new Person("Alice", "Smith", 35));
+        people.add(new Person("Bob", "Smith", 20));
+        people.add(new Person("John", "Smith", 40));
+
+        // Sort the list using a Comparator with multiple criteria (Lambda)
+        people.sort(Comparator.comparing((Person p) -> p.lastName) // Sort by last name first
+                .thenComparing(p -> p.firstName));             // Then sort by first name
+
+        // Print the sorted list
+        System.out.println("Sorted People: ");
+        for (Person person : people) {
+            System.out.println(person);
+        }
+
+       // Example using a named class
+        Collections.sort(people, new PersonComparator());
+        System.out.println("\nSorted People (Named Comparator):");
+        for (Person p : people){
+             System.out.println(p);
+        }
+    }
+
+    // Example of a named class Comparator
+    static class PersonComparator implements Comparator<Person> {
+        @Override
+        public int compare(Person p1, Person p2) {
+            int lastNameComparison = p1.lastName.compareTo(p2.lastName);
+            if (lastNameComparison != 0) {
+                return lastNameComparison;
+            } else {
+                return p1.firstName.compareTo(p2.firstName);
+            }
+        }
+    }
+}
+```
+
+**Explanation**
+1. **Person Class**:
+  - A simple `Person` class is defined with firstName, lastName, and age attributes.
+  - The `toString()` method is overridden for easy printing of `Person` objects.
+2. **Creating a List of Persons**:
+  - A list of `Person` objects is created with sample data.
+3. **Sorting with Multiple Criteria (Lambda)**:
+  - `people.sort()` is used to sort the list.
+  - `Comparator.comparing((Person p) -> p.lastName)`: This creates a comparator that compares `Person` objects based on their lastName. The `comparing()` method takes a function that extracts the attribute to compare from the object.
+  - `.thenComparing(p -> p.firstName)`:  This is the key to handling multiple criteria.  The `thenComparing()` method is chained to the first comparator. It provides a secondary sorting criterion. If two Person objects have the same `lastName`, this comparator will then compare their `firstName` values.
+  - The `sort` method of the List interface is used, which takes a Comparator.
+
+**Sorting with Multiple Criteria (Named Class)**:
+* A separate class PersonComparator is created that implements the Comparator<Person> interface
+* The compare method in this class implements the sorting logic:
+  * It first compares the last names.
+  * If the last names are different, it returns the result of that comparison.
+  * If the last names are the same, it compares the first names and returns that result.
+  * Collections.sort() is used to sort the list with this custom comparator.
+
+---
+## Q. Explain OOP principles (Encapsulation, Inheritance, Polymorphism, Abstraction) with examples. 
+Object-oriented programming (OOP) is a programming paradigm based on the concept of "objects," which can contain data and code:
+* **Data** (attributes, fields) represents the state of an object.
+* **Code** (methods) defines the behavior of an object.
+
+OOP revolves around several key principles that provide structure, organization, and reusability to software development. 
+Here are the main principles:
+### 1. Encapsulation
+**Definition**: Encapsulation is the bundling of data (attributes) and the methods that operate on that data into a single unit (a class). It also involves controlling access to the internal state of an object and hiding it from the outside world. This is achieved through access modifiers like `private`, `protected`, and `public`.
+**Example:**
+```
+public class BankAccount {
+    private String accountNumber;
+    private double balance;
+
+    public BankAccount(String accountNumber, double balance) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void deposit(double amount) {
+        balance += amount;
+    }
+
+    public void withdraw(double amount) {
+        if (balance >= amount) {
+            balance -= amount;
+        } else {
+            System.out.println("Insufficient funds.");
+        }
+    }
+
+    public String getAccountNumber() {
+      return accountNumber;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount("1234567890", 1000.0);
+        // account.balance = 5000.0; // Error: balance is private
+        account.deposit(500.0);
+        account.withdraw(200.0);
+        System.out.println("Balance: " + account.getBalance()); // Output: 1300.0
+        System.out.println("Account Number: "+ account.getAccountNumber());
+    }
+}
+```
+- In the `BankAccount` class, `accountNumber` and `balance` are private attributes. They can only be accessed and modified through the public methods provided by the class (`getBalance()`, `deposit()`, and `withdraw()`).
+- The `main` method demonstrates how the private attributes cannot be accessed directly. The `deposit()` and `withdraw()` methods encapsulate the logic for modifying the balance, ensuring that it's done in a controlled manner.
+
+### 2. Inheritance
+**Definition**: Inheritance is a mechanism that allows a new class (subclass/derived class) to inherit the properties and methods of an existing class (superclass/base class). It promotes code reuse and establishes an "is-a" relationship between classes.
+**Example**:
+```
+public class Animal {
+    private String name;
+
+    public Animal(String name) {
+        this.name = name;
+    }
+
+    public void eat() {
+        System.out.println(name + " is eating.");
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+public class Dog extends Animal {
+    public Dog(String name) {
+        super(name); // Call the constructor of the superclass
+    }
+
+    public void bark() {
+        System.out.println(getName() + " is barking.");
+    }
+}
+
+public class Cat extends Animal{
+  public Cat(String name){
+    super(name);
+  }
+
+  public void meow(){
+    System.out.println(getName() + " is Meowing");
+  }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog("Buddy");
+        dog.eat(); // Inherited from Animal
+        dog.bark(); // Defined in Dog
+
+        Cat cat = new Cat("Whiskers");
+        cat.eat();  // Inherited from Animal
+        cat.meow(); // Defined in Cat.
+    }
+}
+```
+- `Dog` and `Cat` are subclasses of `Animal`. They inherit the name attribute and the eat() method from the Animal class.
+- The `Dog` class adds a new method `bark()`, and the `Cat` class adds a method `meow()`, which are specific to dogs and cats, respectively.
+- The `super(name)` call in the `Dog` and `Cat` constructors is used to invoke the constructor of the superclass (`Animal`) to initialize the inherited `name` attribute.
+
+### 3. Polymorphism
+**Definition**: Polymorphism allows objects of different classes to be treated as objects of a common type. It enables you to write code that can work with objects of multiple classes without knowing their specific types at compile time.  In Java, polymorphism is achieved through inheritance and interfaces.
+**Example**:
+```
+public class Animal {
+    private String name;
+
+    public Animal(String name) {
+        this.name = name;
+    }
+
+    public void makeSound() {
+        System.out.println(name + " makes a sound.");
+    }
+
+    public String getName() {
+      return name;
+    }
+}
+
+public class Dog extends Animal {
+    public Dog(String name) {
+        super(name);
+    }
+
+    @Override // Override the makeSound() method
+    public void makeSound() {
+        System.out.println(getName() + " barks.");
+    }
+}
+
+public class Cat extends Animal {
+    public Cat(String name) {
+        super(name);
+    }
+
+    @Override // Override the makeSound() method
+    public void makeSound() {
+        System.out.println(getName() + " meows.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal[] animals = new Animal[3];
+        animals[0] = new Dog("Buddy");
+        animals[1] = new Cat("Whiskers");
+        animals[2] = new Animal("Generic Animal");
+
+        for (Animal animal : animals) {
+            animal.makeSound(); // Calls the appropriate makeSound() method for each object
+        }
+    }
+}
+```
+- The `makeSound()` method is defined in the `Animal` class and overridden in the `Dog` and `Cat` classes. This is method overriding, a key part of polymorphism.
+- In the `main` method, an `Animal` array is created, but it stores `Dog`, `Cat`, and `Animal` objects.
+- When `animal.makeSound()` is called in the loop, the specific `makeSound()` method of the actual object type is executed.
+- This is dynamic method dispatch or runtime polymorphism.
+- The output demonstrates that the correct `makeSound()` method is called for each animal:
+  - Buddy barks.
+  - Whiskers meows.
+  - Generic Animal makes a sound.
+
+## 4. Abstraction
+**Definition**: Abstraction is the process of simplifying complex reality by modeling classes based on essential properties and behavior, while ignoring irrelevant details. It focuses on what an object does rather than how it does it. Abstraction is achieved through abstract classes and interfaces in Java.
+**Example:**
+```
+// Abstract class
+public abstract class Shape {
+    protected String color;
+
+    public Shape(String color) {
+        this.color = color;
+    }
+
+    // Abstract method (no implementation)
+    public abstract double getArea();
+
+    public String getColor() {
+        return color;
+    }
+
+    public void displayColor() {
+        System.out.println("Color: " + color);
+    }
+}
+
+// Concrete class extending the abstract class
+public class Circle extends Shape {
+    private double radius;
+
+    public Circle(String color, double radius) {
+        super(color);
+        this.radius = radius;
+    }
+
+    @Override
+    public double getArea() {
+        return Math.PI * radius * radius;
+    }
+}
+
+// Concrete class extending the abstract class
+public class Rectangle extends Shape {
+    private double width;
+    private double height;
+
+    public Rectangle(String color, double width, double height) {
+        super(color);
+        this.width = width;
+        this.height = height;
+    }
+
+    @Override
+    public double getArea() {
+        return width * height;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Shape shape = new Shape("Red"); // Error: Cannot instantiate abstract class
+        Circle circle = new Circle("Red", 5.0);
+        Rectangle rectangle = new Rectangle("Blue", 4.0, 6.0);
+
+        circle.displayColor(); // Inherited from Shape
+        System.out.println("Circle Area: " + circle.getArea()); // Implemented in Circle
+
+        rectangle.displayColor(); // Inherited from Shape
+        System.out.println("Rectangle Area: " + rectangle.getArea()); // Implemented in Rectangle
+    }
+}
+```
+- `Shape` is an abstract class. It cannot be instantiated directly. It defines common properties (color) and behaviors (`displayColor()`) for all shapes.
+- The `getArea()` method is declared as abstract in `Shape`. This means that the actual implementation of `getArea()` is left to the concrete subclasses.
+- `Circle` and `Rectangle` are concrete classes that extend `Shape`. They provide their own implementations of the `getArea()` method to calculate the area specific to their shapes.
+- In the `main` method, you can create instances of `Circle` and `Rectangle` and call their `getArea()` methods. The appropriate implementation is used based on the actual object type.
+
+---
+## Q. What is method overloading vs. method overriding? 
+In Java, **method overloading** and **method overriding** are two key concepts that fall under **polymorphism**— a core principle of Object-Oriented Programming (OOP). While both involve defining methods with the same name, their behavior and purpose are quite different.
+
+### Method Overloading (Compile-Time Polymorphism)
+
+**Definition**:  
+Method overloading occurs **within the same class** when two or more methods have the **same name but different parameter lists** (different type, number, or order of parameters).
+
+**Purpose**:  
+To increase the readability and flexibility of the code by allowing multiple ways to perform the same operation depending on the input.
+
+**Example**:
+```java
+public class Calculator {
+
+    // Overloaded methods
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public double add(double a, double b) {
+        return a + b;
+    }
+
+    public int add(int a, int b, int c) {
+        return a + b + c;
+    }
+}
+```
+
+**Key Points**:
+- Happens at **compile time**.
+- Can overload static methods and constructors.
+- Return type can be different but isn’t enough to overload alone.
+
+### Method Overriding (Run-Time Polymorphism)
+
+**Definition**:  
+Method overriding occurs when a **subclass provides a specific implementation of a method already defined in its parent class** using the same method signature (name, return type, and parameters).
+
+**Purpose**:  
+To allow a subclass to provide its own behavior for a method defined in the parent class—enabling dynamic method dispatch.
+
+**Example**:
+```java
+class Animal {
+    public void speak() {
+        System.out.println("The animal makes a sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    public void speak() {
+        System.out.println("The dog barks");
+    }
+}
+```
+
+**Key Points**:
+- Happens at **runtime**.
+- Only instance methods can be overridden (not static or constructors).
+- The method signature must be **exactly the same**.
+- The overridden method must not have more restrictive access (e.g., public → private is not allowed).
+
+**Summary Table:**
+
+| Feature              | Method Overloading              | Method Overriding              |
+|----------------------|----------------------------------|-------------------------------|
+| Based On             | Parameter list                   | Inheritance & same signature  |
+| Occurs In            | Same class                       | Subclass                      |
+| Return Type          | Can differ                       | Must be the same              |
+| Polymorphism Type    | Compile-time                     | Runtime                       |
+| Use Case             | Provide multiple ways to do task | Specialize behavior in subclass |
+
+---
+## Q. How does Java handle memory management (Heap vs. Stack, Garbage Collection)? 
+Java Memory Management (Heap vs. Stack, Garbage Collection)Java handles memory management automatically through a process called garbage collection. This frees developers from the burden of manually allocating and deallocating memory, as is required in languages like C and C++.  The Java Virtual Machine (JVM) manages memory in several areas, most notably the Stack and the Heap.
+
+### 1. Stack Memory
+**What it is:** The stack is a memory area used for storing:
+- Local variables
+- Method call information
+- Partial results of computations
+
+**How it works:**
+- Memory is allocated in a Last-In, First-Out (LIFO) manner.
+- Each thread in a Java application has its own stack.
+- When a method is called, a new frame is pushed onto the stack. This frame contains the method's local variables, parameters, and return address.
+- When the method completes, its frame is popped off the stack, and the memory is automatically freed.
+
+**Characteristics:**
+- Fast allocation and deallocation.
+- Limited in size compared to the heap.
+- Memory is managed automatically by the system.
+- Variables have a limited scope (they are only accessible within the method in which they are declared).
+
+**Example:**
+```
+public class StackExample {
+    public static void main(String[] args) {
+        int a = 10; // 'a' is stored on the stack
+        int b = 20; // 'b' is stored on the stack
+        int result = add(a, b); // 'a', 'b', and 'result' are on the stack during the add() method call
+        System.out.println(result);
+    }
+
+    public static int add(int x, int y) {
+        int sum = x + y; // 'x', 'y', and 'sum' are stored on the stack
+        return sum;
+    }
+}
+```
+In this example, the variables `a`, `b`, and `result` in the `main` method, and `x`, `y`, and `sum` in the `add` method, are all stored in stack memory. When the add method finishes, the memory for `x`, `y`, and `sum` is released.
+
+### 2. Heap Memory
+**What it is:** 
+- The heap is a larger memory area used for storing objects and arrays.
+**How it works:**
+- Objects are dynamically allocated in the heap at runtime using the new keyword.
+- Objects in the heap can be accessed from anywhere in the application.
+- The heap is shared by all threads of the application.
+- Memory management in the heap is more complex and is handled by garbage collection.
+
+**Characteristics:**
+- Slower access compared to the stack.
+- Larger size than the stack.
+- Memory is managed by the garbage collector.
+- Objects have a global scope (they can be accessed from anywhere in the application).
+
+**Example:**
+```
+public class HeapExample {
+    public static void main(String[] args) {
+        String name = new String("John"); // The String object is stored in the heap
+        Person person = new Person("Jane", 30); // The Person object is stored in the heap
+        System.out.println(name);
+        System.out.println(person);
+    }
+}
+
+class Person {
+    String name;
+    int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{name='" + name + "', age=" + age + "}";
+    }
+}
+```
+In this example, the `String` object "John" and the `Person` object are stored in the heap. The variables name and person in the main method are stored on the stack, but they hold references (pointers) to the objects in the heap.
+
+## 3. Garbage Collection
+**What it is:** 
+Garbage collection is the process of automatically reclaiming memory that is no longer being used by a Java program. The garbage collector is a component of the JVM.
+
+**How it works**: 
+- The garbage collector identifies objects in the heap that are no longer reachable by the program.
+- These are called "unreachable" objects.
+- Unreachable objects are those that are no longer referenced by any live threads or any other reachable objects.
+- The garbage collector then removes these unreachable objects from the heap, freeing up the memory they occupied.
+
+**Benefits:**
+- Prevents memory leaks (which can occur in languages like C/C++ where developers have to manually deallocate memory).
+- Simplifies memory management for developers, allowing them to focus on application logic rather than memory management.
+
+**Garbage Collection Process:**
+- The garbage collection process typically involves the following steps:
+  - _Marking_: The garbage collector identifies which objects are still in use (reachable) by tracing references from a set of root objects (e.g., local variables, static variables).
+  - _Deleting (Sweeping)_: The garbage collector removes the objects that were not marked as reachable, freeing up the memory.
+  - _Compaction (Optional)_: Some garbage collectors also compact the remaining reachable objects to reduce memory fragmentation, which can improve the efficiency of future memory allocations.
+  
+**Garbage Collection Algorithms:**
+The JVM uses various garbage collection algorithms, including:
+- _Mark and Sweep:_ A basic algorithm that marks reachable objects and then sweeps away the unreachable ones.
+- _Copying:_ Divides the heap into two regions and copies reachable objects from one region to the other, freeing up the first region.
+- _Mark and Compact_: Similar to Mark and Sweep, but it also compacts the reachable objects to reduce fragmentation.
+- _Generational Garbage Collection_: Divides the heap into generations (e.g., young generation, old generation) and applies different garbage collection algorithms to each generation based on the object's age.  This is a common approach in modern JVMs.
+
+**Summary**
+- Java uses a combination of stack and heap memory.
+- The stack is used for local variables and method calls, and is managed automatically.
+- The heap is used for objects and arrays, and is managed by the garbage collector.
+- Garbage collection automatically reclaims memory from unreachable objects, preventing memory leaks and simplifying memory management for Java developers.
+
+---
+## Q. Explain shallow copy vs. deep copy in Java. 
+When you copy an object in Java, you need to understand the difference between a shallow copy and a deep copy. This distinction is crucial when dealing with objects that contain references to other objects.
+
+### 1. Shallow Copy
+**What it is:** 
+A shallow copy creates a new object, and then copies the values of the fields of the original object into the new object. If any of those fields are references to other objects, only the references themselves are copied, not the objects they point to.
+**Result:** The new object contains copies of the primitive data types from the original object, and it contains the same references to any other objects that the original object had.  Both the original object and the new object end up pointing to the same underlying objects.
+**Example:**
+```
+public class ShallowCopyExample {
+    public static void main(String[] args) {
+        // Create an original object with a nested object
+        InnerObject inner1 = new InnerObject(10);
+        OuterObject original = new OuterObject("Original", inner1);
+
+        // Create a shallow copy
+        OuterObject shallowCopy = new OuterObject(original.name, original.inner);
+
+        // Modify the nested object through the shallow copy
+        shallowCopy.inner.value = 20;
+
+        // Print the values
+        System.out.println("Original inner value: " + original.inner.value); // Output: 20
+        System.out.println("Shallow copy inner value: " + shallowCopy.inner.value); // Output: 20
+    }
+
+    static class InnerObject {
+        int value;
+
+        public InnerObject(int value) {
+            this.value = value;
+        }
+    }
+
+    static class OuterObject {
+        String name;
+        InnerObject inner;
+
+        public OuterObject(String name, InnerObject inner) {
+            this.name = name;
+            this.inner = inner;
+        }
+    }
+}
+```
+In this example, `shallowCopy` is a shallow copy of original. Both `original.inner` and `shallowCopy.inner` point to the same `InnerObject`.  Therefore, when `shallowCopy.inner.value` is modified, the change is reflected in `original.inner.value`.
+
+### 2. Deep Copy
+**What it is:** 
+A deep copy creates a new object and then recursively copies the values of all fields, including the objects referenced by those fields. This means that if a field is a reference to another object, a new copy of that object is also created, and its fields are copied, and so on.
+**Result:** 
+The new object is a completely independent copy of the original object.  Any changes made to the new object or its nested objects will not affect the original object.
+**Example:**
+```
+public class DeepCopyExample {
+    public static void main(String[] args) {
+        // Create an original object with a nested object
+        InnerObject inner1 = new InnerObject(10);
+        OuterObject original = new OuterObject("Original", inner1);
+
+        // Create a deep copy
+        InnerObject inner2 = new InnerObject(original.inner.value);  // Create a new InnerObject
+        OuterObject deepCopy = new OuterObject("DeepCopy", inner2);
+
+        // Modify the nested object through the deep copy
+        deepCopy.inner.value = 20;
+
+        // Print the values
+        System.out.println("Original inner value: " + original.inner.value); // Output: 10
+        System.out.println("Deep copy inner value: " + deepCopy.inner.value); // Output: 20
+    }
+
+    static class InnerObject {
+        int value;
+
+        public InnerObject(int value) {
+            this.value = value;
+        }
+    }
+
+    static class OuterObject {
+        String name;
+        InnerObject inner;
+
+        public OuterObject(String name, InnerObject inner) {
+            this.name = name;
+            this.inner = inner;
+        }
+    }
+}
+```
+In this example, `deepCopy` is a deep copy of `original`.  A new `InnerObject` is created for `deepCopy`, so `original.inner` and `deepCopy.inner` point to different `InnerObject` instances. Therefore, when `deepCopy.inner.value` is modified, `original.inner.value` remains unchanged.
+
+**Key Differences Summarized**
+
+| **Feature**        | **Shallow Copy**                                                                 | **Deep Copy**                                                                                   |
+|--------------------|----------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
+| **Copies**         | Primitive values and object references                                           | All values, and creates new copies of referenced objects (and their referenced objects, recursively) |
+| **Independence**   | Changes to referenced objects affect both original and copy                      | Changes to copied objects do not affect the original                                             |
+| **Complexity**     | Simpler to implement                                                             | More complex to implement, especially for complex object graphs                                  |
+| **Performance**    | Faster                                                                           | Slower                                                                                           |
+| **Memory Usage**   | Less memory (shares references)                                                  | More memory (copies all objects)                                                                 |
+
+---
+## Q. What are static methods and variables, and when should you use them? 
+In Java, the `static` keyword is used for defining **class-level members**, which means they **belong to the class itself**, rather than any specific instance (object) of the class.
+
+**Static Variables (Class Variables)**
+- Declared using `static` inside a class but outside any method.
+- Shared across **all instances** of the class.
+- Only **one copy** exists in memory, no matter how many objects you create.
+
+**Example:**
+```java
+class Counter {
+    static int count = 0; // Static variable
+
+    Counter() {
+        count++;
+        System.out.println("Count: " + count);
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        new Counter(); // Count: 1
+        new Counter(); // Count: 2
+        new Counter(); // Count: 3
+    }
+}
+```
+Here, `count` is shared across all objects, so it's incremented globally.
+
+**Static Methods**
+- Declared with `static` keyword.
+- Can be called **without creating an object** of the class.
+- **Cannot access instance variables** or methods directly (since no `this` context).
+- Mostly used for utility or helper functions.
+
+**Example:**
+```java
+class MathUtils {
+    public static int square(int x) {
+        return x * x;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        int result = MathUtils.square(5); // No object creation
+        System.out.println(result); // Output: 25
+    }
+}
+```
+
+**When Should You Use Static?**
+- Use **static variables** when the value is shared across all instances (like a global counter, configuration, constants).
+- Use **static methods** for:
+  - Utility/helper methods (e.g., `Collections.sort()`)
+  - Factory methods (`valueOf()` in wrapper classes)
+  - Operations not dependent on instance data
+
+**Caution:**
+- Overuse of static can lead to **tight coupling**, **difficulty in testing**, and **global state problems**.
+- Avoid using static where instance-level behavior is required.
+
+---
+
+
+
+
+
+
+## n. Best Websites to Practice JavaScript Output-Based Questions
+
+1. **[JSitor](https://jsitor.com/)**
+2. **[JSBench.me](https://jsbench.me/)**
+3. **[W3Schools JavaScript Quiz](https://www.w3schools.com/js/js_quiz.asp)**
+4. **[GeeksforGeeks JavaScript Quiz](https://www.geeksforgeeks.org/javascript-quiz-set-1/)**
+5. **[Codewars](https://www.codewars.com/)**
+6. **[Edabit](https://edabit.com/challenges)**
+7. **[LeetCode JavaScript Challenges](https://leetcode.com/tag/javascript/)**
+8. **[HackerRank JavaScript Challenges](https://www.hackerrank.com/domains/tutorials/10-days-of-javascript)**
+
