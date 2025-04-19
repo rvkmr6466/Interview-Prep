@@ -811,14 +811,14 @@ When a value is added to a HashMap when it reaches a certain size (defined by th
 - _Performance_: Rehashing can be computationally expensive, but it helps to maintain the efficiency of the HashMap by preventing excessive collisions and ensuring good average-case performance.
 
 ---
-## 21. Event-Driven Implementation Using Kafka in Spring Boot
-What is Event-Driven Architecture?
+## 21. What is Event-Driven Architecture? Event-Driven Implementation Using Kafka in Spring Boot.
 **Event-Driven Architecture (EDA)** is a software design pattern in which components communicate by **emitting and responding to events**. It's especially useful in microservices to decouple services and improve scalability.
 Kafka is often used for EDA because it’s a high-throughput distributed event streaming platform that can reliably publish and consume messages.
 
-**Use Case Example**
-**Dependencies in `pom.xml`**
+**Use Case** 
+- **Example**
 ```xml
+Dependencies in `pom.xml`
 <dependency>
     <groupId>org.springframework.kafka</groupId>
     <artifactId>spring-kafka</artifactId>
@@ -938,9 +938,7 @@ POST to `http://localhost:8080/users`
     "email": "john@example.com"
 }
 ```
-
 You should see a message published by the producer and consumed by the listener.
-
 **application.yml (or properties)**
 ```yaml
 spring:
@@ -965,10 +963,7 @@ spring:
 **Summary**
 The **Kafka + Spring Boot** combo enables a powerful event-driven architecture. Producers publish domain events, and consumers react to them asynchronously — making your microservices resilient, loosely coupled, and scalable.
 
-Let me know if you’d like to extend this example to include schema validation, error handling, retry mechanism, or Kafka with Avro + Schema Registry!
-
 ---
-
 ## 22. JpaRepository vs CrudRepository in SpringBoot
 `JpaRepository` extends `PagingAndSortingRepository` which in turn extends `CrudRepository`.
 Their main functions are:
@@ -985,13 +980,13 @@ In microservices, the **Circuit Breaker pattern** helps prevent cascading failur
 - **Prevent Cascading Failures:** When one microservice fails, it can trigger a chain reaction of failures in dependent services. The Circuit Breaker pattern interrupts this chain by preventing further calls to the failing service.
 - **Improve Resilience:** Handles failures gracefully, making the system more resilient to disruptions and outages.
 - **Minimize Impact on Users:** When a service is unavailable, the Circuit Breaker can provide a fallback response or error message, preventing a complete system outage.
-- 
-**How It Works**
-**States of the Circuit Breaker:**
-- _Closed_: The service is healthy, and calls are allowed to pass through normally.
-- _Open_: The service is failing; further calls are rejected, and a fallback mechanism is used instead.
-- _Half-Open_: After a timeout period, a limited number of test calls are allowed to check if the service has recovered.
 
+**How It Works**
+- **States of the Circuit Breaker:**
+  - _Closed_: The service is healthy, and calls are allowed to pass through normally.
+  - _Open_: The service is failing; further calls are rejected, and a fallback mechanism is used instead.
+  - _Half-Open_: After a timeout period, a limited number of test calls are allowed to check if the service has recovered.
+ 
 **Monitoring Mechanism:**
 - _Threshold_:  
   If the number of failures exceeds a predefined threshold within a certain time period, the Circuit Breaker "opens".
