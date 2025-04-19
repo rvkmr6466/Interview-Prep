@@ -14,7 +14,7 @@ Hoisting is a behavior where variable and function declarations are moved to the
 - var is hoisted with undefined.
 - let and const are hoisted but not initialized (they stay in a temporal dead zone until declared).
 
-### Q. #### What are truthy and falsy values?
+### Q. What are truthy and falsy values?
 - Falsy values: false, 0, '', null, undefined, NaN
 - Everything else is truthy (e.g., '0', [], {}, 'false', etc.)
 
