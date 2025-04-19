@@ -856,9 +856,9 @@ this.searchInput.valueChanges.pipe(
 ---
 ## Q. What is component in angular?
 A component in Angular is a fundamental building block for creating user interfaces. It encapsulates a portion of the user interface's logic and presentation. Each component consists of three main parts:
-- Template: Defines the HTML structure and layout of the component's view.
-- Class: Contains the logic, data, and methods that control the component's behavior.
-- Metadata: Provides information about the component, such as its selector, template, and styles.
+- _Template_: Defines the HTML structure and layout of the component's view.
+- _Class_: Contains the logic, data, and methods that control the component's behavior.
+- _Metadata_: Provides information about the component, such as its selector, template, and styles.
 Components are designed to be reusable and modular, promoting a structured and maintainable application architecture. They facilitate the separation of concerns, making it easier to develop, test, and update different parts of the application independently.
 
 ---
@@ -873,6 +873,7 @@ Angular provides two ways to build forms: **Template-Driven Forms** and **Reacti
 | **Scalability** | Best for **simple forms** | Better for **complex, dynamic forms** |
 | **Flexibility** | Less flexible, tightly coupled to the template | More flexible, easier to manage dynamically |
 | **Testing** | Harder to unit test | Easier to unit test |
+
 ### **When to Use What?**  
 - **Template-Driven Forms** – Best for simple forms with minimal logic.  
 - **Reactive Forms** – Ideal for complex forms, dynamic validations, and better testability.  
@@ -900,7 +901,7 @@ A **Single Page Application (SPA)** loads a single HTML page and dynamically upd
 - Uses **AJAX/REST API/GraphQL** for data fetching.  
 - Examples: **Gmail, Facebook, Google Maps**.  
 
-🔹 **Efficient but needs SEO optimization & initial load handling.**
+**Efficient but needs SEO optimization & initial load handling.**
 
 ---
 ## Q. How Angular works?
@@ -918,8 +919,8 @@ Angular is a **component-based** frontend framework that uses **TypeScript**. It
   
 ---
 ## Q. Interceptors in Angular 
-Interceptors in Angular are services that allow you to intercept and modify HTTP requests and responses. They are useful for tasks such as adding headers, handling authentication, logging, or caching. Interceptors work by sitting between your application and the backend server, intercepting requests before they are sent and responses before they are received. They can modify these requests and responses, or handle them directly.
-To create an interceptor, you need to create a class that implements the HttpInterceptor interface and define the intercept method. This method takes two arguments: the HttpRequest object and the HttpHandler object. The HttpRequest object represents the outgoing request, and the HttpHandler object represents the next interceptor in the chain, or the backend server if there are no more interceptors. [1]  
+Interceptors in Angular are services that allow you to intercept and modify HTTP requests and responses. They are useful for tasks such as adding _headers_, _handling authentication_, _logging_, or _caching_. Interceptors work by sitting between your application and the backend server, intercepting requests before they are sent and responses before they are received. They can modify these requests and responses, or handle them directly.
+To create an interceptor, you need to create a class that **implements the HttpInterceptor interface** and define the `intercept` method. This method takes two arguments: the `HttpRequest` object and the `HttpHandler` object. The `HttpRequest` object represents the outgoing request, and the `HttpHandler` object represents the next interceptor in the chain, or the backend server if there are no more interceptors.
 ```
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
@@ -981,7 +982,7 @@ db.employees.aggregate([
 ---
 ## Q. Service injection in Angular
 Service injection in Angular can be achieved through constructor injection or by using the `@Inject` decorator or the inject() function. Here's a breakdown of the differences:
-**Constructor Injection**
+**1. Constructor Injection**
 This is the most common and traditional way to inject dependencies.
 _Mechanism:_ Dependencies are declared as parameters in the class constructor. Angular's dependency injection system automatically resolves and provides these dependencies when the class is instantiated.
     ```
@@ -1018,7 +1019,8 @@ _Disadvantages:_
 - Can become verbose with many dependencies.
 - May lead to circular dependency issues in complex scenarios.
 - Inheritance can become cumbersome as derived classes need to call the base class constructor with all dependencies.
-**@Inject Decorator**
+
+**2. @Inject Decorator**
 The `@Inject` decorator is used to specify the dependency token when the type of the dependency is not readily available or when using custom tokens.
 _Mechanism_: It is placed before a constructor parameter to explicitly define the token associated with the dependency.
 ```
@@ -1055,7 +1057,7 @@ _Disadvantages:_
 - Less common in typical scenarios where the dependency type is a class.
 - Can make code less readable compared to constructor injection with type inference.
 
-**inject() Function**
+**3. inject() Function**
 The inject() function provides a functional way to inject dependencies, especially useful in newer Angular versions and in situations outside of constructors.
 _Mechanism:_ It retrieves a dependency directly from the injector using the provided token.
 ```
@@ -1088,61 +1090,284 @@ _Disadvantages:_
 - Might be less familiar to developers accustomed to constructor injection.
 
 ---
-## Q. 
+## Q. Transferring Data Between Angular Components
+Angular offers several ways to transfer data between components, each suited for different scenarios. Here's a breakdown of the most common methods:
 
+**1. Parent to Child:** Using `@Input()` 
+- The parent component passes data to a child component using the `@Input()` decorator.
+**Parent Component:**
+```
+import { Component } from '@angular/core';
 
-### **Section 1: Angular & Frontend (Basic to Advanced)**
+@Component({
+    selector: 'parent',
+    template: `
+      <child [message]="parentMessage"></child>
+    `,
+})
+export class ParentComponent {
+    parentMessage = 'Hello from parent!';
+}
+```
+**Child Component:**
+```
+import { Component, Input } from '@angular/core';
+@Component({
+    selector: 'child',
+    template: `<p>{{ message }}</p>`,
+})
+export class ChildComponent {
+    @Input() message: string;
+}
+```
 
-1. **What is Angular and why is it used?**  
+**2. Child to Parent:** Using `@Output()` and `EventEmitter`
+- The child component sends data to the parent component using the `@Output()` decorator and `EventEmitter`.
+
+**Parent Component:**
+```
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'parent',
+    template: `
+      <child (messageEvent)="handleMessage($event)"></child>
+      <p>Received from child: {{ childMessage }}</p>
+    `,
+})
+export class ParentComponent {
+    childMessage = '';
+
+    handleMessage(message: string) {
+        this.childMessage = message;
+    }
+}
+```
+**Child Component:**
+```
+import { Component, Output, EventEmitter } from '@angular/core';
+
+@Component({
+    selector: 'child',
+    template: `<button (click)="sendMessage()">Send Message</button>`,
+})
+export class ChildComponent {
+    @Output() messageEvent = new EventEmitter<string>();
+
+    sendMessage() {
+        this.messageEvent.emit('Hello from child!');
+    }
+}
+```
+
+**3. Using a Service**
+- A service can be used to share data between any components, regardless of their relationship. This is useful for sharing data between sibling components or deeply nested components.
+
+**Data Service:**
+```
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
+@Injectable({ providedIn: 'root' })
+export class DataService {
+    private messageSource = new BehaviorSubject<string>('Default message');
+    currentMessage = this.messageSource.asObservable();
+
+    changeMessage(message: string) {
+        this.messageSource.next(message);
+    }
+}
+```
+**Component 1:**
+```
+import { Component, OnInit } from '@angular/core';
+import { DataService } from '../data.service';
+
+@Component({
+    selector: 'component1',
+    template: `
+      <p>Message: {{ message }}</p>
+      <button (click)="changeMessage()">Change Message</button>
+    `,
+})
+export class Component1 implements OnInit {
+    message: string;
+
+    constructor(private dataService: DataService) {}
+
+    ngOnInit() {
+        this.dataService.currentMessage.subscribe(
+            (message) => (this.message = message)
+        );
+    }
+
+    changeMessage() {
+        this.dataService.changeMessage('Message from Component 1');
+    }
+}
+```
+**Component 2:**
+```
+import { Component, OnInit } from '@angular/core';
+import { DataService } from '../data.service';
+
+@Component({
+    selector: 'component2',
+    template: `<p>Message: {{ message }}</p>`,
+})
+export class Component2 implements OnInit {
+    message: string;
+
+    constructor(private dataService: DataService) {}
+
+    ngOnInit() {
+        this.dataService.currentMessage.subscribe(
+            (message) => (this.message = message)
+        );
+    }
+}
+```
+**4. Using Subject or BehaviorSubject**
+- For more complex scenarios, you can use `Subject` or `BehaviorSubject` from RxJS to share data between components.  A `BehaviorSubject` holds the current value, while a `Subject` does not.
+
+**Component 1:**
+```
+import { Component } from '@angular/core';
+
+import { DataService } from '../data.service';
+
+@Component({
+  selector: 'component1',
+  template: `
+    <button (click)="sendMessage()">Send Message</button>
+  `,
+})
+export class Component1 {
+  constructor(private dataService: DataService) {}
+
+  sendMessage() {
+    this.dataService.messageSource.next('Hello from Component 1');
+  }
+}
+```
+**Component 2:**
+```
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { DataService } from '../data.service';
+import { Subscription } from 'rxjs';
+
+@Component({
+  selector: 'component2',
+  template: `
+    <p>Message: {{ message }}</p>
+  `,
+})
+export class Component2 implements OnInit, OnDestroy {
+  message: string;
+  subscription: Subscription;
+
+  constructor(private dataService: DataService) {}
+
+  ngOnInit() {
+    this.subscription = this.dataService.messageSource.subscribe(message => {
+      this.message = message;
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();  //prevent memory leak
+  }
+}
+```
+
+**5. `Using @ViewChild()` or `@ViewChildren()`**
+- A parent component can directly access the properties and methods of its child components using `@ViewChild()` or `@ViewChildren()`.
+
+**Parent Component:**
+```
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { ChildComponent } from './child.component';
+
+@Component({
+  selector: 'parent',
+  template: `
+    <child></child>
+    <p>Message from child: {{ childMessage }}</p>
+  `,
+})
+export class ParentComponent implements AfterViewInit {
+  @ViewChild(ChildComponent) child: ChildComponent;
+  childMessage: string;
+
+  ngAfterViewInit() {
+    this.childMessage = this.child.childMessage;
+  }
+}
+```
+**Child Component:**
+```
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'child',
+  template: `<p>Child Component</p>`,
+})
+export class ChildComponent {
+  childMessage = 'Hello from child!';
+}
+```
+
+---
+## Q. **What is Angular and why is it used?**  
    Angular is a TypeScript-based frontend framework used for building dynamic single-page applications (SPAs). It offers tools for two-way binding, dependency injection, routing, and more.
 
-2. **What are components in Angular?**  
+## Q2. **What are components in Angular?**  
    Components are the building blocks of Angular apps. Each component has a TypeScript file, HTML template, CSS for styling, and metadata defined in a decorator.
 
-3. **Difference between Template-driven and Reactive forms?**  
+## Q3. **Difference between Template-driven and Reactive forms?**  
    - *Template-driven*: Easy to use, suitable for simple forms. Uses directives in HTML.
    - *Reactive*: More scalable, uses explicit form model in TypeScript.
 
-4. **What is data binding in Angular?**  
+## Q4. **What is data binding in Angular?**  
    Connecting the template and the component. Types include:
    - Interpolation (`{{ }}`)
    - Property binding (`[property]`)
    - Event binding (`(event)`)
    - Two-way binding (`[(ngModel)]`)
 
-5. **What are services and dependency injection in Angular?**  
+## Q5. **What are services and dependency injection in Angular?**  
    Services hold business logic and can be injected into components using Angular’s dependency injection system.
 
-6. **What is a directive in Angular?**
+## Q6. **What is a directive in Angular?**
    - *Structural*: Changes DOM layout (e.g. `*ngIf`, `*ngFor`)
    - *Attribute*: Changes appearance or behavior (e.g. `ngClass`, `ngStyle`)
 
-7. **What is Angular CLI and its advantages?**  
+## Q7. **What is Angular CLI and its advantages?**  
    Angular CLI automates project scaffolding, building, serving, testing, and more.
 
-8. **How does routing work in Angular?**  
+## Q8. **How does routing work in Angular?**  
    The `RouterModule` maps URLs to components using `Routes`.
 
-9. **How does change detection work in Angular?**  
+## Q9. **How does change detection work in Angular?**  
    Angular’s change detection checks for component data changes and updates the DOM accordingly.
 
-10. **What is Lazy Loading in Angular?**  
+## Q10. **What is Lazy Loading in Angular?**  
     It loads modules only when required, improving performance.
 
-11. **What is an observable in Angular?**  
+## 11. **What is an observable in Angular?**  
     Part of RxJS, observables represent streams of data used for asynchronous programming.
 
-12. **What is the role of `ngOnInit()`?**  
+## 12. **What is the role of `ngOnInit()`?**  
     Lifecycle hook that runs once after component initialization.
 
-13. **What is the difference between BehaviorSubject and Subject?**  
+## 13. **What is the difference between BehaviorSubject and Subject?**  
     - `Subject`: No initial value, emits to current subscribers.
     - `BehaviorSubject`: Requires initial value and emits last emitted value to new subscribers.
 
-14. **What is ViewChild and ContentChild in Angular?**  
+## 14. **What is ViewChild and ContentChild in Angular?**  
     Used to get references to components/elements within the template (`ViewChild`) or projected content (`ContentChild`).
 
-15. **What is a pipe? How to create custom pipes?**  
+## 15. **What is a pipe? How to create custom pipes?**  
     Pipes transform data in templates. Custom pipes implement `PipeTransform`.
 
 16. **How do you test Angular components and services (TDD)?**  
