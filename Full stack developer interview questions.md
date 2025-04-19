@@ -1117,10 +1117,58 @@ Here's a breakdown of some common codes:
 These codes are categorized into groups based on their meaning, such as 1xx (informational), 2xx (success), 3xx (redirection), 4xx (client errors), and 5xx (server errors).
 
 ---
-## 35. 
+## 35. String Immutability in Java Explained
+String Immutability in Java ExplainedHere's an explanation of String immutability in Java, using your example:
+```
+String s = "A";
+s = "B";
+System.out.println(s);
+```
+**Understanding the Code**
+1. `String s = "A";`
+- This line creates a String object in memory containing the character "A".
+- The variable s is a reference that stores the memory address of this String object.
+
+2. `s = "B";`
+- This line does not change the existing String object that contains "A".
+- Instead, it creates a new String object in memory containing the character "B".
+- The reference s is then updated to store the memory address of this new String object.
+- The original String object ("A") still exists in memory, but there are no more references pointing to it.  It will eventually be garbage collected by the JVM.
+
+3. `System.out.println(s);
+- This line prints the value of s, which is now the memory address of the String object containing "B".  So, the output is "B".
+
+**How String Immutability Works**
+- _Strings are Objects:_ In Java, String is a class, and string literals (like "A" and "B") are instances of that class (String objects).
+- _Memory Allocation:_ When you create a string, the JVM allocates a block of memory to store the sequence of characters.Immutable Nature: The key point is that once a String object is created, its internal state (the character sequence) cannot be changed.  Any operation that appears to modify a string (e.g., concatenation, substring) actually creates a new String object with the modified content.  The original String object remains unchanged.
+- _No Setter Methods:_ The String class doesn't provide any methods to directly change the characters within an existing String object.  You can't do something like s.changeCharacter(0, 'C').
+
+**Visual Representation**
+Here's a simplified visual representation of what happens in memory:
+
+_Initial State_:
+```
+Memory:
+[ "A" ]  <-- String object 1
+   ^
+   |
+s:  -------
+```
+After `s = "B";`
+```
+Memory:
+[ "A" ]  <-- String object 1 (no longer referenced)
+[ "B" ]  <-- String object 2
+   ^
+   |
+s:  -------
+```
+**Advantages of Immutability**
+- _Thread Safety:_ Immutable objects are inherently thread-safe.  Multiple threads can access and share String objects without the risk of data corruption or synchronization issues.  This is crucial in multithreaded applications.
+- _Caching:_ The JVM can optimize the storage of string literals by using a string pool.  Since strings are immutable, it's safe to share the same String object between different parts of the program, reducing memory usage.  For example, if you have multiple variables with the value "Hello", they might all point to the same String object in the pool.
+- _Security:_ Immutability enhances security.  For example, if you pass a String object containing a password to a function, you can be sure that the function cannot modify the password string.Simplicity: Immutability makes String objects simpler to reason about and use.  You don't have to worry about the value of a string changing unexpectedly.
 
 ---
-
 ## 36. 
 
 ---
@@ -2761,7 +2809,6 @@ Output:
   ```
 
 ---
-
 ## 60. Write a program to find a string or a number is palindrome or not?.
 ```
 class Main {
@@ -2813,7 +2860,6 @@ class Main {
 ```
 
 ---
-
 ## 61. Java 8 Features Introduced
 ### Major Features
 
@@ -2878,36 +2924,6 @@ Refer to methods easily.
     }
  }
  ```
-
----
-## 61. Strings are immutable or not.
-Strings are immutable. Once a string is created, its value cannot be changed. Any operation that appears to modify a string actually creates a new string object. This immutability offers several benefits, including thread safety, security, and efficient memory management. 
-
-**Example 1:**
-```java
-public class StringImmutability {
-    public static void main(String[] args) {
-        String str1 = "Hello";
-        String str2 = str1.toUpperCase(); // Creates a new string "HELLO"
-        
-        System.out.println(str1); // Output: Hello
-        System.out.println(str2); // Output: HELLO
-    }
-}
-```
-**Example 2:**
-```
-public class StringImmutabilityExample {
-    public static void main(String[] args) {
-        String str1 = "Hello";
-        String str2 = str1.concat(", World!");
-
-        System.out.println("str1: " + str1); // Output: str1: Hello
-        System.out.println("str2: " + str2); // Output: str2: Hello, World!
-    }
-}
-```
-In this example, `str1` is initialized with the value "Hello". When the `concat()` method is called on `str1` to append ", World!", a new String object is created with the value "Hello, World!", and `str2` is assigned to this new object. The original `str1` remains unchanged. This behavior demonstrates that String objects are immutable; their values cannot be modified after they are created. Any operation that appears to modify a String actually results in the creation of a new String object.
 
 ---
 ## 63. @Component vs @Service vs @Controller
