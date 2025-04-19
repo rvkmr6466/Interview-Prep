@@ -3952,7 +3952,7 @@ Types of Transaction Propagation. Spring Boot supports several types of transact
 - SUPPORTS
 
 Let’s dive into each of these types with detailed explanations and examples.
-**1. REQUIRED**
+#### **1. REQUIRED**
 It is the default propagation type in Spring. It means that the method must run within a transaction. If a transaction already exists, the method will run within that transaction. If there is no existing transaction, a new one will be started.
 Example:
 ```
@@ -3968,7 +3968,7 @@ public class TransactionService {
 Use Case:
 Use REQUIRED when you want your method to participate in an existing transaction if one exists, or to create a new one if not. This is useful for methods that need to ensure that all database operations are part of a single transaction.
 
-**2. REQUIRES_NEW**
+#### **2. REQUIRES_NEW**
 It always starts a new transaction. If an existing transaction is present, it will be suspended until the new transaction completes.
 Example:
 ```
@@ -3982,7 +3982,7 @@ public class TransactionService {
 }
 ```
 
-**3. MANDATORY**
+#### **3. MANDATORY**
 It requires an existing transaction. If there is no active transaction, an exception will be thrown.
 Example:
 ```
@@ -3998,7 +3998,7 @@ public class TransactionService {
 **Use Case:**
 Use MANDATORY when a method must be called within an existing transaction context, such as methods that depend on the integrity of the outer transaction.
 
-**4. NESTED**
+#### **4. NESTED**
 It creates a nested transaction if an existing transaction is present. Otherwise, it behaves like REQUIRED and starts a new transaction.
 Example:
 ```
@@ -4014,7 +4014,7 @@ public class TransactionService {
 **Use Case:**
 Use NESTED for scenarios where you need savepoints and rollback capabilities within a larger transaction. This is useful for complex operations that require partial rollbacks.
 
-**5. NOT_SUPPORTED**
+#### **5. NOT_SUPPORTED**
 It executes the method without a transaction. If a transaction is present, it will be suspended during the method execution.
 Example:
 
@@ -4031,7 +4031,7 @@ public class TransactionService {
 **Use Case:**
 Use NOT_SUPPORTED when you want to ensure that a method does not run within a transaction context, such as for non-transactional operations like reading configuration data.
 
-**6. NEVER**
+#### **6. NEVER**
 It ensures that the method is never executed within a transaction. If an existing transaction is present, an exception will be thrown.
 Example:
 ```
@@ -4047,7 +4047,7 @@ public class TransactionService {
 **Use Case:**
 Use NEVER when you need to guarantee that a method runs outside of any transaction context, typically for operations that should fail if invoked within a transaction.
 
-**7. SUPPORTS**
+#### **7. SUPPORTS**
 It runs the method within a transaction if one exists, but does not start a new transaction if none exists.
 Example:
 ```
