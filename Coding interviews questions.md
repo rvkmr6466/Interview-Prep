@@ -171,7 +171,7 @@ true
     * `System.out.println(str3.equals(str5));` compares the content of `str3` and `str5`, which is the same, so the result is `true`.
   
 ---
-## 5. Find the character count from a string in java using getordefault.
+## 5. Find the character count from a string in java using getOrDefault().
 ```
 import java.util.HashMap;
 import java.util.Map;
