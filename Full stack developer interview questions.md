@@ -77,7 +77,8 @@ In Java, an **immutable class** is one whose **instances cannot be modified afte
 ✔ **Data Integrity:** Immutability ensures the object’s data remains consistent throughout its lifecycle.  
 ✔ **Functional Programming:** Immutability is a core principle of functional programming, making code easier to understand and debug.  
 ✔ **Security:** Prevents accidental or malicious modification of sensitive data.  
-✔ **Example – `String` Class:**  
+✔ **Example – 
+`String` Class:**  
    - The `String` class in Java is immutable. Once a `String` object is created, its value cannot be changed.
 In Java, the term "immutable" means that once a String object is created, its content cannot be changed. This implies that any operation that appears to modify a String actually creates a new String object with the modified content, leaving the original String unchanged.
 
