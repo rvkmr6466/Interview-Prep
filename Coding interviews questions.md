@@ -246,4 +246,30 @@ TODO:
 ```
 
 ---
-## 8. 
+## 8. Find output
+```
+final int i;
+i = 20;
+int j = i+20;
+i = j+30;
+System.out.println(i + " " + j);
+```
+**Output:**
+```
+java: variable i might already have been assigned at `i = j+30;`
+```
+**_Note:_**
+The problem is that `i` is declared as `final`. In Java, a `final` variable can only be assigned a value once.  You can initialize it at the time of declaration or assign the value later, but only once.  The code attempts to assign a value to `i` twice: first with `i = 20;` and then with `i = j + 30;`. The second assignment is illegal.
+
+**How to fix it and find output:**
+```
+final int i;  // Declare i as final
+i = 20;       // Initialize i
+int j = i + 20; // Declare and initialize j
+// i = j + 30;   // Error: Cannot assign a value to a final variable
+System.out.println(i + " " + j); // corrected output
+```
+**Output:**
+```
+20 40
+```
