@@ -1169,10 +1169,147 @@ s:  -------
 - _Security:_ Immutability enhances security.  For example, if you pass a String object containing a password to a function, you can be sure that the function cannot modify the password string.Simplicity: Immutability makes String objects simpler to reason about and use.  You don't have to worry about the value of a string changing unexpectedly.
 
 ---
-## 36. 
+## 36. Detailed comparison between `HashMap`, `TreeMap`, and `LinkedHashMap` in Java, along with examples to illustrate how and when you would use each.
+
+**1. HashMap**
+ **Characteristics:**
+  - Stores key-value pairs.
+  - **Unordered**: Does **not maintain insertion order**.
+  - Allows one `null` key and multiple `null` values.
+  - Backed by a **hash table**.
+  - Not synchronized (not thread-safe).
+
+**Use Case:**
+Use `HashMap` when order **doesn't matter** and you want **fast retrieval**, insertion, and deletion (O(1) average time complexity).
+
+**Example:**
+```java
+Map<String, Integer> hashMap = new HashMap<>();
+hashMap.put("Apple", 3);
+hashMap.put("Banana", 2);
+hashMap.put("Cherry", 5);
+
+System.out.println("HashMap: " + hashMap);
+```
+*Output can vary:* `{Banana=2, Apple=3, Cherry=5}`
+
+**2. TreeMap**
+ **Characteristics:**
+  - Stores key-value pairs in a **sorted order** based on keys (natural or custom order).
+  - **Does not allow null keys**, but allows null values.
+  - Backed by a **Red-Black Tree**.
+  - Slower than `HashMap` (`O(log n)` time for operations).
+
+**Use Case:**
+Use `TreeMap` when you need to maintain a **sorted order** of keys.
+
+**Example:**
+```java
+Map<String, Integer> treeMap = new TreeMap<>();
+treeMap.put("Banana", 2);
+treeMap.put("Apple", 3);
+treeMap.put("Cherry", 5);
+
+System.out.println("TreeMap: " + treeMap);
+```
+*Output:* `{Apple=3, Banana=2, Cherry=5}`
+
+**3. LinkedHashMap**
+ **Characteristics:**
+  - Maintains **insertion order**.
+  - Allows one `null` key and multiple `null` values.
+  - Backed by a **hash table with a linked list**.
+
+**Use Case:**
+Use `LinkedHashMap` when you need **predictable iteration order** (insertion order) and still want decent performance.
+
+**Example:**
+```java
+Map<String, Integer> linkedHashMap = new LinkedHashMap<>();
+linkedHashMap.put("Banana", 2);
+linkedHashMap.put("Apple", 3);
+linkedHashMap.put("Cherry", 5);
+
+System.out.println("LinkedHashMap: " + linkedHashMap);
+```
+*Output:* `{Banana=2, Apple=3, Cherry=5}`
+
+**Summary Comparison Table**
+
+| Feature                 | HashMap       | TreeMap           | LinkedHashMap       |
+|-------------------------|---------------|--------------------|----------------------|
+| **Order**               | Unordered     | Sorted (by keys)   | Insertion order      |
+| **Null Key Allowed?**   | Yes (1)       | No                 | Yes (1)              |
+| **Performance**         | Fastest (O(1))| Slower (O log n)   | Slightly slower than HashMap |
+| **Thread-Safe**         | No            | No                 | No                   |
+| **Underlying Structure**| Hash Table    | Red-Black Tree     | Hash Table + LinkedList |
+
+
+Here's a **real-world example** using all three types of Maps (`HashMap`, `TreeMap`, and `LinkedHashMap`) in the context of a **shopping cart system** in an e-commerce application.
+
+**Scenario**: You are building a shopping cart feature where:
+- You need to store products and their quantities.
+- Sometimes you want to show items in the **order they were added** (like when viewing the cart).
+- Sometimes you want them **sorted alphabetically by product name**.
+- Sometimes you just want **fast lookup** (for example, when updating quantities).
+
+1. **HashMap** – For Fast Lookup
+Use `HashMap` when you want quick retrieval and updates by product name.
+```java
+Map<String, Integer> cart = new HashMap<>();
+cart.put("Apple", 3);
+cart.put("Banana", 2);
+cart.put("Mango", 1);
+
+// Fast lookup
+int quantity = cart.get("Apple");
+System.out.println("Apple quantity: " + quantity);
+```
+
+**Use Case**: Adding/removing items during checkout, validating stock availability quickly.
+
+2. **LinkedHashMap** – Preserve Insertion Order
+Use `LinkedHashMap` to display cart items in the order the customer added them.
+```java
+Map<String, Integer> cart = new LinkedHashMap<>();
+cart.put("Laptop", 1);
+cart.put("Mouse", 2);
+cart.put("Keyboard", 1);
+
+// Display items in order of addition
+for (Map.Entry<String, Integer> item : cart.entrySet()) {
+    System.out.println(item.getKey() + " => " + item.getValue());
+}
+```
+
+**Use Case**: Showing cart items to users in UI just the way they added them.
+
+3. **TreeMap** – Sorted View of Products
+Use `TreeMap` to show cart items **sorted alphabetically** by product name.
+
+```java
+Map<String, Integer> cart = new TreeMap<>();
+cart.put("Tablet", 2);
+cart.put("Charger", 1);
+cart.put("Earphones", 3);
+
+// Display sorted cart
+for (Map.Entry<String, Integer> item : cart.entrySet()) {
+    System.out.println(item.getKey() + " => " + item.getValue());
+}
+```
+
+**Use Case**: Sorting products alphabetically in invoice, admin reporting, or backend processing.
+
+**Summary:**
+
+| Requirement                                | Use This Map      |
+|--------------------------------------------|-------------------|
+| Fast access/update by product name         | `HashMap`         |
+| Display in the order items were added      | `LinkedHashMap`   |
+| Sorted product list (e.g., alphabetically) | `TreeMap`         |
 
 ---
-
 ## 37. 
 
 ---
