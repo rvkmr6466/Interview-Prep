@@ -684,16 +684,16 @@ Here's a more detailed breakdown:
 - This bytecode is then loaded into the JVM.
 
 **2. JVM Architecture:**
-- Class Loader: Loads class files (bytecode) into memory, manages the class hierarchy, and ensures that classes are loaded only once.
-- Execution Engine: Interprets or compiles bytecode into native machine code using the JIT compiler.  
-- Runtime Data Areas: These are memory regions used during program execution, including:  
+- _Class Loader:_ Loads class files (bytecode) into memory, manages the class hierarchy, and ensures that classes are loaded only once.
+- _Execution Engine_: Interprets or compiles bytecode into native machine code using the JIT compiler.  
+- _Runtime Data Areas:_ These are memory regions used during program execution, including:  
   - Heap: Stores objects.
   - Method Area: Stores class metadata, method code, and constant pool.
   - Stack: Manages local variables, method calls, and return addresses. 
   - Native Stack: Used for native method calls.
   - Program Counters: Keep track of the current instruction.
-- Java Native Interface (JNI): Enables Java code to interact with native (non-Java) code and libraries. 
-- Garbage Collector: Automatically manages memory allocation and deallocation, reclaiming unused memory.
+- _Java Native Interface (JNI):_ Enables Java code to interact with native (non-Java) code and libraries. 
+- _Garbage Collector:_ Automatically manages memory allocation and deallocation, reclaiming unused memory.
 
 **3. Bytecode Interpretation/Compilation:** 
 - The JVM interprets or compiles bytecode into machine code.
