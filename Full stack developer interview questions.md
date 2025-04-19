@@ -3224,105 +3224,13 @@ public enum Singleton {
 - Avoid unnecessary **synchronization**, as it affects performance.
 
 ---
-## 58. Find the output:
-    class Parent {
-	public void print() throws FileNotFoundException {
-		System.out.println("Parent");
-    	}
-    }
-    
-    public class Child extends Parent{
-    	
-    	@Override
-    	public void print() throws  IOException{
-    		System.out.println("Child ");
-    	}
-    
-    	public static void main(String[] args) throws IOException {
-    		Parent p = new Child();
-    		p.print();
-    	}
-    
-    }
- 
-Output:
-    Child
+## 58. 
 
 ---
-## 59. Count repeating numbers from an array in java.
-  ```java
-  import java.util.*;
-
-  public class Main {
-    public static void main(String[] args) {
-    int[] arr = {1,2,3,4,2,2,3};
-    int count=0;
-    
-    Map<Integer, Integer> h = new HashMap<>();
-    
-    for (Integer n: arr) {
-      if (h.get(n)==null) {
-        h.put(n, 1);
-      } else {
-        int x = h.get(n);
-        h.put(n, x+1);
-      }
-    }
-    
-      System.out.println(h);
-  }
-  ```
+## 59. 
 
 ---
-## 60. Write a program to find a string or a number is palindrome or not?.
-```
-class Main {
-  public static void main(String[] args) {
-
-    String str = "Radar", reverseStr = "";
-    
-    int strLength = str.length();
-
-    for (int i = (strLength - 1); i >=0; --i) {
-      reverseStr = reverseStr + str.charAt(i);
-    }
-
-    if (str.toLowerCase().equals(reverseStr.toLowerCase())) {
-      System.out.println(str + " is a Palindrome String.");
-    }
-    else {
-      System.out.println(str + " is not a Palindrome String.");
-    }
-  }
-}
-```
-```
-class Main {
-  public static void main(String[] args) {
-    
-    int num = 3553, reversedNum = 0, remainder;
-    
-    // store the number to originalNum
-    int originalNum = num;
-    
-    // get the reverse of originalNum
-    // store it in variable
-    while (num != 0) {
-      remainder = num % 10;
-      reversedNum = reversedNum * 10 + remainder;
-      num /= 10;
-    }
-    
-    // check if reversedNum and originalNum are equal
-    if (originalNum == reversedNum) {
-      System.out.println(originalNum + " is Palindrome.");
-    }
-    else {
-      System.out.println(originalNum + " is not Palindrome.");
-    }
-  }
-}
-```
+## 60. 
 
 ---
 ## 61. Java 8 Features Introduced
@@ -3357,38 +3265,7 @@ Refer to methods easily.
 
 ---
 
-## 62. Valid parenthesis
-	Example 1:
-	Input: s = "()"
-	Output: true
-	Example 2:
-	Input: s = "()[]{}"
-	Output: true
-	Example 3:
-	Input: s = "(]"
-	Output: false
-	Example 4:
-	Input: s = "([])"
-	Output: true
- ```java
- class Solution {
-    public boolean isValid(String s) {
-        Deque<Character> stk = new ArrayDeque<>();
-        for (char c : s.toCharArray()) {
-            if (c == '(' || c == '{' || c == '[') {
-                stk.push(c);
-            } else if (stk.isEmpty() || !match(stk.pop(), c)) {
-                return false;
-            }
-        }
-        return stk.isEmpty();
-    }
-
-    private boolean match(char l, char r) {
-        return (l == '(' && r == ')') || (l == '{' && r == '}') || (l == '[' && r == ']');
-    }
- }
- ```
+## 62. 
 
 ---
 ## 63. @Component vs @Service vs @Controller
