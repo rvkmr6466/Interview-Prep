@@ -1310,10 +1310,39 @@ for (Map.Entry<String, Integer> item : cart.entrySet()) {
 | Sorted product list (e.g., alphabetically) | `TreeMap`         |
 
 ---
-## 37. 
+## 37. Heap memory and stack memory
+Heap memory and stack memory are two distinct areas of memory used by programs to store data. Stack memory is typically used for storing local variables and function calls, while heap memory is used for dynamic memory allocation, such as when creating objects.
+
+**Stack Memory:**
+• Purpose: Stores local variables, function arguments, and return addresses for function calls.
+• Allocation: Stack memory is allocated automatically by the compiler when a function is called and deallocated when the function returns.
+• Order: Follows a Last-In, First-Out (LIFO) order.
+• Size: Stack memory is typically smaller than heap memory.
+• Speed: Accessing stack memory is generally faster than heap memory.
+
+**Heap Memory:**
+• Purpose: Used for dynamic memory allocation, allowing for the storage of objects, data structures, and other data that can be created or destroyed during program execution. 
+• Allocation: Heap memory is allocated and deallocated explicitly by the programmer.
+• Order: Does not follow a specific order.
+• Size: Heap memory is typically larger than stack memory.
+• Speed: Accessing heap memory can be slower than stack memory due to the need for dynamic allocation and management.
+
+**Key Differences:**
+
+| Feature | Stack Memory | Heap Memory  |
+| --- | --- | --- |
+| Purpose | Local variables, function calls | Dynamic memory allocation, objects  |
+| Allocation | Automatic | Explicit (manual)  |
+| Order | LIFO | No specific order  |
+| Size | Smaller | Larger  |
+| Speed | Generally faster | Generally slower  |
+| Lifespan | Short-lived (function duration) | Can be long-lived (program execution)  |
+| Thread Safety | Thread-safe (single thread access) | Not thread-safe (multiple threads access)  |
+
+In essence:  
+• Stack memory is like a temporary workspace for a function, while heap memory is a general pool of memory for creating and managing objects or data structures with longer lifespans.
 
 ---
-
 ## 38. 
 
 ---
