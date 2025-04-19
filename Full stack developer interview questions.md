@@ -1321,11 +1321,11 @@ Heap memory and stack memory are two distinct areas of memory used by programs t
 - Speed: Accessing stack memory is generally faster than heap memory.
 
 **Heap Memory:**
-Purpose: Used for dynamic memory allocation, allowing for the storage of objects, data structures, and other data that can be created or destroyed during program execution. 
-Allocation: Heap memory is allocated and deallocated explicitly by the programmer.
-Order: Does not follow a specific order.
-Size: Heap memory is typically larger than stack memory.
-Speed: Accessing heap memory can be slower than stack memory due to the need for dynamic allocation and management.
+- Purpose: Used for dynamic memory allocation, allowing for the storage of objects, data structures, and other data that can be created or destroyed during program execution.
+- Allocation: Heap memory is allocated and deallocated explicitly by the programmer.
+- Order: Does not follow a specific order.
+- Size: Heap memory is typically larger than stack memory.\
+- Speed: Accessing heap memory can be slower than stack memory due to the need for dynamic allocation and management.
 
 **Key Differences:**
 
