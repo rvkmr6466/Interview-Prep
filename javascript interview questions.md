@@ -386,6 +386,15 @@ settimeout2
  
 **Note:** Promise has more priority than setTimeout.
 
+#### process.nextTick, Promises, setTimeout, and setImmediate
+The priority order of `process.nextTick`, `Promises`, `setTimeout`, and `setImmediate` in JavaScript's event loop is: `process.nextTick` (highest) > `Promises` > `setTimeout` > `setImmediate`.  
+Explanation:
+- _process.nextTick():_ This function always runs before any other task, even before promises. It enqueues a callback to be executed in the next iteration of the event loop, ensuring it gets processed before other tasks that might be waiting.
+- _Promises:_ `Promises`, which are microtasks, have a higher priority than macrotasks like `setTimeout` and `setImmediate`. They are executed as soon as the call stack is empty, before the event loop moves to the next macrotask.
+- _setTimeout():_ `setTimeout` callbacks are macrotasks and are executed after the call stack is empty and all microtasks (including promises) have been processed. If `setTimeout` has a delay of 0, it will be executed in the next iteration of the event loop, after the microtasks have been completed.
+- _setImmediate():_ `setImmediate` is also a macrotask and is executed after the current event loop iteration completes and all microtasks are processed. It is processed in the Check phase, which is later than the Timer phase where setTimeout with 0 delay is processed.
+
+---
 ### Q. How Asynchronous call works?
 Asynchronous calls allow a program to start a task and continue executing other code without waiting for the task to finish, using mechanisms like callbacks or promises to handle the result later. 
 Here's a more detailed explanation:
