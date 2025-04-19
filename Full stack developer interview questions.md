@@ -1118,7 +1118,7 @@ These codes are categorized into groups based on their meaning, such as 1xx (inf
 
 ---
 ## 35. String Immutability in Java Explained
-String Immutability in Java ExplainedHere's an explanation of String immutability in Java, using your example:
+Here's an explanation of String immutability in Java, using your example:
 ```
 String s = "A";
 s = "B";
