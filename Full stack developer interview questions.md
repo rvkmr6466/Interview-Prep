@@ -285,14 +285,14 @@ The SOLID principles are a set of design principles in object-oriented programmi
 **Example:**
 
 ```java
-// ❌ Violates SRP: Class doing too many things
+//  Violates SRP: Class doing too many things
 public class Invoice {
     public void calculateTotal() { /* logic */ }
     public void printInvoice() { /* logic */ }
     public void saveToDatabase() { /* logic */ }
 }
 
-// ✅ Following SRP: Each class has a single responsibility
+// Following SRP: Each class has a single responsibility
 public class Invoice {
     public void calculateTotal() { /* logic */ }
 }
@@ -315,7 +315,7 @@ public class InvoiceRepository {
 **Example:**
 
 ```java
-// ❌ Violates OCP: Adding new shape breaks existing class
+//  Violates OCP: Adding new shape breaks existing class
 public class AreaCalculator {
     public double calculate(Object shape) {
         if (shape instanceof Circle) {
@@ -327,7 +327,7 @@ public class AreaCalculator {
     }
 }
 
-// ✅ Following OCP using Polymorphism
+// Following OCP using Polymorphism
 interface Shape {
     double area();
 }
@@ -367,7 +367,7 @@ class AreaCalculator {
 **Example:**
 
 ```java
-// ✅ Good Example
+// Good Example
 class Bird {
     public void fly() {
         System.out.println("Bird is flying");
@@ -380,7 +380,7 @@ class Sparrow extends Bird {
     }
 }
 
-// ❌ Bad Example: Violates LSP
+//  Bad Example: Violates LSP
 class Ostrich extends Bird {
     public void fly() {
         throw new UnsupportedOperationException("Ostrich can't fly");
@@ -417,7 +417,7 @@ class Ostrich {
 
 **Example:**
 ```java
-// ❌ Violates ISP
+//  Violates ISP
 interface Worker {
     void work();
     void eat();
@@ -428,7 +428,7 @@ class Robot implements Worker {
     public void eat() { /* Not applicable */ } // Bad design
 }
 
-// ✅ Follows ISP
+// Follows ISP
 interface Workable {
     void work();
 }
@@ -447,7 +447,7 @@ class Robot implements Workable {
 }
 ```
 
-#### ✅ 5. Dependency Inversion Principle (DIP)
+#### D- Dependency Inversion Principle (DIP)
 
 **Definition**: High-level modules should not depend on low-level modules. Both should depend on abstractions.
 
@@ -457,7 +457,7 @@ class Robot implements Workable {
 
 **Example:**
 ```java
-// ❌ Violates DIP
+//  Violates DIP
 class LightBulb {
     public void turnOn() { System.out.println("LightBulb ON"); }
 }
@@ -474,7 +474,7 @@ class Switch {
     }
 }
 
-// ✅ Follows DIP
+// Follows DIP
 interface Switchable {
     void turnOn();
 }
@@ -1143,11 +1143,11 @@ class PayPalPayment extends OnlinePayment {
 
 | Use | Interface | Abstract Class |
 |-----|-----------|----------------|
-| Multiple inheritance | ✅ | ❌ |
-| Common logic | ❌ | ✅ |
-| Pure abstraction | ✅ | ❌ |
-| Shared code | ❌ | ✅ |
-| Flexibility | ✅ | ❌ |
+| Multiple inheritance | |  |
+| Common logic |  | |
+| Pure abstraction | |  |
+| Shared code |  | |
+| Flexibility | |  |
 
 **Summary:**
 
@@ -2208,10 +2208,10 @@ public class FixWithStreams {
 **Conclusion**
 | Approach | Safe? | Best For |
 |----------|------|---------|
-| `Iterator.remove()` | ✅ Yes | Single-threaded list modification |
-| `CopyOnWriteArrayList` | ✅ Yes | Multi-threaded environments |
-| `removeIf()` | ✅ Yes | Simple removals (Java 8+) |
-| `Stream API` | ✅ Yes | Functional-style filtering |
+| `Iterator.remove()` | Yes | Single-threaded list modification |
+| `CopyOnWriteArrayList` | Yes | Multi-threaded environments |
+| `removeIf()` | Yes | Simple removals (Java 8+) |
+| `Stream API` | Yes | Functional-style filtering |
 
 ---
 ## 50. Thread Communication in Java
@@ -2453,11 +2453,11 @@ public class FixedListExample {
     public static void main(String[] args) {
 	List<String> list = Arrays.asList("A", "B", "C");
 
-	list.set(1, "X"); // ✅ Allowed
+	list.set(1, "X"); // Allowed
 	System.out.println(list); // Output: [A, X, C]
 
-	list.add("D"); // ❌ UnsupportedOperationException
-	list.remove("A"); // ❌ UnsupportedOperationException
+	list.add("D"); //  UnsupportedOperationException
+	list.remove("A"); //  UnsupportedOperationException
     }
 }
 ```
@@ -2474,9 +2474,9 @@ public class ImmutableListExample {
     public static void main(String[] args) {
 	List<String> list = List.of("A", "B", "C");
 
-	list.set(1, "X"); // ❌ UnsupportedOperationException
-	list.add("D"); // ❌ UnsupportedOperationException
-	list.remove("A"); // ❌ UnsupportedOperationException
+	list.set(1, "X"); //  UnsupportedOperationException
+	list.add("D"); //  UnsupportedOperationException
+	list.remove("A"); //  UnsupportedOperationException
     }
 }
 ```
@@ -2495,10 +2495,10 @@ public class UnmodifiableListExample {
 	List<String> original = new ArrayList<>(Arrays.asList("A", "B", "C"));
 	List<String> fixedList = Collections.unmodifiableList(original);
 
-	fixedList.set(1, "X"); // ❌ UnsupportedOperationException
-	fixedList.add("D"); // ❌ UnsupportedOperationException
+	fixedList.set(1, "X"); //  UnsupportedOperationException
+	fixedList.add("D"); //  UnsupportedOperationException
 
-	original.set(1, "X"); // ✅ Changes reflect in fixedList
+	original.set(1, "X"); // Changes reflect in fixedList
 	System.out.println(fixedList); // Output: [A, X, C]
     }
 }
@@ -2518,9 +2518,9 @@ public class SingletonListExample {
     public static void main(String[] args) {
 	List<String> list = Collections.singletonList("A");
 
-	list.set(0, "X"); // ✅ Allowed
-	list.add("B"); // ❌ UnsupportedOperationException
-	list.remove(0); // ❌ UnsupportedOperationException
+	list.set(0, "X"); // Allowed
+	list.add("B"); //  UnsupportedOperationException
+	list.remove(0); //  UnsupportedOperationException
     }
 }
 ```
@@ -2531,10 +2531,10 @@ Cannot add or remove elements
 **Comparison of Fixed List Methods**
 | Method | Can Modify Elements? | Can Add/Remove? | Java Version |
 |--------|----------------|---------------|--------------|
-| `Arrays.asList()` | ✅ Yes | ❌ No | Java 1.2 |
-| `List.of()` | ❌ No | ❌ No | Java 9 |
-| `Collections.unmodifiableList()` | ❌ No | ❌ No | Java 1.2 |
-| `Collections.singletonList()` | ✅ Yes (for single element) | ❌ No | Java 1.3 |
+| `Arrays.asList()` | Yes |  No | Java 1.2 |
+| `List.of()` |  No |  No | Java 9 |
+| `Collections.unmodifiableList()` |  No |  No | Java 1.2 |
+| `Collections.singletonList()` | Yes (for single element) |  No | Java 1.3 |
 
 **Which One to Use?**
 - **Need a fixed-size but modifiable list?** → Use `Arrays.asList()`
@@ -2574,7 +2574,7 @@ class Example {
 
 public class Main {
     public static void main(String[] args) {
-	Example.show();  // ✅ No object required
+	Example.show();  // No object required
     }
 }
 ```
@@ -2611,7 +2611,7 @@ class B {
     }
 }
 
-// ❌ Java does not allow multiple inheritance
+//  Java does not allow multiple inheritance
 class C extends A, B {}  // Compilation error
 ```
 **In fully OOP languages like C++, multiple inheritance is supported.**
@@ -2625,7 +2625,7 @@ interface B {
     void display();
 }
 
-class C implements A, B {  // ✅ Using interfaces
+class C implements A, B {  // Using interfaces
     public void show() {
 	System.out.println("A");
     }
@@ -2661,11 +2661,11 @@ int sum = a + b;  // Using `+` instead of a method call
 **Conclusion**
 | Feature | Java | Fully OOP (e.g., Smalltalk) |
 |---------|------|----------------|
-| Everything is an Object | ❌ No (primitives exist) | ✅ Yes |
-| Multiple Inheritance | ❌ No (only via interfaces) | ✅ Yes |
-| Static Methods | ✅ Yes | ❌ No |
-| Operators as Methods | ❌ No | ✅ Yes |
-| Execution Without Object | ✅ Yes (`static main()`) | ❌ No |
+| Everything is an Object |  No (primitives exist) | Yes |
+| Multiple Inheritance |  No (only via interfaces) | Yes |
+| Static Methods | Yes |  No |
+| Operators as Methods |  No | Yes |
+| Execution Without Object | Yes (`static main()`) |  No |
 
 Java follows **OOP principles**, but its design **includes non-OOP features** for performance and simplicity. That’s why Java is called **"not a fully object-oriented language" but an "OOP-based language."**
 
@@ -2847,7 +2847,7 @@ Both **default methods in interfaces** and **methods in abstract classes** allow
 1️⃣ Hibernate Basics – What is Hibernate? How does it work? Why is it better than JDBC? 
 ### **What is Hibernate?**  
 **Hibernate** is a **Java-based ORM (Object-Relational Mapping) framework** that simplifies database interactions by mapping Java objects to database tables. It eliminates the need for writing complex SQL queries and handles **database CRUD operations** efficiently.  
-✅ **Key Features of Hibernate:**  
+**Key Features of Hibernate:**  
 - **ORM-Based**: Maps Java classes to database tables.  
 - **HQL (Hibernate Query Language)**: Supports database-independent queries.  
 - **Automatic Table Creation**: Generates tables based on Java entity classes.  
@@ -2880,7 +2880,7 @@ Both **default methods in interfaces** and **methods in abstract classes** allow
 | **Performance Optimization** | Lazy loading, caching, batching | No built-in optimization |
 | **Scalability** | Works well with large applications | Becomes complex with large codebases |
 
-✅ **Hibernate reduces boilerplate code, improves maintainability, and provides flexibility across different databases.**  
+**Hibernate reduces boilerplate code, improves maintainability, and provides flexibility across different databases.**  
 ### **Example: Hibernate vs. JDBC**
 #### **JDBC Approach (Manual SQL Queries)**
 ```java
@@ -2913,10 +2913,10 @@ session.save(e);
 tx.commit();
 session.close();
 ```
-- ✅ **No manual SQL** → Uses objects instead.  
-- ✅ **Auto table creation** via `@Entity`.  
-- ✅ **Database independent** (Works with MySQL, PostgreSQL, etc.).  
-- ✅ **Faster performance** via caching.
+- **No manual SQL** → Uses objects instead.  
+- **Auto table creation** via `@Entity`.  
+- **Database independent** (Works with MySQL, PostgreSQL, etc.).  
+- **Faster performance** via caching.
 
 ### **When Should You Use Hibernate?**
 ✔ **Enterprise Applications** (Spring Boot, Microservices).  
@@ -2945,7 +2945,7 @@ Hibernate simplifies database interactions **by removing the need for raw SQL** 
 Both **DTO (Data Transfer Object)** and **Entity** are commonly used in Java applications, but they serve different purposes. Let’s break down their differences:
 ### **1. What is an Entity?**
 An **Entity** is a Java class that represents a **database table**. It is directly mapped to a table using **JPA annotations** (`@Entity`).  
-✅ **Key Features of an Entity:**  
+**Key Features of an Entity:**  
 - Represents a **database table**.  
 - Managed by **Hibernate/JPA**.  
 - Contains **database-specific fields** (e.g., `@Id`, `@Column`).  
@@ -2976,7 +2976,7 @@ public class User {
 ### **2. What is a DTO (Data Transfer Object)?**
 A **DTO** is a **plain Java class** used to **transfer data** between layers (Controller ↔ Service ↔ Client).  
 DTOs are **not managed by JPA** and usually contain only required fields.  
-✅ **Key Features of a DTO:**  
+**Key Features of a DTO:**  
 - **Not mapped to the database** (No `@Entity`).  
 - Used to transfer data between layers.  
 - Improves **performance & security** (only necessary fields exposed).  
@@ -3035,15 +3035,15 @@ public User convertToEntity(UserDTO userDTO) {
     return user;
 }
 ```
-✅ **Using a DTO ensures the API does not expose database fields like `id`, `password`, etc.**  
+**Using a DTO ensures the API does not expose database fields like `id`, `password`, etc.**  
 
 ### **5. When to Use DTO vs. Entity?**
 | **Scenario** | **Use DTO?** | **Use Entity?** |
 |-------------|-------------|-------------|
-| **Fetching data for API response** | ✅ Yes (return only necessary fields) | ❌ No (avoid exposing entity directly) |
-| **Saving/updating data in DB** | ✅ Yes (for validation) | ✅ Yes (JPA manages persistence) |
-| **Internal database operations** | ❌ No | ✅ Yes |
-| **Avoiding lazy loading issues** | ✅ Yes | ❌ No |
+| **Fetching data for API response** | Yes (return only necessary fields) |  No (avoid exposing entity directly) |
+| **Saving/updating data in DB** | Yes (for validation) | Yes (JPA manages persistence) |
+| **Internal database operations** |  No | Yes |
+| **Avoiding lazy loading issues** | Yes |  No |
 
 ### **6. Why Use DTOs Instead of Entities in APIs?**
 🚀 **Advantages of DTOs in REST APIs:**  
@@ -3055,22 +3055,22 @@ public User convertToEntity(UserDTO userDTO) {
 🔴 **Bad Practice (Returning Entity in API Response)**  
 ```java
 @GetMapping("/users/{id}")
-public User getUser(@PathVariable Long id) { // ❌ Exposes Entity directly
+public User getUser(@PathVariable Long id) { //  Exposes Entity directly
     return userRepository.findById(id).orElseThrow();
 }
 ```
-✅ **Good Practice (Returning DTO in API Response)**  
+**Good Practice (Returning DTO in API Response)**  
 ```java
 @GetMapping("/users/{id}")
-public UserDTO getUser(@PathVariable Long id) { // ✅ Uses DTO
+public UserDTO getUser(@PathVariable Long id) { // Uses DTO
     return userService.getUserById(id);
 }
 ```
 
 ### **7. Conclusion**
-✅ **Use `Entity` for database operations (JPA/Hibernate).**  
-✅ **Use `DTO` for API responses, improving security & performance.**  
-✅ **Convert between `Entity` ↔ `DTO` using Mapper functions.**  
+**Use `Entity` for database operations (JPA/Hibernate).**  
+**Use `DTO` for API responses, improving security & performance.**  
+**Convert between `Entity` ↔ `DTO` using Mapper functions.**  
 
 ---
 ## 56. Why Choose Spring Boot over spring MVC?
@@ -3104,18 +3104,18 @@ Spring MVC and Spring Boot both help build Java web applications, but **Spring B
 When to Use Spring Boot vs Spring MVC?**  
 | **Scenario** | **Use Spring MVC** | **Use Spring Boot** |
 |-------------|--------------------|---------------------|
-| **Building a traditional web app** | ✅ Yes | ✅ Yes |
-| **Building REST APIs** | ❌ Harder | ✅ Easier |
-| **Microservices Architecture** | ❌ No | ✅ Yes |
-| **Need auto-configuration** | ❌ No | ✅ Yes |
-| **Want production-ready features** | ❌ No | ✅ Yes |
-| **Need fast development** | ❌ No | ✅ Yes |
+| **Building a traditional web app** | Yes | Yes |
+| **Building REST APIs** |  Harder | Easier |
+| **Microservices Architecture** |  No | Yes |
+| **Need auto-configuration** |  No | Yes |
+| **Want production-ready features** |  No | Yes |
+| **Need fast development** |  No | Yes |
 #### **6. Conclusion: Why Choose Spring Boot?**  
-✅ **Easier Setup** → No XML, embedded Tomcat, auto-configured.  
-✅ **Less Boilerplate Code** → Just write business logic.  
-✅ **Better Performance** → Optimized defaults, Actuator.  
-✅ **Great for REST & Microservices** → API development is easy.  
-✅ **Production-Ready** → Monitoring, Logging, Security.  
+**Easier Setup** → No XML, embedded Tomcat, auto-configured.  
+**Less Boilerplate Code** → Just write business logic.  
+**Better Performance** → Optimized defaults, Actuator.  
+**Great for REST & Microservices** → API development is easy.  
+**Production-Ready** → Monitoring, Logging, Security.  
 
 ---
 ## 57. Java Singleton Design Pattern
@@ -3134,8 +3134,8 @@ public class Singleton {
     }
 }
 ```
-✅ **Pros:** Simple, thread-safe  
-❌ **Cons:** Instance is created even if not used  
+**Pros:** Simple, thread-safe  
+ **Cons:** Instance is created even if not used  
 ##### **B. Lazy Initialization (Not Thread-Safe)**
 Instance is created **only when needed**, but this is **not thread-safe**.
 ```java
@@ -3152,8 +3152,8 @@ public class Singleton {
     }
 }
 ```
-✅ **Pros:** Saves memory if the instance is never used  
-❌ **Cons:** **Not thread-safe** in multi-threaded environments  
+**Pros:** Saves memory if the instance is never used  
+ **Cons:** **Not thread-safe** in multi-threaded environments  
 ##### **C. Thread-Safe Singleton (Double-Checked Locking)**
 A better approach to make the Singleton thread-safe **without performance issues**.
 ```java
@@ -3174,8 +3174,8 @@ public class Singleton {
     }
 }
 ```
-✅ **Pros:** Thread-safe, efficient performance  
-❌ **Cons:** More complex  
+**Pros:** Thread-safe, efficient performance  
+ **Cons:** More complex  
 ##### **D. Bill Pugh Singleton (Best Approach)**
 This approach uses an **inner static helper class**, which ensures **lazy initialization and thread safety**.
 ```java
@@ -3191,8 +3191,8 @@ public class Singleton {
     }
 }
 ```
-✅ **Pros:** Lazy-loaded, thread-safe, best performance  
-❌ **Cons:** None  
+**Pros:** Lazy-loaded, thread-safe, best performance  
+ **Cons:** None  
 ##### **E. Enum Singleton (Recommended for Thread-Safety)**
 Using an `enum` prevents multiple instances **even during serialization and reflection**.
 ```java
@@ -3204,8 +3204,8 @@ public enum Singleton {
     }
 }
 ```
-✅ **Pros:** Simplest, thread-safe, prevents reflection attacks  
-❌ **Cons:** Cannot support lazy initialization  
+**Pros:** Simplest, thread-safe, prevents reflection attacks  
+ **Cons:** Cannot support lazy initialization  
 ##### **2. When to Use Singleton Pattern?**
 - **Database connections** (JDBC, Hibernate)
 - **Logging framework** (Log4j, SLF4J)
@@ -3218,7 +3218,7 @@ public enum Singleton {
 2. **Serialization creates multiple instances** (implement `readResolve()` method)
 3. **Reflection can break Singleton** (use `Enum Singleton`)
 4. **Cloning can break Singleton** (override `clone()` and throw exception)
-#### ✅ **Best Practices**
+#### **Best Practices**
 - Prefer **Enum Singleton** for the safest implementation.
 - Use **Bill Pugh Singleton** for **lazy initialization with thread safety**.
 - Avoid unnecessary **synchronization**, as it affects performance.
