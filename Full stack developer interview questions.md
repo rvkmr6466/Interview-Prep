@@ -270,6 +270,7 @@ Functional interfaces are primarily used in the context of lambda expressions an
                                       .collect(Collectors.toList());
    ```
 4. **Event Handling**: Functional interfaces can be used in event handling scenarios, such as in GUI applications, where you can define actions for button clicks or other events.
+
 **Conclusion**
 Functional interfaces are a powerful feature in Java that enable functional programming paradigms. They allow for cleaner, more concise code by enabling the use of lambda expressions and method references, making it easier to pass behavior as parameters and work with collections and streams.
 
