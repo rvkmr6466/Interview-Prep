@@ -1009,12 +1009,12 @@ In microservices, the **Circuit Breaker pattern** helps prevent cascading failur
 
 **Example**
 - Imagine a **Shopping Cart** microservice that depends on a **Product Catalog** microservice to fetch product details. If the Product Catalog service goes down, the Shopping Cart service could be overwhelmed with requests and may fail too.
-By implementing a **Circuit Breaker**, the Shopping Cart service can:
-- Monitor the Product Catalog service.
-- Open the circuit if failures exceed a threshold.
-- Stop calling the failing service temporarily.
-- Display a user-friendly message like _"Product details are temporarily unavailable."_  
-- Retry after a timeout to check if the Product Catalog service has recovered.
+- By implementing a **Circuit Breaker**, the Shopping Cart service can:
+  - Monitor the Product Catalog service.
+  - Open the circuit if failures exceed a threshold.
+  - Stop calling the failing service temporarily.
+  - Display a user-friendly message like _"Product details are temporarily unavailable."_  
+  - Retry after a timeout to check if the Product Catalog service has recovered.
 
 ---
 ## 24. Lazy Loading in Hibernate  
