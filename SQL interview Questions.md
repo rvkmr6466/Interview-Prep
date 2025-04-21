@@ -73,4 +73,9 @@ SELECT salary FROM employees ORDER BY salary DESC LIMIT 1 OFFSET 1;
 ```
 
 ---
+## Q. Find Employees Who Are Managers  
+```sql
+SELECT e1.name FROM emp e1 JOIN emp e2 ON e1.emp_id = e2.emp_mgr_id;
+```
+---
 ## Q. 
