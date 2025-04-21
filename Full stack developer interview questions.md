@@ -1791,7 +1791,50 @@ void doSomething() throws InterruptedException {
 Imagine a thread downloading a large file. If the user cancels the download, another thread can interrupt the download thread. The download thread's `InterruptedException` handler can then close the network connection and delete any partially downloaded data.
 
 ---
-## 40. 
+## 40. Design patterns
+Design patterns are reusable solutions to common problems in software design. They are categorized into three main types: Creational, Structural, and Behavioral, each addressing different aspects of object creation, class composition, and object interaction, respectively. 
+1. Creational Patterns: These patterns deal with object creation, providing flexible and reusable mechanisms for instantiating objects. 
+Factory Method:
+Defines an interface for creating an object, but lets subclasses decide which class to instantiate.
+Abstract Factory:
+Provides an interface for creating families of related objects without specifying their concrete classes.
+Builder:
+Separates the construction of a complex object from its representation, allowing for different representations.
+Prototype:
+Creates new objects by copying existing ones, avoiding the need for subclasses.
+Singleton:
+Ensures a class has only one instance and provides a global point of access to it.
+2. Structural Patterns: These patterns deal with class and object composition, defining ways to assemble objects to form larger structures. 
+Adapter: Converts the interface of a class into another interface clients expect.
+Bridge: Decouples an abstraction from its implementation, allowing them to vary independently.
+Composite: Creates a tree-like structure of objects, allowing users to manipulate individual objects or collections of objects uniformly.
+Decorator: Dynamically adds responsibilities to objects without changing their class, offering a flexible alternative to inheritance.
+Facade: Provides a simplified interface to a complex subsystem, hiding its details.
+Flyweight: Minimizes memory usage by sharing objects for similar functionality.
+Proxy: Provides a placeholder for another object, controlling access to it and potentially reducing its cost or complexity.
+3. Behavioral Patterns: These patterns deal with the communication and interaction between objects, defining algorithms and responsibilities. 
+Chain of Responsibility:
+Passes a request down a chain of objects, allowing multiple objects to handle it.
+Command:
+Encapsulates a request as an object, allowing for parameterization of clients with different actions.
+Interpreter:
+Defines how to represent a grammar of language elements and provide an interpreter to evaluate these elements.
+Iterator:
+Provides a way to access the elements of a collection sequentially without exposing its underlying implementation.
+Mediator:
+Defines an object that manages the interaction between a set of objects, reducing complex relationships between them.
+Memento:
+Captures and restores an object's internal state, allowing for rollback to a previous state.
+Observer:
+Defines a one-to-many dependency between objects, allowing multiple objects to observe the state of a subject and respond to changes.
+State:
+Allows an object to alter its behavior when its internal state changes, encapsulating a different state for each behavior.
+Strategy:
+Defines a family of algorithms, encapsulating each one and making them interchangeable.
+Template Method:
+Defines the skeleton of an algorithm, allowing subclasses to customize specific steps without modifying the algorithm itself.
+Visitor:
+Represents an operation to be performed on the elements of an object structure, allowing the same operation to be applied to different types of objects without code changes.
 
 ---
 
