@@ -1,7 +1,7 @@
 # SQL interview questions
 
 ## Q. What are procedures and functions in SQL?
-In SQL, both stored procedures and functions are reusable blocks of code used to perform specific tasks, but they differ in their purpose and behavior. Procedures are primarily used for data manipulation and can be called to execute a set of SQL statements, potentially changing the database. Functions, on the other hand, are designed for calculations and always return a single value, making them suitable for operations like data transformation or retrieving computed values. [1, 2, 3]  
+In SQL, both stored procedures and functions are reusable blocks of code used to perform specific tasks, but they differ in their purpose and behavior. Procedures are primarily used for data manipulation and can be called to execute a set of SQL statements, potentially changing the database. Functions, on the other hand, are designed for calculations and always return a single value, making them suitable for operations like data transformation or retrieving computed values.  
 Key Differences:  
 
 * Purpose:  
@@ -65,6 +65,12 @@ To optimize SQL queries, focus on efficient indexing, minimizing data retrieval,
  * _Database-Specific Features_: Utilize database-specific features like partitioning (splitting data into smaller, more manageable chunks) and stored procedures (pre-compiled SQL code that can be executed more efficiently).
  * _Other Techniques_: Use `UNION ALL` instead of `UNION` when you don't need to remove duplicate rows. Optimize `WHERE` clauses by avoiding functions in predicates and using the `LIKE` operator with wildcards at the end of a string.
  * _Monitoring_: Regularly monitor query performance to identify bottlenecks and optimize queries accordingly.
+
+---
+## Q. Second Highest Salary in SQL  
+```sql
+SELECT salary FROM employees ORDER BY salary DESC LIMIT 1 OFFSET 1;
+```
 
 ---
 ## Q. 
