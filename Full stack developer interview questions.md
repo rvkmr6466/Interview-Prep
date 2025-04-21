@@ -1792,60 +1792,67 @@ Imagine a thread downloading a large file. If the user cancels the download, ano
 
 ---
 ## 40. Design patterns
-Design patterns are reusable solutions to common problems in software design. They are categorized into three main types: Creational, Structural, and Behavioral, each addressing different aspects of object creation, class composition, and object interaction, respectively. 
-1. Creational Patterns: These patterns deal with object creation, providing flexible and reusable mechanisms for instantiating objects. 
-Factory Method:
-Defines an interface for creating an object, but lets subclasses decide which class to instantiate.
-Abstract Factory:
-Provides an interface for creating families of related objects without specifying their concrete classes.
-Builder:
-Separates the construction of a complex object from its representation, allowing for different representations.
-Prototype:
-Creates new objects by copying existing ones, avoiding the need for subclasses.
-Singleton:
-Ensures a class has only one instance and provides a global point of access to it.
-2. Structural Patterns: These patterns deal with class and object composition, defining ways to assemble objects to form larger structures. 
-Adapter: Converts the interface of a class into another interface clients expect.
-Bridge: Decouples an abstraction from its implementation, allowing them to vary independently.
-Composite: Creates a tree-like structure of objects, allowing users to manipulate individual objects or collections of objects uniformly.
-Decorator: Dynamically adds responsibilities to objects without changing their class, offering a flexible alternative to inheritance.
-Facade: Provides a simplified interface to a complex subsystem, hiding its details.
-Flyweight: Minimizes memory usage by sharing objects for similar functionality.
-Proxy: Provides a placeholder for another object, controlling access to it and potentially reducing its cost or complexity.
-3. Behavioral Patterns: These patterns deal with the communication and interaction between objects, defining algorithms and responsibilities. 
-Chain of Responsibility:
-Passes a request down a chain of objects, allowing multiple objects to handle it.
-Command:
-Encapsulates a request as an object, allowing for parameterization of clients with different actions.
-Interpreter:
-Defines how to represent a grammar of language elements and provide an interpreter to evaluate these elements.
-Iterator:
-Provides a way to access the elements of a collection sequentially without exposing its underlying implementation.
-Mediator:
-Defines an object that manages the interaction between a set of objects, reducing complex relationships between them.
-Memento:
-Captures and restores an object's internal state, allowing for rollback to a previous state.
-Observer:
-Defines a one-to-many dependency between objects, allowing multiple objects to observe the state of a subject and respond to changes.
-State:
-Allows an object to alter its behavior when its internal state changes, encapsulating a different state for each behavior.
-Strategy:
-Defines a family of algorithms, encapsulating each one and making them interchangeable.
-Template Method:
-Defines the skeleton of an algorithm, allowing subclasses to customize specific steps without modifying the algorithm itself.
-Visitor:
-Represents an operation to be performed on the elements of an object structure, allowing the same operation to be applied to different types of objects without code changes.
+Design patterns are reusable solutions to common problems in software design. They are categorized into three main types: **Creational**, **Structural**, and **Behavioral**, each addressing different aspects of object creation, class composition, and object interaction, respectively. 
+
+#### 1. Creational Patterns: These patterns deal with object creation, providing flexible and reusable mechanisms for instantiating objects. 
+- _Factory Method:_
+  - Defines an interface for creating an object, but lets subclasses decide which class to instantiate.
+- _Abstract Factory:_
+  - Provides an interface for creating families of related objects without specifying their concrete classes.
+- _Builder:_
+  - Separates the construction of a complex object from its representation, allowing for different representations.
+- _Prototype:_
+  - Creates new objects by copying existing ones, avoiding the need for subclasses.
+- _Singleton:_
+  - Ensures a class has only one instance and provides a global point of access to it.
+
+#### 2. Structural Patterns: These patterns deal with class and object composition, defining ways to assemble objects to form larger structures. 
+- _Adapter:_ 
+  - Converts the interface of a class into another interface clients expect.
+- _Bridge:_ 
+  - Decouples an abstraction from its implementation, allowing them to vary independently.
+- _Composite:_ 
+  - Creates a tree-like structure of objects, allowing users to manipulate individual objects or collections of objects uniformly.
+- _Decorator:_ 
+  - Dynamically adds responsibilities to objects without changing their class, offering a flexible alternative to inheritance.
+- _Facade:_ 
+  - Provides a simplified interface to a complex subsystem, hiding its details.
+- _Flyweight:_ 
+  - Minimizes memory usage by sharing objects for similar functionality.
+- _Proxy:_ 
+  - Provides a placeholder for another object, controlling access to it and potentially reducing its cost or complexity.
+
+#### 3. Behavioral Patterns: These patterns deal with the communication and interaction between objects, defining algorithms and responsibilities. 
+- _Chain of Responsibility:_
+  - Passes a request down a chain of objects, allowing multiple objects to handle it.
+- _Command:_
+  - Encapsulates a request as an object, allowing for parameterization of clients with different actions.
+- _Interpreter:_
+  - Defines how to represent a grammar of language elements and provide an interpreter to evaluate these elements.
+- _Iterator:_
+  - Provides a way to access the elements of a collection sequentially without exposing its underlying implementation.
+- _Mediator:_
+  - Defines an object that manages the interaction between a set of objects, reducing complex relationships between them.
+- _Memento:_
+  - Captures and restores an object's internal state, allowing for rollback to a previous state.
+- _Observer:_
+  - Defines a one-to-many dependency between objects, allowing multiple objects to observe the state of a subject and respond to changes.
+- _State:_
+  - Allows an object to alter its behavior when its internal state changes, encapsulating a different state for each behavior.
+- _Strategy:_
+  - Defines a family of algorithms, encapsulating each one and making them interchangeable.
+- _Template Method:_
+  - Defines the skeleton of an algorithm, allowing subclasses to customize specific steps without modifying the algorithm itself.
+- _Visitor:_
+  - Represents an operation to be performed on the elements of an object structure, allowing the same operation to be applied to different types of objects without code changes.
 
 ---
-
 ## 41. 
 
 ---
-
 ## 42. 
 
 ---
-
 ## 43. Class level annotation in spring boot
 In Spring Boot, class-level annotations are used to define configurations, components, and behaviors at the class level. Here are some commonly used class-level annotations:
 #### 1. **[@RestController](w)**
