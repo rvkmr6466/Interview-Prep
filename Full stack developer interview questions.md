@@ -1884,6 +1884,7 @@ These services are designed to be:
 ---
 ## 42. What is API Gateway?
 In a microservices architecture, an API Gateway acts as a single entry point for client requests. It sits in front of the microservices and handles various tasks such as routing, authentication, and load balancing.
+
 **Why Use an API Gateway?**
 In a traditional monolithic application, clients interact with a single endpoint. However, in a microservices architecture, the application's functionality is spread across multiple services. Clients would need to make requests to different endpoints for each service, which can lead to several problems:
 - **Complexity:** Clients need to know the addresses of multiple microservices.
@@ -1891,26 +1892,27 @@ In a traditional monolithic application, clients interact with a single endpoint
 - **Security:** Exposing each microservice directly can increase security risks.
 - **Reverse Proxy:** It acts as a reverse proxy, intercepting requests from clients and forwarding them to the backend services. 
 - **Cross-Cutting Concerns:** Implementing concerns like authentication, logging, and rate limiting in each microservice can lead to code duplication.
+
 An API Gateway solves these problems by providing a single, unified interface for clients.
 
 **Key Functions of an API Gateway**
-**Request Routing:** The gateway routes client requests to the appropriate microservice based on the requested path or other criteria.
-**Authentication and Authorization:** It can verify client identity and permissions before forwarding requests to microservices.
-**Request Transformation:** The gateway can modify requests or responses as needed, such as transforming protocols or data formats.
-**API Composition:** It can aggregate responses from multiple microservices and return a single response to the client.
-**Load Balancing:** The gateway can distribute client requests across multiple instances of a microservice to improve performance and availability.
-**Caching:** It can cache frequently accessed responses to reduce the load on microservices.
-**Rate Limiting:** The gateway can control the rate of requests to protect microservices from being overwhelmed.
-**Logging and Monitoring:** It can log requests and responses to provide insights into application usage and performance.
+- **Request Routing:** The gateway routes client requests to the appropriate microservice based on the requested path or other criteria.
+- **Authentication and Authorization:** It can verify client identity and permissions before forwarding requests to microservices.
+- **Request Transformation:** The gateway can modify requests or responses as needed, such as transforming protocols or data formats.
+- **API Composition:** It can aggregate responses from multiple microservices and return a single response to the client.
+- **Load Balancing:** The gateway can distribute client requests across multiple instances of a microservice to improve performance and availability.
+- **Caching:** It can cache frequently accessed responses to reduce the load on microservices.
+- **Rate Limiting:** The gateway can control the rate of requests to protect microservices from being overwhelmed.
+- **Logging and Monitoring:** It can log requests and responses to provide insights into application usage and performance.
 
 **Benefits**
-**Simplified Client Experience:** Clients interact with a single endpoint, simplifying the application architecture from their perspective.
-**Reduced Coupling:** Microservices are decoupled from the client, allowing them to evolve independently.
-**Improved Security:** The gateway can handle security concerns centrally, reducing the burden on individual microservices.
-**Enhanced Performance:** The gateway can optimize traffic flow, perform caching, and load balancing.
-**Centralized Cross-Cutting Concerns:** Common functionalities like authentication, logging, and rate limiting can be implemented in the gateway, reducing code duplication.
+- **Simplified Client Experience:** Clients interact with a single endpoint, simplifying the application architecture from their perspective.
+- **Reduced Coupling:** Microservices are decoupled from the client, allowing them to evolve independently.
+- **Improved Security:** The gateway can handle security concerns centrally, reducing the burden on individual microservices.
+- **Enhanced Performance:** The gateway can optimize traffic flow, perform caching, and load balancing.
+- **Centralized Cross-Cutting Concerns:** Common functionalities like authentication, logging, and rate limiting can be implemented in the gateway, reducing code duplication.
 
-eg. Apigee, NGINX, apiman, WSO2 API Manager, Azure API management, Amazon API Management etc.
+**eg**. Apigee, NGINX, apiman, WSO2 API Manager, Azure API management, Amazon API Management etc.
 
 ---
 ## 43. Class level annotation in spring boot
