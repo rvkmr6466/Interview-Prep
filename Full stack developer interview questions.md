@@ -1912,7 +1912,7 @@ An API Gateway solves these problems by providing a single, unified interface fo
 - **Enhanced Performance:** The gateway can optimize traffic flow, perform caching, and load balancing.
 - **Centralized Cross-Cutting Concerns:** Common functionalities like authentication, logging, and rate limiting can be implemented in the gateway, reducing code duplication.
 
-**eg**. Apigee, NGINX, apiman, WSO2 API Manager, Azure API management, Amazon API Management etc.
+**eg**. Apigee, NGINX, apiman, kong, WSO2 API Manager, Azure API management, Amazon API Management etc.
 
 ---
 ## 43. Class level annotation in spring boot
