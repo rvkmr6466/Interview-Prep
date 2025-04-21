@@ -2,7 +2,6 @@
 
 ### 1. First Repeating Character from a String
 #### Examples:
-
 | Input            | Output | Explanation                          |
 |-----------------|--------|--------------------------------------|
 | `s = "geeksforgeeks"` | `"e"`  | 'e' repeats at third position.  |
@@ -10,7 +9,6 @@
 | `s = "abc"` | `"-1"`  | No repeated character found.         |
 
 #### Solution:
-
 ```java
 import java.util.*;
 
@@ -27,9 +25,15 @@ public class Main {
                 return;
             }
         }
-
         System.out.println("-1"); // No repeating character found
     }
+}
+```
+**Alternate:**
+```java
+public static Optional<Character> findFirstRepeatedCharacter(String input) {
+    Set<Character> seen = new HashSet<>();
+    return input.chars().mapToObj(c -> (char) c).filter(c -> !seen.add(c)).findFirst();
 }
 ```
 ---
@@ -394,4 +398,6 @@ public static void rotateRight(int[] arr, int k) {
     Collections.rotate(Arrays.asList(arr), k);
 }
 ```
+---
+### 13.  
 
