@@ -1650,7 +1650,184 @@ public class Main {
 
 ---
 
+## 19. Find the output:
+**Ex 1.** 
+```
+String s = "A";
+s = "B";
+System.out.println(list);
+```
+**Output:** 
+```
+B
+``` 
+**Ex 2.**
+```
+final int x = 10;
+x=20;
+System.out.println(x);
+```
+**Output:** 
+```
+The Java code will result in a compile-time error because you cannot reassign a value to a final variable after its initialization.
+```
+**Ex 3.** 
+```
+final List<Integer> list = new ArrayList<>();
+list.add(2);
+list.add(3);
+list.add(4);
+list.remove(2);
+System.out.println(list);
+```
+**Output:** 
+```
+[2,3]
+```
 
+---
+## 20. Sort a HashMap on the basis of key
+```java
+import java.util.*;
+
+public class HashMapSorting {
+    public static void main(String[] args) {
+        // Creating a HashMap
+        HashMap<Integer, String> map = new HashMap<>();
+        map.put(3, "Three");
+        map.put(1, "One");
+        map.put(4, "Four");
+        map.put(2, "Two");
+
+        // Sorting using TreeMap (keys will be sorted)
+        TreeMap<Integer, String> sortedMap = new TreeMap<>(map);
+
+        // Printing sorted map
+        for (Map.Entry<Integer, String> entry : sortedMap.entrySet()) {
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
+        }
+    }
+}
+
+```
+**Alternative**: Using Stream API
+```
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class HashMapSorting {
+    public static void main(String[] args) {
+        HashMap<Integer, String> map = new HashMap<>();
+        map.put(3, "Three");
+        map.put(1, "One");
+        map.put(4, "Four");
+        map.put(2, "Two");
+
+        // Sorting using Stream and LinkedHashMap to maintain order
+        Map<Integer, String> sortedMap = map.entrySet().stream()
+            .sorted(Map.Entry.comparingByKey())
+            .collect(Collectors.toMap(
+                Map.Entry::getKey, 
+                Map.Entry::getValue, 
+                (e1, e2) -> e1, LinkedHashMap::new));
+
+        // Printing sorted map
+        sortedMap.forEach((key, value) -> System.out.println(key + " -> " + value));
+    }
+}
+```
+**One more Alternative**: List and `Collections.sort()` method
+```java
+import java.util.*;
+
+public class HashMapSorting {
+    public static void main(String[] args) {
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("Three", 3);
+        map.put("One", 1);
+        map.put("Four", 4);
+        map.put("Two", 2);
+
+        // Step 1: Get the keys and store them in a List
+        ArrayList<String> keys = new ArrayList<>(map.keySet());
+
+        // Step 2: Sort the List
+        Collections.sort(keys);
+
+        // Step 3: Print the sorted keys with values
+        for (String key : keys) {
+            System.out.println(key + " -> " + map.get(key));
+        }
+    }
+}
+```
+**Output:**
+```
+Four -> 4
+One -> 1
+Three -> 3
+Two -> 2
+```
+
+---
+
+### 21. Second highest element in an Array using stream
+    public static void main(String[] args) {
+        int[] arr = {21, 2, 43, 114, 45, 6, 32, 54};
+
+        if (arr.length < 2) {
+            System.out.println("Array should have at least two elements.");
+            return;
+        }
+
+        int firstHighest = Integer.MIN_VALUE;
+        int secondHighest = Integer.MIN_VALUE;
+
+        for (int n : arr) {
+            if (n > firstHighest) {
+                secondHighest = firstHighest; // Update secondHighest before changing firstHighest
+                firstHighest = n;
+            } else if (n > secondHighest && n < firstHighest) {
+                secondHighest = n;
+            }
+        }
+
+        if (secondHighest == Integer.MIN_VALUE) {
+            System.out.println("No second highest element found.");
+        } else {
+            System.out.println("First Highest: " + firstHighest);
+            System.out.println("Second Highest: " + secondHighest);
+        }    
+    }
+    
+**Using Stream API**
+```
+public static void main(String[] args) {
+    int[] arr = {21, 2, 43, 114, 45, 6, 32, 54};
+    Optional<Integer> secondHighest = Arrays.stream(arr)
+            .distinct() // Remove duplicates
+            .boxed() // Convert to Integer for sorting
+            .sorted((a, b) -> b - a) // Sort in descending order
+            .skip(1) // Skip the highest element
+            .findFirst(); // Get the second highest
+
+    if (secondHighest.isPresent()) {
+        System.out.println("Second Highest: " + secondHighest.get());
+    } else {
+        System.out.println("No second highest element found.");
+    }
+}
+```
+---
+### 21. Reverse a String  
+```java
+String reversed = new StringBuilder(str).reverse().toString();
+```
+
+---
+### 22. 
+
+---
 
 ### Links:
 https://www.interviewbit.com/java-interview-questions-for-5-years-experience/
