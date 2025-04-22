@@ -5856,8 +5856,16 @@ To create a Eureka Server in Java using Spring Boot, follow these steps:
 With these steps, a basic Eureka Server is set up and running, ready for microservices to register and discover each other. 
 
 ---
-
-
+## Q. TODO
+orchestration vs containerisation
+microservices
+clustering vs non-clustering in DB
+* dependency injection in spring
+logging, authentication and monitoring in springboot application
+how to improve code quality
+how to increase application performance
+spring boot started dependencies
+ 
 
 
 
