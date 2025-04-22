@@ -102,6 +102,42 @@ SELECT e1.name FROM emp e1 JOIN emp e2 ON e1.emp_id = e2.emp_mgr_id;
 
 ---
 
-## Q. 
+## Q. Duplicate records from a table.
+| EmployeeID | FirstName | LastName | Email                   | Department | Salary  | HireDate   |
+|------------|-----------|----------|-------------------------|------------|---------|------------|
+| 1          | John      | Doe      | john.doe@example.com    | Sales      | 50000.00| 2023-01-15 |
+| 2          | Jane      | Smith    | jane.smith@example.com  | Marketing  | 60000.00| 2022-05-20 |
+| 3          | Peter     | Jones    | peter.jones@example.com | IT         | 75000.00| 2024-03-01 |
+| 4          | John      | Doe      | john.doe@example.com    | Sales      | 50000.00| 2023-01-15 |
+| 5          | Alice     | Brown    | alice.brown@example.com | HR         | 55000.00| 2023-11-10 |
+| 6          | Jane      | Smith    | jane.smith@example.com  | Marketing  | 60000.00| 2022-05-20 |
+| 7          | Peter     | Jones    | p.jones@sample.com      | IT         | 78000.00| 2024-04-01 |
+| 8          | David     | Wilson   | david.wilson@example.com| Finance    | 65000.00| 2023-07-01 |
+
+```
+SELECT * 
+FROM your_table 
+WHERE your_column IN (
+    SELECT your_column 
+    FROM your_table 
+    GROUP BY your_column 
+    HAVING COUNT(*) > 1
+);
+```
+**OR**
+```
+SELECT FirstName, LastName, Email, Department, Salary, HireDate, COUNT(*) AS DuplicateCount
+FROM Employee
+GROUP BY FirstName, LastName, Email, Department, Salary, HireDate
+HAVING COUNT(*) > 1;
+```
+
+---
+## Q.  SQL vs NoSQL  
+| SQL | NoSQL |
+|-----|-------|
+| Structured | Unstructured |
+| Fixed Schema | Dynamic Schema |
+| ACID | BASE |
 
 ---
