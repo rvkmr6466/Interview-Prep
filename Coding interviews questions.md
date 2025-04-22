@@ -399,5 +399,257 @@ public static void rotateRight(int[] arr, int k) {
 }
 ```
 ---
-### 13.  
+### 13. Identify lowest positive integer which is not present in the array
+#### Examples:
+| Input            | Output | Explanation                          |
+|-----------------|--------|--------------------------------------|
+| `s = [-8,1,-3,3,2,-10]` | `"4"`  | 4 is the lowest which is not present in given array  |
+
+#### Solution 1:
+```
+import java.util.HashSet;
+
+public class LowestMissingPositive {
+    public static int findLowestMissingPositive(int[] nums) {
+        // Step 1: Create a set to store positive integers
+        HashSet<Integer> positiveSet = new HashSet<>();
+        
+        // Step 2: Add positive integers to the set
+        for (int num : nums) {
+            if (num > 0) {
+                positiveSet.add(num);
+            }
+        }
+        
+        // Step 3: Check for the lowest missing positive integer
+        int lowestMissing = 1; // Start checking from 1
+        while (positiveSet.contains(lowestMissing)) {
+            lowestMissing++; // Increment until we find a missing integer
+        }
+        
+        return lowestMissing;
+    }
+
+    public static void main(String[] args) {
+        int[] array = {-8, 1, -3, 3, 2, -10};
+        int result = findLowestMissingPositive(array);
+        System.out.println(result); // Output: 4
+    }
+}
+```
+#### Solution 2:
+```
+public class LowestMissingPositive {
+    public static int findLowestMissingPositive(int[] nums) {
+        int n = nums.length;
+
+        // Step 1: Move each positive integer to its corresponding index
+        for (int i = 0; i < n; i++) {
+            while (nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] != nums[i]) {
+                // Swap nums[i] with nums[nums[i] - 1]
+                int temp = nums[i];
+                nums[i] = nums[temp - 1];
+                nums[temp - 1] = temp;
+            }
+        }
+
+        // Step 2: Find the first index where the value is not correct
+        for (int i = 0; i < n; i++) {
+            if (nums[i] != i + 1) {
+                return i + 1; // The first missing positive integer
+            }
+        }
+
+        // If all positions are correct, the missing integer is n + 1
+        return n + 1;
+    }
+
+    public static void main(String[] args) {
+        int[] array = {-8, 1, -3, 3, 2, -10};
+        int result = findLowestMissingPositive(array);
+        System.out.println(result); // Output: 4
+    }
+}
+```
+**Explanation of the Code:**
+- **Rearranging the Array:** The first loop rearranges the array such that each positive integer `x` is placed at index `x - 1`. For example, if 1 is in the array, it will be placed at index `0`, if `2` is in the array, it will be placed at index `1`, and so on.
+- **Finding the Missing Integer:** The second loop checks each index. If the value at index `i` is not `i + 1`, then `i + 1` is the lowest missing positive integer.
+- **Return Value:** If all integers from `1` to `n` are present, the next missing positive integer will be `n + 1`.
+
+---
+### 14. Write a logic to implement below use-case:
+#### Examples:
+| Input            | Output | Explanation                          |
+|-----------------|--------|--------------------------------------|
+| `s = "Ravi Kumar"` | `"ivaR ramuK"`  | reverse words with the same order  |
+| `s = "Ravi Kumar Sharma"` | `"ivaR ramuK amrahS"`  | reverse words with the same order  |
+
+#### Solution 1:
+```
+public class Main {
+    public static void main(String[] args) {
+      String s1= "Ravi Kumar";
+      String[] str = s1.split(" ");
+      String sss = "";
+      List<String> list = new ArrayList<>();
+      
+      for (int i=0; i<str.length; i++) {
+        String s = reverStr(str[i]);
+        list.add(s);
+      }
+      
+      System.out.println(Arrays.toString(str));
+      System.out.println(list.toString());
+      
+      System.out.println(sss.join(" ", list));
+  }
+  
+  public static String reverStr(String st) {
+    int len = st.length()-1;
+    String ss = "";
+    for (int j=len; j>=0; j--) {
+      ss+=st.charAt(j);
+    }
+    return ss;
+  }
+}
+```
+#### Output
+```
+ivaR ramuK
+```
+#### Solution 2:
+```
+public class Main {
+    public static void main(String[] args) {
+      String s1= "Ravi Kumar Sharma";
+      String reverseStr = "";
+      List<String> list = new ArrayList<>();
+      int len = s1.length()-1;
+      
+      for (int i = len; i>=0; i--) {
+        reverseStr+=s1.charAt(i);
+      }
+      
+      String[] reverseStrArray = reverseStr.split(" ");
+      
+      for (int j=reverseStrArray.length-1; j>=0; j--) {
+        list.add(reverseStrArray[j]);
+      }
+      
+      System.out.println(reverseStr.join(" ", list));
+  }
+  
+}
+```
+#### Output
+```
+ivaR ramuK amrahS
+```
+
+---
+## 15. Find output
+```
+class A {
+	public final void testMethod() {
+		System.out.println("invoke A");
+	}
+}
+class B extends A {
+	public final void testMethod() {
+		System.out.println("invoke B");
+	}
+}
+class C {
+	public static void main(String[] args) {
+		A a = new B();
+		a.testMethod();
+	}
+}
+```
+In the provided Java code, we have a class `A` with a final method `testMethod()`, and a class `B` that extends `A` and also defines a final method with the same name. Here’s the breakdown of the code:
+
+1. **Class A**: Contains a final method `testMethod()` that prints "invoke A".
+2. **Class B**: Extends `A` and attempts to override the `testMethod()` with its own implementation that prints "invoke B". However, since the method in class `A` is declared as `final`, it cannot be overridden in class `B`.
+3. **Class C**: In the `main` method, an instance of `B` is created but referenced by a variable of type `A`. When `a.testMethod()` is called, it will invoke the method defined in class `A` because `testMethod()` in `A` is final and cannot be overridden.
+
+#### Output
+When you run the `main` method in class `C`, the output will be:
+```
+invoke A
+```
+#### Explanation
+- The `final` keyword in Java indicates that a method cannot be overridden by subclasses. Therefore, even though `B` has a method with the same name, it does not override the method from `A`. The method from `A` is the one that gets called, resulting in "invoke A" being printed.
+
+---
+### 16. Find the output:
+```
+public class Test implements Runnable
+{
+    public void run()
+    {
+        System.out.printf("Thread's running ");
+    }
+    try
+    {
+        public Test()
+        {
+            Thread.sleep(5000);
+        }    
+    } 
+    catch (InterruptedException e) 
+    {
+        e.printStackTrace();
+    }
+    public static void main(String[] args)
+    {
+        Test obj = new Test();
+        Thread thread = new Thread(obj);
+        thread.start();
+        System.out.printf("GFG ");
+    }
+}
+```
+#### Output
+```
+Compilation error 
+```
+**Explanation:** 
+- A constructor cannot be enclosed inside a try/catch block.
+
+---
+### 17. Find the output:
+```
+public class TestClass {
+    public static void main(String[] args) {
+        someMethod(null);
+    }
+
+    public static void someMethod(Object o) {
+       System.out.println("Object method Invoked");
+    }
+
+    public static void someMethod(String s) {
+        System.out.println("String method Invoked");
+    }
+}
+```
+#### Output
+The output of this code is “String method Invoked”. We know that null is a value that can be assigned to any kind of object reference type in Java. It is not an object in Java. Secondly, the Java compiler chooses the method with the most specific parameters in method overloading. this means that since the String class is more specific, the method with String input parameter is called.
+
+---
+### 18.
+
+
+---
+
+
+
+
+### Links:
+https://www.interviewbit.com/java-interview-questions-for-5-years-experience/
+https://www.geeksforgeeks.org/output-of-java-program-set-1/
+
+
+
 
