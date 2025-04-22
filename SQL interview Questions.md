@@ -78,4 +78,30 @@ SELECT salary FROM employees ORDER BY salary DESC LIMIT 1 OFFSET 1;
 SELECT e1.name FROM emp e1 JOIN emp e2 ON e1.emp_id = e2.emp_mgr_id;
 ```
 ---
+## Q. MySQL vs PostgreSQL: A Detailed Comparison  
+
+| Feature            | **MySQL**  | **PostgreSQL**  |
+|--------------------|-----------|----------------|
+| **Architecture**  | Relational Database (RDBMS) | Object-Relational Database (ORDBMS) |
+| **ACID Compliance** | Fully ACID-compliant (with InnoDB) | Fully ACID-compliant |
+| **Performance**  | Faster for **read-heavy** workloads | Better for **write-heavy** and complex queries |
+| **SQL Compliance** | Partially SQL-compliant | More SQL-compliant (supports advanced SQL features) |
+| **Indexing** | Supports B-Tree, Full-text, and Hash Indexing | Supports B-Tree, Hash, GiST, GIN, BRIN Indexing |
+| **JSON Support** | Basic JSON functions | Advanced JSON and JSONB support |
+| **Concurrency Control** | Uses **row-level locking** (InnoDB) | Uses **MVCC (Multi-Version Concurrency Control)** |
+| **Replication** | Supports Master-Slave & Group Replication | Supports Master-Slave, Logical & Streaming Replication |
+| **Partitioning** | Limited support (Range & List) | Advanced Partitioning (Range, List, Hash) |
+| **Stored Procedures** | Supports **PL/SQL-like** syntax | Supports **PL/pgSQL**, Python, Java, etc. |
+| **Extensions & Customization** | Limited extensibility | Highly extensible (e.g., TimescaleDB, PostGIS) |
+| **Security** | Basic authentication & SSL | Advanced security with role-based access, RLS |
+| **Use Cases** | Web applications, CMS (e.g., WordPress, Joomla) | Data analytics, OLAP, GIS, complex queries |
+
+### **Which One to Choose?**
+- **Choose MySQL if:** You need a simple, fast, and lightweight database for web apps.  
+- **Choose PostgreSQL if:** You need complex queries, high scalability, and advanced features like JSON, GIS, and full ACID compliance.
+
+---
+
 ## Q. 
+
+---
