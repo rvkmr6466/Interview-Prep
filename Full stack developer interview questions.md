@@ -5726,7 +5726,67 @@ public class Main {
 - Avoid using static where instance-level behavior is required.
 
 ---
+## Q. `transient` keyword in Java
+The `transient` keyword in Java is a variable modifier that indicates that a field should be excluded from the serialization process. Serialization is the process of converting an object's state into a byte stream, which can then be stored or transmitted. When an object is deserialized, the byte stream is used to recreate the object.
+When a field is declared as `transient`, its value is not included in the serialized byte stream. As a result, when the object is deserialized, the transient field will have its default value (e.g., `0 for integers, `null` for objects). 
 
+The `transient` keyword is often used for fields that should not be persisted, such as: 
+• _Sensitive data_: Fields containing sensitive information, such as passwords or API keys, should be marked as `transient` to prevent them from being stored in a serialized form. 
+• _Derived data_: Fields that can be calculated from other fields do not need to be serialized. 
+• _Non-serializable fields_: Fields that are not serializable, such as file handles or threads, must be marked as `transient`. 
+
+**Here's an example:** 
+```
+import java.io.*;
+
+class MyClass implements Serializable {
+    private String name;
+    private transient String password;
+
+    public MyClass(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public static void main(String[] args) {
+        MyClass obj = new MyClass("John Doe", "secret");
+
+        // Serialize the object
+        try (FileOutputStream fileOut = new FileOutputStream("data.ser");
+             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+            out.writeObject(obj);
+            System.out.println("Serialized data is saved in data.ser");
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+
+        // Deserialize the object
+        try (FileInputStream fileIn = new FileInputStream("data.ser");
+             ObjectInputStream in = new ObjectInputStream(fileIn)) {
+            MyClass deserializedObj = (MyClass) in.readObject();
+            System.out.println("Deserialized data...");
+            System.out.println("Name: " + deserializedObj.getName());
+            System.out.println("Password: " + deserializedObj.getPassword()); // Password will be null
+        } catch (IOException i) {
+            i.printStackTrace();
+        } catch (ClassNotFoundException c) {
+            System.out.println("MyClass class not found");
+            c.printStackTrace();
+        }
+    }
+}
+```
+In this example, the password field is marked as `transient`. When the `MyClass` object is serialized, the value of `password` is not included in the serialized data. When the object is deserialized, the `password` field is `null`. 
+
+---
 
 
 
