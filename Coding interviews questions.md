@@ -638,11 +638,1017 @@ public class TestClass {
 The output of this code is “String method Invoked”. We know that null is a value that can be assigned to any kind of object reference type in Java. It is not an object in Java. Secondly, the Java compiler chooses the method with the most specific parameters in method overloading. this means that since the String class is more specific, the method with String input parameter is called.
 
 ---
-### 18.
+### 18. Find the output on inheritance + overriding:
+#### Example 1: Basic Overriding
+```java
+class Animal {
+    void sound() {
+        System.out.println("Animal sound");
+    }
+}
 
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Animal a = new Dog();
+        a.sound();
+    }
+}
+```
+
+**Expected Output:**
+```
+Dog barks
+```
+
+#### Example 2: Static Method Hiding
+
+```java
+class A {
+    static void display() {
+        System.out.println("Static A");
+    }
+}
+
+class B extends A {
+    static void display() {
+        System.out.println("Static B");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        A obj = new B();
+        obj.display();
+    }
+}
+```
+
+**Expected Output:**
+```
+Static A
+```
+
+- Static methods are **not overridden** but **hidden**.
+
+#### Example 3: Final Method
+
+```java
+class X {
+    final void show() {
+        System.out.println("X show");
+    }
+}
+
+class Y extends X {
+    // void show() {}  // Uncommenting this will cause a compile-time error
+}
+```
+
+**Expected Output (if method is not overridden):**
+```
+X show
+```
+
+#### Example 4: Private Method
+
+```java
+class SuperClass {
+    private void hello() {
+        System.out.println("Hello from SuperClass");
+    }
+}
+
+class SubClass extends SuperClass {
+    private void hello() {
+        System.out.println("Hello from SubClass");
+    }
+
+    public static void main(String[] args) {
+        SubClass obj = new SubClass();
+        obj.hello();
+    }
+}
+```
+
+**Expected Output:**
+```
+Hello from SubClass
+```
+
+- Private methods are not inherited or overridden. Each class has its own version.
+
+#### Example 5: Constructor and Overriding
+
+```java
+class One {
+    One() {
+        print();
+    }
+
+    void print() {
+        System.out.println("One");
+    }
+}
+
+class Two extends One {
+    int value = 100;
+
+    void print() {
+        System.out.println("Two " + value);
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        new Two();
+    }
+}
+```
+
+**Expected Output:**
+```
+Two 0
+```
+
+**Why?** 
+- Because during the superclass constructor call, `value` isn't initialized yet (default is `0`).
+
+#### Example 6: Overriding with Upcasting
+```java
+class Vehicle {
+    void run() {
+        System.out.println("Vehicle is running");
+    }
+}
+
+class Bike extends Vehicle {
+    void run() {
+        System.out.println("Bike is running safely");
+    }
+}
+
+public class Demo {
+    public static void main(String[] args) {
+        Vehicle obj = new Bike();
+        obj.run();
+    }
+}
+```
+**Expected Output:**
+```
+Bike is running safely
+```
+
+#### Example 7: Calling superclass method
+```java
+class A {
+    void show() {
+        System.out.println("A show()");
+    }
+}
+
+class B extends A {
+    void show() {
+        super.show();
+        System.out.println("B show()");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        B obj = new B();
+        obj.show();
+    }
+}
+```
+
+**Output:**
+```
+A show()
+B show()
+```
+
+#### Example 8: Accessing superclass variable
+```java
+class A {
+    int x = 10;
+}
+
+class B extends A {
+    int x = 20;
+
+    void display() {
+        System.out.println(x);
+        System.out.println(super.x);
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        B b = new B();
+        b.display();
+    }
+}
+```
+
+**Output:**
+```
+20
+10
+```
+
+#### Example 9: Abstract method implementation
+```java
+abstract class Shape {
+    abstract void draw();
+}
+
+class Circle extends Shape {
+    void draw() {
+        System.out.println("Drawing Circle");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Shape s = new Circle();
+        s.draw();
+    }
+}
+```
+
+**Output:**
+```
+Drawing Circle
+```
+
+#### Example 10: Constructor chain with abstract class
+```java
+abstract class Parent {
+    Parent() {
+        System.out.println("Parent Constructor");
+    }
+
+    abstract void message();
+}
+
+class Child extends Parent {
+    Child() {
+        System.out.println("Child Constructor");
+    }
+
+    void message() {
+        System.out.println("Child Message");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Parent p = new Child();
+        p.message();
+    }
+}
+```
+
+**Output:**
+```
+Parent Constructor
+Child Constructor
+Child Message
+```
+
+#### Example 11: Interface implementation
+```java
+interface Printer {
+    void print();
+}
+
+class LaserPrinter implements Printer {
+    public void print() {
+        System.out.println("Printing with LaserPrinter");
+    }
+}
+
+public class Demo {
+    public static void main(String[] args) {
+        Printer p = new LaserPrinter();
+        p.print();
+    }
+}
+```
+
+**Output:**
+```
+Printing with LaserPrinter
+```
+
+#### Example 12: Interface default method
+```java
+interface TestInterface {
+    default void show() {
+        System.out.println("Default show() in Interface");
+    }
+}
+
+class Impl implements TestInterface {
+    public void show() {
+        System.out.println("Overridden show() in Impl");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        TestInterface t = new Impl();
+        t.show();
+    }
+}
+```
+
+**Output:**
+```
+Overridden show() in Impl
+```
 
 ---
 
+#### Example 13: Interface with multiple inheritance
+```java
+interface A {
+    default void show() {
+        System.out.println("A");
+    }
+}
+
+interface B {
+    default void show() {
+        System.out.println("B");
+    }
+}
+
+class C implements A, B {
+    public void show() {
+        A.super.show();
+        B.super.show();
+        System.out.println("C");
+    }
+}
+
+public class Demo {
+    public static void main(String[] args) {
+        C obj = new C();
+        obj.show();
+    }
+}
+```
+
+**Output:**
+```
+A
+B
+C
+```
+
+#### Example 14: Final method cannot be overridden
+```java
+class Parent {
+    final void show() {
+        System.out.println("Parent show()");
+    }
+}
+
+class Child extends Parent {
+    // void show() { System.out.println("Child show()"); } // ❌ Compilation error
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Parent p = new Child();
+        p.show();
+    }
+}
+```
+
+**Output:**
+```
+Parent show()
+```
+
+**Explanation**: 
+- Final methods cannot be overridden. The `Child` class will inherit the method as-is.
+
+#### Example 15: Final variable reassignment
+```java
+class Test {
+    public static void main(String[] args) {
+        final int x = 10;
+        // x = 20; // ❌ Compilation error
+        System.out.println(x);
+    }
+}
+```
+
+**Output:**
+```
+10
+```
+
+**Explanation**: 
+- Final variables can only be assigned once.
+
+
+#### Example 16: Constructor chaining
+```java
+class A {
+    A() {
+        this(10);
+        System.out.println("Default Constructor");
+    }
+
+    A(int x) {
+        System.out.println("Parameterized Constructor: " + x);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        new A();
+    }
+}
+```
+**Output:**
+```
+Parameterized Constructor: 10
+Default Constructor
+```
+
+#### Example 17: Method call with superclass reference
+```java
+class Animal {
+    void sound() {
+        System.out.println("Animal sound");
+    }
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal a = new Dog();
+        a.sound();
+    }
+}
+```
+
+**Output:**
+```
+Dog barks
+```
+
+**Explanation**: 
+- Method is resolved at runtime based on object type (`Dog`), not reference type (`Animal`).
+
+#### Example 18: Overloading vs Overriding
+```java
+class A {
+    void print(String msg) {
+        System.out.println("A: " + msg);
+    }
+}
+
+class B extends A {
+    void print(String msg, int count) {
+        System.out.println("B: " + msg + " " + count);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        B obj = new B();
+        obj.print("Hello");
+        obj.print("Hello", 3);
+    }
+}
+```
+
+**Output:**
+```
+A: Hello
+B: Hello 3
+```
+
+**Explanation**: 
+- `print(String)` is inherited from `A`, while `print(String, int)` is overloaded in `B`.
+
+#### Example 19: Static methods are not overridden
+```java
+class Parent {
+    static void show() {
+        System.out.println("Parent static method");
+    }
+}
+
+class Child extends Parent {
+    static void show() {
+        System.out.println("Child static method");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Parent p = new Child();
+        p.show(); // Resolved at compile time
+    }
+}
+```
+
+**Output:**
+```
+Parent static method
+```
+**Explanation**: 
+- Static methods are resolved by reference type, not object type (no polymorphism).
+
+#### **Example 20: Abstract class with no abstract methods**
+
+```java
+abstract class Vehicle {
+    void start() {
+        System.out.println("Vehicle starting...");
+    }
+}
+
+class Car extends Vehicle {
+    void drive() {
+        System.out.println("Car driving...");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Vehicle v = new Car();
+        v.start();
+        // v.drive(); // ❌ Compile-time error
+    }
+}
+```
+
+**Output:**
+```
+Vehicle starting...
+```
+
+**Explanation**: 
+- You can create abstract classes without abstract methods. Also, `v` is of type `Vehicle`, so it can’t access `Car`-specific methods unless type-casted.
+
+#### **Example 21: Interface with default and static methods**
+
+```java
+interface Printer {
+    default void print() {
+        System.out.println("Default print");
+    }
+
+    static void status() {
+        System.out.println("Printer status OK");
+    }
+}
+
+class Epson implements Printer {
+    public void print() {
+        System.out.println("Epson printing...");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Printer p = new Epson();
+        p.print();
+        // p.status(); // ❌ Compile-time error
+        Printer.status();
+    }
+}
+```
+
+**Output:**
+```
+Epson printing...
+Printer status OK
+```
+
+**Explanation**: 
+- `static` methods in interfaces are not inherited. You must call them using the interface name.
+
+#### **Example 22: Interface inheritance**
+
+```java
+interface A {
+    void show();
+}
+
+interface B extends A {
+    void display();
+}
+
+class C implements B {
+    public void show() {
+        System.out.println("Show from A");
+    }
+
+    public void display() {
+        System.out.println("Display from B");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        C obj = new C();
+        obj.show();
+        obj.display();
+    }
+}
+```
+
+**Output:**
+```
+Show from A
+Display from B
+```
+
+**Explanation**: 
+- Interfaces can extend other interfaces. Class `C` must implement all inherited methods.
+
+
+#### **Example 23: Abstract class implementing interface**
+
+```java
+interface Engine {
+    void start();
+}
+
+abstract class DieselEngine implements Engine {
+    public void fuelType() {
+        System.out.println("Diesel Fuel");
+    }
+}
+
+class Truck extends DieselEngine {
+    public void start() {
+        System.out.println("Truck started");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Truck t = new Truck();
+        t.start();
+        t.fuelType();
+    }
+}
+```
+
+**Output:**
+```
+Truck started
+Diesel Fuel
+```
+
+**Explanation**: 
+- Abstract class can implement an interface and leave method(s) unimplemented. Concrete subclass must implement them.
+
+
+#### **Example 24: Abstract class constructor**
+
+```java
+abstract class Shape {
+    Shape() {
+        System.out.println("Shape constructor");
+    }
+
+    abstract void draw();
+}
+
+class Circle extends Shape {
+    Circle() {
+        System.out.println("Circle constructor");
+    }
+
+    void draw() {
+        System.out.println("Drawing Circle");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Shape s = new Circle();
+        s.draw();
+    }
+}
+```
+
+**Output:**
+```
+Shape constructor
+Circle constructor
+Drawing Circle
+```
+
+> **Explanation**: Abstract class constructors are always executed first when an object is created via subclass.
+
+
+#### **Example 25: Multiple interfaces, same method signature**
+
+```java
+interface A {
+    void display();
+}
+
+interface B {
+    void display();
+}
+
+class Demo implements A, B {
+    public void display() {
+        System.out.println("Display from Demo");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Demo d = new Demo();
+        d.display();
+    }
+}
+```
+
+**Output:**
+```
+Display from Demo
+```
+
+**Explanation**: 
+- Java supports multiple interface inheritance. If method signatures are the same, one implementation satisfies both.
+
+
+#### **Example 26: Interface with conflicting default methods**
+
+```java
+interface A {
+    default void greet() {
+        System.out.println("Hello from A");
+    }
+}
+
+interface B {
+    default void greet() {
+        System.out.println("Hello from B");
+    }
+}
+
+class C implements A, B {
+    public void greet() {
+        System.out.println("Hello from C");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        C c = new C();
+        c.greet();
+    }
+}
+```
+
+**Output:**
+```
+Hello from C
+```
+
+**Explanation**: 
+- When a class implements multiple interfaces with the same default method, you **must override** it to resolve ambiguity.
+
+#### **Example 27: Can an abstract class implement an interface without implementing its methods?**
+
+```java
+interface Drawable {
+    void draw();
+}
+
+abstract class AbstractShape implements Drawable {
+    // Not implementing draw()
+    void info() {
+        System.out.println("This is an abstract shape.");
+    }
+}
+
+class Square extends AbstractShape {
+    public void draw() {
+        System.out.println("Drawing a Square");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Square s = new Square();
+        s.draw();
+        s.info();
+    }
+}
+```
+
+**Output:**
+```
+Drawing a Square
+This is an abstract shape.
+```
+
+**Explanation**: 
+- Abstract classes can implement interfaces **without implementing all methods**, but any concrete subclass **must implement** the remaining ones.
+
+---
+
+#### **Example 28: Interface extending another interface with same method**
+
+```java
+interface A {
+    void show();
+}
+
+interface B extends A {
+    void show(); // same method
+}
+
+class Test implements B {
+    public void show() {
+        System.out.println("Showing from Test");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        A a = new Test();
+        a.show();
+    }
+}
+```
+
+**Output:**
+```
+Showing from Test
+```
+
+> **Explanation**: `B` inherits `show()` from `A`. Even if you re-declare it, it's still just one method to implement.
+
+#### **Example 29: Abstract class with static method**
+
+```java
+abstract class Animal {
+    static void sound() {
+        System.out.println("Animal makes sound");
+    }
+
+    abstract void eat();
+}
+
+class Dog extends Animal {
+    void eat() {
+        System.out.println("Dog eats bone");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal.sound();
+        Dog d = new Dog();
+        d.eat();
+    }
+}
+```
+
+**Output:**
+```
+Animal makes sound
+Dog eats bone
+```
+
+**Explanation**: 
+- `static` methods in abstract classes **can be called directly using class name**. They are not overridden.
+
+#### **Example 30: Can an interface have constructors?**
+
+```java
+interface MyInterface {
+    // constructors not allowed
+    // MyInterface() {}  // ❌ Compile-time error
+}
+```
+
+**Explanation**: 
+- **Interfaces cannot have constructors** because they cannot be instantiated directly. Only classes can have constructors.
+
+---
+
+#### **Example 31: Interface with constants**
+
+```java
+interface Constants {
+    int MAX = 100;
+}
+
+public class Test {
+    public static void main(String[] args) {
+        System.out.println(Constants.MAX);
+        // Constants.MAX = 200; // ❌ Compile-time error
+    }
+}
+```
+
+**Output:**
+```
+100
+```
+
+**Explanation**: 
+- All fields in interfaces are **public static final by default**. That means they are **constants** and cannot be modified.
+
+#### **Example 32: Abstract class with final method**
+
+```java
+abstract class Vehicle {
+    final void stop() {
+        System.out.println("Stopping vehicle...");
+    }
+
+    abstract void run();
+}
+
+class Bike extends Vehicle {
+    void run() {
+        System.out.println("Bike is running");
+    }
+
+    // void stop() {} // ❌ Cannot override final method
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Bike b = new Bike();
+        b.run();
+        b.stop();
+    }
+}
+```
+
+**Output:**
+```
+Bike is running
+Stopping vehicle...
+```
+
+**Explanation**: 
+- `final` methods cannot be overridden, even if defined in an abstract class.
+
+---
+
+#### **Example 33: Abstract method in interface with object return type**
+
+```java
+interface Creator {
+    Object create();
+}
+
+class IntegerCreator implements Creator {
+    public Integer create() {
+        return 42;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Creator c = new IntegerCreator();
+        System.out.println(c.create());
+    }
+}
+```
+
+**Output:**
+```
+42
+```
+
+**Explanation**: 
+- This is **covariant return type**. `Integer` is a subclass of `Object`, so it’s allowed.
+
+---
 
 
 
