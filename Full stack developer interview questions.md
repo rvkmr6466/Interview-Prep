@@ -5787,6 +5787,56 @@ class MyClass implements Serializable {
 In this example, the password field is marked as `transient`. When the `MyClass` object is serialized, the value of `password` is not included in the serialized data. When the object is deserialized, the `password` field is `null`. 
 
 ---
+## Q. What is Eureka Server? 
+Eureka Server is a crucial component in a microservices architecture, acting as a service registry. It allows microservices to register themselves and discover other services dynamically. This eliminates the need for hardcoded service addresses, enabling loose coupling and scalability.  
+To create a Eureka Server in Java using Spring Boot, follow these steps: 
+
+• Project Setup: 
+	• Create a new Spring Boot project using Spring Initializr or your IDE. 
+	• Add the `spring-cloud-starter-netflix-eureka-server` dependency to your `pom.xml` or `build.gradle` file. 
+    ```
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+    </dependency>
+    ```
+• Enable Eureka Server: 
+	• Add the `@EnableEurekaServer` annotation to your main application class. 
+    ```
+    import org.springframework.boot.SpringApplication;
+    import org.springframework.boot.autoconfigure.SpringBootApplication;
+    import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+    
+    @SpringBootApplication
+    @EnableEurekaServer
+    public class EurekaServerApplication {
+        public static void main(String[] args) {
+            SpringApplication.run(EurekaServerApplication.class, args);
+        }
+    }
+    ```
+• Configuration: 
+	• Configure the Eureka Server in your `application.properties` or `application.yml` file. 
+    ```
+    server:
+      port: 8761
+    
+    eureka:
+      client:
+        register-with-eureka: false
+        fetch-registry: false
+    ```
+• `server.port`: Specifies the port on which the Eureka Server will run (default is `8761`). 
+• `eureka.client.register-with-eureka`: Set to false because the server doesn't need to register itself. 
+• `eureka.client.fetch-registry`: Set to false as the server doesn't need to fetch the registry from itself. 
+
+• Run the Application: 
+	• Run the `EurekaServerApplication`. 
+	• Access the Eureka dashboard at `http://localhost:8761`. 
+
+With these steps, a basic Eureka Server is set up and running, ready for microservices to register and discover each other. 
+
+---
 
 
 
