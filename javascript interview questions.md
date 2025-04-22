@@ -1665,6 +1665,41 @@ ngOnInit() {
 By implementing these optimizations, you can significantly improve the performance of your Angular application, resulting in a faster, more responsive, and more enjoyable user experience.
 
 ---
+## Q. AOT vs JIT
+Angular applications require compilation because browsers cannot directly understand Angular components and templates. The two primary compilation methods are _Ahead-of-Time (AOT)_ and _Just-in-Time (JIT)_. 
+
+1. **Ahead-of-Time (AOT)** 
+- AOT compilation occurs during the build process. It translates Angular HTML and TypeScript code into efficient JavaScript code before the browser downloads and runs it.  
+
+**Advantages of AOT:** 
+• _Faster rendering:_ The browser renders the UI immediately upon loading, without waiting for compilation. 
+• _Smaller bundle size:_ AOT eliminates the need to ship the Angular compiler in the production bundle, reducing the overall size. [2]  
+• _Improved security:_ Pre-compilation mitigates the risk of client-side code injection attacks. 
+• _Template type checking:_ AOT performs template type checking during compilation, catching errors early in the development cycle. 
+
+2. **Just-in-Time (JIT)** 
+JIT compilation occurs at runtime in the browser. The Angular compiler translates the application code into JavaScript as it's needed. 
+
+**Advantages of JIT:**
+• _Faster development cycle:_ JIT allows for rapid iteration during development, as changes are quickly reflected without a full rebuild. 
+• _Easier debugging:_ Source maps are used for debugging, making it easier to trace errors back to the original code. 
+
+**Key Differences Summarized**
+
+| Feature | AOT | JIT  |
+| --- | --- | --- |
+| Compilation Time | Build time | Runtime  |
+| Initial Load Time | Faster | Slower  |
+| Bundle Size | Smaller | Larger  |
+| Security | Improved | Less secure  |
+| Development Speed | Slower build times | Faster iteration  |
+| Debugging | More challenging | Easier  |
+| Use Cases | Production builds | Development  |
+
+**Conclusion**
+- AOT is generally preferred for production environments due to its performance and security benefits. JIT is useful during development for its rapid iteration capabilities. In recent Angular versions, AOT is the default compilation mode.
+
+---
 ## Q. **What is Angular and why is it used?**  
    Angular is a TypeScript-based frontend framework used for building dynamic single-page applications (SPAs). It offers tools for two-way binding, dependency injection, routing, and more.
 
