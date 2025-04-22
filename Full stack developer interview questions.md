@@ -1395,7 +1395,26 @@ Here's a more detailed breakdown:
 - **Resilience**: Service B should be designed to be resilient to failures, meaning it can continue operating even if some parts of the infrastructure are unavailable.
 
 ---
-## 33. 
+## 33. Why we need to override equals and hashcode in Java?
+In Java, overriding `equals()` and `hashCode()` is crucial when a class is intended to be used in hash-based data structures like `HashMap` and `HashSet`, or when comparing objects based on their content rather than their memory location. Overriding `equals()` allows for custom equality comparisons, while overriding `hashCode()` ensures that objects considered equal by `equals()` also have the same hash code, maintaining the integrity of hash-based collections.
+
+Here's a more detailed explanation:
+• _`equals()` for Content Equality_: The default `equals()` method in Java compares objects based on their memory addresses (object references). Overriding `equals()` allows you to define equality based on the object's attributes or data, not its memory location.  
+• _`hashCode()` for Hash-Based Collections_: Hash-based collections like `HashMap` and `HashSet` use `hashCode()` to determine where to store objects within the collection (bucket). If two objects are considered equal by `equals()`, they must also have the same hash code.
+
+**Contract:** 
+- If you override `equals()`, you must also override `hashCode()` to maintain the contract between these two methods. This contract dictates that if `equals()` returns true for two objects, then `hashCode()` must also return the same value for both objects.
+
+**Example:** 
+- Consider a Point class. If you define `equals()` to consider two points equal if they have the same x and y coordinates, then you must also define `hashCode()` based on these coordinates.  
+
+**Why is this important?**
+• _Correct Functionality:_ Without overriding `equals()` and `hashCode()`, hash-based collections will treat two distinct objects with the same data as different, leading to incorrect behavior.  
+• _Performance:_ A good implementation of `hashCode()` helps distribute objects evenly across buckets in hash-based collections, improving performance and preventing collisions.  
+• _Consistency_: Overriding both methods ensures that your class behaves consistently with hash-based collections, providing reliable results when using your class in these contexts. 
+
+**In summary:** 
+Overriding `equals()` and `hashCode()` is essential for custom classes that need to be compared based on their content or used in hash-based collections. By adhering to the `equals()` and `hashCode()` contract, you ensure that your code behaves predictably and efficiently.
 
 ---
 ## 34. Common HTTP Status Codes
