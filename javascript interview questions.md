@@ -1700,6 +1700,14 @@ JIT compilation occurs at runtime in the browser. The Angular compiler translate
 - AOT is generally preferred for production environments due to its performance and security benefits. JIT is useful during development for its rapid iteration capabilities. In recent Angular versions, AOT is the default compilation mode.
 
 ---
+## Q. TODO
+- viewchild and @output
+- rxjs vs ngrx
+- typescript methods for filter duplicate elements in an array
+- 17 features
+- 19 features
+
+---
 ## Q. **What is Angular and why is it used?**  
    Angular is a TypeScript-based frontend framework used for building dynamic single-page applications (SPAs). It offers tools for two-way binding, dependency injection, routing, and more.
 
@@ -1752,50 +1760,50 @@ JIT compilation occurs at runtime in the browser. The Angular compiler translate
 ## 15. **What is a pipe? How to create custom pipes?**  
     Pipes transform data in templates. Custom pipes implement `PipeTransform`.
 
-16. **How do you test Angular components and services (TDD)?**  
+## 16. **How do you test Angular components and services (TDD)?**  
     Use Jasmine/Karma for unit testing, with mocks for services and Angular TestBed.
 
-17. **What is AoT and JiT compilation?**  
+## 17. **What is AoT and JiT compilation?**  
     - AoT: Ahead-of-Time (compile during build)
     - JiT: Just-in-Time (compile during runtime)
 
-18. **What is the difference between promises and observables?**  
+## 18. **What is the difference between promises and observables?**  
     - Promise resolves once.  
     - Observable supports multiple values over time and operators like `map`, `filter`.
 
-19. **Explain `switchMap` in RxJS.**  
+## 19. **Explain `switchMap` in RxJS.**  
     Cancels previous observable and switches to new one. Useful in search/autocomplete.
 
-20. **How do you manage state in Angular apps?**  
+## 20. **How do you manage state in Angular apps?**  
     Use services or libraries like NgRx, Akita for centralized state management.
 
-21. **What is HttpClient in Angular?**  
+## 21. **What is HttpClient in Angular?**  
     Built-in service to make HTTP calls. Supports interceptors for auth/logging.
 
-22. **What are Angular lifecycle hooks?**  
+## 22. **What are Angular lifecycle hooks?**  
     Hooks like `ngOnInit`, `ngOnDestroy`, `ngAfterViewInit` let you tap into component life stages.
 
-23. **How do you handle forms validation?**  
+## 23. **How do you handle forms validation?**  
     Use `Validators` (required, minLength, pattern etc.) in template-driven or reactive forms.
 
-24. **What are guards in Angular?**  
+## 24. **What are guards in Angular?**  
     Control navigation using `CanActivate`, `CanDeactivate`, `Resolve` etc.
 
-25. **How do you optimize Angular app performance?**  
+## 25. **How do you optimize Angular app performance?**  
     Lazy loading, `OnPush` change detection, trackBy in `*ngFor`, reduce DOM operations.
 
-26. **What is SSR in Angular?**  
+## 26. **What is SSR in Angular?**  
     Server-Side Rendering improves SEO and initial load performance (via Angular Universal).
 
-27. **How do you manage modules and shared components?**  
+## 27. **How do you manage modules and shared components?**  
     Break into feature modules and use `SharedModule` for reusable components/pipes.
 
-28. **How do you handle authentication in Angular?**  
+## 28. **How do you handle authentication in Angular?**  
     JWT tokens stored in cookies/localStorage, guarded routes, interceptors for attaching tokens.
 
-29. **What is the use of `Renderer2`?**  
+## 29. **What is the use of `Renderer2`?**  
     Provides abstraction for DOM manipulation in a safe, platform-independent way.
 
-30. **What’s your experience with Angular 8+ specific features?**  
+## 30. **What’s your experience with Angular 8+ specific features?**  
     Includes Ivy compiler, differential loading, lazy loading with dynamic imports, etc.
 
