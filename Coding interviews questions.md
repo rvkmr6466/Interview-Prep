@@ -289,20 +289,20 @@ System.out.println(i + " " + j); // corrected output
 ### 9. Find the output:
 ```
 class Parent {
-	public void print() throws FileNotFoundException {
-		System.out.println("Parent");
-    	}
+    public void print() throws FileNotFoundException {
+	System.out.println("Parent");
+    }
+}
+    
+public class Child extends Parent{
+    @Override
+    public void print() throws  IOException{
+    	System.out.println("Child");
     }
     
-    public class Child extends Parent{
-    	@Override
-    	public void print() throws  IOException{
-    		System.out.println("Child ");
-    	}
-    
-    	public static void main(String[] args) throws IOException {
-    		Parent p = new Child();
-    		p.print();
+    public static void main(String[] args) throws IOException {
+    	Parent p = new Child();
+    	p.print();
     }
 }
 ```
