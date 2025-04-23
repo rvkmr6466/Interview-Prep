@@ -1826,7 +1826,146 @@ String reversed = new StringBuilder(str).reverse().toString();
 
 ---
 ### 22. Reverse the linked list.
+To reverse a linked list in Java, you can use either an iterative or a recursive approach. Below, I will provide both methods along with explanations and code examples.
 
+#### 1. Iterative Approach
+
+In the iterative approach, you will use three pointers: `prev`, `curr`, and `next`. The idea is to traverse the linked list and reverse the pointers as you go.
+
+**Steps:**
+1. Initialize `prev` to `null`, `curr` to the head of the list, and `next` to `null`.
+2. Traverse the list:
+   - Store the next node: `next = curr.next`.
+   - Reverse the current node's pointer: `curr.next = prev`.
+   - Move `prev` and `curr` one step forward.
+3. When you reach the end of the list, `prev` will be the new head of the reversed list.
+
+**Java Code Example:**
+```java
+class Node {
+    int data;
+    Node next;
+
+    Node(int newData) {
+        data = newData;
+        next = null;
+    }
+}
+
+public class LinkedList {
+    Node head;
+
+    // Function to reverse the linked list
+    public Node reverseList(Node head) {
+        Node prev = null;
+        Node curr = head;
+        Node next = null;
+
+        while (curr != null) {
+            next = curr.next; // Store next node
+            curr.next = prev; // Reverse the link
+            prev = curr;      // Move prev and curr one step forward
+            curr = next;
+        }
+        return prev; // New head of the reversed list
+    }
+
+    // Function to print the linked list
+    public void printList(Node node) {
+        while (node != null) {
+            System.out.print(node.data + " ");
+            node = node.next;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        LinkedList list = new LinkedList();
+        list.head = new Node(1);
+        list.head.next = new Node(2);
+        list.head.next.next = new Node(3);
+        list.head.next.next.next = new Node(4);
+        list.head.next.next.next.next = new Node(5);
+
+        System.out.print("Original Linked List: ");
+        list.printList(list.head);
+
+        list.head = list.reverseList(list.head);
+
+        System.out.print("Reversed Linked List: ");
+        list.printList(list.head);
+    }
+}
+```
+
+#### 2. Recursive Approach
+
+In the recursive approach, you will reverse the linked list by recursively processing the nodes.
+
+**Steps:**
+1. If the head is `null` or the next node is `null`, return the head.
+2. Recursively reverse the rest of the list.
+3. Link the first node to the end of the reversed list.
+4. Set the next of the current head to `null`.
+
+**Java Code Example:**
+```java
+class Node {
+    int data;
+    Node next;
+
+    Node(int newData) {
+        data = newData;
+        next = null;
+    }
+}
+
+public class LinkedList {
+    Node head;
+
+    // Function to reverse the linked list recursively
+    public Node reverseList(Node head) {
+        if (head == null || head.next == null) {
+            return head; // Base case
+        }
+
+        Node rest = reverseList(head.next); // Reverse the rest of the list
+        head.next.next = head; // Link the first node to the end
+        head.next = null; // Set the next of the current head to null
+
+        return rest; // Return the new head of the reversed list
+    }
+
+    // Function to print the linked list
+    public void printList(Node node) {
+        while (node != null) {
+            System.out.print(node.data + " ");
+            node = node.next;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        LinkedList list = new LinkedList();
+        list.head = new Node(1);
+        list.head.next = new Node(2);
+        list.head.next.next = new Node(3);
+        list.head.next.next.next = new Node(4);
+        list.head.next.next.next.next = new Node(5);
+
+        System.out.print("Original Linked List: ");
+        list.printList(list.head);
+
+        list.head = list.reverseList(list.head);
+
+        System.out.print("Reversed Linked List: ");
+        list.printList(list.head);
+    }
+}
+```
+
+#### Conclusion
+Both methods effectively reverse a linked list. The iterative approach is generally more space-efficient, while the recursive approach is more elegant but may lead to stack overflow for large lists due to recursion depth. You can choose either method based on your requirements.
 
 
 ---
