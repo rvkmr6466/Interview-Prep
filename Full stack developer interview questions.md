@@ -27,8 +27,7 @@ In Java, an **immutable class** is one whose **instances cannot be modified afte
 - Make the class `final`  
 - Declare fields as `private` and `final`  
 - Provide a constructor to initialize fields  
-- Use **defensive copying** for mutable objects
-
+- Use **defensive copying** for mutable objects  
 ### **Steps to Create an Immutable Class in Java**  
 1. **Make the class `final`**  
    - Prevents inheritance, which could allow modification through subclassing.  
@@ -42,8 +41,7 @@ In Java, an **immutable class** is one whose **instances cannot be modified afte
 5. **Use getter methods carefully**  
    - If fields are mutable, return a **copy** of the object instead of exposing the original reference.  
 6. **Use defensive copying for mutable objects**  
-   - If the class contains references to mutable objects, create and return a copy in getter methods to **prevent external modification** of the internal state
-  
+   - If the class contains references to mutable objects, create and return a copy in getter methods to **prevent external modification** of the internal state.  
 ### **Example: Immutable Class in Java**
 ```java
  public final class Person {
@@ -78,9 +76,8 @@ In Java, an **immutable class** is one whose **instances cannot be modified afte
 ✔ **Data Integrity:** Immutability ensures the object’s data remains consistent throughout its lifecycle.  
 ✔ **Functional Programming:** Immutability is a core principle of functional programming, making code easier to understand and debug.  
 ✔ **Security:** Prevents accidental or malicious modification of sensitive data.  
-✔ **Example** – 
-
-**`String` Class:**  
+✔ **Example – 
+`String` Class:**  
    - The `String` class in Java is immutable. Once a `String` object is created, its value cannot be changed.
 In Java, the term "immutable" means that once a String object is created, its content cannot be changed. This implies that any operation that appears to modify a String actually creates a new String object with the modified content, leaving the original String unchanged.
 
@@ -515,7 +512,14 @@ class Switch {
 | DIP | Depend on abstractions | Looser coupling |
 
 ---
-## 8. TODO
+## 8. Difference Between Hibernate and JDBC  
+| Feature | Hibernate | JDBC |
+|---------|----------|------|
+| ORM | Yes | No |
+| Query Language | HQL | SQL |
+| Caching | Yes | No |
+| Lazy Loading | Yes | No |
+| Database Independence | Yes | No |
 
 ---
 ## 9. Annotations Used in Java  
@@ -574,7 +578,12 @@ Spring Boot follows **Microservices architecture** and includes:
 - **Repository Layer** - Database Interaction  
 
 ---
-## 12. TODO
+## 12. SQL vs NoSQL  
+| SQL | NoSQL |
+|-----|-------|
+| Structured | Unstructured |
+| Fixed Schema | Dynamic Schema |
+| ACID | BASE |
 
 ---
 ## 13. What is the Factory Pattern?
@@ -669,23 +678,23 @@ It uses **TimSort**, which is a hybrid of **MergeSort and InsertionSort**.
 The JVM acts as an intermediary between Java bytecode and the underlying hardware, providing a platform-independent environment for executing Java applications. It compiles Java code into bytecode, then interprets or compiles it into machine code at runtime using a Just-in-Time (JIT) compiler. This compiled code is stored in memory for later reuse. 
 Here's a more detailed breakdown:
 
-#### **1. Java Code Compilation:**
+**1. Java Code Compilation:**
 - Java source code is first compiled by the javac compiler into bytecode, which is a set of instructions independent of a specific operating system or hardware architecture.
 - This bytecode is then loaded into the JVM.
 
-#### **2. JVM Architecture:**
-- **_Class Loader:_** Loads class files (bytecode) into memory, manages the class hierarchy, and ensures that classes are loaded only once.
-- **_Execution Engine_**: Interprets or compiles bytecode into native machine code using the JIT compiler.  
-- **_Runtime Data Areas:_** These are memory regions used during program execution, including:  
-  - _Heap_: Stores objects.
-  - _Method Area_: Stores class metadata, method code, and constant pool.
-  - _Stack_: Manages local variables, method calls, and return addresses. 
-  - _Native Stack_: Used for native method calls.
-  - _Program Counters_: Keep track of the current instruction.
-- **_Java Native Interface (JNI):_** Enables Java code to interact with native (non-Java) code and libraries. 
-- **_Garbage Collector:_** Automatically manages memory allocation and deallocation, reclaiming unused memory.
+**2. JVM Architecture:**
+- _Class Loader:_ Loads class files (bytecode) into memory, manages the class hierarchy, and ensures that classes are loaded only once.
+- _Execution Engine_: Interprets or compiles bytecode into native machine code using the JIT compiler.  
+- _Runtime Data Areas:_ These are memory regions used during program execution, including:  
+  - Heap: Stores objects.
+  - Method Area: Stores class metadata, method code, and constant pool.
+  - Stack: Manages local variables, method calls, and return addresses. 
+  - Native Stack: Used for native method calls.
+  - Program Counters: Keep track of the current instruction.
+- _Java Native Interface (JNI):_ Enables Java code to interact with native (non-Java) code and libraries. 
+- _Garbage Collector:_ Automatically manages memory allocation and deallocation, reclaiming unused memory.
 
-#### **3. Bytecode Interpretation/Compilation:** 
+**3. Bytecode Interpretation/Compilation:** 
 - The JVM interprets or compiles bytecode into machine code.
 - The JIT compiler optimizes frequently used bytecode, improving performance.
 - This optimized code is stored in cached memory for reuse.
@@ -694,7 +703,7 @@ Here's a more detailed breakdown:
 - The JVM automatically manages memory through allocation and garbage collection.
 - Objects are allocated in the heap, and when no longer referenced, the garbage collector reclaims their memory.
 
-#### **5. Platform Independence:**  
+**5. Platform Independence:**  
 - The JVM provides a platform-independent environment, meaning Java applications can run on different operating systems and hardware architectures without modification.
 - This is achieved by the JVM handling the translation of bytecode into machine code specific to the underlying platform. 
 
@@ -1013,7 +1022,42 @@ private List<Order> orders;
 ```
 
 ---
-## 25. TODO
+## 25. How do you handle service discovery in microservices?
+In microservices architecture, service discovery allows services to dynamically locate and interact with each other without needing to hardcode the network addresses of other services. This is achieved through a central service registry or discovery service where services register themselves and others can query to find available instances. 
+
+Here's a more detailed explanation:
+
+#### 1. Service Registry:
+- A central repository (e.g., Eureka, Consul, ZooKeeper) stores information about available services, their instances, and their health.
+- Services register their presence with the registry upon startup and deregister upon shutdown, ensuring the registry reflects the current status of the service landscape.
+- The registry typically provides APIs for clients to query for service instances, including their network addresses (IPs and ports) and other metadata.
+
+#### 2. Discovery Patterns:
+- **Client-Side Discovery:** Clients directly query the service registry for service instances and then select an instance to send requests to, according to Microservices.io and F5. This pattern provides more flexibility and control to the client, but can increase the load on the registry. 
+- **Server-Side Discovery:** Clients send requests to a load balancer or API gateway that acts as an intermediary. This load balancer then queries the service registry, selects an instance, and forwards the request to the chosen service instance.  
+- **DNS-Based Discovery:** Uses DNS records to represent service instances. Clients perform DNS lookups to resolve service names to IP addresses.
+- **Sidecar Proxy:** A sidecar proxy (e.g., Envoy) can be deployed alongside each service instance to handle discovery, load balancing, and other network-related tasks.  
+
+#### 3. Registration and Deregistration:
+- Services typically register themselves with the service registry when they start and deregister when they shut down, as explained by F5.
+- The service registry can also be configured to automatically deregister instances that have been inactive or unhealthy for a certain period.
+- Heartbeats are often used to keep the registry aware of the health and availability of registered instances. 
+
+#### 4. Example Scenario:
+Let's say microservice A needs to call microservice B.
+1. Microservice A queries the service registry for available instances of service B.  
+2. The service registry provides a list of available instances of service B.
+3. Microservice A selects one of the instances from the list (e.g., using a load balancing algorithm).  
+4. Microservice A then sends a request to the selected instance of service B.  
+
+#### 5. Benefits of Service Discovery:
+- **Dynamic Scaling:** Services can be scaled up or down without requiring changes to other services.
+- **Flexibility:** Services can be deployed and redeployed without disrupting the application.
+- **Simplified Development:** Developers don't need to manage service URLs or hardcode dependencies.
+- **Improved Resilience:** If a service instance goes down, other services can automatically find and connect to healthy instances.  
+
+#### 6. Technologies:
+- **Eureka:** A service discovery platform from Netflix Open Source
 
 ---
 ## 26. Orchestration vs Choreography in microservices
@@ -1068,8 +1112,7 @@ In interfaces, default methods provide default implementations, allowing classes
 **Scenario: Payment System**
 - Let’s say you're designing a payment system that supports different payment methods like **Credit Card**, **UPI**, and **PayPal**.
 
-### **Using an Interface**
-
+**Using an Interface**
 You use an interface when you want to define a **contract** that multiple classes can implement **regardless of their inheritance hierarchy**.
 ```java
 interface PaymentMethod {
@@ -1090,12 +1133,12 @@ class UpiPayment implements PaymentMethod {
     }
 }
 ```
+
 **Why use an interface?**
 - You want flexibility: any class can implement `PaymentMethod`.
 - You don’t care about inheritance, only about behavior (`pay()` method must be implemented).
 
-### **Using an Abstract Class**
-
+**Using an Abstract Class**
 You use an abstract class when you want to provide **common behavior** but also enforce that certain methods must be implemented by subclasses.
 ```java
 abstract class OnlinePayment {
@@ -1120,7 +1163,40 @@ class PayPalPayment extends OnlinePayment {
 - Use **abstract class** when you want to share code across related classes and enforce specific structure.
 
 ---
-## 29. TODO
+## 29. How do you handle logging and monitoring in microservices?
+In microservices architectures, effective logging and monitoring are crucial for understanding the health and behavior of distributed systems. Centralized logging, structured logging formats, and distributed tracing are key practices for efficient debugging and performance analysis. Monitoring involves tracking key performance indicators (KPIs) and setting thresholds for alerting on potential issues.  
+
+#### Logging in Microservices:
+- **Centralized Logging:** Collect logs from all microservices in a central location for easier analysis and searching.
+- **Standardized Log Formats:** Use JSON or other structured formats to ensure consistency and enable efficient parsing.
+- **Correlation IDs:** Introduce unique IDs to track requests across multiple microservices, facilitating root cause analysis.
+- **Contextual Data:** Include relevant context (e.g., service name, user ID, request ID) in logs for better troubleshooting.
+- **Log Levels:** Utilize different log levels (e.g., DEBUG, INFO, WARN, ERROR, FATAL) to categorize log messages.
+
+#### Monitoring in Microservices:  
+- **Key Performance Indicators (KPIs):** Identify relevant metrics for each microservice, such as response time, error rate, and throughput.
+- **Thresholds and Alerting:** Define thresholds for KPIs and set up alerts to notify operations when performance deviates from normal.
+- **Distributed Tracing:** Use tools like Jaeger or Zipkin to trace requests across multiple services, providing insights into latency and dependencies.
+- **Observability Tools:** Leverage tools like Prometheus, Grafana, or ELK Stack (Elasticsearch, Logstash, Kibana) for collecting, processing, and visualizing logs and metrics. 
+
+#### Tools and Techniques:
+- **Logstash:** A data pipeline for collecting, parsing, and sending logs to various destinations.
+- **ELK Stack:** Elasticsearch, Logstash, and Kibana for centralized logging, analysis, and visualization.
+- **Prometheus:** An open-source monitoring and alerting system for microservices.
+- **Grafana:** A platform for visualizing and exploring metrics from various data sources, including Prometheus.
+- **Distributed Tracing Tools:** Jaeger, Zipkin, and others for tracing requests across microservices.  
+
+#### Example Implementation:
+1. Log Format: Implement a consistent log format (e.g., JSON) across all microservices, including service name, request ID, timestamp, log level, and a message.
+2. Centralized Logging: Configure Logstash to collect logs from each microservice and forward them to Elasticsearch.  
+3. Monitoring: Set up Prometheus to scrape metrics from each microservice and store them in a time-series database.
+4. Alerting: Configure Grafana to create dashboards and alerts based on Prometheus metrics.
+5. Distributed Tracing: Use a distributed tracing tool like Jaeger to trace requests across multiple services and visualize the flow.
+
+##### Links:
+[Centralized logging in microservices]([https://pages.github.com/](https://www.geeksforgeeks.org/centralized-logging-for-microservices/))
+[Distributed logging in microservices](https://www.geeksforgeeks.org/distributed-logging-for-microservices/)
+[Microservices cross cutting concerns](https://www.geeksforgeeks.org/microservices-cross-cutting-concerns/)
 
 ---
 ## 30. Exception Handling in Spring Boot
@@ -1197,7 +1273,7 @@ public class MyController {
 ```
 
 #### 3. Implementing `HandlerExceptionResolver`
-- For more advanced customization, you can implement the `HandlerExceptionResolver` interface.
+- For more advanced customization, you can implement the HandlerExceptionResolver interface.
 - This allows you to define custom logic for resolving exceptions, such as choosing a specific view or handling the exception in a particular way.
 ```
 @Component
@@ -1271,11 +1347,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 }
 ```
 **Best Practices**
-- Use specific exception types: Avoid catching generic Exception unless absolutely necessary. Catching specific exceptions allows for more targeted error handling.
+- Use specific exception types: Avoid catching generic Exception unless absolutely necessary.  Catching specific exceptions allows for more targeted error handling.
 - Use `@ControllerAdvice` for global exception handling:  This keeps your controller code clean and organized.
-- **_Return consistent error responses:_**  Define a standard format for your error responses (e.g., JSON with status code and message) to make it easier for clients to handle errors.
-- **_Log exceptions:_**  Log the full exception details (including stack traces) to help with debugging.  Be careful not to log sensitive information.
-- **_Handle exceptions gracefully:_**  Don't just let exceptions propagate up the stack.  Handle them in a way that provides a user-friendly error message and prevents the application from crashing.
+- _Return consistent error responses:_  Define a standard format for your error responses (e.g., JSON with status code and message) to make it easier for clients to handle errors.
+- _Log exceptions:_  Log the full exception details (including stack traces) to help with debugging.  Be careful not to log sensitive information.
+- _Handle exceptions gracefully:_  Don't just let exceptions propagate up the stack.  Handle them in a way that provides a user-friendly error message and prevents the application from crashing.
 
 ---
 ## 31. Class variable, instance variable, and method (local) variable
@@ -1385,9 +1461,9 @@ Here's a more detailed breakdown:
 ## 33. Why we need to override equals and hashcode in Java?
 In Java, overriding `equals()` and `hashCode()` is crucial when a class is intended to be used in hash-based data structures like `HashMap` and `HashSet`, or when comparing objects based on their content rather than their memory location. Overriding `equals()` allows for custom equality comparisons, while overriding `hashCode()` ensures that objects considered equal by `equals()` also have the same hash code, maintaining the integrity of hash-based collections.
 
-#### Here's a more detailed explanation:
-• **_`equals()` for Content Equality_**: The default `equals()` method in Java compares objects based on their memory addresses (object references). Overriding `equals()` allows you to define equality based on the object's attributes or data, not its memory location.  
-• **_`hashCode()` for Hash-Based Collections_**: Hash-based collections like `HashMap` and `HashSet` use `hashCode()` to determine where to store objects within the collection (bucket). If two objects are considered equal by `equals()`, they must also have the same hash code.
+Here's a more detailed explanation:
+• _`equals()` for Content Equality_: The default `equals()` method in Java compares objects based on their memory addresses (object references). Overriding `equals()` allows you to define equality based on the object's attributes or data, not its memory location.  
+• _`hashCode()` for Hash-Based Collections_: Hash-based collections like `HashMap` and `HashSet` use `hashCode()` to determine where to store objects within the collection (bucket). If two objects are considered equal by `equals()`, they must also have the same hash code.
 
 **Contract:** 
 - If you override `equals()`, you must also override `hashCode()` to maintain the contract between these two methods. This contract dictates that if `equals()` returns true for two objects, then `hashCode()` must also return the same value for both objects.
@@ -1405,7 +1481,7 @@ Overriding `equals()` and `hashCode()` is essential for custom classes that need
 
 ---
 ## 34. Common HTTP Status Codes
-Common HTTP status codes include `200 OK`, `301 Moved Permanently`, `400 Bad Request`, `401 Unauthorized`, `403 Forbidden`, `404 Not Found`, `500 Internal Server Error`, and `503 Service Unavailable`. These codes indicate the outcome of a request made to a web server.
+Common HTTP status codes include 200 OK, 301 Moved Permanently, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 500 Internal Server Error, and 503 Service Unavailable. These codes indicate the outcome of a request made to a web server.
 
 Here's a breakdown of some common codes: 
 - _200 OK_: The request was successful, and the server has delivered the requested resource.
@@ -1428,23 +1504,23 @@ s = "B";
 System.out.println(s);
 ```
 **Understanding the Code**
-#### 1. `String s = "A";`
+1. `String s = "A";`
 - This line creates a String object in memory containing the character "A".
 - The variable s is a reference that stores the memory address of this String object.
 
-#### 2. `s = "B";`
+2. `s = "B";`
 - This line does not change the existing String object that contains "A".
 - Instead, it creates a new String object in memory containing the character "B".
 - The reference s is then updated to store the memory address of this new String object.
 - The original String object ("A") still exists in memory, but there are no more references pointing to it.  It will eventually be garbage collected by the JVM.
 
-#### 3. `System.out.println(s);
+3. `System.out.println(s);
 - This line prints the value of s, which is now the memory address of the String object containing "B".  So, the output is "B".
 
 **How String Immutability Works**
-- **_Strings are Objects:_** In Java, String is a class, and string literals (like "A" and "B") are instances of that class (String objects).
-- **_Memory Allocation:_** When you create a string, the JVM allocates a block of memory to store the sequence of characters.Immutable Nature: The key point is that once a String object is created, its internal state (the character sequence) cannot be changed.  Any operation that appears to modify a string (e.g., concatenation, substring) actually creates a new String object with the modified content. The original String object remains unchanged.
-- **_No Setter Methods:_** The String class doesn't provide any methods to directly change the characters within an existing String object. You can't do something like `s.changeCharacter(0, 'C')`.
+- _Strings are Objects:_ In Java, String is a class, and string literals (like "A" and "B") are instances of that class (String objects).
+- _Memory Allocation:_ When you create a string, the JVM allocates a block of memory to store the sequence of characters.Immutable Nature: The key point is that once a String object is created, its internal state (the character sequence) cannot be changed.  Any operation that appears to modify a string (e.g., concatenation, substring) actually creates a new String object with the modified content. The original String object remains unchanged.
+- _No Setter Methods:_ The String class doesn't provide any methods to directly change the characters within an existing String object. You can't do something like `s.changeCharacter(0, 'C')`.
 
 **Visual Representation**
 Here's a simplified visual representation of what happens in memory:
@@ -1467,12 +1543,12 @@ Memory:
 s:  -------
 ```
 **Advantages of Immutability**
-- **_Thread Safety:_** Immutable objects are inherently thread-safe. Multiple threads can access and share String objects without the risk of data corruption or synchronization issues. This is crucial in multithreaded applications.
-- **_Caching:_** The JVM can optimize the storage of string literals by using a string pool. Since strings are immutable, it's safe to share the same String object between different parts of the program, reducing memory usage.
+- _Thread Safety:_ Immutable objects are inherently thread-safe.  Multiple threads can access and share String objects without the risk of data corruption or synchronization issues. This is crucial in multithreaded applications.
+- _Caching:_ The JVM can optimize the storage of string literals by using a string pool. Since strings are immutable, it's safe to share the same String object between different parts of the program, reducing memory usage.
   - For example, if you have multiple variables with the value "Hello", they might all point to the same String object in the pool.
-- **_Security:_** Immutability enhances security.
+- _Security:_ Immutability enhances security.
   - For example, if you pass a String object containing a password to a function, you can be sure that the function cannot modify the password string.
-- **_Simplicity:_** Immutability makes String objects simpler to reason about and use. You don't have to worry about the value of a string changing unexpectedly.
+- _Simplicity:_ Immutability makes String objects simpler to reason about and use. You don't have to worry about the value of a string changing unexpectedly.
 
 ---
 ## 36. Detailed comparison between `HashMap`, `TreeMap`, and `LinkedHashMap` in Java, along with examples to illustrate how and when you would use each.
@@ -1529,7 +1605,6 @@ System.out.println("TreeMap: " + treeMap);
   - Backed by a **hash table with a linked list**.
 
 **Use Case:**
-
 Use `LinkedHashMap` when you need **predictable iteration order** (insertion order) and still want decent performance.
 
 **Example:**
@@ -1578,9 +1653,7 @@ int quantity = cart.get("Apple");
 System.out.println("Apple quantity: " + quantity);
 ```
 
-**Use Case**: 
-
-Adding/removing items during checkout, validating stock availability quickly.
+**Use Case**: Adding/removing items during checkout, validating stock availability quickly.
 
 2. **LinkedHashMap** – Preserve Insertion Order
 Use `LinkedHashMap` to display cart items in the order the customer added them.
@@ -1596,9 +1669,7 @@ for (Map.Entry<String, Integer> item : cart.entrySet()) {
 }
 ```
 
-**Use Case**: 
-
-Showing cart items to users in UI just the way they added them.
+**Use Case**: Showing cart items to users in UI just the way they added them.
 
 3. **TreeMap** – Sorted View of Products
 Use `TreeMap` to show cart items **sorted alphabetically** by product name.
@@ -1615,9 +1686,7 @@ for (Map.Entry<String, Integer> item : cart.entrySet()) {
 }
 ```
 
-**Use Case**: 
-
-Sorting products alphabetically in invoice, admin reporting, or backend processing.
+**Use Case**: Sorting products alphabetically in invoice, admin reporting, or backend processing.
 
 **Summary:**
 | Requirement                                | Use This Map      |
@@ -1757,9 +1826,7 @@ public class MyController {
 ---
 ## 39. InterruptedException in Java
 `InterruptedException` is a checked exception in Java that is closely related to thread management. It's thrown when a thread is interrupted while it's in a waiting, sleeping, or otherwise blocked state.
-
 **What is Thread Interruption?**
-
 In Java, one thread can interrupt another thread using the `interrupt()` method of the Thread class. This doesn't necessarily stop the thread immediately; instead, it sets the interrupted status of the target thread.
 
 **How InterruptedException Occurs**
@@ -1767,17 +1834,15 @@ Methods that cause a thread to wait, such as:
 - `Thread.sleep()`
 - `Object.wait()`
 - `Thread.join()`
-- ...and certain I/O operations can throw an `InterruptedException` if the thread is interrupted while it's waiting.
+...and certain I/O operations can throw an `InterruptedException` if the thread is interrupted while it's waiting.
 
 **Why `InterruptedException` is Important**
-- **_Cooperative Cancellation:_** It provides a mechanism for one thread to signal to another that it should stop its current activity. The interrupted thread can then decide how to respond (e.g., clean up resources and terminate, or perform some other action).
-- **_Responsiveness:_** It helps in building responsive applications. For example, if a user cancels a long-running operation, the thread performing that operation can be interrupted and stop its work.
+- _Cooperative Cancellation:_ It provides a mechanism for one thread to signal to another that it should stop its current activity. The interrupted thread can then decide how to respond (e.g., clean up resources and terminate, or perform some other action).
+- _Responsiveness:_ It helps in building responsive applications. For example, if a user cancels a long-running operation, the thread performing that operation can be interrupted and stop its work.
 
 **Handling InterruptedException**
-
 Since InterruptedException is a checked exception, you must handle it in your code. Common ways to handle it include:
-
-**1. _Catch and Terminate:_** The thread catches the exception, cleans up any resources, and terminates its execution.
+1. _Catch and Terminate:_ The thread catches the exception, cleans up any resources, and terminates its execution.
 ```
 try {
     Thread.sleep(10000); // Sleep for 10 seconds
@@ -1787,7 +1852,7 @@ try {
     return; // Or throw a new exception
 }
 ```
-**2. _Restore Interrupted Status:_** If the thread cannot terminate immediately, it should restore its interrupted status by calling `Thread.currentThread().interrupt()`. This ensures that the interruption is not lost and higher-level code can handle it.
+2. _Restore Interrupted Status:_ If the thread cannot terminate immediately, it should restore its interrupted status by calling `Thread.currentThread().interrupt()`. This ensures that the interruption is not lost and higher-level code can handle it.
 ```try {
     Thread.sleep(10000);
 } catch (InterruptedException e) {
@@ -1796,23 +1861,20 @@ try {
     //  ... other non-termination logic
 }
 ```
-**3. _Propagate the Exception:_** In some cases, it's appropriate to simply propagate the InterruptedException to the calling method. This allows the caller to handle the interruption.
+3. _Propagate the Exception:_ In some cases, it's appropriate to simply propagate the InterruptedException to the calling method. This allows the caller to handle the interruption.
 ```
 void doSomething() throws InterruptedException {
     Thread.sleep(1000);
 }
 ```
 **Example Scenario**
-
 Imagine a thread downloading a large file. If the user cancels the download, another thread can interrupt the download thread. The download thread's `InterruptedException` handler can then close the network connection and delete any partially downloaded data.
 
 ---
 ## 40. Design patterns
 Design patterns are reusable solutions to common problems in software design. They are categorized into three main types: **Creational**, **Structural**, and **Behavioral**, each addressing different aspects of object creation, class composition, and object interaction, respectively. 
 
-#### 1. Creational Patterns: 
-
-These patterns deal with object creation, providing flexible and reusable mechanisms for instantiating objects. 
+#### 1. Creational Patterns: These patterns deal with object creation, providing flexible and reusable mechanisms for instantiating objects. 
 - _Factory Method:_
   - Defines an interface for creating an object, but lets subclasses decide which class to instantiate.
 - _Abstract Factory:_
@@ -1824,9 +1886,7 @@ These patterns deal with object creation, providing flexible and reusable mechan
 - _Singleton:_
   - Ensures a class has only one instance and provides a global point of access to it.
 
-#### 2. Structural Patterns: 
-
-These patterns deal with class and object composition, defining ways to assemble objects to form larger structures. 
+#### 2. Structural Patterns: These patterns deal with class and object composition, defining ways to assemble objects to form larger structures. 
 - _Adapter:_ 
   - Converts the interface of a class into another interface clients expect.
 - _Bridge:_ 
@@ -1842,9 +1902,7 @@ These patterns deal with class and object composition, defining ways to assemble
 - _Proxy:_ 
   - Provides a placeholder for another object, controlling access to it and potentially reducing its cost or complexity.
 
-#### 3. Behavioral Patterns: 
-
-These patterns deal with the communication and interaction between objects, defining algorithms and responsibilities. 
+#### 3. Behavioral Patterns: These patterns deal with the communication and interaction between objects, defining algorithms and responsibilities. 
 - _Chain of Responsibility:_
   - Passes a request down a chain of objects, allowing multiple objects to handle it.
 - _Command:_
@@ -1872,7 +1930,7 @@ These patterns deal with the communication and interaction between objects, defi
 ## 41. Microservices Architecture
 Microservices is an architectural style that structures an application as a collection of small, independent services, each performing a specific business function. 
 
-**These services are designed to be:**
+These services are designed to be:
 - **Loosely Coupled:** Changes in one service should have minimal impact on others.
 - **Independently Deployable:** Services can be deployed and updated individually, without requiring the entire application to be redeployed.
 - **Organized Around Business Capabilities:** Each service focuses on a specific business domain.
@@ -1910,7 +1968,6 @@ Microservices is an architectural style that structures an application as a coll
 In a microservices architecture, an API Gateway acts as a single entry point for client requests. It sits in front of the microservices and handles various tasks such as routing, authentication, and load balancing.
 
 **Why Use an API Gateway?**
-
 In a traditional monolithic application, clients interact with a single endpoint. However, in a microservices architecture, the application's functionality is spread across multiple services. Clients would need to make requests to different endpoints for each service, which can lead to several problems:
 - **Complexity:** Clients need to know the addresses of multiple microservices.
 - **Chattiness:** Multiple requests can increase network latency and overhead.
@@ -2032,7 +2089,6 @@ Both **PATCH** and **PUT** are HTTP methods used to update resources, but they h
 | **Request Body** | Contains the full resource, even unchanged fields | Contains only the fields that need to be updated |
 | **Idempotency** | Yes (multiple identical requests produce the same result) | Not necessarily (repeated requests may change the resource differently) |
 | **Use Case** | Updating an entire object (e.g., replacing a user profile) | Modifying specific attributes (e.g., changing just the email) |
-
 #### **Example**
 ##### **PUT Request (Full Update)**
 ```http
@@ -2061,15 +2117,60 @@ Content-Type: application/json
 **PATCH is more efficient** when updating a small part of a resource.
 
 ---
-## 45. TODO
+## 45. Second highest element in an Array using stream
+    public static void main(String[] args) {
+        int[] arr = {21, 2, 43, 114, 45, 6, 32, 54};
+
+        if (arr.length < 2) {
+            System.out.println("Array should have at least two elements.");
+            return;
+        }
+
+        int firstHighest = Integer.MIN_VALUE;
+        int secondHighest = Integer.MIN_VALUE;
+
+        for (int n : arr) {
+            if (n > firstHighest) {
+                secondHighest = firstHighest; // Update secondHighest before changing firstHighest
+                firstHighest = n;
+            } else if (n > secondHighest && n < firstHighest) {
+                secondHighest = n;
+            }
+        }
+
+        if (secondHighest == Integer.MIN_VALUE) {
+            System.out.println("No second highest element found.");
+        } else {
+            System.out.println("First Highest: " + firstHighest);
+            System.out.println("Second Highest: " + secondHighest);
+        }    
+    }
+    
+**Using Stream API**
+```
+public static void main(String[] args) {
+    int[] arr = {21, 2, 43, 114, 45, 6, 32, 54};
+    Optional<Integer> secondHighest = Arrays.stream(arr)
+            .distinct() // Remove duplicates
+            .boxed() // Convert to Integer for sorting
+            .sorted((a, b) -> b - a) // Sort in descending order
+            .skip(1) // Skip the highest element
+            .findFirst(); // Get the second highest
+
+    if (secondHighest.isPresent()) {
+        System.out.println("Second Highest: " + secondHighest.get());
+    } else {
+        System.out.println("No second highest element found.");
+    }
+}
+```
 
 ---
 ## 46. Stream vs Parallelstream
 In Java, both `stream()` and `parallelStream()` are methods used to create streams from collections, but they have different execution models.
 - `stream()`: Creates a sequential stream that processes elements one at a time in a single thread.
 - `parallelStream()`: Creates a parallel stream that can process elements concurrently using multiple threads, potentially improving performance for large datasets.
-
-**Here is an example demonstrating the difference:**
+Here is an example demonstrating the difference:
     ```
     import java.util.Arrays;
     import java.util.List;
@@ -2089,35 +2190,112 @@ In Java, both `stream()` and `parallelStream()` are methods used to create strea
     }
     ```
 In this example, the `stream()` method processes the elements sequentially, while the `parallelStream()` method processes the elements in parallel, potentially out of order.
-
-**Note**: 
-
-If I have 1 lakh records then which should use `parallelStream()`. For processing a large dataset like 1 lakh records, you should consider using `parallelStream()` as it can leverage multiple threads to process the elements concurrently, potentially improving performance.
+**Note**: if I have 1 lakh records then which should use `parallelStream()`. For processing a large dataset like 1 lakh records, you should consider using `parallelStream()` as it can leverage multiple threads to process the elements concurrently, potentially improving performance.
 
 Here is an example:
+    ```java
+    import java.util.Arrays;
+    import java.util.List;
+    import java.util.stream.Collectors;
+    import java.util.stream.IntStream;
+
+    public class Main {
+        public static void main(String[] args) {
+            // Generate a list of 1 lakh integers
+            List<Integer> numbers = IntStream.rangeClosed(1, 100000).boxed().collect(Collectors.toList());
+
+            // Using parallelStream to process the list
+            List<Integer> processedNumbers = numbers.parallelStream()
+                    .map(n -> n * 2) // Example processing: multiply each number by 2
+                    .collect(Collectors.toList());
+
+            System.out.println("Processed " + processedNumbers.size() + " records.");
+        }
+    }
+    ```
+
+---
+## 47. Sort a HashMap on the basis of key
 ```java
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.*;
 
-public class Main {
+public class HashMapSorting {
     public static void main(String[] args) {
-        // Generate a list of 1 lakh integers
-        List<Integer> numbers = IntStream.rangeClosed(1, 100000).boxed().collect(Collectors.toList());
+        // Creating a HashMap
+        HashMap<Integer, String> map = new HashMap<>();
+        map.put(3, "Three");
+        map.put(1, "One");
+        map.put(4, "Four");
+        map.put(2, "Two");
 
-        // Using parallelStream to process the list
-        List<Integer> processedNumbers = numbers.parallelStream()
-                .map(n -> n * 2) // Example processing: multiply each number by 2
-                .collect(Collectors.toList());
+        // Sorting using TreeMap (keys will be sorted)
+        TreeMap<Integer, String> sortedMap = new TreeMap<>(map);
 
-        System.out.println("Processed " + processedNumbers.size() + " records.");
+        // Printing sorted map
+        for (Map.Entry<Integer, String> entry : sortedMap.entrySet()) {
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
+        }
+    }
+}
+
+```
+**Alternative**: Using Stream API
+```
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class HashMapSorting {
+    public static void main(String[] args) {
+        HashMap<Integer, String> map = new HashMap<>();
+        map.put(3, "Three");
+        map.put(1, "One");
+        map.put(4, "Four");
+        map.put(2, "Two");
+
+        // Sorting using Stream and LinkedHashMap to maintain order
+        Map<Integer, String> sortedMap = map.entrySet().stream()
+            .sorted(Map.Entry.comparingByKey())
+            .collect(Collectors.toMap(
+                Map.Entry::getKey, 
+                Map.Entry::getValue, 
+                (e1, e2) -> e1, LinkedHashMap::new));
+
+        // Printing sorted map
+        sortedMap.forEach((key, value) -> System.out.println(key + " -> " + value));
     }
 }
 ```
+**One more Alternative**: List and Collections.sort() method
+```java
+import java.util.*;
 
----
-## 47. 
+public class HashMapSorting {
+    public static void main(String[] args) {
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("Three", 3);
+        map.put("One", 1);
+        map.put("Four", 4);
+        map.put("Two", 2);
+
+        // Step 1: Get the keys and store them in a List
+        ArrayList<String> keys = new ArrayList<>(map.keySet());
+
+        // Step 2: Sort the List
+        Collections.sort(keys);
+
+        // Step 3: Print the sorted keys with values
+        for (String key : keys) {
+            System.out.println(key + " -> " + map.get(key));
+        }
+    }
+}
+
+Output:
+Four -> 4
+One -> 1
+Three -> 3
+Two -> 2
+```
 
 ---
 ## 48. How to Use Caching in Spring Boot
@@ -2157,7 +2335,6 @@ public class UserService {
 }
 ```
 **How It Works:**
-
 1. The first time `getUserById(1)` is called, it fetches data and stores it in the cache.
 2. The next time `getUserById(1)` is called, it returns the cached result instead of executing the method.
 
@@ -2377,7 +2554,6 @@ public class FixWithStreams {
 ---
 ## 50. Thread Communication in Java
 Threads in Java communicate with each other mainly using **wait(), notify(), and notifyAll()**, which are part of the `Object` class. This is commonly used for **inter-thread synchronization**.
-
 **1. Using wait() and notify()**
 - `wait()`: Causes the current thread to wait until another thread calls `notify()` or `notifyAll()`.
 - `notify()`: Wakes up one thread that is waiting on the same object's monitor.
@@ -2604,7 +2780,6 @@ For most cases, **`BlockingQueue` is recommended** because it simplifies inter-t
 ---
 ## 51. **Can We Create a Fixed (Immutable) List in Java?**
 Yes! Java provides multiple ways to create **fixed-size** or **immutable** lists. Here are different approaches:
-
 **1. Using `Arrays.asList()` (Fixed-Size, But Mutable)**
 - The list is **fixed-size**, meaning you **cannot add or remove elements**.
 - However, you **can modify existing elements**.
@@ -2625,7 +2800,6 @@ public class FixedListExample {
 }
 ```
 **Key Points**
-
 - Can modify elements (`set()`)
 - Cannot add/remove elements (`add()/remove()`)
 
@@ -2646,7 +2820,6 @@ public class ImmutableListExample {
 ```
 
 **Key Points**
-
 - Best for creating read-only lists  
 - Cannot modify, add, or remove elements
 
@@ -2670,7 +2843,6 @@ public class UnmodifiableListExample {
 ```
  
 **Key Points**
-
 - Wraps an existing list
 - Changes in the original list will reflect in the unmodifiable list
 
@@ -2691,12 +2863,10 @@ public class SingletonListExample {
 }
 ```
 **Key Points**
-
 Single-element list (Can modify the element but not the size)
 Cannot add or remove elements
 
 **Comparison of Fixed List Methods**
-
 | Method | Can Modify Elements? | Can Add/Remove? | Java Version |
 |--------|----------------|---------------|--------------|
 | `Arrays.asList()` | Yes |  No | Java 1.2 |
@@ -2713,7 +2883,6 @@ Cannot add or remove elements
 ---
 ## 52. Reasons Why Java is Not Fully OOP
 Java is **not considered a "pure" Object-Oriented Programming (OOP) language** because it does not strictly enforce all object-oriented principles. While Java follows OOP concepts like **encapsulation, inheritance, and polymorphism**, it includes some features that break the pure OOP model.  
-
 **1. Presence of Primitive Data Types (`int`, `char`, etc.)**
 - Java has **primitive types** (`int`, `char`, `double`, `boolean`, etc.) that are **not objects**.
 - In a fully OOP language, everything should be an object.
@@ -2845,7 +3014,6 @@ A **functional interface** in Java is an interface that has only **one abstract 
 - You have two `default` methods in a functional interface.
 - One method prints `"Ram"`, and the other prints `"Shyam"`.
 - You want to print `"Shyam"` using another class.
-
 ### Solution:
 You can achieve this by **overriding** the `default` method in a class that implements the interface. Here’s how you can do it:
 ### Code Implementation:
@@ -2973,8 +3141,7 @@ class MyClass implements InterfaceA, InterfaceB {
 }
 ```
 - What happens if you don’t override the `greet()` method in `MyClass`?  
-- How can you explicitly call `greet()` from `InterfaceA` inside `MyClass`?
-
+- How can you explicitly call `greet()` from `InterfaceA` inside `MyClass`?  
 **Expected Answer:**  
 Java will throw a **compilation error** due to ambiguity. You must override `greet()` in `MyClass` and use `InterfaceA.super.greet()` or `InterfaceB.super.greet()` to specify which one to call.  
 
@@ -2983,8 +3150,7 @@ Java will throw a **compilation error** due to ambiguity. You must override `gre
 You are designing a payment gateway where different payment processors (PayPal, Stripe, Razorpay) must implement a `processPayment()` method. You also want a **default method** to **validate payments** before processing.  
 - How would you design a functional interface for this use case?  
 - If a new payment provider wants to modify only the validation logic, how can it override the default method?  
-
-##### **Hint:**  
+**Hint:**  
 Use a **functional interface** with one abstract method (`processPayment()`) and a default method (`validatePayment()`). Allow implementing classes to override validation logic if necessary.  
 
 ### **4. Combining Functional Interfaces and Streams**  
@@ -3000,9 +3166,8 @@ Suppose you have a `List<String>` of employee names and you need to:
 **Question:**  
 You have a functional interface with a default method for sending notifications. Some users prefer **email**, while others prefer **SMS**.  
 - How can you modify the default method dynamically based on user preference **without modifying the interface**?  
-- Can this be achieved using **lambda expressions** or **method references**?
- 
-##### **Hint:**  
+- Can this be achieved using **lambda expressions** or **method references**?  
+**Hint:**  
 Pass a custom implementation using lambda expressions or override the default method in an anonymous class.  
 
 ### **6. Default Methods vs. Abstract Classes**  
@@ -3016,19 +3181,17 @@ Both **default methods in interfaces** and **methods in abstract classes** allow
 - If state (fields) needs to be maintained, an **abstract class** is preferred.  
 
 ---
-## 54. What is Hibernate? How does it work? Why is it better than JDBC? 
-
+## 54. Questions on Hibernate: 
+1️⃣ Hibernate Basics – What is Hibernate? How does it work? Why is it better than JDBC? 
 ### **What is Hibernate?**  
 **Hibernate** is a **Java-based ORM (Object-Relational Mapping) framework** that simplifies database interactions by mapping Java objects to database tables. It eliminates the need for writing complex SQL queries and handles **database CRUD operations** efficiently.  
-
 **Key Features of Hibernate:**  
 - **ORM-Based**: Maps Java classes to database tables.  
 - **HQL (Hibernate Query Language)**: Supports database-independent queries.  
 - **Automatic Table Creation**: Generates tables based on Java entity classes.  
 - **Caching**: Improves performance by reducing database hits.  
 - **Lazy & Eager Loading**: Optimizes data fetching.  
-- **Transaction Management**: Works seamlessly with JPA and Spring Boot.
-
+- **Transaction Management**: Works seamlessly with JPA and Spring Boot.  
 ### **How Does Hibernate Work?**
 1. **Configuration**  
    - Uses `hibernate.cfg.xml` or `persistence.xml` (if using JPA).  
@@ -3056,7 +3219,6 @@ Both **default methods in interfaces** and **methods in abstract classes** allow
 | **Scalability** | Works well with large applications | Becomes complex with large codebases |
 
 **Hibernate reduces boilerplate code, improves maintainability, and provides flexibility across different databases.**  
-
 ### **Example: Hibernate vs. JDBC**
 #### **JDBC Approach (Manual SQL Queries)**
 ```java
@@ -3094,33 +3256,32 @@ session.close();
 - **Database independent** (Works with MySQL, PostgreSQL, etc.).  
 - **Faster performance** via caching.
 
-#### **When Should You Use Hibernate?**
+### **When Should You Use Hibernate?**
 ✔ **Enterprise Applications** (Spring Boot, Microservices).  
 ✔ **Projects Needing DB Portability** (Supports MySQL, PostgreSQL, Oracle, etc.).  
 ✔ **Scalable & Maintainable Apps** (Less SQL, more object-oriented).  
-
-#### **When Not to Use Hibernate?**  
+⛔ **When Not to Use Hibernate?**  
 - If **performance is extremely critical**, raw JDBC **may be faster** for simple queries.  
 - If the project **does not involve relational databases** (NoSQL, Redis).
 
-#### **Conclusion**
+### **Conclusion**
 Hibernate simplifies database interactions **by removing the need for raw SQL** and handling **transactions, caching, and object mappings** efficiently.  
-- **Configuration & Annotations** – Setting up Hibernate with `hibernate.cfg.xml` and using JPA annotations like `@Entity`, `@Table`, `@Column`, etc.
-- **Session & SessionFactory** – Understanding how Hibernate manages database operations using Session and SessionFactory.
-- **Hibernate CRUD Operations** – Performing Create, Read, Update, Delete operations using Hibernate.
-- **HQL (Hibernate Query Language)** – Writing database-independent queries using HQL instead of raw SQL.
-- **Criteria API** – Fetching data dynamically using Hibernate's Criteria API.
-- **Lazy & Eager Loading** – Controlling how Hibernate fetches related data (`@OneToMany`, `@ManyToOne`).
-- **Caching in Hibernate** – First-level vs. Second-level caching, using EhCache or Redis for performance optimization.
-- **Transaction Management** – Handling transactions with commit, rollback, and exception handling.
-- **Hibernate Relationships & Mappings** – Implementing `@OneToOne`, `@OneToMany`, `@ManyToOne`, and `@ManyToMany` mappings.
-- **Pagination in Hibernate** – Efficiently fetching large datasets using pagination.
-- **Native SQL Queries** – Using createNativeQuery() to run raw SQL queries when needed. 
+- Configuration & Annotations – Setting up Hibernate with `hibernate.cfg.xml` and using JPA annotations like `@Entity`, `@Table`, `@Column`, etc.
+- Session & SessionFactory – Understanding how Hibernate manages database operations using Session and SessionFactory.
+- Hibernate CRUD Operations – Performing Create, Read, Update, Delete operations using Hibernate.
+- HQL (Hibernate Query Language) – Writing database-independent queries using HQL instead of raw SQL.
+- Criteria API – Fetching data dynamically using Hibernate's Criteria API.
+- Lazy & Eager Loading – Controlling how Hibernate fetches related data (`@OneToMany`, `@ManyToOne`).
+- Caching in Hibernate – First-level vs. Second-level caching, using EhCache or Redis for performance optimization.
+- Transaction Management – Handling transactions with commit, rollback, and exception handling.
+- Hibernate Relationships & Mappings – Implementing `@OneToOne`, `@OneToMany`, `@ManyToOne`, and `@ManyToMany` mappings.
+- Pagination in Hibernate – Efficiently fetching large datasets using pagination.
+- Native SQL Queries – Using createNativeQuery() to run raw SQL queries when needed. 
 
 ---
 ## 55. DTO vs Entity
 Both **DTO (Data Transfer Object)** and **Entity** are commonly used in Java applications, but they serve different purposes. Let’s break down their differences:
-#### **1. What is an Entity?**
+### **1. What is an Entity?**
 An **Entity** is a Java class that represents a **database table**. It is directly mapped to a table using **JPA annotations** (`@Entity`).  
 **Key Features of an Entity:**  
 - Represents a **database table**.  
@@ -3128,7 +3289,7 @@ An **Entity** is a Java class that represents a **database table**. It is direct
 - Contains **database-specific fields** (e.g., `@Id`, `@Column`).  
 - **Tightly coupled** with the database.
 
-#### **Example: Entity Class**
+### **Example: Entity Class**
 ```java
 import jakarta.persistence.*;
 
@@ -3150,16 +3311,15 @@ public class User {
 - **`@Id`** → Primary key.  
 🔹 **Used for:** Database operations (CRUD).
 
-#### **2. What is a DTO (Data Transfer Object)?**
+### **2. What is a DTO (Data Transfer Object)?**
 A **DTO** is a **plain Java class** used to **transfer data** between layers (Controller ↔ Service ↔ Client).  
 DTOs are **not managed by JPA** and usually contain only required fields.  
 **Key Features of a DTO:**  
 - **Not mapped to the database** (No `@Entity`).  
 - Used to transfer data between layers.  
 - Improves **performance & security** (only necessary fields exposed).  
-- Helps **avoid exposing entity structure** to external clients (REST APIs).
-
-##### **Example: DTO Class**
+- Helps **avoid exposing entity structure** to external clients (REST APIs).  
+#### **Example: DTO Class**
 ```java
 public class UserDTO {
     private String name;
@@ -3175,11 +3335,10 @@ public class UserDTO {
 }
 ```
 - **No `@Entity` annotations**.  
-- **Only essential fields** (No `id` here).
-- 
-**Used for:** API responses, reducing data exposure.
+- **Only essential fields** (No `id` here).  
+🔹 **Used for:** API responses, reducing data exposure.
 
-#### **3. Differences Between DTO and Entity**
+### **3. Differences Between DTO and Entity**
 | Feature        | Entity | DTO |
 |---------------|--------|-----|
 | **Purpose**   | Represents a database table | Transfers data between layers |
@@ -3189,10 +3348,9 @@ public class UserDTO {
 | **Performance** | Can be slow (large data fetch) | Optimized, lightweight |
 | **Security** | Exposes all fields (risk) | Can hide sensitive fields |
 
-#### **4. How to Convert Between DTO and Entity?**
+### **4. How to Convert Between DTO and Entity?**
 Since DTOs and Entities serve different purposes, we need to **convert** between them using a **Mapper** function.
-
-##### **Example: Convert Entity → DTO in a Service Layer**
+### **Example: Convert Entity → DTO in a Service Layer**
 ```java
 @Service
 public class UserService {
@@ -3206,7 +3364,7 @@ public class UserService {
     }
 }
 ```
-##### **Example: Convert DTO → Entity (For Saving to Database)**
+### **Example: Convert DTO → Entity (For Saving to Database)**
 ```java
 public User convertToEntity(UserDTO userDTO) {
     User user = new User();
@@ -3217,7 +3375,7 @@ public User convertToEntity(UserDTO userDTO) {
 ```
 **Using a DTO ensures the API does not expose database fields like `id`, `password`, etc.**  
 
-#### **5. When to Use DTO vs. Entity?**
+### **5. When to Use DTO vs. Entity?**
 | **Scenario** | **Use DTO?** | **Use Entity?** |
 |-------------|-------------|-------------|
 | **Fetching data for API response** | Yes (return only necessary fields) |  No (avoid exposing entity directly) |
@@ -3225,14 +3383,14 @@ public User convertToEntity(UserDTO userDTO) {
 | **Internal database operations** |  No | Yes |
 | **Avoiding lazy loading issues** | Yes |  No |
 
-#### **6. Why Use DTOs Instead of Entities in APIs?**
-**Advantages of DTOs in REST APIs:**  
+### **6. Why Use DTOs Instead of Entities in APIs?**
+🚀 **Advantages of DTOs in REST APIs:**  
 1. **Prevents over-exposure of database fields** (e.g., `password`, `createdAt`).  
 2. **Reduces response size** (improves performance).  
 3. **Decouples database structure from API responses** (flexibility).  
 4. **Allows API versioning** without changing database schema.  
 
-**Bad Practice (Returning Entity in API Response)**  
+🔴 **Bad Practice (Returning Entity in API Response)**  
 ```java
 @GetMapping("/users/{id}")
 public User getUser(@PathVariable Long id) { //  Exposes Entity directly
@@ -3247,7 +3405,7 @@ public UserDTO getUser(@PathVariable Long id) { // Uses DTO
 }
 ```
 
-#### **7. Conclusion**
+### **7. Conclusion**
 **Use `Entity` for database operations (JPA/Hibernate).**  
 **Use `DTO` for API responses, improving security & performance.**  
 **Convert between `Entity` ↔ `DTO` using Mapper functions.**  
@@ -3255,20 +3413,19 @@ public UserDTO getUser(@PathVariable Long id) { // Uses DTO
 ---
 ## 56. Why Choose Spring Boot over spring MVC?
 Spring MVC and Spring Boot both help build Java web applications, but **Spring Boot simplifies development** significantly. Let’s compare them and see why **Spring Boot is the preferred choice.**
-
-#### ** Spring MVC** (Traditional Approach)  
+### **📌 Spring MVC** (Traditional Approach)  
 - Requires **manual configuration** of dependencies, database, and web server.  
 - Needs **boilerplate code** for XML or Java-based configurations.  
 - Requires an **external** server (Tomcat, Jetty) to run.  
 - Complex **integration of third-party libraries** (Jackson, Hibernate, etc.).
 
-#### ** Spring Boot** (Modern Approach)  
+### **🚀 Spring Boot** (Modern Approach)  
 - **Auto-configures** dependencies, database, and embedded servers.  
 - Provides **built-in Tomcat/Jetty** (No need for an external server).  
 - **Production-ready features** (Actuator, Metrics, Logging).  
 - Requires **less code**, reducing development time.  
 
-#### **2. Key Differences Between Spring Boot & Spring MVC**  
+### **2. Key Differences Between Spring Boot & Spring MVC**  
 | Feature             | Spring MVC | Spring Boot |
 |---------------------|-----------|-------------|
 | **Setup Complexity** | High (Requires manual setup) | Low (Auto-configuration) |
@@ -3282,8 +3439,7 @@ Spring MVC and Spring Boot both help build Java web applications, but **Spring B
 | **REST API Support** | Needs manual configuration | Built-in REST support |
 | **Security** | Needs extra setup | Auto-configured with Spring Security |
 
-**When to Use Spring Boot vs Spring MVC?****  
-
+When to Use Spring Boot vs Spring MVC?**  
 | **Scenario** | **Use Spring MVC** | **Use Spring Boot** |
 |-------------|--------------------|---------------------|
 | **Building a traditional web app** | Yes | Yes |
@@ -3292,18 +3448,16 @@ Spring MVC and Spring Boot both help build Java web applications, but **Spring B
 | **Need auto-configuration** |  No | Yes |
 | **Want production-ready features** |  No | Yes |
 | **Need fast development** |  No | Yes |
-
 #### **6. Conclusion: Why Choose Spring Boot?**  
-- **Easier Setup** → No XML, embedded Tomcat, auto-configured.  
-- **Less Boilerplate Code** → Just write business logic.  
-- **Better Performance** → Optimized defaults, Actuator.  
-- **Great for REST & Microservices** → API development is easy.  
-- **Production-Ready** → Monitoring, Logging, Security.  
+**Easier Setup** → No XML, embedded Tomcat, auto-configured.  
+**Less Boilerplate Code** → Just write business logic.  
+**Better Performance** → Optimized defaults, Actuator.  
+**Great for REST & Microservices** → API development is easy.  
+**Production-Ready** → Monitoring, Logging, Security.  
 
 ---
 ## 57. Java Singleton Design Pattern
 The **Singleton pattern** ensures that a class has **only one instance** and provides a **global point of access** to that instance. This is useful for scenarios like **database connections, logging, configuration management, and thread pools**.
-
 #### 1. Implementing Singleton Pattern in Java**
 ##### A. Eager Initialization (Thread-Safe)**
 In this approach, the instance is created **at the time of class loading**.  
@@ -3390,21 +3544,19 @@ public enum Singleton {
 ```
 **Pros:** Simplest, thread-safe, prevents reflection attacks  
  **Cons:** Cannot support lazy initialization  
- 
-#### **2. When to Use Singleton Pattern?**
+##### **2. When to Use Singleton Pattern?**
 - **Database connections** (JDBC, Hibernate)
 - **Logging framework** (Log4j, SLF4J)
 - **Configuration management** (properties, environment variables)
 - **Caching mechanisms** (storing frequently used objects)
 - **Thread pools** (managing reusable worker threads)
-
-#### **3. Avoiding Issues with Singleton**
-##### **Common Problems**
+##### **3. Avoiding Issues with Singleton**
+#### 🔴 **Common Problems**
 1. **Multi-threading issues** (use **Double-Checked Locking** or **Bill Pugh method**)
 2. **Serialization creates multiple instances** (implement `readResolve()` method)
 3. **Reflection can break Singleton** (use `Enum Singleton`)
 4. **Cloning can break Singleton** (override `clone()` and throw exception)
-##### **Best Practices**
+#### **Best Practices**
 - Prefer **Enum Singleton** for the safest implementation.
 - Use **Bill Pugh Singleton** for **lazy initialization with thread safety**.
 - Avoid unnecessary **synchronization**, as it affects performance.
@@ -3483,8 +3635,34 @@ In essence, @Service and @Controller are specialized forms of @Component. They d
 | 12. |                                                                   This is known as static memory allocation.                                                                  |                                                                                This is known as dynamic memory allocation.                                                                                |
 
 ---
-## 65. 
+## 65. Duplicate records from a table.
+| EmployeeID | FirstName | LastName | Email                   | Department | Salary  | HireDate   |
+|------------|-----------|----------|-------------------------|------------|---------|------------|
+| 1          | John      | Doe      | john.doe@example.com    | Sales      | 50000.00| 2023-01-15 |
+| 2          | Jane      | Smith    | jane.smith@example.com  | Marketing  | 60000.00| 2022-05-20 |
+| 3          | Peter     | Jones    | peter.jones@example.com | IT         | 75000.00| 2024-03-01 |
+| 4          | John      | Doe      | john.doe@example.com    | Sales      | 50000.00| 2023-01-15 |
+| 5          | Alice     | Brown    | alice.brown@example.com | HR         | 55000.00| 2023-11-10 |
+| 6          | Jane      | Smith    | jane.smith@example.com  | Marketing  | 60000.00| 2022-05-20 |
+| 7          | Peter     | Jones    | p.jones@sample.com      | IT         | 78000.00| 2024-04-01 |
+| 8          | David     | Wilson   | david.wilson@example.com| Finance    | 65000.00| 2023-07-01 |
 
+```
+SELECT * 
+FROM your_table 
+WHERE your_column IN (
+    SELECT your_column 
+    FROM your_table 
+    GROUP BY your_column 
+    HAVING COUNT(*) > 1
+);
+```
+```
+SELECT FirstName, LastName, Email, Department, Salary, HireDate, COUNT(*) AS DuplicateCount
+FROM Employee
+GROUP BY FirstName, LastName, Email, Department, Salary, HireDate
+HAVING COUNT(*) > 1;
+```
 ---
 ## 66. @SpringBootApplication Annotation in Spring Boot
 The `@SpringBootApplication` annotation is a **composite annotation** in Spring Boot that combines three other annotations:  
@@ -3501,12 +3679,12 @@ The `@SpringBootApplication` annotation is a **composite annotation** in Spring 
    - Enables **component scanning**.  
    - Automatically discovers and registers Spring beans within the package and its sub-packages.  
 
-#### **Purpose of `@SpringBootApplication`**  
+### **Purpose of `@SpringBootApplication`**  
 - Marks the **main class** of a Spring Boot application.  
 - Simplifies the setup by reducing the need for manual configuration.  
 - Provides a **concise way** to bootstrap a Spring Boot application.  
 
-#### **Example Usage:**  
+### **Example Usage:**  
 ```java
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -3523,7 +3701,7 @@ public class MySpringBootApplication {
 ## 67. How to configure multiple database in Spring Boot.
 It's common for applications to interact with multiple databases. 
 Here's how you can configure this in Spring Boot:
-#### 1. Define Data Source Properties
+### 1. Define Data Source Properties
 - In your `application.properties` or `application.yml` file, define the properties for each data source. Use distinct prefixes to differentiate them.
 ```properties
 # Primary database
@@ -3539,7 +3717,7 @@ spring.datasource.secondary.password=password2
 spring.datasource.secondary.driver-class-name=org.postgresql.Driver
 ```
 
-#### 2. Create DataSource Configurations
+### 2. Create DataSource Configurations
 - Create configuration classes to define each `DataSource`. Use `@ConfigurationProperties` to bind the properties defined in the `application.properties` file. Mark one `DataSource` as `@Primary` if it should be the default.
 ```java
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -3579,7 +3757,7 @@ public class DataSourceConfig {
 }
 ```
 
-#### 3. Configure EntityManagerFactories (JPA)
+### 3. Configure EntityManagerFactories (JPA)
 If you're using Spring Data JPA, you'll need to configure separate `EntityManagerFactory` beans for each data source. This ensures that JPA knows which database to use for which entities.
 ```java
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -3641,7 +3819,7 @@ public class JpaConfig {
 }
 ```
 
-#### 4. Configure Spring Data JPA Repositories
+### 4. Configure Spring Data JPA Repositories
 Create separate Spring Data JPA repository interfaces for each database, specifying the correct `entityManagerFactoryRef` and `transactionManagerRef`.
 ```java
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -3709,7 +3887,7 @@ Below is an overview of the commonly used methods in the `Object` class:
 - Can also wait until a specified timeout elapses.  
 - Used for thread synchronization.  
 
-#### Conclusion  
+### Conclusion  
 These methods provide fundamental functionalities for all Java objects, including object creation, comparison, string representation, and thread synchronization. Understanding them is crucial for effective Java programming.  
 
 ---
@@ -3772,10 +3950,49 @@ public class HashtableExample {
 
 ---
 
-## 71. 
+## 71. MySQL vs PostgreSQL: A Detailed Comparison  
+
+| Feature            | **MySQL**  | **PostgreSQL**  |
+|--------------------|-----------|----------------|
+| **Architecture**  | Relational Database (RDBMS) | Object-Relational Database (ORDBMS) |
+| **ACID Compliance** | Fully ACID-compliant (with InnoDB) | Fully ACID-compliant |
+| **Performance**  | Faster for **read-heavy** workloads | Better for **write-heavy** and complex queries |
+| **SQL Compliance** | Partially SQL-compliant | More SQL-compliant (supports advanced SQL features) |
+| **Indexing** | Supports B-Tree, Full-text, and Hash Indexing | Supports B-Tree, Hash, GiST, GIN, BRIN Indexing |
+| **JSON Support** | Basic JSON functions | Advanced JSON and JSONB support |
+| **Concurrency Control** | Uses **row-level locking** (InnoDB) | Uses **MVCC (Multi-Version Concurrency Control)** |
+| **Replication** | Supports Master-Slave & Group Replication | Supports Master-Slave, Logical & Streaming Replication |
+| **Partitioning** | Limited support (Range & List) | Advanced Partitioning (Range, List, Hash) |
+| **Stored Procedures** | Supports **PL/SQL-like** syntax | Supports **PL/pgSQL**, Python, Java, etc. |
+| **Extensions & Customization** | Limited extensibility | Highly extensible (e.g., TimescaleDB, PostGIS) |
+| **Security** | Basic authentication & SSL | Advanced security with role-based access, RLS |
+| **Use Cases** | Web applications, CMS (e.g., WordPress, Joomla) | Data analytics, OLAP, GIS, complex queries |
+
+### **Which One to Choose?**
+- **Choose MySQL if:** You need a simple, fast, and lightweight database for web apps.  
+- **Choose PostgreSQL if:** You need complex queries, high scalability, and advanced features like JSON, GIS, and full ACID compliance.
 
 ---
-## 72. 
+
+## 72. Find the output:
+	1. String s = "A";
+           s = "B";
+	   System.out.println(list);
+	output: "B"
+ 
+        2. final int x = 10;
+           x=20;
+	   System.out.println(x);
+	output: The Java code will result in a compile-time error because you cannot reassign a value to a final variable after its initialization.
+ 
+        3. final List<Integer> list = new ArrayList<>();
+           list.add(2);
+           list.add(3);
+           list.add(4);
+           list.remove(2);
+           System.out.println(list);
+
+       output: [2,3]
 
 ---
 
@@ -3783,9 +4000,9 @@ public class HashtableExample {
 When a duplicate key is added to a HashMap, the old value associated with that key is replaced by the new value, and the HashMap continues to store only one value for that key.
 
 Here's a more detailed explanation: 
-- **HashMap and Unique Keys:** HashMaps, by design, are intended to store unique keys, meaning each key can map to only one value.
-- **Duplicate Key Handling:** If you attempt to insert a key that already exists, the HashMap will not insert a new entry. Instead, it will update the value associated with that existing key with the new value you've provided.
-- **No Exception Thrown:** Adding a duplicate key does not cause a runtime exception or error; it simply overwrites the existing value.  
+- HashMap and Unique Keys: HashMaps, by design, are intended to store unique keys, meaning each key can map to only one value.
+- Duplicate Key Handling: If you attempt to insert a key that already exists, the HashMap will not insert a new entry. Instead, it will update the value associated with that existing key with the new value you've provided.
+- No Exception Thrown: Adding a duplicate key does not cause a runtime exception or error; it simply overwrites the existing value.  
 
 Example: 
 ```java
@@ -3799,7 +4016,7 @@ Example:
 A HashMap in Java uses a hash table to store key-value pairs. The hash table is made up of an array of buckets, and each bucket can contain multiple key-value pairs.
 
 **How it works**
-1. When a key-value pair is added, the key's `hashCode()` method is called to calculate an integer hash value.
+1. When a key-value pair is added, the key's hashCode() method is called to calculate an integer hash value.
 2. The hash value is used to determine the bucket where the entry will be placed.
 3. If the bucket is empty, the entry is placed there.
 4. If the bucket is not empty, the entry is added to the linked list at that bucket.
@@ -3816,17 +4033,17 @@ A good hash function distributes objects evenly. A good implementation of hashCo
 Garbage collection in Java is the process of automatically managing memory by reclaiming space occupied by objects that are no longer in use. The Java Virtual Machine (JVM) handles garbage collection, relieving developers from manual memory management. Garbage collection operates primarily on the heap, the area of memory where objects are stored. It identifies and removes unreachable objects, which are objects no longer referenced by the program. 
 
 The most common garbage collection algorithm is the mark-and-sweep algorithm, which involves the following steps:
-- **Marking**: The garbage collector identifies and marks all reachable objects starting from root objects (e.g., global variables, local variables, and method parameters). 
-- **Sweeping**: The garbage collector scans the heap and removes unmarked objects, freeing up the memory they occupied. 
-- **Compacting**: After sweeping, the garbage collector may compact the remaining objects to reduce memory fragmentation. 
+- Marking: The garbage collector identifies and marks all reachable objects starting from root objects (e.g., global variables, local variables, and method parameters). 
+- Sweeping: The garbage collector scans the heap and removes unmarked objects, freeing up the memory they occupied. 
+- Compacting: After sweeping, the garbage collector may compact the remaining objects to reduce memory fragmentation. 
 
-Garbage collection is triggered automatically by the JVM when it detects low memory or when an object cannot be allocated due to insufficient space. Developers can also manually request garbage collection using `System.gc()`, although this is generally discouraged as it can impact performance. 
+Garbage collection is triggered automatically by the JVM when it detects low memory or when an object cannot be allocated due to insufficient space. Developers can also manually request garbage collection using System.gc(), although this is generally discouraged as it can impact performance. 
 Java uses generational garbage collection, dividing the heap into generations (young, old/tenured). Newly created objects are placed in the young generation, and objects that survive multiple garbage collection cycles are promoted to older generations. This approach optimizes garbage collection by focusing on the young generation, where most objects are short-lived. 
 
 ---
 ## 76. Can we override main method in java?
-The main method in Java cannot be overridden in the traditional sense due to it being a `static` method. Overriding applies to instance methods in the context of inheritance. However, the main method can be overloaded. 
-Overloading the main method means creating multiple methods with the same name but different signatures (different parameter lists). When the Java Virtual Machine (JVM) starts a program, it specifically looks for the main method with the signature `public static void main(String[] args)`. Other overloaded main methods will not be executed automatically by the JVM; they must be called explicitly from within the `public static void main(String[] args)` method or other parts of the code. 
+The main method in Java cannot be overridden in the traditional sense due to it being a static method. Overriding applies to instance methods in the context of inheritance. However, the main method can be overloaded. 
+Overloading the main method means creating multiple methods with the same name but different signatures (different parameter lists). When the Java Virtual Machine (JVM) starts a program, it specifically looks for the main method with the signature public static void main(String[] args). Other overloaded main methods will not be executed automatically by the JVM; they must be called explicitly from within the public static void main(String[] args) method or other parts of the code. 
 ```java
 class MainMethodExample {
 
@@ -3865,7 +4082,7 @@ Optional<String> opt2 = Optional.ofNullable(null);      // Can be null
 Optional<String> opt3 = Optional.empty();               // Empty optional
 ```
 
-#### **Value Access & Checks**
+#### 🔍 **Value Access & Checks**
 - `get()`  
   → Returns the value if present; otherwise throws `NoSuchElementException`.
 
@@ -3883,7 +4100,7 @@ System.out.println(name.isPresent());     // true
 System.out.println(name.isEmpty());       // false (Java 11+)
 ```
 
-#### **Fallbacks & Defaults**
+#### 🛡️ **Fallbacks & Defaults**
 - `orElse(defaultValue)`  
   → Returns the value if present, else returns `defaultValue`.
 
@@ -3904,7 +4121,7 @@ String val2 = emptyOpt.orElseGet(() -> "From Supplier");// "From Supplier"
 String val3 = emptyOpt.orElseThrow(() -> new RuntimeException("No value")); // throws RuntimeException
 ```
 
-#### **Transformation Methods**
+#### 🔧 **Transformation Methods**
 - `map(Function)`  
   → Applies the function if value is present and wraps the result in an Optional.
 
@@ -3921,7 +4138,7 @@ Optional<Integer> length = opt.map(String::length);
 System.out.println(length.get()); // 4
 ```
 
-#### **Filtering**
+#### 🧪 **Filtering**
 - `filter(Predicate)`  
   → Returns the same Optional if the value matches the predicate; otherwise returns empty.
 
@@ -3936,6 +4153,7 @@ System.out.println(filtered2.isPresent()); // false
 ```
 
 ---
+
 ## 78. What is Transaction Propagation?
 Transaction propagation defines how transactional methods should behave when called by other transactional methods. It determines whether a method should run within an existing transaction or start a new one. Understanding the different types of propagation is essential for building reliable and maintainable applications.
 
@@ -3962,8 +4180,7 @@ public class TransactionService {
     }
 }
 ```
-**Use Case:**
-
+Use Case:
 Use REQUIRED when you want your method to participate in an existing transaction if one exists, or to create a new one if not. This is useful for methods that need to ensure that all database operations are part of a single transaction.
 
 #### **2. REQUIRES_NEW**
@@ -3994,7 +4211,6 @@ public class TransactionService {
 }
 ```
 **Use Case:**
-
 Use MANDATORY when a method must be called within an existing transaction context, such as methods that depend on the integrity of the outer transaction.
 
 #### **4. NESTED**
@@ -4011,7 +4227,6 @@ public class TransactionService {
 }
 ```
 **Use Case:**
-
 Use NESTED for scenarios where you need savepoints and rollback capabilities within a larger transaction. This is useful for complex operations that require partial rollbacks.
 
 #### **5. NOT_SUPPORTED**
@@ -4029,7 +4244,6 @@ public class TransactionService {
 }
 ```
 **Use Case:**
-
 Use NOT_SUPPORTED when you want to ensure that a method does not run within a transaction context, such as for non-transactional operations like reading configuration data.
 
 #### **6. NEVER**
@@ -4046,7 +4260,6 @@ public class TransactionService {
 }
 ```
 **Use Case:**
-
 Use NEVER when you need to guarantee that a method runs outside of any transaction context, typically for operations that should fail if invoked within a transaction.
 
 #### **7. SUPPORTS**
@@ -4066,10 +4279,9 @@ public class TransactionService {
 Use SUPPORTS for methods that can optionally run within a transaction, such as read-only operations that don't necessarily require transaction management.
 
 **Best Practices**
-Choose the Right Propagation Type: 
-- Select the appropriate propagation type based on your method’s transactional requirements and the overall transaction management strategy.
-- Avoid Overusing _REQUIRES_NEW_: Starting new transactions frequently can lead to performance issues and increased complexity. Use _REQUIRES_NEW_ sparingly.
-- Use _MANDATORY_ and _NEVER_ Wisely: These propagation types enforce strict transactional requirements and should be used with a clear understanding of their implications.
+Choose the Right Propagation Type: Select the appropriate propagation type based on your method’s transactional requirements and the overall transaction management strategy.
+Avoid Overusing REQUIRES_NEW: Starting new transactions frequently can lead to performance issues and increased complexity. Use REQUIRES_NEW sparingly.
+Use MANDATORY and NEVER Wisely: These propagation types enforce strict transactional requirements and should be used with a clear understanding of their implications.
 
 **Summary**
 Understanding and correctly using transaction propagation in Spring Boot is essential for building robust and reliable applications. By choosing the right propagation type, you can ensure that your transactional methods behave as expected, maintaining data consistency and integrity.
@@ -4279,7 +4491,7 @@ List<String> filteredNames = names.stream()
 // Now you can safely modify the original list if needed
 ```
 
-#### Additional Information on Stream Operations
+### Additional Information on Stream Operations
 #### Collectors
 In addition to filter, map, and reduce, the `Collectors` utility class provides various methods to accumulate elements from a stream into collections, such as lists, sets, or maps. 
 
@@ -4306,11 +4518,11 @@ List<String> flatList = listOfLists.stream()
 // flatList will contain ["A", "B", "C", "D"]
 ```
 
-#### Performance Considerations
+### Performance Considerations
 
 When using streams, it's essential to consider the performance implications of the operations being performed. For instance, operations like `filter` and `map` are intermediate operations and are lazy, meaning they are not executed until a terminal operation (like `collect`, `forEach`, etc.) is invoked. This can lead to performance optimizations as the stream processes elements only when necessary.
 
-#### Conclusion
+### Conclusion
 
 Java Streams provide a robust framework for processing collections in a functional style. Understanding operations like filter, map, reduce, and their variations, along with the appropriate use of parallel streams, can significantly enhance the efficiency and readability of your code. Always be mindful of the context in which you use these operations to ensure optimal performance and maintainability. ### Additional Stream Operations
 
@@ -4367,7 +4579,7 @@ List<Integer> skippedNumbers = numbers.stream()
 // skippedNumbers will contain [3, 4, 5]
 ```
 
-#### Conclusion
+### Conclusion
 Java Streams offer a rich set of operations that allow for expressive and efficient data processing. Understanding these operations, including distinct, sorted, peek, limit, and skip, can help you manipulate collections effectively while maintaining clean and readable code. Always consider the context and performance implications when using these operations to ensure optimal results. ### Additional Stream Operations
 
 #### GroupingBy
@@ -4410,8 +4622,8 @@ List<String> upperCaseNames = names.stream()
 ### Performance Considerations
 When using streams, it's essential to consider the performance implications of the operations being performed. For instance, operations like `filter` and `map` are intermediate operations and are lazy, meaning they are not executed until a terminal operation (like `collect`, `forEach`, etc.) is invoked. This can lead to performance optimizations as the stream processes elements only when necessary.
 
-#### Conclusion
-Java Streams provide a robust framework for processing collections in a functional style. Understanding operations like `groupingBy`, `partitioningBy`, and `collectingAndThen`, along with the appropriate use of parallel streams, can significantly enhance the efficiency and readability of your code. Always be mindful of the context in which you use these operations to ensure optimal performance and maintainability. 
+### Conclusion
+Java Streams provide a robust framework for processing collections in a functional style. Understanding operations like groupingBy, partitioningBy, and collectingAndThen, along with the appropriate use of parallel streams, can significantly enhance the efficiency and readability of your code. Always be mindful of the context in which you use these operations to ensure optimal performance and maintainability. ### Additional Stream Operations
 
 #### Mapping
 The `map` operation can also be used in conjunction with other operations to transform data in more complex ways. For instance, you can use it to convert objects to a different type or to extract specific fields from objects.
@@ -4452,13 +4664,13 @@ IntSummaryStatistics stats = numbers.stream()
 // stats will contain count=5, sum=15, min=1, average=3.0, max=5
 ```
 
-#### Conclusion
+### Conclusion
 Java Streams offer a rich set of operations that allow for expressive and efficient data processing. Understanding these operations, including mapping, chaining, and summary statistics, can help you manipulate collections effectively while maintaining clean and readable code. Always consider the context and performance implications when using these operations to ensure optimal results.
 
 ## Q. What is the difference between Comparator and Comparable? 
 In Java, both `Comparator` and `Comparable` are interfaces used for sorting objects, but they serve different purposes and are used in different contexts. Here’s a detailed explanation of the differences between the two:
 
-#### 1. **Definition**
+### 1. **Definition**
 - **Comparable**:
   - The `Comparable` interface is used to define the natural ordering of objects of a class. A class that implements `Comparable` must override the `compareTo(T o)` method, which compares the current object with the specified object.
   - It is typically used when you want to define a default sorting order for the objects of a class.
@@ -4467,7 +4679,7 @@ In Java, both `Comparator` and `Comparable` are interfaces used for sorting obje
   - The `Comparator` interface is used to define an external ordering of objects. It allows you to create multiple comparison strategies for the same class without modifying the class itself.
   - A class that implements `Comparator` must override the `compare(T o1, T o2)` method, which compares two objects and returns an integer indicating their relative order.
 
-#### 2. **Method Signature**
+### 2. **Method Signature**
 - **Comparable**:
   - Method: `int compareTo(T o)`
   - It compares the current object with the specified object and returns:
@@ -4482,7 +4694,7 @@ In Java, both `Comparator` and `Comparable` are interfaces used for sorting obje
     - Zero if they are equal.
     - A positive integer if the first object is greater than the second object.
 
-#### 3. **Usage**
+### 3. **Usage**
 - **Comparable**:
   - Used when you want to define a default sorting order for a class.
   - The class itself must implement the `Comparable` interface.
@@ -4522,7 +4734,7 @@ In Java, both `Comparator` and `Comparable` are interfaces used for sorting obje
   Comparator<Person> ageComparator = (p1, p2) -> Integer.compare(p1.age, p2.age);
   ```
 
-#### 4. **Flexibility**
+### 4. **Flexibility**
 
 - **Comparable**:
   - A class can implement only one `compareTo` method, which means it can have only one natural ordering.
@@ -4530,7 +4742,7 @@ In Java, both `Comparator` and `Comparable` are interfaces used for sorting obje
 - **Comparator**:
   - You can create multiple `Comparator` implementations for the same class, allowing for different sorting strategies without modifying the class itself.
 
-#### 5. **Example Usage**
+### 5. **Example Usage**
 
 Here’s an example demonstrating both `Comparable` and `Comparator`:
 
@@ -4583,18 +4795,18 @@ public class Main {
 }
 ```
 
-#### Conclusion
+### Conclusion
 
 In summary, `Comparable` is used for defining a natural ordering of objects within the class itself, while `Comparator ` is used for defining external ordering strategies that can be applied to objects of a class. This distinction allows for greater flexibility in sorting, enabling multiple comparison methods without altering the original class structure. Understanding when to use each interface is crucial for effective data manipulation and sorting in Java.
 
----
+
 ## Q. How do you sort a list using Comparator? 
 To sort a list using a `Comparator` in Java, you can follow these steps:
 1. **Create a Comparator**: Define a `Comparator` that specifies the sorting logic. You can do this either by implementing the `Comparator` interface or by using a lambda expression.
 2. **Use the `Collections.sort()` method**: Call the `Collections.sort()` method, passing the list and the `Comparator` as arguments.
 3. **Alternatively, use the `List.sort()` method**: You can also use the `sort()` method directly on the list, which is available in the `List` interface.
 
-#### Example
+### Example
 Here’s a complete example demonstrating how to sort a list of custom objects using a `Comparator`.
 #### Step 1: Create a Class
 Let's create a simple `Person` class with `name` and `age` attributes.
@@ -4664,19 +4876,19 @@ public class Main {
 }
 ```
 
-#### Output
+### Output
 When you run the above code, you will get the following output:
 ```
 Sorted by age: [Bob (25), Alice (30), Charlie (35)]
 Sorted by name: [Alice (30), Bob (25), Charlie (35)]
 ```
 
-#### Summary
+### Summary
 - You can sort a list using a `Comparator` by defining the comparison logic either through an anonymous class or a lambda expression.
 - Use `Collections.sort(list, comparator)` or `list.sort(comparator)` to perform the sorting.
 - This approach allows you to sort objects based on different criteria without modifying the original class.
 
-#### Additional Sorting Techniques
+### Additional Sorting Techniques
 
 You can also utilize Java's built-in methods for sorting with `Comparator` in a more concise manner, especially with the introduction of the `Comparator.comparing()` method.
 
@@ -4713,7 +4925,7 @@ public class Main {
 }
 ```
 
-#### Output
+### Output
 The output remains the same, but the code is more readable and concise:
 
 ```
@@ -4721,7 +4933,7 @@ Sorted by age: [Bob (25), Alice (30), Charlie (35)]
 Sorted by name: [Alice (30), Bob (25), Charlie (35)]
 ```
 
-#### Chaining Comparators
+### Chaining Comparators
 
 You can also chain multiple comparators to sort by multiple criteria. For example, if you want to sort by age and then by name:
 
@@ -4730,7 +4942,7 @@ Comparator<Person> ageThenNameComparator = Comparator.comparing(Person::getAge)
                                                       .thenComparing(Person::getName);
 ```
 
-#### Example of Chaining Comparators
+### Example of Chaining Comparators
 
 ```java
 import java.util.*;
@@ -4752,7 +4964,7 @@ public class Main {
 }
 ```
 
-#### Output
+### Output
 
 This will sort the list first by age and then by name for those with the same age:
 
@@ -4760,14 +4972,14 @@ This will sort the list first by age and then by name for those with the same ag
 Sorted by age, then by name: [Bob (25), David (25), Alice (30), Charlie (30)]
 ```
 
-#### Conclusion
+### Conclusion
 Using `Comparator` provides flexibility in sorting collections in Java. You can define custom sorting logic, use built-in methods for cleaner code, and even chain comparators for complex sorting scenarios. This makes it a powerful tool for managing collections effectively.
 
 ---
 ## Q. Can a class implement both Comparator and Comparable?
 Yes, a class in Java can implement both the `Comparator` and `Comparable` interfaces, but they serve different purposes and are used in different contexts. Here’s a detailed explanation of how and why you might want to do this:
 
-#### 1. **Comparable Interface**
+### 1. **Comparable Interface**
 
 - **Purpose**: The `Comparable` interface is used to define the natural ordering of objects of a class. When a class implements `Comparable`, it provides a method `compareTo(T o)` that defines how instances of that class should be compared to each other.
 - **Usage**: This is typically used when you want to define a default sorting order for the objects of that class.
@@ -4795,7 +5007,7 @@ public class Person implements Comparable<Person> {
 }
 ```
 
-#### 2. **Comparator Interface**
+### 2. **Comparator Interface**
 
 - **Purpose**: The `Comparator` interface is used to define an external ordering of objects. It allows you to create multiple comparison strategies for the same class without modifying the class itself.
 - **Usage**: This is useful when you want to sort objects in different ways (e.g., by name, by age, etc.) or when you cannot modify the class (e.g., when using third-party classes).
@@ -4812,7 +5024,7 @@ public class NameComparator implements Comparator<Person> {
 }
 ```
 
-#### 3. **Implementing Both in a Class**
+### 3. **Implementing Both in a Class**
 
 A class can implement both `Comparable` and provide one or more `Comparator` implementations. This allows you to have a natural ordering (defined by `Comparable`) and additional custom orderings (defined by `Comparator`).
 
@@ -4871,7 +5083,8 @@ public class Main {
 }
 ```
 
-#### Output
+### Output
+
 When you run the above code, you will get the following output:
 
 ```
@@ -4879,10 +5092,10 @@ Sorted by age: [Bob (25), Alice (30), Charlie (35)]
 Sorted by name: [Alice (30), Bob (25), Charlie (35)]
 ```
 
-#### Conclusion
+### Conclusion
+
 In summary, a class can implement both `Comparator` and `Comparable` interfaces. This allows you to define a natural ordering for the class while also providing additional sorting strategies through comparators. This flexibility is useful for sorting objects in different ways without modifying the original class structure.
 
----
 ## Q. How do you handle multiple sorting criteria in Java? 
 Sorting with Multiple Criteria in Java
 When you need to sort a collection of objects based on more than one attribute, you can use a `Comparator` in Java.  Here's how to do it, along with explanations and an example:
@@ -4992,9 +5205,8 @@ Object-oriented programming (OOP) is a programming paradigm based on the concept
 
 OOP revolves around several key principles that provide structure, organization, and reusability to software development. 
 Here are the main principles:
-#### 1. Encapsulation
+### 1. Encapsulation
 **Definition**: Encapsulation is the bundling of data (attributes) and the methods that operate on that data into a single unit (a class). It also involves controlling access to the internal state of an object and hiding it from the outside world. This is achieved through access modifiers like `private`, `protected`, and `public`.
-
 **Example:**
 ```
 public class BankAccount {
@@ -5041,9 +5253,8 @@ public class Main {
 - In the `BankAccount` class, `accountNumber` and `balance` are private attributes. They can only be accessed and modified through the public methods provided by the class (`getBalance()`, `deposit()`, and `withdraw()`).
 - The `main` method demonstrates how the private attributes cannot be accessed directly. The `deposit()` and `withdraw()` methods encapsulate the logic for modifying the balance, ensuring that it's done in a controlled manner.
 
-#### 2. Inheritance
+### 2. Inheritance
 **Definition**: Inheritance is a mechanism that allows a new class (subclass/derived class) to inherit the properties and methods of an existing class (superclass/base class). It promotes code reuse and establishes an "is-a" relationship between classes.
-
 **Example**:
 ```
 public class Animal {
@@ -5098,9 +5309,8 @@ public class Main {
 - The `Dog` class adds a new method `bark()`, and the `Cat` class adds a method `meow()`, which are specific to dogs and cats, respectively.
 - The `super(name)` call in the `Dog` and `Cat` constructors is used to invoke the constructor of the superclass (`Animal`) to initialize the inherited `name` attribute.
 
-#### 3. Polymorphism
+### 3. Polymorphism
 **Definition**: Polymorphism allows objects of different classes to be treated as objects of a common type. It enables you to write code that can work with objects of multiple classes without knowing their specific types at compile time.  In Java, polymorphism is achieved through inheritance and interfaces.
-
 **Example**:
 ```
 public class Animal {
@@ -5163,9 +5373,8 @@ public class Main {
   - Whiskers meows.
   - Generic Animal makes a sound.
 
-#### 4. Abstraction
+## 4. Abstraction
 **Definition**: Abstraction is the process of simplifying complex reality by modeling classes based on essential properties and behavior, while ignoring irrelevant details. It focuses on what an object does rather than how it does it. Abstraction is achieved through abstract classes and interfaces in Java.
-
 **Example:**
 ```
 // Abstract class
@@ -5243,7 +5452,7 @@ public class Main {
 ## Q. What is method overloading vs. method overriding? 
 In Java, **method overloading** and **method overriding** are two key concepts that fall under **polymorphism**— a core principle of Object-Oriented Programming (OOP). While both involve defining methods with the same name, their behavior and purpose are quite different.
 
-#### Method Overloading (Compile-Time Polymorphism)
+### Method Overloading (Compile-Time Polymorphism)
 
 **Definition**:  
 Method overloading occurs **within the same class** when two or more methods have the **same name but different parameter lists** (different type, number, or order of parameters).
@@ -5275,7 +5484,7 @@ public class Calculator {
 - Can overload static methods and constructors.
 - Return type can be different but isn’t enough to overload alone.
 
-#### Method Overriding (Run-Time Polymorphism)
+### Method Overriding (Run-Time Polymorphism)
 
 **Definition**:  
 Method overriding occurs when a **subclass provides a specific implementation of a method already defined in its parent class** using the same method signature (name, return type, and parameters).
@@ -5317,9 +5526,9 @@ class Dog extends Animal {
 
 ---
 ## Q. How does Java handle memory management (Heap vs. Stack, Garbage Collection)? 
-Java handles memory management automatically through a process called garbage collection. This frees developers from the burden of manually allocating and deallocating memory, as is required in languages like C and C++.  The Java Virtual Machine (JVM) manages memory in several areas, most notably the Stack and the Heap.
+Java Memory Management (Heap vs. Stack, Garbage Collection)Java handles memory management automatically through a process called garbage collection. This frees developers from the burden of manually allocating and deallocating memory, as is required in languages like C and C++.  The Java Virtual Machine (JVM) manages memory in several areas, most notably the Stack and the Heap.
 
-#### 1. Stack Memory
+### 1. Stack Memory
 **What it is:** The stack is a memory area used for storing:
 - Local variables
 - Method call information
@@ -5355,7 +5564,7 @@ public class StackExample {
 ```
 In this example, the variables `a`, `b`, and `result` in the `main` method, and `x`, `y`, and `sum` in the `add` method, are all stored in stack memory. When the add method finishes, the memory for `x`, `y`, and `sum` is released.
 
-#### 2. Heap Memory
+### 2. Heap Memory
 **What it is:** 
 - The heap is a larger memory area used for storing objects and arrays.
 **How it works:**
@@ -5398,7 +5607,7 @@ class Person {
 ```
 In this example, the `String` object "John" and the `Person` object are stored in the heap. The variables name and person in the main method are stored on the stack, but they hold references (pointers) to the objects in the heap.
 
-#### 3. Garbage Collection
+## 3. Garbage Collection
 **What it is:** 
 Garbage collection is the process of automatically reclaiming memory that is no longer being used by a Java program. The garbage collector is a component of the JVM.
 
@@ -5435,16 +5644,10 @@ The JVM uses various garbage collection algorithms, including:
 ## Q. Explain shallow copy vs. deep copy in Java. 
 When you copy an object in Java, you need to understand the difference between a shallow copy and a deep copy. This distinction is crucial when dealing with objects that contain references to other objects.
 
-#### 1. Shallow Copy
-
+### 1. Shallow Copy
 **What it is:** 
-
 A shallow copy creates a new object, and then copies the values of the fields of the original object into the new object. If any of those fields are references to other objects, only the references themselves are copied, not the objects they point to.
-
-**Result:** 
-
-The new object contains copies of the primitive data types from the original object, and it contains the same references to any other objects that the original object had.  Both the original object and the new object end up pointing to the same underlying objects.
-
+**Result:** The new object contains copies of the primitive data types from the original object, and it contains the same references to any other objects that the original object had.  Both the original object and the new object end up pointing to the same underlying objects.
 **Example:**
 ```
 public class ShallowCopyExample {
@@ -5485,15 +5688,11 @@ public class ShallowCopyExample {
 ```
 In this example, `shallowCopy` is a shallow copy of original. Both `original.inner` and `shallowCopy.inner` point to the same `InnerObject`.  Therefore, when `shallowCopy.inner.value` is modified, the change is reflected in `original.inner.value`.
 
-#### 2. Deep Copy
-
+### 2. Deep Copy
 **What it is:** 
-
 A deep copy creates a new object and then recursively copies the values of all fields, including the objects referenced by those fields. This means that if a field is a reference to another object, a new copy of that object is also created, and its fields are copied, and so on.
-
 **Result:** 
 The new object is a completely independent copy of the original object.  Any changes made to the new object or its nested objects will not affect the original object.
-
 **Example:**
 ```
 public class DeepCopyExample {
@@ -5614,9 +5813,9 @@ The `transient` keyword in Java is a variable modifier that indicates that a fie
 When a field is declared as `transient`, its value is not included in the serialized byte stream. As a result, when the object is deserialized, the transient field will have its default value (e.g., `0 for integers, `null` for objects). 
 
 The `transient` keyword is often used for fields that should not be persisted, such as: 
-- _Sensitive data_: Fields containing sensitive information, such as passwords or API keys, should be marked as `transient` to prevent them from being stored in a serialized form. 
-- _Derived data_: Fields that can be calculated from other fields do not need to be serialized. 
-- _Non-serializable fields_: Fields that are not serializable, such as file handles or threads, must be marked as `transient`. 
+• _Sensitive data_: Fields containing sensitive information, such as passwords or API keys, should be marked as `transient` to prevent them from being stored in a serialized form. 
+• _Derived data_: Fields that can be calculated from other fields do not need to be serialized. 
+• _Non-serializable fields_: Fields that are not serializable, such as file handles or threads, must be marked as `transient`. 
 
 **Here's an example:** 
 ```
@@ -5674,163 +5873,50 @@ In this example, the password field is marked as `transient`. When the `MyClass`
 Eureka Server is a crucial component in a microservices architecture, acting as a service registry. It allows microservices to register themselves and discover other services dynamically. This eliminates the need for hardcoded service addresses, enabling loose coupling and scalability.  
 To create a Eureka Server in Java using Spring Boot, follow these steps: 
 
-- **Project Setup:** 
-  - Create a new Spring Boot project using Spring Initializr or your IDE. 
-  - Add the `spring-cloud-starter-netflix-eureka-server` dependency to your `pom.xml` or `build.gradle` file. 
-```
-<dependency>
-	<groupId>org.springframework.cloud</groupId>
-	<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-</dependency>
-```
-
-- **Enable Eureka Server: **
-  - Add the `@EnableEurekaServer` annotation to your main application class. 
-```
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
-
-@SpringBootApplication
-@EnableEurekaServer
-public class EurekaServerApplication {
-	public static void main(String[] args) {
-	    SpringApplication.run(EurekaServerApplication.class, args);
-	}
-}
-```
-
-- Configuration: 
-  - Configure the Eureka Server in your `application.properties` or `application.yml` file. 
-```
-server:
-    port: 8761
+• Project Setup: 
+	• Create a new Spring Boot project using Spring Initializr or your IDE. 
+	• Add the `spring-cloud-starter-netflix-eureka-server` dependency to your `pom.xml` or `build.gradle` file. 
+    ```
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+    </dependency>
+    ```
+• Enable Eureka Server: 
+	• Add the `@EnableEurekaServer` annotation to your main application class. 
+    ```
+    import org.springframework.boot.SpringApplication;
+    import org.springframework.boot.autoconfigure.SpringBootApplication;
+    import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
     
-eureka:
-    client:
+    @SpringBootApplication
+    @EnableEurekaServer
+    public class EurekaServerApplication {
+        public static void main(String[] args) {
+            SpringApplication.run(EurekaServerApplication.class, args);
+        }
+    }
+    ```
+• Configuration: 
+	• Configure the Eureka Server in your `application.properties` or `application.yml` file. 
+    ```
+    server:
+      port: 8761
+    
+    eureka:
+      client:
         register-with-eureka: false
         fetch-registry: false
-```
+    ```
+• `server.port`: Specifies the port on which the Eureka Server will run (default is `8761`). 
+• `eureka.client.register-with-eureka`: Set to false because the server doesn't need to register itself. 
+• `eureka.client.fetch-registry`: Set to false as the server doesn't need to fetch the registry from itself. 
 
-- `server.port`: Specifies the port on which the Eureka Server will run (default is `8761`). 
-- `eureka.client.register-with-eureka`: Set to false because the server doesn't need to register itself. 
-- `eureka.client.fetch-registry`: Set to false as the server doesn't need to fetch the registry from itself. 
-
-- **Run the Application:** 
-  - Run the `EurekaServerApplication`. 
-  - Access the Eureka dashboard at `http://localhost:8761`. 
+• Run the Application: 
+	• Run the `EurekaServerApplication`. 
+	• Access the Eureka dashboard at `http://localhost:8761`. 
 
 With these steps, a basic Eureka Server is set up and running, ready for microservices to register and discover each other. 
-
----
-## Q. Real-World Usage Questions on Interfaces and Abstraction in Java
-
-#### **1. When would you use an interface over an abstract class in a real-world application?**
-
-Use an **interface** when:
-
-- You want to define a **contract** for multiple unrelated classes.  
-  _Example_: `Flyable` interface for `Bird`, `Airplane`, `Superhero` classes.
-  
-- You want to support **multiple inheritance** of types (since Java supports multiple interfaces but not multiple class inheritance).
-
-- Your class hierarchy is likely to evolve with new implementations.
-
-Use an **abstract class** when:
-
-- You want to share **common code (logic)** across several related classes.  
-  _Example_: An abstract `PaymentProcessor` class that has a method to validate payment and abstract methods to implement `processPayment()`.
-
-#### **2. How does abstraction help in maintaining large codebases?**
-
-Abstraction helps to:
-
-- Hide implementation details and **expose only necessary behavior** via interfaces or abstract classes.
-- Make your system **extensible and maintainable**.
-- Reduce code duplication by sharing common logic in base abstract classes.
-- Promote **loose coupling**, so components can evolve independently.
-
-_Example_: In an e-commerce system, having a `ShippingService` interface allows the system to plug in FedEx, DHL, or UPS implementations without changing the core logic.
-
-#### **3. Can you give a real-world example where interfaces helped in designing loosely coupled systems?**
-
-Yes. Suppose you’re building a **notification service**.
-
-You might define:
-```java
-public interface Notifier {
-    void send(String message);
-}
-```
-
-And implement:
-```java
-public class EmailNotifier implements Notifier { ... }
-public class SMSNotifier implements Notifier { ... }
-```
-
-Your application logic can now depend on `Notifier` without knowing how it’s implemented. At runtime, you can inject any notifier using Spring’s DI or a factory.
-
-
-#### **4. How do interfaces help with testing and mocking in large applications?**
-
-Interfaces make **unit testing** and **mocking** easy. Using a mocking framework like Mockito, you can mock an interface without needing a concrete implementation.
-
-_Example_:
-```java
-@Mock
-private Notifier notifier;
-
-when(notifier.send(anyString())).thenReturn(true);
-```
-
-If you had hardcoded the implementation, mocking wouldn’t be possible.
-
-#### **5. When should you use an abstract class with partially implemented logic?**
-
-Use an abstract class when:
-
-- There’s **shared behavior** across all subclasses.
-- You want to **enforce a structure** but also allow flexibility.
-
-_Example_: In a file import system, you might have:
-
-```java
-abstract class FileImporter {
-    void readFile(String path) {
-        // common file reading logic
-    }
-    abstract void parseData();
-}
-```
-Subclasses like `CSVImporter`, `XMLImporter` only implement the `parseData()` part.
-
-#### **6. In real-world microservices, how are interfaces and abstraction used?**
-
-- Services communicate through well-defined **interfaces**.
-- Shared libraries often define interfaces (e.g., `PaymentService`) that are implemented differently in each microservice.
-- Enables **dependency injection** and **loose coupling**.
-
-#### **7. What’s the benefit of using interface-driven development (IDD)?**
-
-Interface-driven development helps you:
-
-- Design first, implement later (contract-first design).
-- Write testable, modular, and scalable systems.
-- Replace implementations easily without affecting the dependent systems.
-
-_Example_: You can switch from a `LocalFileStorageService` to an `S3StorageService` without touching other code.
-
-
-#### **8. Why should you avoid using abstract classes when you don't need implementation sharing?**
-
-Because:
-
-- You’re forcing a class hierarchy.
-- You’re reducing flexibility—Java doesn’t support multiple class inheritance.
-- It leads to tight coupling.
-
-If you just need a contract, **interfaces** are better.
 
 ---
 ## Q. TODO
