@@ -561,6 +561,49 @@ writableStream.on('finish', () => {
     console.log('Finished writing');
 });
 ```
+---
+### Q. How Authentication works in Node.js. 
+Authentication verifies a user's identity, while JWT (JSON Web Token) is a standard for securely transmitting information between parties as a JSON object. In Node.js, these concepts work together to manage user sessions and secure APIs. 
+
+- **User Login:** When a user attempts to log in, the server verifies their credentials (e.g., username and password) against a database.
+- **Token Generation:** If the credentials are valid, the server generates a JWT. This token contains user information (payload), is signed using a secret key, and has an expiration time.
+- **Token Transmission:** The server sends the JWT back to the client (e.g., in the response body or as a cookie).
+- **Protected Route Access:** When the client needs to access a protected route or resource, it includes the JWT in the request headers (typically in the `Authorization` header as a `Bearer token`).
+- **Token Verification:** The server receives the request, extracts the JWT, and verifies its signature using the same secret key used to sign it.
+- **Authorization:** If the token is valid and not expired, the server decodes the payload to extract user information and grants access to the requested resource. If the token is invalid or expired, the server denies access and returns an error.
+- **Logout:** To log out, the client simply discards the JWT. The server does not need to do anything, as the token is stateless and self-contained. 
+
+// Example using express and jsonwebtoken library
+```
+const express = require('express');
+const jwt = require('jsonwebtoken');
+const app = express();
+
+app.post('/login', (req, res) => {
+  // Authenticate user (e.g., check credentials against database)
+  const user = { id: 1, username: 'testuser' };
+  const secretKey = 'your-secret-key';
+  const token = jwt.sign(user, secretKey, { expiresIn: '1h' });
+  res.json({ token });
+});
+
+app.get('/protected', verifyToken, (req, res) => {
+  res.json({ message: 'Protected resource accessed', user: req.user });
+});
+
+function verifyToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) return res.sendStatus(401);
+
+  const secretKey = 'your-secret-key';
+  jwt.verify(token, secretKey, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+}
+```
 
 ---
 ---
