@@ -1045,7 +1045,9 @@ In microservices architectures, effective logging and monitoring are crucial for
 
 ##### Links:
 [Centralized logging in microservices]([https://pages.github.com/](https://www.geeksforgeeks.org/centralized-logging-for-microservices/))
+
 [Distributed logging in microservices](https://www.geeksforgeeks.org/distributed-logging-for-microservices/)
+
 [Microservices cross cutting concerns](https://www.geeksforgeeks.org/microservices-cross-cutting-concerns/)
 
 ---
