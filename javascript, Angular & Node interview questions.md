@@ -1025,6 +1025,7 @@ db.employees.aggregate([
 ---
 ## Q. Service injection in Angular
 Service injection in Angular can be achieved through constructor injection or by using the `@Inject` decorator or the inject() function. Here's a breakdown of the differences:
+
 **1. Constructor Injection**
 This is the most common and traditional way to inject dependencies.
 _Mechanism:_ Dependencies are declared as parameters in the class constructor. Angular's dependency injection system automatically resolves and provides these dependencies when the class is instantiated.
@@ -1269,6 +1270,7 @@ export class Component2 implements OnInit {
         );
     }
 }
+
 ```
 **4. Using Subject or BehaviorSubject**
 - For more complex scenarios, you can use `Subject` or `BehaviorSubject` from RxJS to share data between components.  A `BehaviorSubject` holds the current value, while a `Subject` does not.
@@ -1384,7 +1386,8 @@ Authentication is the process of verifying a user's identity. In Angular applica
   - `isAuthenticated()`: Checks if the user is currently authenticated (e.g., by checking for a valid token).
   - `storeToken()`: Stores the token received from the backend.
   - `getToken()`: Retrieves the token.
-```
+
+```javascript
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
@@ -1460,7 +1463,8 @@ export class AuthService {
 - Upon successful login, you'll typically want to:
   - Store the token.
   - Redirect the user to a protected area of the application.
-```
+
+```javascript
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
@@ -1506,7 +1510,8 @@ export class LoginComponent {
 - Create an Angular route guard to protect routes that should only be accessible to authenticated users.
 - In the guard, inject the `AuthService` and use the `isAuthenticated()` method to check if the user is logged in.
 - If the user is not authenticated, redirect them to the login page.
-```
+
+```javascript
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../auth.service';
@@ -1528,7 +1533,7 @@ export class AuthGuard implements CanActivate {
 }
 ```
 _Register the guard in your routing module:_
-```
+```javascript
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login.component';
@@ -1550,7 +1555,7 @@ export class AppRoutingModule {}
 
 #### 6. Handling HTTP Interceptors (Optional)
 - You can use an HTTP interceptor to automatically add the authentication token to the headers of outgoing HTTP requests to your backend API. This simplifies your code, as you don't have to manually add the token to every request.
-```
+```javascript
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -1743,12 +1748,81 @@ JIT compilation occurs at runtime in the browser. The Angular compiler translate
 - AOT is generally preferred for production environments due to its performance and security benefits. JIT is useful during development for its rapid iteration capabilities. In recent Angular versions, AOT is the default compilation mode.
 
 ---
+## Q. Create Dynamic Table column in angular
+
+```html
+<div class="container">
+  <h2>Dynamic Table Example</h2>
+  
+  <table border="1">
+    <thead>
+      <tr>
+        <th *ngFor="let column of columns">{{ column.header }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of data">
+        <td *ngFor="let column of columns">{{ row[column.key] }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+  `
+```
+
+```javascript
+interface DynamicColumn {
+  key: string;
+  header: string;
+}
+
+interface DataRow {
+  [key: string]: any;
+}
+
+export class App implements OnInit {
+  columns: DynamicColumn[] = [];
+  data: DataRow[] = [
+    { name: 'John', age: 30, city: 'New York' },
+    { name: 'Jane', age: 25, city: 'London', occupation: 'Engineer' },
+    { name: 'Jane', age: 25, city: 'London', occupation: 'Engineer', sex: 'male' }
+  ];
+
+  ngOnInit() {
+    // get unique keys from the data
+    this.columns = this.getUniqueKeys(this.data).map(key => ({
+      key: key,
+      header: this.capitalizeFirstLetter(key)
+    }));
+  }
+
+  private getUniqueKeys(data: DataRow[]): string[] {
+    const keys = new Set<string>();
+    data.forEach(row => {
+      Object.keys(row).forEach(key => keys.add(key));
+    });
+    return Array.from(keys);
+  }
+
+  private capitalizeFirstLetter(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+}
+```
+
+
+---
 ## Q. TODO
 - viewchild and @output
 - rxjs vs ngrx
 - typescript methods for filter duplicate elements in an array
 - 17 features
 - 19 features
+
+
+
+
 
 ---
 ## Q. **What is Angular and why is it used?**  

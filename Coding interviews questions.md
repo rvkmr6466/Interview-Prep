@@ -1825,7 +1825,153 @@ String reversed = new StringBuilder(str).reverse().toString();
 ```
 
 ---
-### 22. 
+### 22. Hashmap sorting using keys where it contains one null key
+In Java, when sorting a `HashMap` by keys that include a `null` key, you need to handle the `null` key explicitly. Since `HashMap` allows **one null key**, and **`TreeMap` does not allow null keys** (it throws `NullPointerException`), we must work around this using custom sorting logic.
+
+### Approach 1: Using LinkedHashMap
+
+```java
+import java.util.*;
+
+public class HashMapSortWithNullKey {
+    public static void main(String[] args) {
+        Map<String, String> map = new HashMap<>();
+        map.put("Banana", "Yellow");
+        map.put(null, "No Color");
+        map.put("Apple", "Red");
+        map.put("Mango", "Orange");
+
+        // Separate null key entry
+        String nullKeyValue = map.remove(null);
+
+        // Sort non-null keys using TreeMap
+        Map<String, String> sortedMap = new TreeMap<>(map);
+
+        // Optional: Insert null key entry at the beginning
+        LinkedHashMap<String, String> finalSortedMap = new LinkedHashMap<>();
+        if (nullKeyValue != null) {
+            finalSortedMap.put(null, nullKeyValue); // you can also place this at the end if needed
+        }
+        finalSortedMap.putAll(sortedMap);
+
+        // Print final sorted map
+        for (Map.Entry<String, String> entry : finalSortedMap.entrySet()) {
+            System.out.println("Key: " + entry.getKey() + " -> Value: " + entry.getValue());
+        }
+    }
+}
+```
+
+#### Output:
+```
+{null=No Color, Apple=Red, Banana=Yellow, Mango=Orange}
+```
+
+#### Explanation:
+- `HashMap` allows one `null` key.
+- `TreeMap` does not allow `null` keys (it throws `NullPointerException` because it uses `compareTo()`).
+- We remove the `null` key entry and sort the remaining keys using `TreeMap`.
+- Finally, re-insert the `null` key manually (at the beginning or end depending on your use case).
+
+
+Yes, here’s **another approach** to sort a `HashMap` **by keys** including a `null` key, **without removing it manually**, using a **custom `Comparator` with `LinkedHashMap` and `Stream API`**:
+
+---
+
+### Approach 2: Using Java 8 Streams and a Custom `Comparator`
+
+```java
+import java.util.*;
+import java.util.stream.*;
+
+public class HashMapSortWithNullKeyStream {
+    public static void main(String[] args) {
+        Map<String, String> map = new HashMap<>();
+        map.put("Banana", "Yellow");
+        map.put(null, "No Color");
+        map.put("Apple", "Red");
+        map.put("Mango", "Orange");
+
+        // Sort by keys, handling null key
+        Map<String, String> sortedMap = map.entrySet()
+            .stream()
+            .sorted(Map.Entry.comparingByKey(
+                Comparator.nullsFirst(String::compareTo) // null keys come first
+            ))
+            .collect(Collectors.toMap(
+                Map.Entry::getKey,
+                Map.Entry::getValue,
+                (e1, e2) -> e1,
+                LinkedHashMap::new
+            ));
+
+        // Print final sorted map
+        sortedMap.forEach((key, value) -> 
+            System.out.println("Key: " + key + " -> Value: " + value)
+        );
+    }
+}
+```
+
+
+#### Output:
+```
+{null=No Color, Apple=Red, Banana=Yellow, Mango=Orange}
+
+```
+
+
+#### What's happening:
+- `Map.Entry.comparingByKey(Comparator.nullsFirst(...))` safely compares keys, putting `null` first.
+- The result is collected into a `LinkedHashMap` to preserve the sorted order.
+- This approach avoids mutating the original map and handles `null` keys cleanly.
+
+
+#### Variation: To put `null` key **at the end**
+Just use `Comparator.nullsLast(String::compareTo)` instead of `nullsFirst`.
+
+
+### Approach 3: Using TreeMap and Custom `Comparator`
+
+```java
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+
+public class HashMapSortingWithNullKey {
+
+    public static void main(String[] args) {
+        // Sample HashMap with a null key
+        HashMap<String, Integer> myMap = new HashMap<>();
+        myMap.put("apple", 1);
+        myMap.put(null, 2); // Null key
+        myMap.put("banana", 3);
+
+        // Sort the HashMap by key, placing null keys at the beginning
+        TreeMap<String, Integer> sortedMap = new TreeMap<>(Comparator.nullsFirst(Comparator.naturalOrder()));
+        sortedMap.putAll(myMap);
+
+        // Print the sorted map
+        System.out.println(sortedMap);
+    }
+}
+```
+#### Output:
+```
+{null=2, apple=1, banana=3}
+```
+
+---
+### 23. 
+
+
+
+---
+
+### 24. 
+
+
 
 ---
 

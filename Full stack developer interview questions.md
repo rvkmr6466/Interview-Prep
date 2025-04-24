@@ -2249,7 +2249,8 @@ Spring Security's authorization process ensures that only authorized users can a
 ## 48. How to Use Caching in Spring Boot
 Spring Boot provides built-in support for caching using the **Spring Cache Abstraction**. This allows caching data in memory or using external cache providers like **Redis**, **EhCache**, and **Caffeine**.
 
-**1. Enable Caching in Spring Boot**
+#### **1. Enable Caching in Spring Boot**
+
 First, enable caching in your Spring Boot application by adding the `@EnableCaching` annotation in your main class or a configuration class.
 ```java
 import org.springframework.cache.annotation.EnableCaching;
@@ -2265,8 +2266,9 @@ public class CachingExampleApplication {
 }
 ```
 
-**2. Use @Cacheable Annotation**
+#### **2. Use @Cacheable Annotation**
 You can use `@Cacheable` to cache method results so that subsequent calls with the same arguments return the cached result instead of executing the method again.
+
 **Example: Caching a Method Result**
 ```java
 import org.springframework.cache.annotation.Cacheable;
@@ -2287,7 +2289,8 @@ public class UserService {
 1. The first time `getUserById(1)` is called, it fetches data and stores it in the cache.
 2. The next time `getUserById(1)` is called, it returns the cached result instead of executing the method.
 
-**3. Clear Cache with @CacheEvict**
+#### **3. Clear Cache with @CacheEvict**
+
 If data changes and you need to remove it from the cache, use `@CacheEvict`.
 ```java
 import org.springframework.cache.annotation.CacheEvict;
@@ -2305,7 +2308,7 @@ public class UserService {
 - `allEntries = true` clears all cached entries under "users".
 - `@CacheEvict(value = "users", key = "#userId")` clears a specific entry.
 
-**4. Update Cache with @CachePut**
+#### **4. Update Cache with @CachePut**
 Use `@CachePut` to update the cache when a method is called.
 ```java
 import org.springframework.cache.annotation.CachePut;
@@ -2322,7 +2325,7 @@ public class UserService {
 }
 ```
 
-**5. Configure Cache in application.properties**
+#### **5. Configure Cache in application.properties**
 Spring Boot uses **ConcurrentHashMap** as the default cache. You can configure other cache providers like **EhCache, Redis, or Caffeine**.
 **For Simple In-Memory Cache:**
 ```properties
@@ -2335,7 +2338,7 @@ spring.redis.host=localhost
 spring.redis.port=6379
 ```
 
-**6. Example with Redis Cache**
+#### **6. Example with Redis Cache**
 If you want to use Redis as a cache, add the following dependency in `pom.xml`:
 ```xml
 <dependency>
@@ -3536,13 +3539,141 @@ public enum Singleton {
 - Avoid unnecessary **synchronization**, as it affects performance.
 
 ---
-## 58. 
+## 58. Spring Context in Spring Security
+The Spring context provides the foundation for Spring Security, managing the beans and their dependencies required for security features. Within Spring Security, specific contexts play crucial roles: 
+
+##### SecurityContext 
+It holds the `Authentication` object, representing the current user's security information, including their identity and granted authorities (roles/permissions). The `SecurityContext` is associated with the current thread of execution. 
+
+##### SecurityContextHolder 
+It provides access to the `SecurityContext`. It uses a ThreadLocal to store the `SecurityContext`, making it available throughout the current thread. `SecurityContextHolder` allows retrieval and modification of the `SecurityContext`. 
+
+##### SecurityContextRepository 
+Strategies for persisting the `SecurityContext` between requests. The default implementation uses the HttpSession, but other options exist, like storing it in the `HttpRequest` or not persisting it at all for stateless applications. 
+
+#### RequestContext 
+While not exclusive to Spring Security, `RequestContext` is relevant in web applications. It holds request-specific state, including the current web application context. Spring Security filters operate within the request lifecycle, interacting with the `RequestContext`. 
+
+How they interact 
+**Authentication:** 
+- When a user authenticates, Spring Security creates an Authentication object. 
+**Storing in Context:** 
+- The Authentication object is placed in the SecurityContext, which is then stored in the SecurityContextHolder. 
+**Persistence:** 
+- The SecurityContextRepository saves the SecurityContext, typically in the HttpSession. 
+**Retrieval:** 
+- On subsequent requests, the SecurityContextRepository retrieves the SecurityContext and places it back in the SecurityContextHolder, making the user's authentication information available. 
+
+These contexts ensure that security information is properly managed and accessible throughout the application, enabling Spring Security to enforce authentication and authorization rules. 
+
 
 ---
-## 59. 
+## 59. `@qualifier` vs `@primary` annotatoion
+In Spring Framework, `@Primary` and `@Qualifier` are annotations used to resolve ambiguity when multiple beans of the same type exist in an application context. `@Primary` designates a default bean to be injected when no specific qualifier is provided, while `@Qualifier` allows for explicit selection of a specific bean by name or custom qualifier.  
+
+**Key Differences:**
+- **Purpose:** `@Primary` marks a default bean for injection, while `@Qualifier` provides fine-grained control over which bean to inject, overriding the default behavior of `@Primary`.  
+- **Usage:** `@Primary` is usually placed on a bean class or method, while `@Qualifier` is typically applied to the injection point (e.g., a field, constructor, or method parameter).
+- **Behavior:** When multiple beans of the same type exist, and no `@Qualifier` is provided, `@Primary` will be used to inject the corresponding bean. If both `@Primary` and `@Qualifier` are present, the `@Qualifier` annotation will take precedence. 
+
+In essence:
+
+- `@Primary`: "This is the preferred bean if you don't need to specify any further criteria." 
+- `@Qualifier`: "This is the specific bean I want."  
+
+**Example:* 
+Consider two implementations of an `EmailService` interface: `MailgunEmailService` and `PostmarkEmailService`. 
+```
+interface EmailService {
+    void sendEmail(String to, String subject, String body);
+}
+
+@Component
+@Primary // This makes MailgunEmailService the default choice
+public class MailgunEmailService implements EmailService {
+    // ... implementation ...
+}
+
+@Component
+public class PostmarkEmailService implements EmailService {
+    // ... implementation ...
+}
+
+@Component
+public class MyService {
+    @Autowired // Without @Qualifier, MailgunEmailService will be injected
+    private EmailService emailService;
+}
+```
+In this case, if `@Autowired` is used without `@Qualifier`, `MailgunEmailService` will be injected into `MyService` due to the `@Primary` annotation. To explicitly inject `PostmarkEmailService`, you would use `@Qualifier` on the injection point: 
+```
+@Component
+public class MyService {
+    @Autowired
+    @Qualifier("postmarkEmailService") // Explicitly select PostmarkEmailService
+    private EmailService emailService;
+}
+```
+This allows you to manage and configure your Spring Boot applications more effectively when dealing with multiple beans of the same type.
+
 
 ---
-## 60. 
+## 60. How to create custom class object method in java
+Here is how to create a custom class object method in Java: 
+
+- **Define the class:** Use the `class` keyword followed by the class name. Inside the class, declare instance variables (attributes) and methods (behaviors). 
+    ```
+    public class Dog {
+        String name;
+        String breed;
+    
+        // Constructor
+        public Dog(String name, String breed) {
+            this.name = name;
+            this.breed = breed;
+        }
+    
+        // Custom method
+        public void bark() {
+            System.out.println("Woof! My name is " + this.name);
+        }
+    
+        public String getName() {
+            return this.name;
+        }
+    
+        public String getBreed() {
+            return this.breed;
+        }
+    }
+    ```
+
+- **Create an object (instance) of the class:** Use the `new` keyword followed by the class name and constructor arguments. 
+    ```
+    public class Main {
+        public static void main(String[] args) {
+            // Create a Dog object
+            Dog myDog = new Dog("Buddy", "Golden Retriever");
+    
+            // Access object attributes
+            System.out.println("Dog's name: " + myDog.getName());
+            System.out.println("Dog's breed: " + myDog.getBreed());
+    
+            // Call the custom method
+            myDog.bark();
+        }
+    }
+    ```
+
+- **Call the method:** Use the dot operator (`.`) to access the method of an object. 
+
+Output of the above code: 
+    ```
+    Dog's name: Buddy
+    Dog's breed: Golden Retriever
+    Woof! My name is Buddy
+    ```
+
 
 ---
 ## 61. Java 8 Features Introduced
@@ -3577,7 +3708,155 @@ Refer to methods easily.
 
 ---
 
-## 62. 
+## 62. Multi-Tenancy in Spring Boot
+**Multi-tenancy** is a software architecture pattern where a single instance of an application serves multiple tenants (clients), with each tenant’s data isolated from others. This is common in SaaS applications.
+
+### Types of Multi-Tenancy
+
+1. **Database per Tenant**  
+   Each tenant has its own database. Highest level of isolation.
+2. **Schema per Tenant**  
+   One database, different schemas for each tenant.
+3. **Table/Row Level (Discriminator Column)**  
+   One schema and tables, tenant is identified by a column (e.g., `tenant_id`). Lower isolation, but easier to manage.
+
+### How to Implement in Spring Boot
+
+#### 1. **Using Hibernate Multi-Tenancy Support**
+Spring Boot supports Hibernate multi-tenancy via:
+- `MULTI_TENANT_DATABASE`
+- `MULTI_TENANT_SCHEMA`
+- `MULTI_TENANT_DISCRIMINATOR`
+
+#### 2. **Setup Example: Schema-Based Multi-Tenancy**
+
+##### a. Add dependencies in `pom.xml`
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+```
+
+##### b. Configure `MultiTenantConnectionProvider` and `CurrentTenantIdentifierResolver`
+
+```java
+@Component
+public class SchemaMultiTenantConnectionProvider implements MultiTenantConnectionProvider {
+    @Autowired
+    private DataSource dataSource;
+
+    @Override
+    public Connection getConnection(String tenantIdentifier) throws SQLException {
+        final Connection connection = dataSource.getConnection();
+        connection.setSchema(tenantIdentifier); // Set schema for tenant
+        return connection;
+    }
+
+    // other required overrides...
+}
+```
+
+```java
+@Component
+public class CurrentTenantIdentifierResolverImpl implements CurrentTenantIdentifierResolver {
+    private static final String DEFAULT_TENANT = "public";
+
+    @Override
+    public String resolveCurrentTenantIdentifier() {
+        return TenantContext.getCurrentTenant(); // From context or header
+    }
+
+    @Override
+    public boolean validateExistingCurrentSessions() {
+        return true;
+    }
+}
+```
+
+##### c. Register Hibernate Multi-Tenant Configuration
+
+```java
+@Configuration
+@EnableTransactionManagement
+public class HibernateConfig {
+
+    @Autowired
+    private MultiTenantConnectionProvider connectionProvider;
+
+    @Autowired
+    private CurrentTenantIdentifierResolver tenantIdentifierResolver;
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+        Map<String, Object> hibernateProps = new HashMap<>();
+        hibernateProps.put(Environment.MULTI_TENANT, MultiTenancyStrategy.SCHEMA);
+        hibernateProps.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, connectionProvider);
+        hibernateProps.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, tenantIdentifierResolver);
+
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(dataSource);
+        em.setPackagesToScan("com.example.domain");
+        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        em.setJpaPropertyMap(hibernateProps);
+        return em;
+    }
+}
+```
+
+#### 3. **Setting Tenant Context**
+
+Create a `TenantContext` and set the tenant identifier from request headers or security context:
+
+```java
+public class TenantContext {
+    private static final ThreadLocal<String> currentTenant = new ThreadLocal<>();
+
+    public static void setCurrentTenant(String tenantId) {
+        currentTenant.set(tenantId);
+    }
+
+    public static String getCurrentTenant() {
+        return currentTenant.get();
+    }
+
+    public static void clear() {
+        currentTenant.remove();
+    }
+}
+```
+
+Use an interceptor or filter to set the tenant ID:
+
+```java
+@Component
+public class TenantFilter extends OncePerRequestFilter {
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
+        String tenantId = request.getHeader("X-Tenant-ID");
+        TenantContext.setCurrentTenant(tenantId);
+        try {
+            filterChain.doFilter(request, response);
+        } finally {
+            TenantContext.clear();
+        }
+    }
+}
+```
+
+### Real-World Example Use Cases
+- **SaaS applications** like CRM systems, where each company (tenant) needs data isolation.
+- Multi-client platforms like e-commerce services that serve different vendors.
+
+### Best Practices
+- Always validate the tenant ID from a whitelist or DB.
+- Use connection pooling and monitor schema switches.
+- Consider caching tenant metadata.
+- For large tenants, prefer DB-per-tenant.
+
 
 ---
 ## 63. @Component vs @Service vs @Controller
