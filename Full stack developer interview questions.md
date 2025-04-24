@@ -1013,7 +1013,40 @@ private List<Order> orders;
 ```
 
 ---
-## 25. TODO
+## 25. How do you handle logging and monitoring in microservices?
+In microservices architectures, effective logging and monitoring are crucial for understanding the health and behavior of distributed systems. Centralized logging, structured logging formats, and distributed tracing are key practices for efficient debugging and performance analysis. Monitoring involves tracking key performance indicators (KPIs) and setting thresholds for alerting on potential issues.  
+
+#### Logging in Microservices:
+- **Centralized Logging:** Collect logs from all microservices in a central location for easier analysis and searching.
+- **Standardized Log Formats:** Use JSON or other structured formats to ensure consistency and enable efficient parsing.
+- **Correlation IDs:** Introduce unique IDs to track requests across multiple microservices, facilitating root cause analysis.
+- **Contextual Data:** Include relevant context (e.g., service name, user ID, request ID) in logs for better troubleshooting.
+- **Log Levels:** Utilize different log levels (e.g., DEBUG, INFO, WARN, ERROR, FATAL) to categorize log messages.
+
+#### Monitoring in Microservices:  
+- **Key Performance Indicators (KPIs):** Identify relevant metrics for each microservice, such as response time, error rate, and throughput.
+- **Thresholds and Alerting:** Define thresholds for KPIs and set up alerts to notify operations when performance deviates from normal.
+- **Distributed Tracing:** Use tools like Jaeger or Zipkin to trace requests across multiple services, providing insights into latency and dependencies.
+- **Observability Tools:** Leverage tools like Prometheus, Grafana, or ELK Stack (Elasticsearch, Logstash, Kibana) for collecting, processing, and visualizing logs and metrics. 
+
+#### Tools and Techniques:
+- **Logstash:** A data pipeline for collecting, parsing, and sending logs to various destinations.
+- **ELK Stack:** Elasticsearch, Logstash, and Kibana for centralized logging, analysis, and visualization.
+- **Prometheus:** An open-source monitoring and alerting system for microservices.
+- **Grafana:** A platform for visualizing and exploring metrics from various data sources, including Prometheus.
+- **Distributed Tracing Tools:** Jaeger, Zipkin, and others for tracing requests across microservices.  
+
+#### Example Implementation:
+1. Log Format: Implement a consistent log format (e.g., JSON) across all microservices, including service name, request ID, timestamp, log level, and a message.
+2. Centralized Logging: Configure Logstash to collect logs from each microservice and forward them to Elasticsearch.  
+3. Monitoring: Set up Prometheus to scrape metrics from each microservice and store them in a time-series database.
+4. Alerting: Configure Grafana to create dashboards and alerts based on Prometheus metrics.
+5. Distributed Tracing: Use a distributed tracing tool like Jaeger to trace requests across multiple services and visualize the flow.
+
+##### Links:
+[Centralized logging in microservices]([https://pages.github.com/](https://www.geeksforgeeks.org/centralized-logging-for-microservices/))
+[Distributed logging in microservices](https://www.geeksforgeeks.org/distributed-logging-for-microservices/)
+[Microservices cross cutting concerns](https://www.geeksforgeeks.org/microservices-cross-cutting-concerns/)
 
 ---
 ## 26. Orchestration vs Choreography in microservices
@@ -1120,7 +1153,42 @@ class PayPalPayment extends OnlinePayment {
 - Use **abstract class** when you want to share code across related classes and enforce specific structure.
 
 ---
-## 29. TODO
+## 29. How do you handle service discovery in microservices?
+In microservices architecture, service discovery allows services to dynamically locate and interact with each other without needing to hardcode the network addresses of other services. This is achieved through a central service registry or discovery service where services register themselves and others can query to find available instances. 
+
+Here's a more detailed explanation:
+
+#### 1. Service Registry:
+- A central repository (e.g., Eureka, Consul, ZooKeeper) stores information about available services, their instances, and their health.
+- Services register their presence with the registry upon startup and deregister upon shutdown, ensuring the registry reflects the current status of the service landscape.
+- The registry typically provides APIs for clients to query for service instances, including their network addresses (IPs and ports) and other metadata.
+
+#### 2. Discovery Patterns:
+- **Client-Side Discovery:** Clients directly query the service registry for service instances and then select an instance to send requests to, according to Microservices.io and F5. This pattern provides more flexibility and control to the client, but can increase the load on the registry. 
+- **Server-Side Discovery:** Clients send requests to a load balancer or API gateway that acts as an intermediary. This load balancer then queries the service registry, selects an instance, and forwards the request to the chosen service instance.  
+- **DNS-Based Discovery:** Uses DNS records to represent service instances. Clients perform DNS lookups to resolve service names to IP addresses.
+- **Sidecar Proxy:** A sidecar proxy (e.g., Envoy) can be deployed alongside each service instance to handle discovery, load balancing, and other network-related tasks.  
+
+#### 3. Registration and Deregistration:
+- Services typically register themselves with the service registry when they start and deregister when they shut down, as explained by F5.
+- The service registry can also be configured to automatically deregister instances that have been inactive or unhealthy for a certain period.
+- Heartbeats are often used to keep the registry aware of the health and availability of registered instances. 
+
+#### 4. Example Scenario:
+Let's say microservice A needs to call microservice B.
+1. Microservice A queries the service registry for available instances of service B.  
+2. The service registry provides a list of available instances of service B.
+3. Microservice A selects one of the instances from the list (e.g., using a load balancing algorithm).  
+4. Microservice A then sends a request to the selected instance of service B.  
+
+#### 5. Benefits of Service Discovery:
+- **Dynamic Scaling:** Services can be scaled up or down without requiring changes to other services.
+- **Flexibility:** Services can be deployed and redeployed without disrupting the application.
+- **Simplified Development:** Developers don't need to manage service URLs or hardcode dependencies.
+- **Improved Resilience:** If a service instance goes down, other services can automatically find and connect to healthy instances.  
+
+#### 6. Technologies:
+- **Eureka:** A service discovery platform from Netflix Open Source
 
 ---
 ## 30. Exception Handling in Spring Boot
