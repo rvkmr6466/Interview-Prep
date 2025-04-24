@@ -1044,7 +1044,7 @@ In microservices architectures, effective logging and monitoring are crucial for
 5. Distributed Tracing: Use a distributed tracing tool like Jaeger to trace requests across multiple services and visualize the flow.
 
 ##### Links:
-[Centralized logging in microservices]([https://pages.github.com/](https://www.geeksforgeeks.org/centralized-logging-for-microservices/))
+[Centralized logging in microservices](https://www.geeksforgeeks.org/centralized-logging-for-microservices/)
 
 [Distributed logging in microservices](https://www.geeksforgeeks.org/distributed-logging-for-microservices/)
 
