@@ -2185,7 +2185,65 @@ public class Main {
 ```
 
 ---
-## 47. 
+## 47. How authorization works in spring security?
+Spring Security authorization determines what a successfully authenticated user is allowed to do. It occurs after authentication and before the requested resource is accessed. The framework uses the `SecurityContextHolder` to retrieve the `Authentication` object, which contains the user's roles and permissions, and then compares these against the required authorities for the requested resource. If the user has the necessary authority, access is granted; otherwise, an `AccessDeniedException` is thrown. 
+
+Authorization rules can be configured at different levels: 
+
+- **Request level:** Using `HttpSecurity` configuration, specific roles or permissions can be assigned to URL patterns. 
+  ```
+  @Configuration
+  @EnableWebSecurity
+  public class SecurityConfig {
+      @Bean
+      public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+          http
+              .authorizeHttpRequests(authorize -> authorize
+                  .requestMatchers("/admin/**").hasRole("ADMIN")
+                  .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                  .requestMatchers("/public/**").permitAll()
+                  .anyRequest().authenticated()
+              )
+              .formLogin(withDefaults());
+          return http.build();
+      }
+  }
+  ```
+
+- **Method level:** Using annotations like `@PreAuthorize`, `@PostAuthorize`, and `@Secured`, authorization rules can be applied to individual methods. 
+  ```
+  @Service
+  public class MyService {
+      @PreAuthorize("hasRole('ADMIN')")
+      public void adminOnlyMethod() {
+          // ...
+      }
+  
+      @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+      public String userOrAdminMethod() {
+          return "Accessible to users and admins";
+      }
+  }
+  ```
+
+- **Custom authorization:** Implementing `AuthorizationManager` allows for more complex, programmatic authorization logic. 
+  ```
+  @Component
+  public class CustomAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
+      @Override
+      public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext context) {
+          HttpServletRequest request = context.getRequest();
+          // Custom logic to determine authorization
+          if (request.getHeader("X-Tenant-ID").equals(authentication.get().getName())) {
+              return new AuthorizationDecision(true);
+          }
+          return new AuthorizationDecision(false);
+      }
+  }
+  ```
+
+Spring Security's authorization process ensures that only authorized users can access specific resources, maintaining the security and integrity of the application. 
+
 
 ---
 ## 48. How to Use Caching in Spring Boot
