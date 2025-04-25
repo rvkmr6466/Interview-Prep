@@ -1,6 +1,6 @@
 ## GCP Interview Questions
 
-### Q. 
+## Q. 
 To save a secret key in Google Cloud KMS, you'll first need to create a key ring and a key within that key ring. Then, you can use the key to encrypt your secret and store it in a secure location like Google Cloud Storage or Secret Manager.
 
 Here's a breakdown of the process: 
@@ -35,3 +35,8 @@ Store the encrypted secret data in a secure location like Google Cloud Storage o
 - **Permissions:** Ensure that the service account or user accessing the key has the necessary permissions to encrypt and decrypt data using the Cloud KMS key.
 - **Security:** Store the encrypted secret in a secure location like Secret Manager or encrypt it before storing it in Cloud Storage.
 - **Key Rotation:** Regularly rotate your Cloud KMS keys to minimize the risk of compromise.
+
+---
+## Q. TODO
+- GCP ( cloud run, cloud function)
+- cloud front
