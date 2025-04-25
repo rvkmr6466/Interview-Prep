@@ -1352,6 +1352,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 In Java, variables can be declared at different levels within a class. Each type of variable **class variable**, **instance variable**, and **method (local) variable** has its own purpose, scope, and lifecycle. 
 
 **1. Class Variable (Static Variable)**
+
 A **class variable** is declared using the `static` keyword inside a class but **outside any method**. It is **shared among all instances** of the class.
 
 **When to use:**
@@ -1378,6 +1379,7 @@ public class Employee {
 - Common configuration like database URL, app constants.
 
 **2. Instance Variable**
+
 An **instance variable** is **non-static** and is declared inside a class but outside any method. Each object of the class has its **own copy**.
 
 **When to use:**
@@ -1434,7 +1436,9 @@ public void calculateBonus() {
 ---
 ## 32. What happen when API A is calling to API B and it is down?
 When API A calls API B and B is down, API A will typically receive an error response indicating the issue. This could manifest as a timeout, a _503 Service Unavailable_ error, or other HTTP error codes. API A needs to be designed to handle these error responses gracefully, potentially retrying the call, falling back to a cached response, or informing the user of the problem.
+
 Here's a more detailed breakdown: 
+
 **1. Error Responses:**  
 - **Timeouts**: If API A doesn't receive a response from API B within a reasonable timeframe, it will usually timeout and report an error.
 - **HTTP Error Codes**: API B might return an HTTP error code like 503 (Service Unavailable), 408 (Request Timeout), or 500 (Internal Server Error) to indicate the problem.
@@ -1456,8 +1460,8 @@ Here's a more detailed breakdown:
 In Java, overriding `equals()` and `hashCode()` is crucial when a class is intended to be used in hash-based data structures like `HashMap` and `HashSet`, or when comparing objects based on their content rather than their memory location. Overriding `equals()` allows for custom equality comparisons, while overriding `hashCode()` ensures that objects considered equal by `equals()` also have the same hash code, maintaining the integrity of hash-based collections.
 
 #### Here's a more detailed explanation:
-• **_`equals()` for Content Equality_**: The default `equals()` method in Java compares objects based on their memory addresses (object references). Overriding `equals()` allows you to define equality based on the object's attributes or data, not its memory location.  
-• **_`hashCode()` for Hash-Based Collections_**: Hash-based collections like `HashMap` and `HashSet` use `hashCode()` to determine where to store objects within the collection (bucket). If two objects are considered equal by `equals()`, they must also have the same hash code.
+- **_`equals()` for Content Equality_**: The default `equals()` method in Java compares objects based on their memory addresses (object references). Overriding `equals()` allows you to define equality based on the object's attributes or data, not its memory location.  
+- **_`hashCode()` for Hash-Based Collections_**: Hash-based collections like `HashMap` and `HashSet` use `hashCode()` to determine where to store objects within the collection (bucket). If two objects are considered equal by `equals()`, they must also have the same hash code.
 
 **Contract:** 
 - If you override `equals()`, you must also override `hashCode()` to maintain the contract between these two methods. This contract dictates that if `equals()` returns true for two objects, then `hashCode()` must also return the same value for both objects.
@@ -1465,10 +1469,11 @@ In Java, overriding `equals()` and `hashCode()` is crucial when a class is inten
 **Example:** 
 - Consider a Point class. If you define `equals()` to consider two points equal if they have the same x and y coordinates, then you must also define `hashCode()` based on these coordinates.  
 
-**Why is this important?**
-• _Correct Functionality:_ Without overriding `equals()` and `hashCode()`, hash-based collections will treat two distinct objects with the same data as different, leading to incorrect behavior.  
-• _Performance:_ A good implementation of `hashCode()` helps distribute objects evenly across buckets in hash-based collections, improving performance and preventing collisions.  
-• _Consistency_: Overriding both methods ensures that your class behaves consistently with hash-based collections, providing reliable results when using your class in these contexts. 
+#### **Why is this important?**
+
+- _Correct Functionality:_ Without overriding `equals()` and `hashCode()`, hash-based collections will treat two distinct objects with the same data as different, leading to incorrect behavior.  
+- _Performance:_ A good implementation of `hashCode()` helps distribute objects evenly across buckets in hash-based collections, improving performance and preventing collisions.  
+- _Consistency_: Overriding both methods ensures that your class behaves consistently with hash-based collections, providing reliable results when using your class in these contexts. 
 
 **In summary:** 
 Overriding `equals()` and `hashCode()` is essential for custom classes that need to be compared based on their content or used in hash-based collections. By adhering to the `equals()` and `hashCode()` contract, you ensure that your code behaves predictably and efficiently.
@@ -3544,27 +3549,31 @@ public enum Singleton {
 ## 58. Spring Context in Spring Security
 The Spring context provides the foundation for Spring Security, managing the beans and their dependencies required for security features. Within Spring Security, specific contexts play crucial roles: 
 
-##### SecurityContext 
+#### SecurityContext 
 It holds the `Authentication` object, representing the current user's security information, including their identity and granted authorities (roles/permissions). The `SecurityContext` is associated with the current thread of execution. 
 
-##### SecurityContextHolder 
+#### SecurityContextHolder 
 It provides access to the `SecurityContext`. It uses a ThreadLocal to store the `SecurityContext`, making it available throughout the current thread. `SecurityContextHolder` allows retrieval and modification of the `SecurityContext`. 
 
-##### SecurityContextRepository 
+#### SecurityContextRepository 
 Strategies for persisting the `SecurityContext` between requests. The default implementation uses the HttpSession, but other options exist, like storing it in the `HttpRequest` or not persisting it at all for stateless applications. 
 
 #### RequestContext 
 While not exclusive to Spring Security, `RequestContext` is relevant in web applications. It holds request-specific state, including the current web application context. Spring Security filters operate within the request lifecycle, interacting with the `RequestContext`. 
 
-How they interact 
+**How they interact** 
+
 **Authentication:** 
-- When a user authenticates, Spring Security creates an Authentication object. 
+- When a user authenticates, Spring Security creates an `Authentication` object. 
+
 **Storing in Context:** 
-- The Authentication object is placed in the SecurityContext, which is then stored in the SecurityContextHolder. 
+- The `Authentication` object is placed in the SecurityContext, which is then stored in the `SecurityContextHolder`. 
+
 **Persistence:** 
-- The SecurityContextRepository saves the SecurityContext, typically in the HttpSession. 
+- The `SecurityContextRepository` saves the `SecurityContext`, typically in the `HttpSession`. 
+
 **Retrieval:** 
-- On subsequent requests, the SecurityContextRepository retrieves the SecurityContext and places it back in the SecurityContextHolder, making the user's authentication information available. 
+- On subsequent requests, the `SecurityContextRepository` retrieves the `SecurityContext` and places it back in the `SecurityContextHolder`, making the user's authentication information available. 
 
 These contexts ensure that security information is properly managed and accessible throughout the application, enabling Spring Security to enforce authentication and authorization rules. 
 
@@ -3703,13 +3712,12 @@ Executes an action for each element in a collection.
 Evolve interfaces without breaking compatibility.
 
 #### 7. Static Methods in Interfaces  
-Allows adding methods with default implementations to interfaces.
+Allows adding methods with default implementations to interfaces. 
 
 #### 8. Method References  
 Refer to methods easily.
 
 ---
-
 ## 62. Multi-Tenancy in Spring Boot
 **Multi-tenancy** is a software architecture pattern where a single instance of an application serves multiple tenants (clients), with each tenant’s data isolated from others. This is common in SaaS applications.
 
@@ -4186,7 +4194,7 @@ public class HashtableExample {
 
 ---
 
-## 73. What happened when a duplicate is added to a HashMap? 
+## 73. What happened when a duplicate key is added to a HashMap? 
 When a duplicate key is added to a HashMap, the old value associated with that key is replaced by the new value, and the HashMap continues to store only one value for that key.
 
 Here's a more detailed explanation: 
@@ -5765,6 +5773,7 @@ In this example, the variables `a`, `b`, and `result` in the `main` method, and 
 #### 2. Heap Memory
 **What it is:** 
 - The heap is a larger memory area used for storing objects and arrays.
+ 
 **How it works:**
 - Objects are dynamically allocated in the heap at runtime using the new keyword.
 - Objects in the heap can be accessed from anywhere in the application.

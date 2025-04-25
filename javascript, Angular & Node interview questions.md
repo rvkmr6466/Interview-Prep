@@ -604,6 +604,33 @@ function verifyToken(req, res, next) {
   });
 }
 ```
+## Q. How memory management works in Node.js?
+Node.js uses the V8 JavaScript engine, which handles memory management automatically through garbage collection. The memory is divided into the heap (for objects) and the stack (for function calls). The garbage collector reclaims memory occupied by objects that are no longer reachable. 
+Understanding memory management in Node.js involves being aware of how memory is allocated and released. While V8 handles much of this automatically, developers should avoid practices that lead to memory leaks. 
+
+#### Best Practices for Memory Management
+
+**Avoid global variables:** 
+- Excessive use of global variables can prevent memory from being reclaimed. 
+**Handle closures carefully:** 
+- Closures can unintentionally keep references to variables, leading to memory leaks. 
+**Use streams for large data:** 
+- When processing large files or data sets, streams can help manage memory usage efficiently. 
+**Monitor memory usage:** 
+- Tools like `process.memoryUsage()` and heap profilers can help identify memory leaks. 
+**Set memory limits:** 
+- Use the `--max-old-space-size` flag to limit the amount of memory Node.js can use. 
+**Use the Buffer class:** 
+- When dealing with binary data, using the `Buffer` class ensures efficient memory handling. 
+**Garbage collection:** 
+- Node.js employs a two-generation garbage collection system: 
+  - **Minor GC (Scavenger):** Collects short-lived objects in the "new space." 
+	- **Major GC (Mark-Sweep & Mark-Compact):** Collects long-lived objects in the "old space." 
+
+By understanding these concepts and following best practices, developers can write more efficient and reliable Node.js applications. 
+
+---
+## Q. 
 
 ---
 ---
@@ -1811,6 +1838,40 @@ export class App implements OnInit {
 }
 ```
 
+---
+## Q. When to use ngoninit and constructor in Angular
+#### Constructor:
+- Primarily used for dependency injection.
+- Initializes class members and sets up the class.
+- Avoid placing complex logic or operations that might cause side effects.
+- It's a TypeScript feature that is called when a new instance of the class is created.
+
+#### ngOnInit:
+- A lifecycle hook called after Angular has initialized the component's inputs and bindings.
+- Suitable for tasks that require the component to be fully initialized, such as fetching data, setting up subscriptions, or performing calculations based on input properties.
+- It is specific to Angular and part of the component's lifecycle.
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { MyService } from './my.service';
+
+@Component({
+  selector: 'app-my-component',
+  template: `...`,
+})
+export class MyComponent implements OnInit {
+  constructor(private myService: MyService) {
+    // Dependency injection and basic initialization
+  }
+
+  ngOnInit() {
+    // Fetch data, set up subscriptions, etc.
+    this.myService.getData().subscribe(data => {
+      // Process data
+    });
+  }
+}
+```
 
 ---
 ## Q. TODO
