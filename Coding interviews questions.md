@@ -37,7 +37,7 @@ public static Optional<Character> findFirstRepeatedCharacter(String input) {
 }
 ```
 ---
-### 2. Find the longest uniform substring.
+### 2. Find the longest uniform substring in given String.
 #### Examples:
 | Input            | Output | Explanation                          |
 |-----------------|--------|--------------------------------------|
@@ -406,7 +406,7 @@ public static void rotateRight(int[] arr, int k) {
 | `s = [-8,1,-3,3,2,-10]` | `"4"`  | 4 is the lowest which is not present in given array  |
 
 #### Solution 1:
-```
+```java
 import java.util.HashSet;
 
 public class LowestMissingPositive {
@@ -438,7 +438,7 @@ public class LowestMissingPositive {
 }
 ```
 #### Solution 2:
-```
+```java
 public class LowestMissingPositive {
     public static int findLowestMissingPositive(int[] nums) {
         int n = nums.length;
@@ -485,7 +485,7 @@ public class LowestMissingPositive {
 | `s = "Ravi Kumar Sharma"` | `"ivaR ramuK amrahS"`  | reverse words with the same order  |
 
 #### Solution 1:
-```
+```java
 public class Main {
     public static void main(String[] args) {
       String s1= "Ravi Kumar";
@@ -519,7 +519,7 @@ public class Main {
 ivaR ramuK
 ```
 #### Solution 2:
-```
+```java
 public class Main {
     public static void main(String[] args) {
       String s1= "Ravi Kumar Sharma";
@@ -549,7 +549,7 @@ ivaR ramuK amrahS
 
 ---
 ## 15. Find output
-```
+```java
 class A {
 	public final void testMethod() {
 		System.out.println("invoke A");
@@ -583,7 +583,7 @@ invoke A
 
 ---
 ### 16. Find the output:
-```
+```java
 public class Test implements Runnable
 {
     public void run()
@@ -619,7 +619,7 @@ Compilation error
 
 ---
 ### 17. Find the output:
-```
+```java
 public class TestClass {
     public static void main(String[] args) {
         someMethod(null);
@@ -1023,7 +1023,7 @@ class Parent {
 }
 
 class Child extends Parent {
-    // void show() { System.out.println("Child show()"); } // ❌ Compilation error
+    // void show() { System.out.println("Child show()"); } // Compilation error
 }
 
 public class Main {
@@ -1047,7 +1047,7 @@ Parent show()
 class Test {
     public static void main(String[] args) {
         final int x = 10;
-        // x = 20; // ❌ Compilation error
+        // x = 20; // Compilation error
         System.out.println(x);
     }
 }
@@ -1197,7 +1197,7 @@ public class Main {
     public static void main(String[] args) {
         Vehicle v = new Car();
         v.start();
-        // v.drive(); // ❌ Compile-time error
+        // v.drive(); // Compile-time error
     }
 }
 ```
@@ -1233,7 +1233,7 @@ public class Main {
     public static void main(String[] args) {
         Printer p = new Epson();
         p.print();
-        // p.status(); // ❌ Compile-time error
+        // p.status(); // Compile-time error
         Printer.status();
     }
 }
@@ -1548,7 +1548,7 @@ Dog eats bone
 ```java
 interface MyInterface {
     // constructors not allowed
-    // MyInterface() {}  // ❌ Compile-time error
+    // MyInterface() {}  // Compile-time error
 }
 ```
 
@@ -1567,7 +1567,7 @@ interface Constants {
 public class Test {
     public static void main(String[] args) {
         System.out.println(Constants.MAX);
-        // Constants.MAX = 200; // ❌ Compile-time error
+        // Constants.MAX = 200; // Compile-time error
     }
 }
 ```
@@ -1596,7 +1596,7 @@ class Bike extends Vehicle {
         System.out.println("Bike is running");
     }
 
-    // void stop() {} // ❌ Cannot override final method
+    // void stop() {} // Cannot override final method
 }
 
 public class Main {
