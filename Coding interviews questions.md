@@ -1961,8 +1961,45 @@ public class HashMapSortingWithNullKey {
 ```
 
 ---
-### 23. fibonnaci using stream
+### 23. Print Fibonnaci series using stream
+```java
+import java.util.stream.Stream;
+import java.util.function.UnaryOperator;
 
+public class FibonacciStream {
+
+    public static void main(String[] args) {
+        // Define the initial state: {0, 1}
+        final UnaryOperator<int[]> fibonacci = (int[] t) -> new int[]{t[1], t[0] + t[1]};
+
+        // Generate the Fibonacci sequence using iterate
+        Stream.iterate(new int[]{0, 1}, fibonacci)
+              .limit(10) // Limit the sequence to 10 numbers
+              .map(t -> t[0]) // Extract the first element (the Fibonacci number)
+              .forEach(System.out::println); // Print each number
+    }
+}
+```
+### Explanation:
+- `Stream.iterate(...)`: Starts with an initial pair {0, 1}.
+- `fib -> new int[]{fib[1], fib[0] + fib[1]}`: Transforms each pair into the next one in the sequence.
+- `limit(10)`: Limits the output to the first 10 Fibonacci numbers.
+- `.map(fib -> fib[0])`: Extracts the first element (the current Fibonacci number) from each pair.
+- `.forEach(System.out::println)`: Prints each number.
+
+### Sample Output:
+```java
+0
+1
+1
+2
+3
+5
+8
+13
+21
+34
+```
 
 ---
 ### 24. Solve 
@@ -1971,11 +2008,23 @@ public class HashMapSortingWithNullKey {
 |-----------------|--------|--------------------------------------|
 | `let str1 = "78";` `let str2 = "78";` | `"Result: 1416"`  |   |
  
+```
+TODO
 
+```
 
 ---
-### 25. 
+### 25. Count character from a String using `Stream()`
+```java
+public static void main(String[] args) {
+    String s = "adgafagagAagagag";
+    long count = 0;
+    char ch = 'A';
 
+    count = s.chars().map(Character::toUpperCase).filter(x -> (x==ch)).count();
+    System.out.println("count of " + ch + " : " + count);
+}
+```
 ---
 ### 26. 
 
