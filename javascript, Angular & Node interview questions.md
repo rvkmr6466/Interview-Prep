@@ -646,7 +646,65 @@ let output = (function(x) {
 ```
 
 ---
-## Q. 
+## Q. Piping in Node.js
+
+In **Node.js**, **piping** is a powerful mechanism used to **connect the output of one stream to the input of another**, enabling efficient data handling without having to manually manage reading and writing.
+
+It is most commonly used with **streams** (such as file streams, HTTP streams, or custom streams) to **transfer data efficiently and asynchronously**.
+
+### **What Is Piping?**
+
+Piping allows you to **chain streams** together, so the data flows from one stream to another. It's especially useful for large files or continuous data streams where buffering everything into memory is not efficient.
+
+### **Basic Syntax:**
+
+```javascript
+readableStream.pipe(writableStream);
+```
+
+### **Example: Copying a File**
+
+```javascript
+const fs = require('fs');
+
+const readable = fs.createReadStream('input.txt');
+const writable = fs.createWriteStream('output.txt');
+
+readable.pipe(writable);
+```
+
+This code reads data from `input.txt` and writes it directly to `output.txt` using a pipe. This method is **non-blocking and memory-efficient**.
+
+### **Chaining Pipes with Multiple Streams (Compression Example)**
+
+```javascript
+const fs = require('fs');
+const zlib = require('zlib');
+
+const readable = fs.createReadStream('input.txt');
+const compressed = zlib.createGzip();
+const writable = fs.createWriteStream('input.txt.gz');
+
+readable.pipe(compressed).pipe(writable);
+```
+
+This example reads a file, compresses it using `zlib.createGzip()`, and writes the compressed content to a new file.
+
+### **Why Use Pipe?**
+
+- Handles backpressure automatically (slows down reading if the writable stream can't keep up).
+- Improves performance with large files.
+- Simplifies code for streaming operations.
+
+### **Key Methods and Events:**
+
+- `.pipe(destination[, options])`: Pipes readable stream to a writable.
+- `.unpipe()`: Detaches a pipe.
+- `on('data')`, `on('end')`, `on('error')`: Common stream events.
+
+### **Conclusion:**
+
+Piping in Node.js is a clean and efficient way to **stream data between sources and destinations**, especially useful in file manipulation, real-time processing, and network data transfer. It helps build fast, low-memory, scalable applications in Node.js.
 
 ---
 ## Q. 
@@ -670,6 +728,9 @@ let output = (function(x) {
 ## Q. 
 
 ---
+
+
+## End Javascript & Node.js
 
 ---
 ---
