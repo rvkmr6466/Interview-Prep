@@ -606,7 +606,10 @@ function verifyToken(req, res, next) {
 ```
 ## Q. How memory management works in Node.js?
 Node.js uses the V8 JavaScript engine, which handles memory management automatically through garbage collection. The memory is divided into the heap (for objects) and the stack (for function calls). The garbage collector reclaims memory occupied by objects that are no longer reachable. 
+
 Understanding memory management in Node.js involves being aware of how memory is allocated and released. While V8 handles much of this automatically, developers should avoid practices that lead to memory leaks. 
+
+Node.js provides tools for monitoring memory usage, such as `process.memoryUsage()`, which returns information about memory consumption. Developers can also use the `--max-old-space-size` flag to adjust the maximum memory allocated for the heap.
 
 #### Best Practices for Memory Management
 
@@ -630,7 +633,43 @@ Understanding memory management in Node.js involves being aware of how memory is
 By understanding these concepts and following best practices, developers can write more efficient and reliable Node.js applications. 
 
 ---
+## Q. Find the output:
+```javascript
+let output = (function(x) {
+    delete x;
+    return x;
+})(0);
+```
+**Output:**
+```
+0
+```
+
+---
 ## Q. 
+
+---
+## Q. 
+
+---
+## Q. 
+
+---
+## Q. 
+
+---
+## Q. 
+
+---
+## Q. 
+
+---
+## Q. 
+
+---
+## Q. 
+
+---
 
 ---
 ---
@@ -1874,12 +1913,307 @@ export class MyComponent implements OnInit {
 ```
 
 ---
-## Q. TODO
-- viewchild and @output
-- rxjs vs ngrx
-- typescript methods for filter duplicate elements in an array
-- 17 features
-- 19 features
+## Q. How to migrate from Angular version 10 to 17? 
+
+- **Update Node.js and npm:** Ensure you have a compatible version of Node.js (v18.13.0 or later) and npm (v10 or later). You can update Node.js from the official website and npm using the command `npm install -g npm@latest`. 
+- **Update Angular CLI:** Update the Angular CLI globally using `npm install -g @angular/cli@latest`. 
+- **Update Angular Packages:** Navigate to your project directory in the command line and `run ng update @angular/core@latest @angular/cli@latest`. This command updates all Angular packages to the latest version. You might also need to update other packages like `@angular/material` and `@angular/cdk` if you are using them. 
+- **Address Breaking Changes:** Review the Angular update guide for each version between 10 and 17 to identify and address breaking changes. This might involve changes in APIs, templates, or configurations. Pay special attention to changes related to: 
+  - **Modules:** Angular 17 encourages the use of standalone components, directives, and pipes. Consider migrating your modules to this new approach. 
+	- **Control Flow Syntax:** Angular 17 introduces a new built-in control flow syntax in templates. Update your templates to use the new syntax (`@if`, `@for`, `@switch`). 
+	- **Forms:** If you are using reactive forms, you might need to adjust your code due to changes in type definitions and form handling. 
+
+- **Test Thoroughly:** 
+  - After the update, run all your tests to ensure that the application is working as expected. Pay attention to both unit and end-to-end tests. 
+- **Address Deprecations:** 
+  - Angular might have deprecated some features in older versions. Replace any deprecated code with the recommended alternatives. 
+- **Update Third-Party Libraries:** 
+  - Ensure that your third-party libraries are compatible with Angular 17. Update them to the latest versions if necessary. 
+- **Code Cleanup:** 
+  - Remove any unused code, modules, or dependencies. This is a good time to refactor and improve the overall structure of your application. 
+- **Commit Changes:** 
+  - Commit your changes regularly throughout the migration process. This makes it easier to revert to a previous state if necessary. 
+- **Consider Incremental Updates:** 
+  - For large applications, consider updating one major version at a time (e.g., `10 to 11`, then `11 to 12`, and so on). This can help to manage the complexity of the migration. 
+
+---
+### Q. RxJS vs NgRx 
+RxJS is a reactive programming library in JavaScript that helps manage asynchronous operations using observables, while NgRx is an Angular library built on top of RxJS that provides a structured approach to state management in Angular applications. NgRx implements the Redux pattern, which uses a centralized store, actions, reducers, and selectors, to manage the application state. 
+  
+Here's a more detailed breakdown:  
+
+### RxJS:
+
+### Purpose: 
+Primarily used for handling asynchronous data, creating streams of data (observables), and composing asynchronous or callback-based code.
+
+### Features: 
+Observables, operators (like `map`, `filter`, `subscribe`), subjects, and more. 
+
+### Use Cases:
+	• Handling API requests.
+	• Managing events.  
+	• Creating shared services that expose observables.
+	• Building custom reactive components or services.  
+
+### NgRx: 
+
+### Purpose: 
+A library for managing the state of an Angular application, providing a structured and consistent way to handle state changes using the Redux pattern.
+
+### Features:  
+	- Store: A central repository for the application state.
+	- Actions: Plain JavaScript objects that describe a change to the state.
+	- Reducers: Pure functions that take the current state and an action, and return a new state.
+	- Selectors: Functions that extract data from the store.
+	- Effects: Side effects that can be triggered by actions, such as making API calls or navigating to different pages.
+
+### Use Cases:
+- Managing global application state.
+- Handling complex state changes.
+- Making applications more predictable and testable.
+
+### In essence:
+
+- NgRx is a higher-level library that provides a framework for managing state within Angular, while RxJS is a foundational library for reactive programming in JavaScript.
+- NgRx relies heavily on RxJS under the hood, using observables to handle asynchronous operations and track state changes.
+- Choose NgRx when you need a centralized and well-structured approach to state management, particularly in larger and more complex Angular applications.
+- Use RxJS for more general asynchronous tasks and when you need a more flexible and lower-level approach to reactive programming.
+
+### When to use which:  
+
+- **RxJS:** Suitable for small applications, local component state, or when you need fine-grained control over asynchronous operations. 
+- **NgRx:** Best for larger, more complex applications where managing a single global state and ensuring a predictable data flow is crucial.
+
+---
+## Q. Remove Duplicate Elements from TypeScript Array
+
+### Approach 1: Using `filter()` method
+```typescript
+let arr = [1, 2, 2, 3, 4, 3, 5, 4, 6, 5];
+ 
+const removeDups = (arr: number[]): number[] => {
+    return arr.filter((item,
+        index) => arr.indexOf(item) === index);
+}
+console.log(removeDups(arr));
+```
+
+### Approach 2: Using `forEach()` method
+```typescript
+let arr = [1, 2, 2, 3, 4, 3, 5, 4, 6, 5];
+
+const removeDups = (arr: number[]) : number[] => {
+    let unique: number[] = [];
+    arr.forEach(element => {
+        if (!unique.includes(element)) {
+            unique.push(element);
+        }
+    });
+    return unique;
+}
+console.log(removeDups(arr));
+```
+
+### Approach 3: Using `map() ` method
+```typescript
+let arr = [1, 2, 2, 3, 4, 3, 5, 4, 6, 5];
+
+const removeDups = (arr: number[]): number[] => {
+    const map = new Map<number, boolean>();
+    const unique: number[] = [];
+
+    arr.forEach(item => {
+        if (!map.has(item)) {
+            map.set(item, true);
+            unique.push(item);
+        }
+    });
+
+    return unique;
+}
+
+console.log(removeDups(arr));
+```
+
+### Approach 3: Using `map() ` method
+```typescript
+let arr = [1, 2, 2, 3, 4, 3, 5, 4, 6, 5];
+
+const removeDups = (arr: number[]): number[] => {
+    return [...new Set(arr)];
+}
+ 
+console.log(removeDups(arr));
+```
+
+#### Output: Same for all approached
+```
+[ 1, 2, 3, 4, 5, 6]
+```
+
+---
+## Q. Micro frontend in Angular
+In Angular, micro frontends are an architectural pattern where a large web application is broken down into smaller, independently deployable modules, also known as micro-applications. Each micro-application handles specific features and can be developed, deployed, and maintained separately. 
+
+Here's a more detailed explanation: 
+
+### Key Concepts: 
+
+- Independent Modules: Each micro-application is self-contained and doesn't rely on the code of other modules. 
+- Independent Development: Different teams can work on different micro-applications concurrently, minimizing development conflicts.  
+- Independent Deployment: Each micro-application can be deployed independently, allowing for faster releases of new features.  
+- Composability: Micro-applications can be combined and integrated into a larger application using techniques like routing or web components.  
+
+### Benefits of using Micro Frontends in Angular: 
+
+- Improved Scalability: Micro-applications allow for a more modular approach to building and maintaining large applications. 
+- Faster Development Cycles: Teams can work independently on smaller parts of the application, leading to faster development and release cycles.  
+- Easier Maintenance: By isolating features into separate micro-applications, it becomes easier to identify, fix, and update specific functionalities.   
+- Better Team Collaboration: Different teams can work on different micro-applications without interfering with each other's work.
+- Enhanced Reliability: If one micro-application fails, it doesn't necessarily affect the rest of the application. 
+- Reduced Code Duplication: Micro-applications can share common code and components, reducing code duplication and improving code reuse.
+
+### Implementation in Angular:
+
+- Module Federation: Webpack's Module Federation feature is often used to enable dynamic loading and sharing of modules between different micro-applications.  
+- Angular Elements: Angular Elements allow you to create reusable components that can be used across different micro-applications.  
+- Single SPA: Single SPA is a framework that simplifies the integration of multiple, independently developed front-end applications.
+
+In essence, Angular micro frontends enable a more modular, scalable, and maintainable approach to building large, complex web applications by breaking them down into smaller, independent units.
+
+---
+## Q. Angular 19 features
+
+---
+## Q. View encapsulation in Angular
+
+---
+## Q. Approach to create application in angular (top down, down to up or component based or module based)?
+Angular applications are typically developed using a **component-based** approach, which naturally leads to a **bottom-up** development style. Let's break down what this means:
+
+### **Component-Based Architecture**
+
+* Angular applications are built as a tree of reusable components. Each component encapsulates a specific part of the user interface and its associated logic.
+* This promotes modularity, reusability, and maintainability.
+
+### **Bottom-Up Development**
+
+* You start by building the smaller, individual components first. These are the building blocks of your application (e.g., buttons, input fields, cards).
+* Once the smaller components are ready, you compose them together to build larger components or views.
+* Finally, you assemble the entire application by combining these views and components.
+
+### **Why this approach?**
+
+* **Reusability:** Components can be used in multiple places within the application, saving development time and ensuring consistency.
+* **Maintainability:** Changes to one component are less likely to break other parts of the application.
+* **Testability:** Individual components can be tested in isolation.
+* **Parallel Development:** Different developers can work on different components simultaneously.
+* **Scalability:** Component-based architecture makes it easier to scale the application as it grows.
+
+### **Module-Based Architecture**
+
+* Angular also uses modules, which are containers for components, services, and other related code.
+* While applications are component-based, modules help organize the application into logical groups of functionality.
+* You might have a `SharedModule` for reusable components, a `FeatureModule` for a specific feature, and so on.
+* Modules work in conjunction with components.
+
+### **Top-Down Development**
+
+* While the overall approach is bottom-up, some initial high-level planning (which can be considered top-down) is beneficial.
+* You might start by defining the main modules and routing structure of your application.
+* However, the actual implementation of the UI and logic within those modules is still done in a bottom-up, component-based manner.
+
+### **In summary**
+
+The most effective approach for creating applications in Angular is a **component-based** approach, implemented using a **bottom-up** development style, and organized with **modules**.
+
+---
+## Q. Singleton in Angular
+In Angular, a singleton is a service that is instantiated only once throughout the application's lifetime. This means that when the service is injected into different components or other services, they all receive the same instance.
+
+Here's how singletons are typically created and used in Angular:
+
+### **1. Using `@Injectable()` with `providedIn: 'root'`**
+
+   -  The most common and recommended way to create a singleton in Angular is by using the `@Injectable()` decorator with the `providedIn: 'root'` option.
+
+   -  When you specify `providedIn: 'root'`, Angular registers the provider with the root injector. The root injector is available to the entire application, ensuring that only one instance of the service is created.
+
+   ```typescript
+   import { Injectable } from '@angular/core';
+
+   @Injectable({
+     providedIn: 'root',
+   })
+   export class MySingletonService {
+     private data: string[] = [];
+
+     constructor() {
+       console.log('MySingletonService constructor called'); // Called only once
+     }
+
+     addData(item: string) {
+       this.data.push(item);
+     }
+
+     getData() {
+       return this.data;
+     }
+   }
+   ```
+
+   -   In this example, `MySingletonService` will be created only once.  Any component or service that injects `MySingletonService` will receive the same instance.  The constructor will only be called a single time for the entire application.
+
+### **2.  Registering in a Module (Not Recommended for Singletons)**
+
+   -   You can also provide a service by adding it to the `providers` array of an Angular module. However, this can lead to multiple instances of the service if the module is loaded in multiple contexts (e.g., lazy-loaded modules).
+
+   ```typescript
+   import { NgModule } from '@angular/core';
+
+   @NgModule({
+     providers: [MySingletonService], // Potentially creates multiple instances
+   })
+   export class MyModule {}
+   ```
+
+   -   While this method *can* create a singleton within a specific module, it does not guarantee a single instance across the entire application, especially in applications with lazy loading.  Therefore, `providedIn: 'root'` is the preferred way to ensure a true application-wide singleton.
+
+### **3.  `@Optional()` and `@SkipSelf()`**
+
+   -   These decorators are used in the constructor of a service to control how Angular resolves dependencies. They are more related to hierarchical injection and preventing circular dependencies than creating singletons, but it's worth knowing about them in the context of service instantiation.
+   -   `@Optional()`:  Allows Angular to inject a service even if it's not available. The injected parameter will be `null` if the service is not found.
+   -   `@SkipSelf()`:  Tells Angular to start the dependency lookup from the parent injector, rather than the current injector.  This is used to avoid circular dependencies in certain scenarios.
+
+### **Key Points about Angular Singletons:**
+
+* **Application-Wide Instance:** A true singleton in Angular ensures that only one instance of the service exists for the entire application.
+* **State Management:** Singletons are often used to manage shared state across different parts of an application.
+* **Communication:** They can facilitate communication between components that don't have a direct parent-child relationship.
+* **Services:** In Angular, singletons are implemented as services.
+* **`providedIn: 'root'`:** This is the key to creating a reliable, application-wide singleton.
+
+### **In summary:** To create a proper singleton in Angular, use the `@Injectable()` decorator with `providedIn: 'root'`. This ensures that your service is instantiated only once and that the same instance is shared throughout your application.
+
+
+---
+## Q.
+
+---
+## Q.
+
+---
+## Q.
+
+---
+## Q.
+
+---
+## Q.
+
+---
+## Q.
 
 
 
