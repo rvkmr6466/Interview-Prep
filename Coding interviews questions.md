@@ -1771,7 +1771,7 @@ Two -> 2
 
 ---
 
-### 21. Second highest element in an Array using stream
+### 21. Second highest element in an Array using stream (Second largest)
     public static void main(String[] args) {
         int[] arr = {21, 2, 43, 114, 45, 6, 32, 54};
 
@@ -1926,10 +1926,8 @@ public class HashMapSortWithNullKeyStream {
 - The result is collected into a `LinkedHashMap` to preserve the sorted order.
 - This approach avoids mutating the original map and handles `null` keys cleanly.
 
-
 #### Variation: To put `null` key **at the end**
 Just use `Comparator.nullsLast(String::compareTo)` instead of `nullsFirst`.
-
 
 ### Approach 3: Using TreeMap and Custom `Comparator`
 
@@ -1963,13 +1961,29 @@ public class HashMapSortingWithNullKey {
 ```
 
 ---
-### 23. 
-
+### 23. fibonnaci using stream
 
 
 ---
+### 24. Solve 
+#### Examples:
+| Input            | Output | Explanation                          |
+|-----------------|--------|--------------------------------------|
+| `let str1 = "78";` `let str2 = "78";` | `"Result: 1416"`  |   |
+ 
 
-### 24. 
+
+---
+### 25. 
+
+---
+### 26. 
+
+---
+### 27. 
+
+---
+### 28. 
 
 
 

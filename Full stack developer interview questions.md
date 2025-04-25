@@ -1944,7 +1944,7 @@ These patterns deal with the communication and interaction between objects, defi
   - Represents an operation to be performed on the elements of an object structure, allowing the same operation to be applied to different types of objects without code changes.
 
 ---
-## 41. Microservices Architecture
+## 41. What is Microservice Architecture?
 Microservices is an architectural style that structures an application as a collection of small, independent services, each performing a specific business function. 
 
 **These services are designed to be:**
@@ -6390,11 +6390,53 @@ Because:
 If you just need a contract, **interfaces** are better.
 
 ---
-## Q. TODO
+## Q. Drawbacks of Spring Boot
+While Spring Boot offers numerous advantages, it's important to be aware of its potential drawbacks:
+
+### 1. Complexity
+- **Learning Curve**: Spring Boot simplifies many aspects of Spring development, but the underlying Spring framework can still be complex. Developers, especially those new to Spring, may face a learning curve to understand concepts like dependency injection, AOP, and various Spring Boot annotations.
+- **Magic Annotations**: Spring Boot's "magic" annotations (e.g., `@SpringBootApplication`, `@`Autowired) can sometimes make it less clear how things are working under the hood. This can hinder debugging and troubleshooting, especially for less experienced developers.
+
+### 2. Over-Engineering
+**Monolithic by Default**: Spring Boot's ease of use can sometimes lead to over-engineering, especially for smaller projects. It's easy to include many dependencies that might not be necessary, resulting in a larger application size and increased complexity.
+
+### 3. Performance
+**Runtime Overhead**: Spring Boot applications, especially those with many dependencies, can have a larger runtime footprint compared to applications built with simpler frameworks. This can lead to increased startup time and memory consumption. However, for most standard web applications, the performance difference is often negligible.
+
+### 4. Dependency Management
+**Dependency Conflicts**: While Spring Boot's starter POMs simplify dependency management, they can sometimes lead to dependency conflicts. Because Spring Boot manages dependencies, it can sometimes be difficult to override or customize specific versions.
+
+### 5. Opinionated
+**Limited Flexibility**: Spring Boot is opinionated, meaning it makes certain assumptions about how you want to build your application. While this simplifies development in many cases, it can also limit flexibility if you need to deviate from the framework's conventions.
+
+### 6. Development Speed
+**Initial Setup**: While Spring Boot speeds up development in the long run, the initial project setup and configuration can sometimes be time-consuming, especially for complex projects with specific requirements.
+
+It's important to note that many of these drawbacks can be mitigated with proper planning, development practices, and a good understanding of the Spring framework.
+
+---
+## Q. Volatile vs. Transient in Java
+| Feature         | `volatile`             | `transient`         |
+|-----------------|------------------------|---------------------|
+| **Purpose**      | Ensures variable's value is always read from and written to main memory    | Excludes variable from serialization                               |
+| **Memory**       | Value is not cached; read/write occurs directly in main memory              | Variable is not included in the serialized state of the object     |
+| **Visibility**   | Changes to the variable are immediately visible to other threads            | Variable is skipped during object serialization                    |
+| **Default Value**| Not re-initialized; retains latest updated value from memory                | Re-initialized to default value after deserialization              |
+| **Usage**        | Used in multi-threaded environments for safe access to shared variables     | Used to prevent sensitive or non-serializable fields from being saved |
+
+```java
+public class Example implements Serializable {
+    private volatile int counter;      // Shared among threads
+    private transient String password; // Will not be serialized
+}
+```
+
+
+
+
+### TODO
 orchestration vs containerisation
-microservices
 clustering vs non-clustering in DB
-* dependency injection in spring
 logging, authentication and monitoring in springboot application
 how to improve code quality
 how to increase application performance
@@ -6404,14 +6446,4 @@ volatile vs transient
 
 
 
-## n. Best Websites to Practice JavaScript Output-Based Questions
-
-1. **[JSitor](https://jsitor.com/)**
-2. **[JSBench.me](https://jsbench.me/)**
-3. **[W3Schools JavaScript Quiz](https://www.w3schools.com/js/js_quiz.asp)**
-4. **[GeeksforGeeks JavaScript Quiz](https://www.geeksforgeeks.org/javascript-quiz-set-1/)**
-5. **[Codewars](https://www.codewars.com/)**
-6. **[Edabit](https://edabit.com/challenges)**
-7. **[LeetCode JavaScript Challenges](https://leetcode.com/tag/javascript/)**
-8. **[HackerRank JavaScript Challenges](https://www.hackerrank.com/domains/tutorials/10-days-of-javascript)**
 
