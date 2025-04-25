@@ -1973,9 +1973,9 @@ public class FibonacciStream {
         // Generate the Fibonacci sequence using iterate
         // UnaryOperator<int[]> which is a functional interface
         Stream.iterate(new int[]{0, 1}, fib -> new int[]{fib[1], fib[0] + fib[1]})
-              .limit(10) // Limit the sequence to 10 numbers
-              .map(t -> t[0]) // Extract the first element (the Fibonacci number)
-              .forEach(System.out::println); // Print each number
+              .limit(10)
+              .map(fib -> fib[0])
+              .forEach(System.out::println);
     }
 }
 ```
