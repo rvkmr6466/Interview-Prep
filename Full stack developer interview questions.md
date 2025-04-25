@@ -1043,7 +1043,7 @@ In microservices architectures, effective logging and monitoring are crucial for
 4. Alerting: Configure Grafana to create dashboards and alerts based on Prometheus metrics.
 5. Distributed Tracing: Use a distributed tracing tool like Jaeger to trace requests across multiple services and visualize the flow.
 
-##### Links:
+#### Links:
 [Centralized logging in microservices](https://www.geeksforgeeks.org/centralized-logging-for-microservices/)
 
 [Distributed logging in microservices](https://www.geeksforgeeks.org/distributed-logging-for-microservices/)
