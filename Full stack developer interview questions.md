@@ -4183,7 +4183,8 @@ public class HashtableExample {
 
 ---
 
-## 70. Create Thread in java
+## 70. Create Thread in Java
+
 In Java, you can create threads to enable concurrent execution, allowing your program to perform multiple tasks simultaneously. Here are the two primary ways to create threads:
 
 ### 1. Extending the `Thread` Class
@@ -4331,7 +4332,7 @@ Deployment relies on infrastructure, which could include:
 In essence, deployment is the process of taking software from development to production in a controlled and automated way.
 
 ---
-## 72. 
+## 72. TODO
 
 ---
 
@@ -6430,6 +6431,39 @@ public class Example implements Serializable {
     private transient String password; // Will not be serialized
 }
 ```
+---
+## Q. Asynchronous call in Frontend/Backend
+Asynchronous calls in Java enable a program to execute tasks concurrently without blocking the main thread. This approach enhances application performance and responsiveness, especially when dealing with long-running operations or I/O-bound tasks. Java offers several mechanisms for asynchronous programming, including threads, `ExecutorService`, and `CompletableFuture`.
+
+### Key Concepts:
+
+- **Asynchronous Nature**: API calls are initiated, but the code doesn't wait for the response immediately. 
+- **Non-Blocking**: The frontend continues to execute other tasks while the API request is in progress.
+- **`Promises` and `async/await`**: These are common JavaScript mechanisms for handling asynchronous operations and their results.
+- **`fetch()` in JavaScript**: A modern way to make asynchronous API calls, returning a promise. 
+- **`async/await`**: A more readable syntax for working with promises and asynchronous code. 
+- **Libraries like `Axios`**: Offer convenient ways to make HTTP requests and handle responses.
+- **Example:**
+```javascript
+async function getData() {
+  try {
+    const response = await fetch('/api/data'); // Replace with your API endpoint
+    const data = await response.json();
+    console.log('Data from API:', data); // Process the data
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+
+getData(); // Call the function to initiate the API call
+```
+
+### Benefits of Asynchronous Calls:
+- **Improved Responsiveness**: The frontend doesn't freeze while waiting for API responses. 
+- **Better User Experience**: The application remains interactive, even with network requests. 
+- **Enhanced Performance**: Asynchronous calls allow for concurrent operations, improving overall application performance. 
+
+---
 
 
 

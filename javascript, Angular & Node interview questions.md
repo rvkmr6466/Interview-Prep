@@ -2104,6 +2104,8 @@ let arr = [1, 2, 2, 3, 4, 3, 5, 4, 6, 5];
 const removeDups = (arr: number[]): number[] => {
     return [...new Set(arr)];
 }
+
+const uniqueNumbers = [...new Set(numbers)];
  
 console.log(removeDups(arr));
 ```

@@ -2020,18 +2020,78 @@ public static void main(String[] args) {
     long count = 0;
     char ch = 'A';
 
-    count = s.chars().map(Character::toUpperCase).filter(x -> (x==ch)).count();
-    System.out.println("count of " + ch + " : " + count);
+    count = s.chars().map(Character::toUpperCase).filter(x -> (x==ch)).count(); // long count()
+    System.out.println("count of " + ch + " : " + count); // Output: 8
 }
 ```
----
-### 26. 
 
 ---
-### 27. 
+### 26. Remove duplicate Number from Array in Java
+```java
+public static void main(String[] args) {
+    // Sample array with duplicates
+    Integer[] numbersWithDuplicates = {1, 2, 2, 3, 4, 4, 5, 1, 6, 6, 7};
+
+    // Remove duplicates using a Set
+    Set<Integer> uniqueNumbersSet = new HashSet<>(Arrays.asList(numbersWithDuplicates));
+
+    // Convert the Set back to an array
+    Integer[] uniqueNumbersArray = uniqueNumbersSet.toArray(new Integer[0]);
+
+    // Print the array with unique numbers
+    System.out.println("Array with unique numbers: " + Arrays.toString(uniqueNumbersArray)); // Output: [1, 2, 3, 4, 5, 6, 7]
+}
+```
 
 ---
-### 28. 
+### 27. Remove duplicate Character from Array in Java
+```java
+public static void main(String[] args) {
+    // Sample array with duplicates
+    Character[] charactersWithDuplicates = {'a', 'l', 'g', 'n', 'a', 'l', 'a'};
+
+    // Remove duplicates using a Set
+    Set<Character> uniqueCharactersSet = new HashSet<>(Arrays.asList(charactersWithDuplicates));
+
+    // Convert the Set back to an array
+    Character[] uniqueCharactersArray = uniqueCharactersSet.toArray(new Character[0]);
+
+    // Print the array with unique numbers
+    System.out.println("Array with unique characters: " + Arrays.toString(uniqueCharactersArray)); // Output: algn
+}
+```
+
+---
+### 28. Create a String from a List of Character
+```java
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+public class ListCharToString {
+
+    public static void main(String[] args) {
+        // List of characters with duplicates
+        List<Character> charactersWithDuplicates = Arrays.asList('a', 'l', 'g', 'n', 'a', 'l', 'a');
+
+        // Remove duplicates using a Set
+        Set<Character> uniqueCharactersSet = new HashSet<>(charactersWithDuplicates);
+
+        // Convert the Set to a String
+        String uniqueCharactersString = uniqueCharactersSet.stream()
+                .map(String::valueOf) // Convert each Character to a String
+                .collect(Collectors.joining()); // Join the strings
+
+        // Print the string
+        System.out.println("String with unique characters: " + uniqueCharactersString); // Output: algnala
+    }
+}
+```
+
+---
+### 29. 
 
 
 
