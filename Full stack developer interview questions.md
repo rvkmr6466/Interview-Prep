@@ -4183,11 +4183,152 @@ public class HashtableExample {
 
 ---
 
-## 70.
+## 70. Create Thread in java
+In Java, you can create threads to enable concurrent execution, allowing your program to perform multiple tasks simultaneously. Here are the two primary ways to create threads:
+
+### 1. Extending the `Thread` Class
+- Define a new class that extends the `Thread` class.
+- Override the `run()` method in your subclass. This method contains the code that the thread will execute.
+- Create an instance of your subclass and call the start() method to begin the thread's execution.
+```java
+class MyThread extends Thread {
+    public void run() {
+        System.out.println("Thread " + Thread.currentThread().getId() + " is running.");
+        // Code to be executed in the thread
+        for (int i = 0; i < 5; i++) {
+            System.out.println("Thread " + Thread.currentThread().getId() + ": " + i);
+            try {
+                Thread.sleep(1000); // Introduce a delay
+            } catch (InterruptedException e) {
+                System.out.println("Thread interrupted: " + e.getMessage());
+            }
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        MyThread thread1 = new MyThread();
+        MyThread thread2 = new MyThread();
+        thread1.start(); // Start the first thread
+        thread2.start(); // Start the second thread
+        // Main thread continues to execute
+        System.out.println("Main thread is running.");
+    }
+}
+```
+
+### Explanation:
+- `MyThread` extends `Thread` and overrides the `run()` method with the thread's logic.
+- In `Main`, two `MyThread` objects are created and started using `start()`.
+- `start()` creates a new thread of execution and calls the `run()` method.
+- `Thread.currentThread().getId()` gets the unique ID of the currently executing thread.
+- The `sleep()` method pauses the thread's execution for a specified time (in milliseconds).
+- The `try-catch` block handles the `InterruptedException`, which can occur if the thread is interrupted while sleeping.
+
+### 2. Implementing the Runnable Interface
+- Define a class that implements the `Runnable` interface.
+- Implement the `run()` method in your class. This method contains the code that will be executed by the thread.
+- Create an instance of your `Runnable` class.
+- Create a new `Thread` object, passing your `Runnable` instance to its constructor.
+- Call the `start()` method of the `Thread` object to begin execution.
+```java
+class MyRunnable implements Runnable {
+    public void run() {
+        System.out.println("Thread " + Thread.currentThread().getId() + " is running.");
+        // Code to be executed in the thread
+        for (int i = 0; i < 5; i++) {
+            System.out.println("Thread " + Thread.currentThread().getId() + ": " + i);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                System.out.println("Thread interrupted: " + e.getMessage());
+            }
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        MyRunnable runnable1 = new MyRunnable();
+        MyRunnable runnable2 = new MyRunnable();
+        Thread thread1 = new Thread(runnable1); // Pass Runnable to Thread
+        Thread thread2 = new Thread(runnable2);
+        thread1.start(); // Start the thread
+        thread2.start();
+        System.out.println("Main thread is running.");
+    }
+}
+```
+### Explanation:
+- `MyRunnable` implements the `Runnable` interface and provides the `run()` method.
+- In `Main`, `MyRunnable` objects are created.
+- `Thread` objects are created, and the `MyRunnable` objects are passed to their constructors.
+Calling start() on the Thread object starts the thread and executes the run() method of the Runnable object.
+
+### Choosing an Approach
+- Implementing `Runnable` is generally preferred because it provides more flexibility. Since Java doesn't support multiple inheritance, implementing `Runnable` allows your class to extend another class if needed.
+- Extending `Thread` is simpler for basic thread creation but less flexible.
+
+### Thread Priorities
+- You can set the priority of a thread using the `setPriority()` method. Thread priorities are values from 1 (MIN_PRIORITY) to 10 (MAX_PRIORITY), with 5 (NORM_PRIORITY) as the default.
+- However, thread priorities are hints to the operating system's scheduler and don't guarantee a specific execution order.
+```java
+Thread thread = new Thread(myRunnable);
+thread.setPriority(Thread.MAX_PRIORITY); // Set to maximum priority
+thread.start();
+```
+
+### Important Considerations
+- **Concurrency Issues:** When multiple threads access shared resources, you can encounter problems like race conditions and data corruption.  Use synchronization mechanisms (e.g., `synchronized` blocks, locks) to protect shared resources.
+- **Thread Safety:** Ensure that your code is thread-safe, meaning it can be executed correctly by multiple threads concurrently.
+- **Deadlocks:** Be careful to avoid deadlocks, where two or more threads are blocked indefinitely, waiting for each other to release resources.
+- **Thread Pool:** For managing a large number of threads, consider using a thread pool (e.g., `ExecutorService`) to improve performance and resource utilization.
 
 ---
 
-## 71. 
+## 71. How Software Deployment Works?
+Deployment is the process of making software available for use. It involves taking the code that developers have written and making it accessible to users or other systems. Here's a breakdown of the key aspects:
+
+### 1. The Deployment Pipeline
+- Deployment is often part of a larger process called a "deployment pipeline," which may include:
+  - **Continuous Integration (CI)**: Automatically building and testing code changes.
+  - **Continuous Delivery (CD)**: Automatically preparing code changes for release.
+  - **Continuous Deployment (also CD)**: Automatically deploying code changes to production.
+
+### 2. Environments
+Software is typically deployed across multiple environments:
+- **Development**: Where developers write and test code.
+- **Testing/Staging**: A replica of the production environment used for final testing.
+- **Production**: The live environment where users access the software.
+
+### 3. Deployment Methods
+There are various ways to deploy software, including:
+- **Basic Deployment**: Updating every instance of the application simultaneously.
+- **Rolling Deployment**: Gradually replacing old instances of the application with new ones.
+- **Blue/Green Deployment**: Running two identical environments (one live, one for the new release) and switching between them.
+- **Canary Deployment**: Releasing the new version to a small subset of users before rolling it out to everyone.
+
+### 4. Key Steps in the Deployment Process
+While the specifics vary, here are common steps:
+- **Planning**: Defining the deployment strategy, timeline, and rollback plan.
+- **Building**: Compiling the code and packaging it into an executable format.
+- **Testing**: Ensuring the software works correctly in a staging environment.
+- **Releasing**: Making the software available in the production environment.
+- **Configuring**: Setting up the software to run correctly in the production environment.
+- **Monitoring**: Tracking the software's performance and identifying any issues.
+
+### 5. Automation
+Automation is crucial for efficient and reliable deployment. Tools like Jenkins, GitLab CI/CD, and CircleCI can automate many of the deployment steps.
+
+### 6. Infrastructure
+Deployment relies on infrastructure, which could include:
+- **Servers**: Physical or virtual machines to host the application.
+- **Cloud Computing**: Services like AWS, Azure, or Google Cloud provide scalable infrastructure.
+- **Containers**: Technologies like Docker package applications and their dependencies for easy deployment.
+- **Orchestration**: Tools like Kubernetes manage and automate the deployment of containers.
+
+In essence, deployment is the process of taking software from development to production in a controlled and automated way.
 
 ---
 ## 72. 
