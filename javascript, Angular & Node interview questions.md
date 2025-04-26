@@ -1708,7 +1708,7 @@ export class AuthInterceptor implements HttpInterceptor {
 }
 ```
 _Register the interceptor in your app.module.ts:_
-```
+```typescript
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth.interceptor';
@@ -1731,6 +1731,10 @@ import { AuthInterceptor } from './auth.interceptor';
 })
 export class AppModule {}
 ```
+
+#### Link:
+**[Authentication and JWT in Node.js](https://dev.to/eidorianavi/authentication-and-jwt-in-node-js-4i13)**
+
 
 ---
 ## Q. Optimizing Your Angular Application
@@ -2608,3 +2612,4 @@ By following these steps, you can ensure that your Angular application works acr
 6. **[Edabit](https://edabit.com/challenges)**
 7. **[LeetCode JavaScript Challenges](https://leetcode.com/tag/javascript/)**
 8. **[HackerRank JavaScript Challenges](https://www.hackerrank.com/domains/tutorials/10-days-of-javascript)**
+9. **[Node.js Interview Questions](https://gist.github.com/paulfranco/9f88a2879b7b7d88de5d1921aef2093b)**

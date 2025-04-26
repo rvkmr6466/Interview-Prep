@@ -1817,12 +1817,123 @@ public static void main(String[] args) {
         System.out.println("No second highest element found.");
     }
 }
+
 ```
----
-### 21. Reverse a String  
+
+#### Reverse a String using StringBuilder
 ```java
 String reversed = new StringBuilder(str).reverse().toString();
 ```
+
+
+### Some Stream Questions
+#### Third highest number
+```java
+Optional<Integer> heightestSalary = list.stream().distinct().sorted((a, b) -> b - a).skip(2).findFirst(); 
+System.out.println(heightestSalary); // Optional[1500]
+System.out.println(heightestSalary.get()); // 1500
+```
+
+#### Ascending order list with `sorted((a,b)->a.compareTo(b))`
+```java
+List<Integer> ascOrderSortedList = list.stream().distinct().sorted((a,b)->a.compareTo(b)).collect(Collectors.toList()); 
+System.out.println(ascOrderSortedList); // [1000, 1500, 2000, 2300]
+```
+
+#### Ascending order list with `sorted()`
+```java
+List<Integer> ascOrderSortedList = list.stream().distinct().sorted().collect(Collectors.toList()); 
+System.out.println(ascOrderSortedList); // [1000, 1500, 2000, 2300]
+```
+
+#### Ascending order list with `sorted((a,b)->b-a)`
+```java
+List<Integer> descOrderSortedList = list.stream().distinct().sorted((a,b)->b-a).collect(Collectors.toList()); 
+System.out.println(descOrderSortedList); // [2300, 2000, 1500, 1000]
+```
+
+#### Ascending order list with comparator `sorted(Comparator.reverseOrder())`
+```java
+List<Integer> reverserOrderList = list.stream().distinct().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+System.out.println(reverserOrderList); // [2300, 2000, 1500, 1000]
+```
+
+#### Number with limit 2
+```java
+List<Integer> limit2number = list.stream().distinct().sorted().limit(2).collect(Collectors.toList());
+System.out.println(heightestSalary); // [1000, 1500]
+```
+
+#### Approach 1: Reverse String using Stream
+```java
+String str = "Ravi Kumar";
+String rev = new StringBuilder(str.chars().mapToObj(c -> String.valueOf((char) c)).collect(Collectors.joining())).reverse().toString();
+System.out.println(rev); // ramuK ivaR
+```
+
+#### Approach 2: Reverse String using Stream without `reverse()` method
+```java
+public static void main(String[] args) {
+    String input = "hello";
+
+    String reversed = IntStream.rangeClosed(1, input.length())
+            .mapToObj(i -> input.charAt(input.length() - i))
+            .map(String::valueOf)
+            .collect(Collectors.joining());
+
+    System.out.println(reversed);  // Output: olleh
+}
+```
+
+#### Count character from a String
+```java
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+public class Main {
+    public static void main(String[] args) {
+
+        String input = "programming";
+
+        Map<Character, Long> characterCount = input.chars()  // IntStream of character codes
+                .mapToObj(c -> (char) c)                     // convert int to Character
+                .collect(Collectors.groupingBy(               // group by character
+                        Function.identity(),                 // key: character itself
+                        Collectors.counting()                // value: count occurrences
+                ));
+
+        Map<Character, Integer> cc = input.chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.groupingBy(
+                    Function.identity(),
+                    Collectors.summingInt(c -> 1)            // If you want interger counts
+                ));
+
+        Map<Character, Integer> countMap = input.chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.toMap(
+                    Function.identity(),    // Key: each character
+                    c -> 1,                 // Initial count = 1
+                    Integer::sum             // Merge function to sum counts
+                ));
+
+
+        System.out.println(characterCount); // {p=1, a=1, r=2, g=2, i=1, m=2, n=1, o=1}
+        System.out.println(cc); // {p=1, a=1, r=2, g=2, i=1, m=2, n=1, o=1}
+        System.out.println(countMap); // {p=1, a=1, r=2, g=2, i=1, m=2, n=1, o=1}
+    }
+}
+```
+#### Find String starts with "R" 
+```java
+List<String> list = Arrays.asList("Suman", "Shirish", "Vedant", "Vedika", "Rahul", "Rohit", "Rashmi", "Rahul");
+List<String> rList = list.distinct().filter(s->s.startsWith("R")).collect(Collectors.toList());
+System.out.println(rList); // [Rahul, Rohit, Rashmi]
+```
+
+---
+### 21. TODO 
 
 ---
 ### 22. Hashmap sorting using keys where it contains one null key
@@ -2091,7 +2202,56 @@ public class ListCharToString {
 ```
 
 ---
-### 29. 
+### 29. Flatter an Array using Java Stream. 
+| Input            | Output | Explanation                          |
+|-----------------|--------|--------------------------------------|
+| `"array = [1, [2, 3], [4, [5, 6]], 7]"` | `"[1, 2, 3, 4, 5, 6, 7]"`  | All element should be in 1D-Array  |
+| `"array = [[1, 2], [3, 4], [5, 6]]"` | `"[1, 2, 3, 4, 5, 6]"`  | All element should be in 1D-Array  |
+| `"array = [1, [2, 3], [4, [5, 6]], 7]"` | `"[1, 2, 3, 4, 5, 6, 7]"`  | All element should be in 1D-Array  |
+ 
+```java
+public class Main {
+    public static void main(String[] args) {
+        List<?> nestedList = Arrays.asList(
+            1, 
+            Arrays.asList(2, 3), 
+            Arrays.asList(4, Arrays.asList(5, 6)),
+            7
+        );
+
+        List<Integer> flatList = flatten(nestedList)
+                .collect(Collectors.toList());
+
+        System.out.println(flatList); 
+      
+    }
+    
+    private static Stream<Integer> flatten(List<?> list) {
+        
+        return list.stream()
+                .flatMap(e->{
+                  if (e instanceof Integer) {
+                        return Stream.of((Integer) e); // If element is integer, stream it
+                    } else if (e instanceof List<?>) {
+                        return flatten((List<?>) e); // Recursive flatten
+                    } else {
+                        throw new IllegalArgumentException("Unsupported type: " + e.getClass());
+                    }
+                });
+    }
+}
+```
+```java
+List<List<String>> listOfLists = Arrays.asList(
+    Arrays.asList("A", "B"),
+    Arrays.asList("C", "D")
+);
+List<String> flatList = listOfLists.stream()
+                                    .flatMap(List::stream)
+                                    .collect(Collectors.toList()); // flatList will contain ["A", "B", "C", "D"]
+
+```
+
 
 
 

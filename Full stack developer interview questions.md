@@ -1191,6 +1191,10 @@ Let's say microservice A needs to call microservice B.
 
 #### 6. Technologies:
 - **Eureka:** A service discovery platform from Netflix Open Source
+- **ZooKeeper:** Spring Cloud Zookeeper provides an integration for using ZooKeeper with Spring Boot applications for service discovery. By including the appropriate dependency, you can enable autoconfiguration to set up service discovery. Clients can then use Spring-managed beans to discover service instances registered in ZooKeeper.
+
+#### Types of Service Discovery. 
+There are two primary patterns of service discovery, client-side discovery and server-side discovery. They both have their own uses, advantages, and disadvantages.
 
 ---
 ## 30. Exception Handling in Spring Boot
@@ -1459,23 +1463,25 @@ Here's a more detailed breakdown:
 ## 33. Why we need to override equals and hashcode in Java?
 In Java, overriding `equals()` and `hashCode()` is crucial when a class is intended to be used in hash-based data structures like `HashMap` and `HashSet`, or when comparing objects based on their content rather than their memory location. Overriding `equals()` allows for custom equality comparisons, while overriding `hashCode()` ensures that objects considered equal by `equals()` also have the same hash code, maintaining the integrity of hash-based collections.
 
-#### Here's a more detailed explanation:
-- **_`equals()` for Content Equality_**: The default `equals()` method in Java compares objects based on their memory addresses (object references). Overriding `equals()` allows you to define equality based on the object's attributes or data, not its memory location.  
-- **_`hashCode()` for Hash-Based Collections_**: Hash-based collections like `HashMap` and `HashSet` use `hashCode()` to determine where to store objects within the collection (bucket). If two objects are considered equal by `equals()`, they must also have the same hash code.
+### Here's a more detailed explanation:
+- **_`equals()` for Content Equality_**: 
+  - The default `equals()` method in Java compares objects based on their memory addresses (object references). Overriding `equals()` allows you to define equality based on the object's attributes or data, not its memory location.  
+- **_`hashCode()` for Hash-Based Collections_**: 
+  - Hash-based collections like `HashMap` and `HashSet` use `hashCode()` to determine where to store objects within the collection (bucket). If two objects are considered equal by `equals()`, they must also have the same hash code.
 
-**Contract:** 
+### **Contract:** 
 - If you override `equals()`, you must also override `hashCode()` to maintain the contract between these two methods. This contract dictates that if `equals()` returns true for two objects, then `hashCode()` must also return the same value for both objects.
 
-**Example:** 
+### **Example:** 
 - Consider a Point class. If you define `equals()` to consider two points equal if they have the same x and y coordinates, then you must also define `hashCode()` based on these coordinates.  
 
-#### **Why is this important?**
+### **Why is this important?**
 
 - _Correct Functionality:_ Without overriding `equals()` and `hashCode()`, hash-based collections will treat two distinct objects with the same data as different, leading to incorrect behavior.  
 - _Performance:_ A good implementation of `hashCode()` helps distribute objects evenly across buckets in hash-based collections, improving performance and preventing collisions.  
 - _Consistency_: Overriding both methods ensures that your class behaves consistently with hash-based collections, providing reliable results when using your class in these contexts. 
 
-**In summary:** 
+### **In summary:** 
 Overriding `equals()` and `hashCode()` is essential for custom classes that need to be compared based on their content or used in hash-based collections. By adhering to the `equals()` and `hashCode()` contract, you ensure that your code behaves predictably and efficiently.
 
 ---
@@ -1702,37 +1708,79 @@ Sorting products alphabetically in invoice, admin reporting, or backend processi
 | Sorted product list (e.g., alphabetically) | `TreeMap`         |
 
 ---
-## 37. Heap memory and stack memory
-Heap memory and stack memory are two distinct areas of memory used by programs to store data. Stack memory is typically used for storing local variables and function calls, while heap memory is used for dynamic memory allocation, such as when creating objects.
+## 37. Write a CRUD operation in RestController Springboot
+```java
+package com.example.demo.controller;
 
-**Stack Memory:**
-- _Purpose_: Stores local variables, function arguments, and return addresses for function calls.
-- _Allocation_: Stack memory is allocated automatically by the compiler when a function is called and deallocated when the function returns.
-- _Order_: Follows a Last-In, First-Out (LIFO) order.
-- _Size_: Stack memory is typically smaller than heap memory.
-- _Speed_: Accessing stack memory is generally faster than heap memory.
+import com.example.demo.model.User; // Import the User model
+import com.example.demo.service.UserService; // Import the UserService
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.Optional;
 
-**Heap Memory:**
-- _Purpose_: Used for dynamic memory allocation, allowing for the storage of objects, data structures, and other data that can be created or destroyed during program execution.
-- _Allocation_: Heap memory is allocated and deallocated explicitly by the programmer.
-- _Order_: Does not follow a specific order.
-- _Size_: Heap memory is typically larger than stack memory.\
-- _Speed_: Accessing heap memory can be slower than stack memory due to the need for dynamic allocation and management.
+@RestController
+@RequestMapping("/api/users") // Base URL for all user-related endpoints
+public class UserController {
 
-**Key Differences:**
+    @Autowired
+    private UserService userService; // Inject the UserService
 
-| Feature | Stack Memory | Heap Memory  |
-| --- | --- | --- |
-| Purpose | Local variables, function calls | Dynamic memory allocation, objects  |
-| Allocation | Automatic | Explicit (manual)  |
-| Order | LIFO | No specific order  |
-| Size | Smaller | Larger  |
-| Speed | Generally faster | Generally slower  |
-| Lifespan | Short-lived (function duration) | Can be long-lived (program execution)  |
-| Thread Safety | Thread-safe (single thread access) | Not thread-safe (multiple threads access)  |
+    // Constructor Injection (Recommended)
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
-**In essence:**  
-- Stack memory is like a temporary workspace for a function, while heap memory is a general pool of memory for creating and managing objects or data structures with longer lifespans.
+    // CREATE (POST) a new user
+    @PostMapping("/")
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User createdUser = userService.createUser(user);
+        return new ResponseEntity<>(createdUser, HttpStatus.CREATED); // Returns 201 Created status
+    }
+
+    // READ (GET) all users
+    @GetMapping("/")
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK); // Returns 200 OK status
+    }
+
+    // READ (GET) a single user by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        Optional<User> user = userService.getUserById(id);
+        if (user.isPresent()) {
+            return new ResponseEntity<>(user.get(), HttpStatus.OK); // Returns 200 OK
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Returns 404 Not Found
+        }
+    }
+
+    // UPDATE (PUT) an existing user by ID
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+        User updatedUser = userService.updateUser(id, user);
+        if (updatedUser != null) {
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK); // Returns 200 OK
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Returns 404 Not Found
+        }
+    }
+
+    // DELETE a user by ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        boolean isDeleted = userService.deleteUser(id);
+        if (isDeleted) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Returns 204 No Content
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Returns 404 Not Found
+        }
+    }
+}
+```
 
 ---
 ## 38. Spring Boot - Dependency Injection
@@ -2375,6 +2423,7 @@ public class RedisConfig {
 }
 ```
 **Conclusion**
+
 Spring Boot provides simple caching mechanisms using annotations. The best caching approach depends on your use case:
 - **For small applications** → Use default simple cache (`ConcurrentHashMap`).
 - **For distributed caching** → Use **Redis**.
@@ -2613,6 +2662,7 @@ Consumed: 5
 
 **2. Using Locks and Condition (Better than wait/notify)**
 Java `Lock` and `Condition` provide a more flexible way for thread communication.
+
 **Example: Using `ReentrantLock` and `Condition`**
 ```java
 import java.util.concurrent.locks.*;
@@ -2672,6 +2722,7 @@ public class ThreadCommunicationWithLock {
 
 **3. Using `BlockingQueue` (Simplest Approach)**
 Instead of manually using `wait/notify`, Java provides `BlockingQueue`, which handles inter-thread communication automatically.
+
 **Example Using `LinkedBlockingQueue`**
 ```java
 import java.util.concurrent.*;
@@ -3076,8 +3127,11 @@ class MyClass implements MyInterface {
 ### **5. Can a Functional Interface Extend Another Interface?**  
 **Question:**  
 Can a functional interface extend another interface that has a default method? If yes, will the default method be available to the implementing class?  
+
 **Hint:**  
+
 Yes, a functional interface **can** extend another interface. The implementing class will inherit the default method unless it overrides it.  
+
 Here are some **scenario-based** and **real-world** interview questions on **functional interfaces and default methods** in Java:  
 
 ### **1. Real-World Scenario: Logging Mechanism**  
@@ -3549,30 +3603,34 @@ public enum Singleton {
 ## 58. Spring Context in Spring Security
 The Spring context provides the foundation for Spring Security, managing the beans and their dependencies required for security features. Within Spring Security, specific contexts play crucial roles: 
 
-#### SecurityContext 
+### SecurityContext 
 It holds the `Authentication` object, representing the current user's security information, including their identity and granted authorities (roles/permissions). The `SecurityContext` is associated with the current thread of execution. 
 
-#### SecurityContextHolder 
+### SecurityContextHolder 
 It provides access to the `SecurityContext`. It uses a ThreadLocal to store the `SecurityContext`, making it available throughout the current thread. `SecurityContextHolder` allows retrieval and modification of the `SecurityContext`. 
 
-#### SecurityContextRepository 
+## SecurityContextRepository 
 Strategies for persisting the `SecurityContext` between requests. The default implementation uses the HttpSession, but other options exist, like storing it in the `HttpRequest` or not persisting it at all for stateless applications. 
 
-#### RequestContext 
+### RequestContext 
 While not exclusive to Spring Security, `RequestContext` is relevant in web applications. It holds request-specific state, including the current web application context. Spring Security filters operate within the request lifecycle, interacting with the `RequestContext`. 
 
-**How they interact** 
+### **How they interact** 
 
 **Authentication:** 
+
 - When a user authenticates, Spring Security creates an `Authentication` object. 
 
 **Storing in Context:** 
+
 - The `Authentication` object is placed in the SecurityContext, which is then stored in the `SecurityContextHolder`. 
 
 **Persistence:** 
+
 - The `SecurityContextRepository` saves the `SecurityContext`, typically in the `HttpSession`. 
 
 **Retrieval:** 
+
 - On subsequent requests, the `SecurityContextRepository` retrieves the `SecurityContext` and places it back in the `SecurityContextHolder`, making the user's authentication information available. 
 
 These contexts ensure that security information is properly managed and accessible throughout the application, enabling Spring Security to enforce authentication and authorization rules. 
@@ -4185,7 +4243,17 @@ public class HashtableExample {
 
 ## 70. Create Thread in Java
 
-In Java, you can create threads to enable concurrent execution, allowing your program to perform multiple tasks simultaneously. Here are the two primary ways to create threads:
+In Java, you can create threads to enable concurrent execution, allowing your program to perform multiple tasks simultaneously. 
+
+### Life Cycle of Thread
+There are different states Thread transfers into during its lifetime, let us know about those states in the following lines: in its lifetime, a thread undergoes the following states, namely: 
+1. New State
+2. Active State
+3. Waiting/Blocked State
+4. Timed Waiting State
+5. Terminated State
+
+Here are the two primary ways to create threads:
 
 ### 1. Extending the `Thread` Class
 - Define a new class that extends the `Thread` class.
@@ -5877,7 +5945,15 @@ class Dog extends Animal {
 Java handles memory management automatically through a process called garbage collection. This frees developers from the burden of manually allocating and deallocating memory, as is required in languages like C and C++.  The Java Virtual Machine (JVM) manages memory in several areas, most notably the Stack and the Heap.
 
 #### 1. Stack Memory
-**What it is:** The stack is a memory area used for storing:
+- _Purpose_: Stores local variables, function arguments, and return addresses for function calls.
+- _Allocation_: Stack memory is allocated automatically by the compiler when a function is called and deallocated when the function returns.
+- _Order_: Follows a Last-In, First-Out (LIFO) order.
+- _Size_: Stack memory is typically smaller than heap memory.
+- _Speed_: Accessing stack memory is generally faster than heap memory.
+
+**What it is:** 
+
+The stack is a memory area used for storing:
 - Local variables
 - Method call information
 - Partial results of computations
@@ -5913,6 +5989,12 @@ public class StackExample {
 In this example, the variables `a`, `b`, and `result` in the `main` method, and `x`, `y`, and `sum` in the `add` method, are all stored in stack memory. When the add method finishes, the memory for `x`, `y`, and `sum` is released.
 
 #### 2. Heap Memory
+- _Purpose_: Used for dynamic memory allocation, allowing for the storage of objects, data structures, and other data that can be created or destroyed during program execution.
+- _Allocation_: Heap memory is allocated and deallocated explicitly by the programmer.
+- _Order_: Does not follow a specific order.
+- _Size_: Heap memory is typically larger than stack memory.\
+- _Speed_: Accessing heap memory can be slower than stack memory due to the need for dynamic allocation and management.
+
 **What it is:** 
 - The heap is a larger memory area used for storing objects and arrays.
  
@@ -5956,6 +6038,9 @@ class Person {
 ```
 In this example, the `String` object "John" and the `Person` object are stored in the heap. The variables name and person in the main method are stored on the stack, but they hold references (pointers) to the objects in the heap.
 
+
+Heap memory and stack memory are two distinct areas of memory used by programs to store data. Stack memory is typically used for storing local variables and function calls, while heap memory is used for dynamic memory allocation, such as when creating objects.
+
 #### 3. Garbage Collection
 **What it is:** 
 Garbage collection is the process of automatically reclaiming memory that is no longer being used by a Java program. The garbage collector is a component of the JVM.
@@ -5982,6 +6067,18 @@ The JVM uses various garbage collection algorithms, including:
 - _Copying:_ Divides the heap into two regions and copies reachable objects from one region to the other, freeing up the first region.
 - _Mark and Compact_: Similar to Mark and Sweep, but it also compacts the reachable objects to reduce fragmentation.
 - _Generational Garbage Collection_: Divides the heap into generations (e.g., young generation, old generation) and applies different garbage collection algorithms to each generation based on the object's age.  This is a common approach in modern JVMs.
+
+**Key Differences:**
+
+| Feature | Stack Memory | Heap Memory  |
+| ------- | ------------ | ------------ |
+| Purpose | Local variables, function calls | Dynamic memory allocation, objects  |
+| Allocation | Automatic | Explicit (manual)  |
+| Order | LIFO | No specific order  |
+| Size | Smaller | Larger  |
+| Speed | Generally faster | Generally slower  |
+| Lifespan | Short-lived (function duration) | Can be long-lived (program execution)  |
+| Thread Safety | Thread-safe (single thread access) | Not thread-safe (multiple threads access)  |
 
 **Summary**
 - Java uses a combination of stack and heap memory.
@@ -6464,8 +6561,27 @@ getData(); // Call the function to initiate the API call
 - **Enhanced Performance**: Asynchronous calls allow for concurrent operations, improving overall application performance. 
 
 ---
+## Q. CSRF (Cross Site Request Forgery) Protection in Spring Boot 
+- CSRF: A web vulnerability where attackers trick users into making unwanted requests.
+- Spring Boot Protection: Uses the Synchronizer Token Pattern.
+- Token Generation: Server generates a unique CSRF token per user session.
+- Token Embedding: Token is included in HTML forms (hidden field) or as a header for JavaScript requests.
+- Token Validation: Server verifies the submitted token against the expected session token.
+- Automatic Protection: Enabled by default for state-changing requests (POST, PUT, DELETE).
+- Token Name: Default parameter/header name is `_csrf`.
+- JavaScript: For JS frameworks, you must retrieve the token and include it as a header (usually `X-CSRF-TOKEN`).
+- Customization: You can customize token names, storage, and disable protection if needed.
 
+### CSRF Protection with JWT in Spring Boot
+Here's the breakdown of whether you need CSRF protection with JWT:
+- JWT Authentication: JWT (JSON Web Token) is a popular method for stateless authentication. The server generates a token after successful login, and the client includes this token in the headers of subsequent requests.
+- CSRF Vulnerability: CSRF attacks exploit how browsers automatically send credentials (like cookies) with requests.- JWT and CSRF:
+  - If you are using JWT and storing it in local storage, you are generally safe from CSRF.
+  - If you are using JWT and storing it in cookies, you are generally vulnerable to CSRF.
+- Best Practice: When using JWT, it is recommended to store the JWT in the `Authorization` header and not in cookies. This is the safest way to avoid CSRF.
 
+In summary: 
+- If you're using JWT and handling it correctly (primarily via the `Authorization` header), you are less vulnerable to CSRF, but if you are storing the JWT in cookies, you are still vulnerable to CSRF.
 
 
 ### TODO
@@ -6476,6 +6592,7 @@ how to improve code quality
 how to increase application performance
 spring boot started dependencies
 volatile vs transient
+csfr
  
 
 

@@ -68,8 +68,27 @@ To optimize SQL queries, focus on efficient indexing, minimizing data retrieval,
 
 ---
 ## Q. Second Highest Salary in SQL  
+### From a single table
 ```sql
 SELECT salary FROM employees ORDER BY salary DESC LIMIT 1 OFFSET 1;
+```
+
+### With multiple table
+```sql
+SELECT DISTINCT salary
+FROM (
+    SELECT salary FROM Employee1
+    UNION ALL
+    SELECT salary FROM Employee2
+) AS combined
+ORDER BY salary DESC
+LIMIT 1 OFFSET 1;
+```
+```sql
+SELECT MAX(S.Salary)
+FROM Employees AS E
+JOIN Salaries AS S ON E.EmployeeID = S.EmployeeID
+WHERE S.Salary < (SELECT MAX(S2.Salary) FROM Salaries AS S2);
 ```
 
 ---
