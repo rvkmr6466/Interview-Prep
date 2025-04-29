@@ -81,19 +81,19 @@ In this example, the `Student` class is immutable because:
   - **Cacheability**: Immutable objects can be safely cached without worrying about state changes.
   - **Security:** Prevents accidental or malicious modification of sensitive data.  
   - **Functional Programming:** Immutability is a core principle of functional programming, making code easier to understand and debug.
-  - **Example** – 
+  - **Example** – `String` Class
 
 ### `String` Class:  
    - The `String` class in Java is immutable. Once a `String` object is created, its value cannot be changed.
 In Java, the term "immutable" means that once a String object is created, its content cannot be changed. This implies that any operation that appears to modify a String actually creates a new String object with the modified content, leaving the original String unchanged.
 
-**Elaboration:**
-- _No In-Place Modification_: Unlike mutable objects (like StringBuffer or StringBuilder), you cannot directly alter the internal character array of a String object once it's been initialized.
-- _New Object Creation_: When you try to modify a String (e.g., by concatenating or using methods like substring), the Java runtime creates a new String object containing the desired changes. The original String object remains unchanged.  
-- _Memory Efficiency and Thread Safety_: Immutability is crucial for memory management and thread safety. Because String objects are immutable, they can be shared across threads without synchronization concerns, as their value will never change unexpectedly.  
-- _String Pool_: Immutability also allows for the implementation of the String pool, where the JVM caches String objects with the same content. This can save memory by reusing the same object when multiple String variables refer to the same value.
+#### Elaboration:
+- **_No In-Place Modification_**: Unlike mutable objects (like StringBuffer or StringBuilder), you cannot directly alter the internal character array of a String object once it's been initialized.
+- **_New Object Creation_**: When you try to modify a String (e.g., by concatenating or using methods like substring), the Java runtime creates a new String object containing the desired changes. The original String object remains unchanged.  
+- **_Memory Efficiency and Thread Safety_**: Immutability is crucial for memory management and thread safety. Because String objects are immutable, they can be shared across threads without synchronization concerns, as their value will never change unexpectedly.  
+- **_String Pool_**: Immutability also allows for the implementation of the String pool, where the JVM caches String objects with the same content. This can save memory by reusing the same object when multiple String variables refer to the same value.
 
-**Example:**
+#### Example:
 ```java
 String str1 = "Hello";
 String str2 = str1 + " World";
@@ -103,7 +103,7 @@ System.out.println(str2); // Output: Hello World (str2 is a new string)
 
 ### String Immutability in Java Explained
 Here's an explanation of String immutability in Java, using your example:
-```
+```java
 String s = "A";
 s = "B";
 System.out.println(s);
@@ -119,7 +119,7 @@ System.out.println(s);
 - The reference s is then updated to store the memory address of this new String object.
 - The original String object ("A") still exists in memory, but there are no more references pointing to it.  It will eventually be garbage collected by the JVM.
 
-#### 3. `System.out.println(s);
+#### 3. `System.out.println(s)`;
 - This line prints the value of s, which is now the memory address of the String object containing "B".  So, the output is "B".
 
 **How String Immutability Works**
@@ -154,7 +154,7 @@ By following these principles and practices, you can create robust and reliable 
 ## Q4. Validation in Spring Boot  
 Spring Boot provides robust support for validating data, especially in the context of handling web requests and ensuring data integrity.  The primary mechanism for validation in Spring Boot is through the use of the Bean Validation API (JSR-380), with Hibernate Validator being the most commonly used implementation.
 
-**Key Concepts and Components**
+### Key Concepts and Components
 
 **1. Bean Validation API (JSR-380)**:A specification that defines a set of annotations for expressing constraints on Java objects.These annotations specify rules for validating the data within the fields of a class.
 
@@ -177,19 +177,19 @@ Spring Boot provides robust support for validating data, especially in the conte
 
 **6. `@Validated` Annotation:** A class-level annotation that tells Spring to enable validation of @Constraint annotations defined on method parameters.
 
-**How Validation Works in Spring Boot**
-* _Define Constraints:_ 
+### How Validation Works in Spring Boot
+* **_Define Constraints:_** 
 Add validation annotations to the fields of the class you want to validate (e.g., a data transfer object (DTO) or an entity).
-* _Trigger Validation:_
+* **_Trigger Validation:_**
 In your controller or service layer, annotate the parameter you want to validate with the `@Valid` annotation.
-* _Handle Validation Results:_
+* **_Handle Validation Results:_**
   * If validation succeeds, the program proceeds normally. 
   * If validation fails, Spring Boot throws a `MethodArgumentNotValidException` (for request body validation in controllers) or a `ConstraintViolationException` (for method parameter validation with `@Validated`).
-* _Error Handling:_
+* **_Error Handling:_**
 You can handle these exceptions to customize the response sent to the client (e.g., return a JSON object with error messages).  Spring provides mechanisms like `@ExceptionHandler` and `@RestControllerAdvice` for this.
 
 **Example**
-```
+```java
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -250,6 +250,7 @@ public class UserController {
     }
 }
 ```
+
 **In this example:**
 - The `UserRequest` class defines the structure of the expected request body and includes validation annotations.
 - The `createUser` method in the `UserController` is annotated with `@PostMapping` to handle `POST` requests to `/users`.  The `@Valid` annotation ensures that the `userRequest` object is validated before the method logic is executed.
@@ -292,7 +293,7 @@ Java provides several built-in functional interfaces in the `java.util.function`
    BinaryOperator<Integer> add = (a, b) -> a + b;
    ```
 
-#### **How are Functional Interfaces Used?**
+### **How are Functional Interfaces Used?**
 Functional interfaces are primarily used in the context of lambda expressions and method references. Here are some common use cases:
 1. **Lambda Expressions**: You can use a lambda expression to provide the implementation of a functional interface.
    ```java
@@ -315,14 +316,14 @@ Functional interfaces are primarily used in the context of lambda expressions an
    ```
 4. **Event Handling**: Functional interfaces can be used in event handling scenarios, such as in GUI applications, where you can define actions for button clicks or other events.
 
-#### Conclusion
+### Conclusion
 Functional interfaces are a powerful feature in Java that enable functional programming paradigms. They allow for cleaner, more concise code by enabling the use of lambda expressions and method references, making it easier to pass behavior as parameters and work with collections and streams.
 
 ---
 ## 7. SOLID Principles  
 The SOLID principles are a set of design principles in object-oriented programming that make the software design more understandable, flexible, and maintainable. They were introduced by **Robert C. Martin (Uncle Bob)**.
 
-#### S- Single Responsibility Principle (SRP)
+### S- Single Responsibility Principle (SRP)
 **Definition**: A class should have only one reason to change, meaning it should have only one job or responsibility.
 
 **Why it matters:**
@@ -353,7 +354,7 @@ public class InvoiceRepository {
 }
 ```
 
-#### O- Open/Closed Principle (OCP)
+### O- Open/Closed Principle (OCP)
 **Definition**: A class should be open for extension but closed for modification.
 
 **Why it matters:**
@@ -406,7 +407,7 @@ class AreaCalculator {
 }
 ```
 
-#### L- Liskov Substitution Principle (LSP)
+### L- Liskov Substitution Principle (LSP)
 **Definition**: Subtypes must be substitutable for their base types without altering the correctness of the program.
 
 **Why it matters:**
@@ -457,7 +458,7 @@ class Ostrich {
 }
 ```
 
-#### I- Interface Segregation Principle (ISP)
+### I- Interface Segregation Principle (ISP)
 **Definition**: Clients should not be forced to implement interfaces they do not use.
 
 **Why it matters:**
@@ -496,7 +497,7 @@ class Robot implements Workable {
 }
 ```
 
-#### D- Dependency Inversion Principle (DIP)
+### D- Dependency Inversion Principle (DIP)
 
 **Definition**: High-level modules should not depend on low-level modules. Both should depend on abstractions.
 
@@ -549,7 +550,7 @@ class Switch {
 }
 ```
 
-**Summary**
+### Summary
 
 | Principle | Meaning | Benefit |
 |----------|---------|---------|
@@ -560,15 +561,233 @@ class Switch {
 | DIP | Depend on abstractions | Looser coupling |
 
 ---
-## 8. TODO
+## 8. Facade And Proxy Design pattern (Structural Patterns)
+### Facade: 
+  - Provides a simplified interface to a complex subsystem, hiding its details.
+  - Facade defines a high-level interface that makes the subsystem easier to use. 
+![Facade Image](image-1.png)
+
+#### Advantages of Facade Method Design Pattern
+- Simplified Interface:
+  - Simplifies the use and understanding of a complex system by offering a clear and concise interface.
+  - Hides the internal details of the system, reducing cognitive load for clients.
+- Reduced Coupling:
+  - Clients become less reliant on the internal workings of the underlying system when they are disconnected from it.
+  - Encourages the reusability and modularity of code components.
+  - Allows for the independent testing and development of various system components.
+- Encapsulation:
+  - Encapsulates the complex interactions within a subsystem, protecting clients from changes in its implementation.
+  - Allows for changes to the subsystem without affecting clients, as long as the facade interface remains stable.
+- Improved Maintainability:
+  - Easier to change or extend the underlying system without affecting clients, as long as the facade interface remains consistent.
+  - Allows for refactoring and optimization of the subsystem without impacting client code.
+
+#### Disadvantages of Facade Method Design Pattern
+- Increased Complexity:
+  - Adding the facade layer in the system increases the level of abstraction.
+  - Because of this, the code may be more difficult to understand and debug
+- Reduced Flexibility:
+  - The facade acts as a single point of access to the underlying system.
+  - This can limit the flexibility for clients who need to bypass the facade or access specific functionalities hidden within the subsystem.
+- Overengineering:
+  - Applying the facade pattern to very simple systems can be overkill, adding unnecessary complexity where it’s not needed.
+  - Consider the cost-benefit trade-off before implementing a facade for every situation.
+- Potential Performance Overhead:
+  - Adding an extra layer of indirection through the facade can introduce a slight performance overhead, especially for frequently used operations.
+  - This may not be significant for most applications, but it’s worth considering in performance-critical scenarios.
+
+#### Conclusion
+The facade pattern is appropriate when you have a complex system that you want to expose to clients in a simplified way, or you want to make an external communication layer over an existing system that is incompatible with the system. Facade deals with interfaces, not implementation. Its purpose is to hide internal complexity behind a single interface that appears simple on the outside.  
+
+--- 
+
+### Proxy: 
+  - Provides a placeholder for another object, controlling access to it and potentially reducing its cost or complexity. It is used to control access to the original object, adding a layer of abstraction.
+
+In a Spring Boot application, the Proxy Design Pattern can be implemented in various ways. One common use case is to add additional functionality to a service, such as logging, caching, or security checks, without modifying the original service code.
+
+#### Example: Logging Proxy
+
+Let's create a simple example where we use a proxy to add logging functionality to a service.
+
+**Step 1**: Define the Service Interface
+
+```java
+public interface UserService {
+    void createUser(String username);
+}
+```
+**Step 2**: Implement the Service
+```java
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserServiceImpl implements UserService {
+    @Override
+    public void createUser(String username) {
+        // Simulate user creation logic
+        System.out.println("User " + username + " created.");
+    }
+}
+```
+**Step 3**: Create the Proxy
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class UserServiceProxy implements UserService {
+
+    private final UserService userService;
+
+    @Autowired
+    public UserServiceProxy(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Override
+    public void createUser(String username) {
+        // Add logging before calling the actual service
+        System.out.println("Logging: Creating user " + username);
+        userService.createUser(username);
+        // Add logging after calling the actual service
+        System.out.println("Logging: User " + username + " created successfully");
+    }
+}
+```
+**Step 4**: Configure Spring to Use the Proxy
+
+To ensure that Spring uses the proxy instead of the actual service, you can use the `@Primary` annotation or configure it in a more advanced way using Spring's AOP features. Here, we'll use `@Primary` for simplicity.
+```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    @Primary
+    public UserService userService(UserServiceProxy userServiceProxy) {
+        return userServiceProxy;
+    }
+}
+```
+**Step 5**: Use the Service in a Controller
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class UserController {
+
+    private final UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping("/createUser")
+    public String createUser(@RequestParam String username) {
+        userService.createUser(username);
+        return "User created successfully";
+    }
+}
+```
+#### Explanation
+1. **Service Interface**: Defines the contract for the service.
+2. **Service Implementation**: Implements the actual business logic.
+3. **Proxy**: Implements the same interface and adds additional functionality (logging in this case) before and after delegating the call to the actual service.
+4. **Configuration**: Ensures that Spring uses the proxy instead of the actual service.
+5. **Controller**: Uses the service, unaware of whether it's calling the proxy or the actual service.
+
+This setup allows you to add or modify the additional functionality (like logging) without changing the original service code, adhering to the Open/Closed Principle.
 
 ---
-## 9. Annotations Used in Java  
-- `@Override`
-- `@FunctionalInterface`
-- `@Deprecated`
-- `@SpringBootApplication`
-- `@RestController`
+## 9. Interpreter design pattern (Behavioral Pattern)
+- The Interpreter design pattern can be visualized using the example of a simple calculator that evaluates mathematical expressions dynamically. This pattern allows the system to parse and interpret expressions like `"5 + 3 - 2"`, effectively understanding and calculating the result. In this scenario, the Interpreter acts as a translator, converting the symbolic expression into executable instructions. 
+
+Here is an example of the Interpreter design pattern in Java, focusing on evaluating arithmetic expressions: 
+```java
+// Abstract Expression Interface
+interface Expression {
+    int interpret();
+}
+
+// Terminal Expression: Number
+class Number implements Expression {
+    private int number;
+
+    public Number(int number) {
+        this.number = number;
+    }
+
+    @Override
+    public int interpret() {
+        return number;
+    }
+}
+
+// Non-terminal Expression: Addition
+class Addition implements Expression {
+    private Expression left;
+    private Expression right;
+
+    public Addition(Expression left, Expression right) {
+        this.left = left;
+        this.right = right;
+    }
+
+    @Override
+    public int interpret() {
+        return left.interpret() + right.interpret();
+    }
+}
+
+// Non-terminal Expression: Subtraction
+class Subtraction implements Expression {
+    private Expression left;
+    private Expression right;
+
+    public Subtraction(Expression left, Expression right) {
+        this.left = left;
+        this.right = right;
+    }
+
+    @Override
+    public int interpret() {
+        return left.interpret() - right.interpret();
+    }
+}
+
+// Client Code
+public class Client {
+    public static void main(String[] args) {
+        // Example expression: (10 + 5) - 3
+        Expression expression = new Subtraction(
+            new Addition(new Number(10), new Number(5)),
+            new Number(3)
+        );
+
+        int result = expression.interpret();
+        System.out.println("Result: " + result); // Output: Result: 12
+    }
+}
+```
+
+**In this example:**
+
+- Expression is the abstract interface for all expressions. 
+- Number is a terminal expression representing a number. 
+- Addition and Subtraction are non-terminal expressions representing operations. 
+- The Client builds and interprets the expression tree. 
+
+**Analogy with Real-World Interpreters:**
+- Imagine a tourist in a foreign country who uses an interpreter to communicate. The tourist's words (expressions) are translated by the interpreter into the local language, enabling communication with the locals. Similarly, the Interpreter pattern translates the grammar of a simple language (like mathematical expressions) into executable actions within a software system.
+
+- Java Compiler:The Java compiler uses the Interpreter pattern to parse and interpret Java source code into bytecode, which is then executed by the Java Virtual Machine (JVM).
 
 ---
 ## 10. ConcurrentHashMap vs HashMap
@@ -612,11 +831,7 @@ concurrentMap.put(1, "A");
 In summary, choose `HashMap` for single-threaded applications and `ConcurrentHashMap` for multi-threaded environments where thread safety is a concern.
 
 ---
-## 11. Technical Architecture  
-Spring Boot follows **Microservices architecture** and includes:
-- **Controller Layer** - API Handling
-- **Service Layer** - Business Logic
-- **Repository Layer** - Database Interaction  
+## 11. TODO
 
 ---
 ## 12. TODO
@@ -701,126 +916,168 @@ public class FactoryPatternDemo {
 - Consider Spring’s **BeanFactory** as a real-world use case.
 
 ---
-## 14. Algorithm Behind `Collections.sort()`  
-It uses **TimSort**, which is a hybrid of **MergeSort and InsertionSort**.
+## 14. TODO
 
 ---
-## 15. Challenges Faced as an Engineer  
-- **Performance Issues** → Optimized SQL Queries  
-- **Scalability** → Used Caching Mechanisms  
+## 15. TODO  
 
 ---
 ## 16. How JVM Works?  
 The JVM acts as an intermediary between Java bytecode and the underlying hardware, providing a platform-independent environment for executing Java applications. It compiles Java code into bytecode, then interprets or compiles it into machine code at runtime using a Just-in-Time (JIT) compiler. This compiled code is stored in memory for later reuse. 
 Here's a more detailed breakdown:
 
-#### **1. Java Code Compilation:**
+### **1. Java Code Compilation:**
 - Java source code is first compiled by the javac compiler into bytecode, which is a set of instructions independent of a specific operating system or hardware architecture.
 - This bytecode is then loaded into the JVM.
 
-#### **2. JVM Architecture:**
+### **2. JVM Architecture:**
 - **_Class Loader:_** Loads class files (bytecode) into memory, manages the class hierarchy, and ensures that classes are loaded only once.
 - **_Execution Engine_**: Interprets or compiles bytecode into native machine code using the JIT compiler.  
 - **_Runtime Data Areas:_** These are memory regions used during program execution, including:  
-  - _Heap_: Stores objects.
-  - _Method Area_: Stores class metadata, method code, and constant pool.
-  - _Stack_: Manages local variables, method calls, and return addresses. 
-  - _Native Stack_: Used for native method calls.
-  - _Program Counters_: Keep track of the current instruction.
+  - **_Heap_**: Stores objects.
+  - **_Method Area_**: Stores class metadata, method code, and constant pool.
+  - **_Stack_**: Manages local variables, method calls, and return addresses. 
+  - **_Native Stack_**: Used for native method calls.
+  - **_Program Counters_**: Keep track of the current instruction.
 - **_Java Native Interface (JNI):_** Enables Java code to interact with native (non-Java) code and libraries. 
 - **_Garbage Collector:_** Automatically manages memory allocation and deallocation, reclaiming unused memory.
 
-#### **3. Bytecode Interpretation/Compilation:** 
+### **3. Bytecode Interpretation/Compilation:** 
 - The JVM interprets or compiles bytecode into machine code.
 - The JIT compiler optimizes frequently used bytecode, improving performance.
 - This optimized code is stored in cached memory for reuse.
 
-**4. Memory Management:** 
+### 4. Memory Management:** 
 - The JVM automatically manages memory through allocation and garbage collection.
 - Objects are allocated in the heap, and when no longer referenced, the garbage collector reclaims their memory.
 
-#### **5. Platform Independence:**  
+### **5. Platform Independence:**  
 - The JVM provides a platform-independent environment, meaning Java applications can run on different operating systems and hardware architectures without modification.
 - This is achieved by the JVM handling the translation of bytecode into machine code specific to the underlying platform. 
 
 ---
 ## 17. Spring Actuator  
-It provides health checks, metrics, and monitoring.
-Enable Actuator:
-```yaml
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+Spring Boot Actuator provides production-ready features to monitor and manage Spring Boot applications. It exposes operational information about the application, such as health, metrics, and environment details, through HTTP endpoints or JMX beans. By adding the `spring-boot-starter-actuator` dependency, several built-in endpoints become available, allowing for easy interaction and monitoring of the application's state. 
+
+### Key Features 
+
+- **Health Monitoring**: Provides information about the application's health status. 
+- **Metrics Collection**: Exposes runtime metrics like memory usage, CPU usage, and custom metrics. 
+- **Application Insights**: Offers detailed information about beans, environment properties, and thread dumps.
+- **Auditing**: Logs important events within the application for tracking and analysis. 
+
+### Common Endpoints 
+
+- `/actuator/health`: Shows the health status of the application. 
+- `/actuator/metrics`: Provides various metrics about the application's performance. 
+- `/actuator/info`: Displays arbitrary application information. 
+- `/actuator/env`: Shows the current environment properties. 
+- `/actuator/loggers`: Allows for the configuration and modification of loggers. 
+- `/actuator/threaddump`: Performs a thread dump. 
+- `/actuator/heapdump`: Returns an hprof heap dump file. 
+
+### Configuration 
+Actuator endpoints can be configured and customized to meet specific needs. For example, you can enable or disable endpoints, secure them with Spring Security, and create custom health indicators or metrics. 
+```application.properties
+management.endpoints.web.exposure.include=* # Expose all endpoints
+management.endpoint.health.show-details=always # Show full health details
+```
+
+### Security 
+It is crucial to secure Actuator endpoints, especially in production environments. Spring Security can be used to restrict access to these endpoints based on roles or authentication. 
+
+```java
+@Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+            .antMatchers("/actuator/health").permitAll()
+            .antMatchers("/actuator/**").hasRole("ADMIN")
+            .anyRequest().authenticated()
+            .and()
+            .httpBasic();
+    }
+}
 ```
 
 ---
 ## 18. Memory Leaks in Java
 While Java's automatic memory management (garbage collection) helps prevent many memory issues, memory leaks can still occur. A memory leak happens when objects are no longer needed by the application but the garbage collector fails to reclaim them, leading to gradual memory consumption and potential `OutOfMemoryError` exceptions.
 
-**Common Causes of Memory Leaks in Java**
-1. **Unclosed Resources:**
-  - Failing to close resources like streams, connections, and file handles can lead to the objects associated with these resources remaining in memory.
-    ```	
-    try {
-    FileInputStream fis = new FileInputStream("file.txt");
-    // ... use fis ...
-    } catch (IOException e) {
-    // Handle exception
-    } // fis is not closed!
-    ```
-**2. Static Collections:**
-  - Holding references to objects in static collections (e.g., static lists, maps) can prevent those objects from being garbage collected, as the static collection itself remains in memory for the duration of the application.
-    ```
-    static List<Object> globalList = new ArrayList<>();
+### **Common Causes of Memory Leaks in Java**
+### 1. **Unclosed Resources:**
+- Failing to close resources like streams, connections, and file handles can lead to the objects associated with these resources remaining in memory.
 
-    public void addToList(Object obj) {
-    	globalList.add(obj); // Object remains in memory even if no longer needed
-    }
-    
-**3. Unregistered Listeners and Callbacks:**
-  - If a class registers itself as a listener or callback provider to another object but doesn't unregister when it's no longer needed, the other object may hold a reference to it, preventing garbage collection.
-  ```
-  class MyClass implements SomeListener {
-    public MyClass() {
-        SomeOtherClass.addListener(this); // Register, but forget to unregister
-    }
-    // ...
-  }
-  ```
-
-**4. Object Caching:**
-  - Improperly implemented object caching can lead to memory leaks if objects are added to the cache but never removed, causing the cache to grow indefinitely.
+```java	
+try {
+FileInputStream fis = new FileInputStream("file.txt");
+// ... use fis ...
+} catch (IOException e) {
+// Handle exception
+} // fis is not closed!
 ```
+
+### 2. Static Collections:
+- Holding references to objects in static collections (e.g., static lists, maps) can prevent those objects from being garbage collected, as the static collection itself remains in memory for the duration of the application.
+
+```java
+static List<Object> globalList = new ArrayList<>();
+
+public void addToList(Object obj) {
+    globalList.add(obj); // Object remains in memory even if no longer needed
+}
+```
+
+### 3. Unregistered Listeners and Callbacks:
+- If a class registers itself as a listener or callback provider to another object but doesn't unregister when it's no longer needed, the other object may hold a reference to it, preventing garbage collection.
+
+```java
+class MyClass implements SomeListener {
+public MyClass() {
+    SomeOtherClass.addListener(this); // Register, but forget to unregister
+}
+// ...
+}
+```
+
+### 4. Object Caching:
+  - Improperly implemented object caching can lead to memory leaks if objects are added to the cache but never removed, causing the cache to grow indefinitely.
+
+```java
 Map<String, Object> cache = new HashMap<>();
 
 public void addToCache(String key, Object obj) {
     cache.put(key, obj); // No removal policy
 }
 ```
-**5. Internalization of Strings:**
+
+### 5. Internalization of Strings:
 Using `String.intern()` adds a string to the string pool. Excessive or unnecessary use of `intern()` can lead to the string pool growing very large, as these strings are typically not garbage collected.
-```
+
+```java
 String data = "some data";
 String internedData = data.intern(); // Added to string pool
 ```
 
-**6. Finalizers:**
+### 6. Finalizers:
 While finalizers were intended for cleanup, their execution is unpredictable and they can even cause memory leaks. If a finalizer creates new references, it can prevent objects from being collected in a timely manner, or even indefinitely.  Finalizers are largely obsolete and should be avoided.
-```
+
+```java
 @Override
 protected void finalize() {
    //create a reference to another object.
    myObj = new Object();  //avoid using finalizers, this is bad.
 }
 ```
-**Identifying and Preventing Memory Leaks**
-- _Code Reviews:_ Thorough code reviews can help identify potential memory leak issues early in the development process.
-- _Profiling Tools:_ Tools like VisualVM, YourKit, and JProfiler can help monitor memory usage, identify objects that are not being garbage collected, and pinpoint the source of memory leaks.
-- _Heap Dumps:_ Analyzing heap dumps can provide a snapshot of the objects in memory and help identify the objects that are consuming the most memory.
-- _Best Practices:_
-  - Always close resources in `finally` blocks or use try-with-resources.
+
+### Identifying and Preventing Memory Leaks
+- **_Code Reviews:_** Thorough code reviews can help identify potential memory leak issues early in the development process.
+- **_Profiling Tools:_** Tools like VisualVM, YourKit, and JProfiler can help monitor memory usage, identify objects that are not being garbage collected, and pinpoint the source of memory leaks.
+- **_Heap Dumps:_** Analyzing heap dumps can provide a snapshot of the objects in memory and help identify the objects that are consuming the most memory.
+- **_Best Practices:_**
+  - Always close resources in `finally` blocks or use `try-with-resources`.
   - Be mindful of object lifetimes and remove objects from collections when they are no longer needed.
   - Unregister listeners and callbacks when appropriate.
   - Implement cache eviction policies (e.g., LRU, FIFO) for object caches.
@@ -830,27 +1087,138 @@ protected void finalize() {
 By understanding the causes of memory leaks and following best practices, you can significantly reduce the risk of memory leaks in your Java applications.
 
 ---
-## 19. Understanding Browser Caching  
-- **Cache-Control: max-age=3600**  
-- **ETag for validation**  
+## 19. Scenario: You want to **exclude `salary` from serialization** (i.e., not returned in REST responses), but still persist it in the database.
+
+To exclude specific fields (like `salary`) from being returned in a Spring Boot API response, you can use one of the following approaches:
+
+### **Option 1: Use `@JsonIgnore` on the entity field**
+
+This approach works if you *always* want to exclude the field from serialization (like in REST API responses).
+
+#### Example
+
+```java
+@Entity
+public class Employee {
+
+    @Id
+    private Long id;
+
+    private String name;
+
+    @JsonIgnore //this hides salary in JSON response
+    private Double salary;
+
+    private String address;
+
+    private String department;
+
+    // Getters and Setters
+}
+```
+
+Now when you return an `Employee` object in a controller response, the `salary` field will not be included in the JSON output.
+
+### Option 2: Use a DTO (Data Transfer Object) or interface-based projection
+
+This is the best practice when you want full control over what data is exposed, without modifying your entity class.
+
+#### Example
+
+**Entity:**
+```java
+@Entity
+public class Employee {
+    @Id
+    private Long id;
+    private String name;
+    private Double salary;
+    private String address;
+    private String department;
+    // Getters and Setters
+}
+```
+
+**DTO:**
+```java
+public class EmployeeDTO {
+    private Long id;
+    private String name;
+    private String address;
+    private String department;
+
+    public EmployeeDTO(Employee emp) {
+        this.id = emp.getId();
+        this.name = emp.getName();
+        this.address = emp.getAddress();
+        this.department = emp.getDepartment();
+    }
+    // Getters and Setters
+}
+```
+
+**Service or Controller:**
+```java
+@GetMapping("/employees")
+public List<EmployeeDTO> getAllEmployees() {
+    List<Employee> employees = employeeRepository.findAll();
+    return employees.stream()
+            .map(EmployeeDTO::new)
+            .collect(Collectors.toList());
+}
+```
+
+**In Repository:**
+```java
+@Query("SELECT new com.example.dto.EmployeeDTO(e.id, e.name, e.address, e.department) FROM Employee e")
+List<EmployeeDTO> findAllWithoutSalary();
+```
+
+### Option 3: Use Projections (Spring Data JPA)
+
+If you don't want to fetch the salary at all from the database:
+
+```java
+public interface EmployeeView {
+    Long getId();
+    String getName();
+    String getAddress();
+    String getDepartment();
+}
+```
+
+**Repository:**
+```java
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+    List<EmployeeView> findAllProjectedBy();
+}
+```
+
+### Option 4: Use `@Transient` (won't be persisted):
+```java
+@Transient
+private Double salary;
+```
+
+This means salary will not be saved or read from the DB at all
 
 ---
 ## 20. What happened when we add value in a certain size of a HashMap?
 When a value is added to a HashMap when it reaches a certain size (defined by the load factor), the HashMap automatically re-sizes itself. This involves creating a new, larger internal array and then re-hashing all the existing key-value pairs into the new array. This process is called "rehashing" or "resizing".  
 
-**Elaboration:**
-- _Load Factor:_ HashMap uses a "load factor" (default is 0.75) to determine when to resize. This factor specifies the threshold at which the HashMap will resize.
-- _Threshold_: The threshold is calculated by multiplying the current capacity of the HashMap by the load factor. For example, if the initial capacity is 16 and the load factor is 0.75, the threshold would be 12. 
-- _Resizing_: When the number of key-value pairs in the HashMap exceeds the threshold, it triggers resizing.
-- _Rehashing_: During resizing, the HashMap creates a new array with a larger capacity (typically twice the size of the previous one). Then, it iterates through all the existing key-value pairs and calculates their new hash codes based on the new capacity. These key-value pairs are then placed in the new array based on their new hash codes.
-- _Performance_: Rehashing can be computationally expensive, but it helps to maintain the efficiency of the HashMap by preventing excessive collisions and ensuring good average-case performance.
+### Elaboration:
+- **_Load Factor_**: HashMap uses a "load factor" (default is 0.75) to determine when to resize. This factor specifies the threshold at which the HashMap will resize.
+- **_Threshold_**: The threshold is calculated by multiplying the current capacity of the HashMap by the load factor. For example, if the initial capacity is 16 and the load factor is 0.75, the threshold would be 12. 
+- **_Resizing_**: When the number of key-value pairs in the HashMap exceeds the threshold, it triggers resizing.
+- **_Rehashing_**: During resizing, the HashMap creates a new array with a larger capacity (typically twice the size of the previous one). Then, it iterates through all the existing key-value pairs and calculates their new hash codes based on the new capacity. These key-value pairs are then placed in the new array based on their new hash codes.
+- **_Performance_**: Rehashing can be computationally expensive, but it helps to maintain the efficiency of the HashMap by preventing excessive collisions and ensuring good average-case performance.
 
 ---
 ## 21. What is Event-Driven Architecture? Event-Driven Implementation Using Kafka in Spring Boot.
 **Event-Driven Architecture (EDA)** is a software design pattern in which components communicate by **emitting and responding to events**. It's especially useful in microservices to decouple services and improve scalability.
 Kafka is often used for EDA because it’s a high-throughput distributed event streaming platform that can reliably publish and consume messages.
 
-**Use Case** 
+### Use Case
 - **Example**
 ```xml
 Dependencies in `pom.xml`
@@ -861,6 +1229,7 @@ Dependencies in `pom.xml`
 ```
 
 **Configuration – `KafkaConfig.java`**
+
 ```java
 @Configuration
 public class KafkaConfig {
@@ -904,6 +1273,7 @@ public class KafkaConfig {
 ```
 
 **Producer – `UserEventProducer.java`**
+
 ```java
 @Service
 public class UserEventProducer {
@@ -921,6 +1291,7 @@ public class UserEventProducer {
 ```
 
 **Consumer – `UserEventListener.java`**
+
 ```java
 @Service
 public class UserEventListener {
@@ -934,6 +1305,7 @@ public class UserEventListener {
 ```
 
 **Model – `User.java`**
+
 ```java
 @Data
 @AllArgsConstructor
@@ -946,6 +1318,7 @@ public class User {
 ```
 
 **REST Controller – `UserController.java`**
+
 ```java
 @RestController
 @RequestMapping("/users")
@@ -990,13 +1363,13 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
 ```
 
-**Benefits of Event-Driven Architecture**
+### Benefits of Event-Driven Architecture
 - Loose coupling between microservices
 - Asynchronous communication
 - Improved scalability and flexibility
 - Easy integration of new consumers
 
-**Summary**
+### Summary
 - The **Kafka + Spring Boot** combo enables a powerful event-driven architecture. Producers publish domain events, and consumers react to them asynchronously — making your microservices resilient, loosely coupled, and scalable.
 
 ---
@@ -1051,44 +1424,40 @@ In microservices, the **Circuit Breaker pattern** helps prevent cascading failur
   - Retry after a timeout to check if the Product Catalog service has recovered.
 
 ---
-## 24. Lazy Loading in Hibernate  
-```java
-@OneToMany(fetch = FetchType.LAZY)
-private List<Order> orders;
-```
+## 24. TODO
 
 ---
 ## 25. How do you handle logging and monitoring in microservices?
 In microservices architectures, effective logging and monitoring are crucial for understanding the health and behavior of distributed systems. Centralized logging, structured logging formats, and distributed tracing are key practices for efficient debugging and performance analysis. Monitoring involves tracking key performance indicators (KPIs) and setting thresholds for alerting on potential issues.  
 
-#### Logging in Microservices:
+### Logging in Microservices:
 - **Centralized Logging:** Collect logs from all microservices in a central location for easier analysis and searching.
 - **Standardized Log Formats:** Use JSON or other structured formats to ensure consistency and enable efficient parsing.
 - **Correlation IDs:** Introduce unique IDs to track requests across multiple microservices, facilitating root cause analysis.
 - **Contextual Data:** Include relevant context (e.g., service name, user ID, request ID) in logs for better troubleshooting.
 - **Log Levels:** Utilize different log levels (e.g., DEBUG, INFO, WARN, ERROR, FATAL) to categorize log messages.
 
-#### Monitoring in Microservices:  
+### Monitoring in Microservices:  
 - **Key Performance Indicators (KPIs):** Identify relevant metrics for each microservice, such as response time, error rate, and throughput.
 - **Thresholds and Alerting:** Define thresholds for KPIs and set up alerts to notify operations when performance deviates from normal.
 - **Distributed Tracing:** Use tools like Jaeger or Zipkin to trace requests across multiple services, providing insights into latency and dependencies.
 - **Observability Tools:** Leverage tools like Prometheus, Grafana, or ELK Stack (Elasticsearch, Logstash, Kibana) for collecting, processing, and visualizing logs and metrics. 
 
-#### Tools and Techniques:
+### Tools and Techniques:
 - **Logstash:** A data pipeline for collecting, parsing, and sending logs to various destinations.
 - **ELK Stack:** Elasticsearch, Logstash, and Kibana for centralized logging, analysis, and visualization.
 - **Prometheus:** An open-source monitoring and alerting system for microservices.
 - **Grafana:** A platform for visualizing and exploring metrics from various data sources, including Prometheus.
 - **Distributed Tracing Tools:** Jaeger, Zipkin, and others for tracing requests across microservices.  
 
-#### Example Implementation:
+### Example Implementation:
 1. Log Format: Implement a consistent log format (e.g., JSON) across all microservices, including service name, request ID, timestamp, log level, and a message.
 2. Centralized Logging: Configure Logstash to collect logs from each microservice and forward them to Elasticsearch.  
 3. Monitoring: Set up Prometheus to scrape metrics from each microservice and store them in a time-series database.
 4. Alerting: Configure Grafana to create dashboards and alerts based on Prometheus metrics.
 5. Distributed Tracing: Use a distributed tracing tool like Jaeger to trace requests across multiple services and visualize the flow.
 
-#### Links:
+### Links:
 [Centralized logging in microservices](https://www.geeksforgeeks.org/centralized-logging-for-microservices/)
 
 [Distributed logging in microservices](https://www.geeksforgeeks.org/distributed-logging-for-microservices/)
@@ -1099,7 +1468,7 @@ In microservices architectures, effective logging and monitoring are crucial for
 ## 26. Orchestration vs Choreography in microservices
 In microservices architecture, orchestration uses a central controller to manage interactions between services, while choreography relies on decentralized, event-driven communication where services interact independently. 
 
-**Orchestration:**  
+### Orchestration:**
 - _Centralized Control:_ A central orchestrator or conductor manages the flow of interactions between microservices.
 - _Command-Driven:_ The orchestrator sends commands or instructions to other services, dictating the sequence of operations.
 - _Simpler to Implement:_ Orchestration can be easier to implement and maintain, as the control logic is centralized.
@@ -1108,7 +1477,7 @@ In microservices architecture, orchestration uses a central controller to manage
 **Example:** 
 - Think of a conductor leading an orchestra, where the conductor dictates the timing and actions of each musician.
 
-**Choreography:**
+### Choreography:
 - _Decentralized Communication:_ Microservices communicate directly with each other through events or messages, without a central controller.
 - _Event-Driven:_ Services react to events published by other services, triggering their own actions.
 - _Loosely Coupled:_ Microservices are loosely coupled, meaning they can operate independently and asynchronously.
@@ -1117,9 +1486,9 @@ In microservices architecture, orchestration uses a central controller to manage
 **Example:** 
 - Imagine a dance where each dancer knows their steps and when to interact with other dancers, but there's no central leader directing the dance.
 
-**Key Differences Summarized:** 
+### Key Differences:
 | Feature | Orchestration | Choreography  |
-| --- | --- | --- |
+| --------- | --------- | ------------ |
 | Control | Centralized (by an orchestrator) | Decentralized (services interact directly)  |
 | Communication | Command-driven (orchestrator sends commands) | Event-driven (services react to events)  |
 | Coupling | Tightly coupled (services depend on orchestrator) | Loosely coupled (services are independent)  |
@@ -1130,13 +1499,13 @@ In microservices architecture, orchestration uses a central controller to manage
 ## 27. Default method vs static method
 In interfaces, default methods provide default implementations, allowing classes implementing the interface to optionally override them, while static methods provide utility functions directly on the interface itself and cannot be overridden.
 
-**Default Methods:**  
+### Default Methods:
 - Provide a concrete implementation for a method within the interface.
 - Can be overridden by implementing classes, allowing them to provide their own specialized implementations.
 - Enable interface evolution without breaking backward compatibility; new default methods can be added without requiring implementing classes to change their code.
 - Used to provide default implementations for common functionality, which can be inherited by implementing classes.
 
-**Static Methods:**
+### Static Methods:
 - Are declared with the static keyword and belong to the interface itself.
 - Cannot be overridden by implementing classes.
 - Typically used for utility functions or helper methods related to the interface, without requiring an instance of the implementing class.
@@ -1145,7 +1514,8 @@ In interfaces, default methods provide default implementations, allowing classes
 
 ---
 ## 28. Practical example when and how to use an abstract class vs. an interface in Java, based on a real-world scenario.
-**Scenario: Payment System**
+
+### Scenario: Payment System
 - Let’s say you're designing a payment system that supports different payment methods like **Credit Card**, **UPI**, and **PayPal**.
 
 ### **Using an Interface**
@@ -1195,7 +1565,7 @@ class PayPalPayment extends OnlinePayment {
 }
 ```
 
-**Summary:**
+### Summary:
 - Use **interface** when you just want to define capabilities (`pay()`).
 - Use **abstract class** when you want to share code across related classes and enforce specific structure.
 
@@ -1205,50 +1575,50 @@ In microservices architecture, service discovery allows services to dynamically 
 
 Here's a more detailed explanation:
 
-#### 1. Service Registry:
+### 1. Service Registry:
 - A central repository (e.g., Eureka, Consul, ZooKeeper) stores information about available services, their instances, and their health.
 - Services register their presence with the registry upon startup and deregister upon shutdown, ensuring the registry reflects the current status of the service landscape.
 - The registry typically provides APIs for clients to query for service instances, including their network addresses (IPs and ports) and other metadata.
 
-#### 2. Discovery Patterns:
+### 2. Discovery Patterns:
 - **Client-Side Discovery:** Clients directly query the service registry for service instances and then select an instance to send requests to, according to Microservices.io and F5. This pattern provides more flexibility and control to the client, but can increase the load on the registry. 
 - **Server-Side Discovery:** Clients send requests to a load balancer or API gateway that acts as an intermediary. This load balancer then queries the service registry, selects an instance, and forwards the request to the chosen service instance.  
 - **DNS-Based Discovery:** Uses DNS records to represent service instances. Clients perform DNS lookups to resolve service names to IP addresses.
 - **Sidecar Proxy:** A sidecar proxy (e.g., Envoy) can be deployed alongside each service instance to handle discovery, load balancing, and other network-related tasks.  
 
-#### 3. Registration and Deregistration:
+### 3. Registration and Deregistration:
 - Services typically register themselves with the service registry when they start and deregister when they shut down, as explained by F5.
 - The service registry can also be configured to automatically deregister instances that have been inactive or unhealthy for a certain period.
 - Heartbeats are often used to keep the registry aware of the health and availability of registered instances. 
 
-#### 4. Example Scenario:
+### 4. Example Scenario:
 Let's say microservice A needs to call microservice B.
 1. Microservice A queries the service registry for available instances of service B.  
 2. The service registry provides a list of available instances of service B.
 3. Microservice A selects one of the instances from the list (e.g., using a load balancing algorithm).  
 4. Microservice A then sends a request to the selected instance of service B.  
 
-#### 5. Benefits of Service Discovery:
+### 5. Benefits of Service Discovery:
 - **Dynamic Scaling:** Services can be scaled up or down without requiring changes to other services.
 - **Flexibility:** Services can be deployed and redeployed without disrupting the application.
 - **Simplified Development:** Developers don't need to manage service URLs or hardcode dependencies.
 - **Improved Resilience:** If a service instance goes down, other services can automatically find and connect to healthy instances.  
 
-#### 6. Technologies:
+### 6. Technologies:
 - **Eureka:** A service discovery platform from Netflix Open Source
 - **ZooKeeper:** Spring Cloud Zookeeper provides an integration for using ZooKeeper with Spring Boot applications for service discovery. By including the appropriate dependency, you can enable autoconfiguration to set up service discovery. Clients can then use Spring-managed beans to discover service instances registered in ZooKeeper.
 
-#### Types of Service Discovery. 
+### Types of Service Discovery. 
 There are two primary patterns of service discovery, client-side discovery and server-side discovery. They both have their own uses, advantages, and disadvantages.
 
 ---
 ## 30. Exception Handling in Spring Boot
 Spring Boot provides robust mechanisms for handling exceptions in your applications. Here's an overview of the key approaches:
 
-#### 1. Using `@ExceptionHandler`
+### 1. Using `@ExceptionHandler`
 - You can define methods within your controller or a controller advice class to handle specific exceptions.
 - The `@ExceptionHandler` annotation is used to specify which exception a method should handle.
-```
+```java
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -1292,7 +1662,7 @@ public class ErrorResponse {
 }
 ```
 
-#### 2. Using `@ResponseStatus`
+### 2. Using `@ResponseStatus`
 You can annotate your custom exception classes with `@ResponseStatus` to specify the HTTP status code that should be returned when that exception is thrown.
 ```
 @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -1315,10 +1685,10 @@ public class MyController {
 }
 ```
 
-#### 3. Implementing `HandlerExceptionResolver`
+### 3. Implementing `HandlerExceptionResolver`
 - For more advanced customization, you can implement the `HandlerExceptionResolver` interface.
 - This allows you to define custom logic for resolving exceptions, such as choosing a specific view or handling the exception in a particular way.
-```
+```java
 @Component
 public class MyHandlerExceptionResolver implements HandlerExceptionResolver {
 
@@ -1336,10 +1706,10 @@ public class MyHandlerExceptionResolver implements HandlerExceptionResolver {
 }
 ```
 
-#### 4. `ResponseEntityExceptionHandler`
+### 4. `ResponseEntityExceptionHandler`
 - Spring provides a convenient base class, `ResponseEntityExceptionHandler`, that provides default handling for many standard Spring MVC exceptions.
 - You can extend this class and override its methods to customize the handling of these exceptions or add handling for your own custom exceptions.
-```
+```java
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -1389,18 +1759,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 }
 ```
-**Best Practices**
-- Use specific exception types: Avoid catching generic Exception unless absolutely necessary. Catching specific exceptions allows for more targeted error handling.
-- Use `@ControllerAdvice` for global exception handling:  This keeps your controller code clean and organized.
-- **_Return consistent error responses:_**  Define a standard format for your error responses (e.g., JSON with status code and message) to make it easier for clients to handle errors.
-- **_Log exceptions:_**  Log the full exception details (including stack traces) to help with debugging.  Be careful not to log sensitive information.
-- **_Handle exceptions gracefully:_**  Don't just let exceptions propagate up the stack.  Handle them in a way that provides a user-friendly error message and prevents the application from crashing.
+### Best Practices
+- **Use specific exception types**: Avoid catching generic Exception unless absolutely necessary. Catching specific exceptions allows for more targeted error handling.
+- **Use `@ControllerAdvice` for global exception handling**:  This keeps your controller code clean and organized.
+- **Return consistent error responses:**  Define a standard format for your error responses (e.g., JSON with status code and message) to make it easier for clients to handle errors.
+- **Log exceptions:**  Log the full exception details (including stack traces) to help with debugging.  Be careful not to log sensitive information.
+- **Handle exceptions gracefully:**  Don't just let exceptions propagate up the stack.  Handle them in a way that provides a user-friendly error message and prevents the application from crashing.
 
 ---
 ## 31. Class variable, instance variable, and method (local) variable
 In Java, variables can be declared at different levels within a class. Each type of variable **class variable**, **instance variable**, and **method (local) variable** has its own purpose, scope, and lifecycle. 
 
-**1. Class Variable (Static Variable)**
+### 1. Class Variable (Static Variable)
 
 A **class variable** is declared using the `static` keyword inside a class but **outside any method**. It is **shared among all instances** of the class.
 
@@ -1427,7 +1797,7 @@ public class Employee {
 - Track how many instances of a class have been created.
 - Common configuration like database URL, app constants.
 
-**2. Instance Variable**
+### 2. Instance Variable
 
 An **instance variable** is **non-static** and is declared inside a class but outside any method. Each object of the class has its **own copy**.
 
@@ -1455,7 +1825,7 @@ public class Employee {
 **Use case:**
 - Store personal information like name, age, salary per object.
 
-**3. Method Variable (Local Variable)**
+### 3. Method Variable (Local Variable)
 
 A **method variable** is declared **inside a method** and is accessible only within that method. It is created when the method is called and destroyed once the method ends.
 
@@ -1474,7 +1844,7 @@ public void calculateBonus() {
 **Use case:**
 - Counters, intermediate values, loops, parameters inside methods.
 
-**Summary Table:**
+### Summary Table:
 
 | Variable Type     | Scope               | Lifetime           | When to Use                                               |
 |-------------------|---------------------|---------------------|------------------------------------------------------------|
@@ -1534,14 +1904,14 @@ Overriding `equals()` and `hashCode()` is essential for custom classes that need
 Common HTTP status codes include `200 OK`, `301 Moved Permanently`, `400 Bad Request`, `401 Unauthorized`, `403 Forbidden`, `404 Not Found`, `500 Internal Server Error`, and `503 Service Unavailable`. These codes indicate the outcome of a request made to a web server.
 
 Here's a breakdown of some common codes: 
-- _200 OK_: The request was successful, and the server has delivered the requested resource.
-- _301 Moved Permanently_: The requested resource has been moved to a new location, and the browser should update its address.
-- _400 Bad Request_: The server cannot process the request due to an error in the request itself, such as incorrect syntax.
-- _401 Unauthorized_: The client needs to authenticate with the server before being able to access the resource.
-- _403 Forbidden_: The server understands the request but refuses to authorize it.
-- _404 Not Found_: The server cannot find the requested resource.
-- _500 Internal Server Error_: The server encountered an unexpected condition that prevented it from fulfilling the request.
-- _503 Service Unavailable_: The server is temporarily unable to handle the request due to overload or maintenance.
+- **200 OK**: The request was successful, and the server has delivered the requested resource.
+- **301 Moved Permanently**: The requested resource has been moved to a new location, and the browser should update its address.
+- **400 Bad Request**: The server cannot process the request due to an error in the request itself, such as incorrect syntax.
+- **401 Unauthorized**: The client needs to authenticate with the server before being able to access the resource.
+- **403 Forbidden**: The server understands the request but refuses to authorize it.
+- **404 Not Found**: The server cannot find the requested resource.
+- **500 Internal Server Error**: The server encountered an unexpected condition that prevented it from fulfilling the request.
+- **503 Service Unavailable**: The server is temporarily unable to handle the request due to overload or maintenance.
 
 These codes are categorized into groups based on their meaning, such as 1xx (`informational`), 2xx (`success`), 3xx (`redirection`), 4xx (`client errors`), and 5xx (`server errors`).
 
@@ -1568,8 +1938,9 @@ These codes are categorized into groups based on their meaning, such as 1xx (`in
 |  5.  | Implementations: ArrayList, LinkedList | Implementations: HashSet, TreeSet, LinkedHashSet |
 
 ---
-## 36. Detailed comparison between `HashMap`, `TreeMap`, and `LinkedHashMap` in Java, along with examples to illustrate how and when you would use each.
-**1. HashMap**
+## 36. Difference between `HashMap`, `TreeMap`, and `LinkedHashMap` in Java.
+
+### 1. HashMap
  **Characteristics:**
   - Stores key-value pairs.
   - **Unordered**: Does **not maintain insertion order**.
@@ -1578,6 +1949,7 @@ These codes are categorized into groups based on their meaning, such as 1xx (`in
   - Not synchronized (not thread-safe).
 
 **Use Case:**
+
 Use `HashMap` when order **doesn't matter** and you want **fast retrieval**, insertion, and deletion (O(1) average time complexity).
 
 **Example:**
@@ -1591,7 +1963,7 @@ System.out.println("HashMap: " + hashMap);
 ```
 *Output can vary:* `{Banana=2, Apple=3, Cherry=5}`
 
-**2. TreeMap**
+### 2. TreeMap
  **Characteristics:**
   - Stores key-value pairs in a **sorted order** based on keys (natural or custom order).
   - **Does not allow null keys**, but allows null values.
@@ -1615,7 +1987,7 @@ System.out.println("TreeMap: " + treeMap);
 {Apple=3, Banana=2, Cherry=5}
 ```
 
-**3. LinkedHashMap**
+### 3. LinkedHashMap
  **Characteristics:**
   - Maintains **insertion order**.
   - Allows one `null` key and multiple `null` values.
@@ -1635,11 +2007,11 @@ linkedHashMap.put("Cherry", 5);
 System.out.println("LinkedHashMap: " + linkedHashMap);
 ```
 **Output:**
-```
+```java
 {Banana=2, Apple=3, Cherry=5}
 ```
 
-**Summary Comparison Table**
+### Summary Comparison Table
 
 | Feature                 | HashMap       | TreeMap           | LinkedHashMap       |
 |-------------------------|---------------|--------------------|----------------------|
@@ -1895,23 +2267,22 @@ public class MyController {
 ## 39. `InterruptedException` in Java
 `InterruptedException` is a checked exception in Java that is closely related to thread management. It's thrown when a thread is interrupted while it's in a waiting, sleeping, or otherwise blocked state.
 
-**What is Thread Interruption?**
+### What is Thread Interruption?
 
 In Java, one thread can interrupt another thread using the `interrupt()` method of the Thread class. This doesn't necessarily stop the thread immediately; instead, it sets the interrupted status of the target thread.
 
-**How InterruptedException Occurs**
+### How InterruptedException Occurs
 Methods that cause a thread to wait, such as:
 - `Thread.sleep()`
 - `Object.wait()`
 - `Thread.join()`
 - ...and certain I/O operations can throw an `InterruptedException` if the thread is interrupted while it's waiting.
 
-**Why `InterruptedException` is Important**
+### Why `InterruptedException` is Important
 - **_Cooperative Cancellation:_** It provides a mechanism for one thread to signal to another that it should stop its current activity. The interrupted thread can then decide how to respond (e.g., clean up resources and terminate, or perform some other action).
 - **_Responsiveness:_** It helps in building responsive applications. For example, if a user cancels a long-running operation, the thread performing that operation can be interrupted and stop its work.
 
-**Handling InterruptedException**
-
+### Handling InterruptedException
 Since InterruptedException is a checked exception, you must handle it in your code. Common ways to handle it include:
 
 **1. _Catch and Terminate:_** The thread catches the exception, cleans up any resources, and terminates its execution.
@@ -1939,8 +2310,8 @@ void doSomething() throws InterruptedException {
     Thread.sleep(1000);
 }
 ```
-**Example Scenario**
 
+### Example Scenario
 Imagine a thread downloading a large file. If the user cancels the download, another thread can interrupt the download thread. The download thread's `InterruptedException` handler can then close the network connection and delete any partially downloaded data.
 
 ---
@@ -1974,147 +2345,8 @@ These patterns deal with class and object composition, defining ways to assemble
   - Dynamically adds responsibilities to objects without changing their class, offering a flexible alternative to inheritance.  
 - _Flyweight:_ 
   - Minimizes memory usage by sharing objects for similar functionality.
-
-### Facade: 
+- _Facade_:
   - Provides a simplified interface to a complex subsystem, hiding its details.
-  - Facade defines a high-level interface that makes the subsystem easier to use. 
-![Facade Image](image-1.png)
-
-#### Advantages of Facade Method Design Pattern
-- Simplified Interface:
-  - Simplifies the use and understanding of a complex system by offering a clear and concise interface.
-  - Hides the internal details of the system, reducing cognitive load for clients.
-- Reduced Coupling:
-  - Clients become less reliant on the internal workings of the underlying system when they are disconnected from it.
-  - Encourages the reusability and modularity of code components.
-  - Allows for the independent testing and development of various system components.
-- Encapsulation:
-  - Encapsulates the complex interactions within a subsystem, protecting clients from changes in its implementation.
-  - Allows for changes to the subsystem without affecting clients, as long as the facade interface remains stable.
-- Improved Maintainability:
-  - Easier to change or extend the underlying system without affecting clients, as long as the facade interface remains consistent.
-  - Allows for refactoring and optimization of the subsystem without impacting client code.
-
-#### Disadvantages of Facade Method Design Pattern
-- Increased Complexity:
-  - Adding the facade layer in the system increases the level of abstraction.
-  - Because of this, the code may be more difficult to understand and debug
-- Reduced Flexibility:
-  - The facade acts as a single point of access to the underlying system.
-  - This can limit the flexibility for clients who need to bypass the facade or access specific functionalities hidden within the subsystem.
-- Overengineering:
-  - Applying the facade pattern to very simple systems can be overkill, adding unnecessary complexity where it’s not needed.
-  - Consider the cost-benefit trade-off before implementing a facade for every situation.
-- Potential Performance Overhead:
-  - Adding an extra layer of indirection through the facade can introduce a slight performance overhead, especially for frequently used operations.
-  - This may not be significant for most applications, but it’s worth considering in performance-critical scenarios.
-
-#### Conclusion
-The facade pattern is appropriate when you have a complex system that you want to expose to clients in a simplified way, or you want to make an external communication layer over an existing system that is incompatible with the system. Facade deals with interfaces, not implementation. Its purpose is to hide internal complexity behind a single interface that appears simple on the outside.  
-
-### Proxy: 
-  - Provides a placeholder for another object, controlling access to it and potentially reducing its cost or complexity. It is used to control access to the original object, adding a layer of abstraction.
-
-In a Spring Boot application, the Proxy Design Pattern can be implemented in various ways. One common use case is to add additional functionality to a service, such as logging, caching, or security checks, without modifying the original service code.
-
-#### Example: Logging Proxy
-
-Let's create a simple example where we use a proxy to add logging functionality to a service.
-
-**Step 1**: Define the Service Interface
-
-```java
-public interface UserService {
-    void createUser(String username);
-}
-```
-**Step 2**: Implement the Service
-```java
-import org.springframework.stereotype.Service;
-
-@Service
-public class UserServiceImpl implements UserService {
-    @Override
-    public void createUser(String username) {
-        // Simulate user creation logic
-        System.out.println("User " + username + " created.");
-    }
-}
-```
-**Step 3**: Create the Proxy
-```java
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-@Component
-public class UserServiceProxy implements UserService {
-
-    private final UserService userService;
-
-    @Autowired
-    public UserServiceProxy(UserService userService) {
-        this.userService = userService;
-    }
-
-    @Override
-    public void createUser(String username) {
-        // Add logging before calling the actual service
-        System.out.println("Logging: Creating user " + username);
-        userService.createUser(username);
-        // Add logging after calling the actual service
-        System.out.println("Logging: User " + username + " created successfully");
-    }
-}
-```
-**Step 4**: Configure Spring to Use the Proxy
-
-To ensure that Spring uses the proxy instead of the actual service, you can use the `@Primary` annotation or configure it in a more advanced way using Spring's AOP features. Here, we'll use `@Primary` for simplicity.
-```java
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-@Configuration
-public class AppConfig {
-
-    @Bean
-    @Primary
-    public UserService userService(UserServiceProxy userServiceProxy) {
-        return userServiceProxy;
-    }
-}
-```
-**Step 5**: Use the Service in a Controller
-```java
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-public class UserController {
-
-    private final UserService userService;
-
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
-    @PostMapping("/createUser")
-    public String createUser(@RequestParam String username) {
-        userService.createUser(username);
-        return "User created successfully";
-    }
-}
-```
-#### Explanation
-1. **Service Interface**: Defines the contract for the service.
-2. **Service Implementation**: Implements the actual business logic.
-3. **Proxy**: Implements the same interface and adds additional functionality (logging in this case) before and after delegating the call to the actual service.
-4. **Configuration**: Ensures that Spring uses the proxy instead of the actual service.
-5. **Controller**: Uses the service, unaware of whether it's calling the proxy or the actual service.
-
-This setup allows you to add or modify the additional functionality (like logging) without changing the original service code, adhering to the Open/Closed Principle.
 
 #### 3. Behavioral Patterns: 
 These patterns deal with the communication and interaction between objects, defining algorithms and responsibilities. 
@@ -2138,116 +2370,40 @@ These patterns deal with the communication and interaction between objects, defi
   - Defines the skeleton of an algorithm, allowing subclasses to customize specific steps without modifying the algorithm itself.
 - _Visitor:_
   - Represents an operation to be performed on the elements of an object structure, allowing the same operation to be applied to different types of objects without code changes.
-
-### Interpreter:
+- _Interpreter_:
   - Defines how to represent a grammar of language elements and provide an interpreter to evaluate these elements.
-
-Here is an example of the Interpreter design pattern in Java, focusing on evaluating arithmetic expressions: 
-```java
-// Abstract Expression Interface
-interface Expression {
-    int interpret();
-}
-
-// Terminal Expression: Number
-class Number implements Expression {
-    private int number;
-
-    public Number(int number) {
-        this.number = number;
-    }
-
-    @Override
-    public int interpret() {
-        return number;
-    }
-}
-
-// Non-terminal Expression: Addition
-class Addition implements Expression {
-    private Expression left;
-    private Expression right;
-
-    public Addition(Expression left, Expression right) {
-        this.left = left;
-        this.right = right;
-    }
-
-    @Override
-    public int interpret() {
-        return left.interpret() + right.interpret();
-    }
-}
-
-// Non-terminal Expression: Subtraction
-class Subtraction implements Expression {
-    private Expression left;
-    private Expression right;
-
-    public Subtraction(Expression left, Expression right) {
-        this.left = left;
-        this.right = right;
-    }
-
-    @Override
-    public int interpret() {
-        return left.interpret() - right.interpret();
-    }
-}
-
-// Client Code
-public class Client {
-    public static void main(String[] args) {
-        // Example expression: (10 + 5) - 3
-        Expression expression = new Subtraction(
-            new Addition(new Number(10), new Number(5)),
-            new Number(3)
-        );
-
-        int result = expression.interpret();
-        System.out.println("Result: " + result); // Output: Result: 12
-    }
-}
-```
-
-In this example: 
-
-- Expression is the abstract interface for all expressions. 
-- Number is a terminal expression representing a number. 
-- Addition and Subtraction are non-terminal expressions representing operations. 
-- The Client builds and interprets the expression tree. 
 
 ---
 ## 41. What is Microservice Architecture?
 Microservices is an architectural style that structures an application as a collection of small, independent services, each performing a specific business function. 
 
-**These services are designed to be:**
+### These services are designed to be:
 - **Loosely Coupled:** Changes in one service should have minimal impact on others.
 - **Independently Deployable:** Services can be deployed and updated individually, without requiring the entire application to be redeployed.
 - **Organized Around Business Capabilities:** Each service focuses on a specific business domain.
 - **Technologically Diverse:** Different services can use different programming languages, databases, and frameworks.
 
-**Key Characteristics**
+### Key Characteristics
 - **Small and Focused:** Each microservice is small and implements a single business function.
 - **Autonomous:** Services are independent and can be developed, deployed, and scaled independently.
 - **Decentralized:** Each service has its own database and technology stack.Loosely Coupled: Services interact through well-defined APIs.
 - **Polyglot:** Services can be written in different programming languages and use different technologies.
 
-**Communication Between Microservices**
+## Communication Between Microservices
 - Microservices communicate with each other typically using these methods:
   - **Synchronous Communication:**
     - _REST APIs:_ Services make direct requests to each other over HTTP.
   - **Asynchronous Communication:**
     - _Message Queues:_ Services exchange messages through a message broker (e.g., Kafka, RabbitMQ).
 
-**Advantages**
+## Advantages
 - **Improved Scalability:** Individual services can be scaled independently based on their specific needs.
 - **Increased Flexibility:** Easier to adopt new technologies and frameworks.
 - **Faster Development:** Smaller services are easier to develop and deploy.
 - **Enhanced Resilience:** Failure in one service does not affect the entire application.
 - **Better Maintainability:** Easier to understand, debug, and update smaller services.
 
-**Challenges**
+### Challenges
 - **Complexity:** Managing a distributed system with many services can be complex.
 - **Increased Overhead:** Requires more infrastructure and resources for managing multiple services.
 - **Debugging Difficulties:** Debugging distributed transactions and interactions between services can be challenging.
@@ -2258,7 +2414,7 @@ Microservices is an architectural style that structures an application as a coll
 ## 42. What is API Gateway?
 In a microservices architecture, an API Gateway acts as a single entry point for client requests. It sits in front of the microservices and handles various tasks such as routing, authentication, and load balancing.
 
-**Why Use an API Gateway?**
+### Why Use an API Gateway?
 
 In a traditional monolithic application, clients interact with a single endpoint. However, in a microservices architecture, the application's functionality is spread across multiple services. Clients would need to make requests to different endpoints for each service, which can lead to several problems:
 - **Complexity:** Clients need to know the addresses of multiple microservices.
@@ -2269,7 +2425,7 @@ In a traditional monolithic application, clients interact with a single endpoint
 
 An API Gateway solves these problems by providing a single, unified interface for clients.
 
-**Key Functions of an API Gateway**
+### Key Functions of an API Gateway
 - **Request Routing:** The gateway routes client requests to the appropriate microservice based on the requested path or other criteria.
 - **Authentication and Authorization:** It can verify client identity and permissions before forwarding requests to microservices.
 - **Request Transformation:** The gateway can modify requests or responses as needed, such as transforming protocols or data formats.
@@ -2279,14 +2435,14 @@ An API Gateway solves these problems by providing a single, unified interface fo
 - **Rate Limiting:** The gateway can control the rate of requests to protect microservices from being overwhelmed.
 - **Logging and Monitoring:** It can log requests and responses to provide insights into application usage and performance.
 
-**Benefits**
+### Benefits
 - **Simplified Client Experience:** Clients interact with a single endpoint, simplifying the application architecture from their perspective.
 - **Reduced Coupling:** Microservices are decoupled from the client, allowing them to evolve independently.
 - **Improved Security:** The gateway can handle security concerns centrally, reducing the burden on individual microservices.
 - **Enhanced Performance:** The gateway can optimize traffic flow, perform caching, and load balancing.
 - **Centralized Cross-Cutting Concerns:** Common functionalities like authentication, logging, and rate limiting can be implemented in the gateway, reducing code duplication.
 
-**eg**. Apigee, NGINX, apiman, kong, WSO2 API Manager, Azure API management, Amazon API Management etc.
+**Examples**. Apigee, NGINX, apiman, kong, WSO2 API Manager, Azure API management, Amazon API Management etc.
 
 ---
 ## 43. Class level annotation in spring boot
@@ -2419,24 +2575,24 @@ In Java, both `stream()` and `parallelStream()` are methods used to create strea
 - `parallelStream()`: Creates a parallel stream that can process elements concurrently using multiple threads, potentially improving performance for large datasets.
 
 **Here is an example demonstrating the difference:**
-    ```
-    import java.util.Arrays;
-    import java.util.List;
-    
-    public class Main {
-        public static void main(String[] args) {
-            List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-    
-            // Sequential stream
-            numbers.stream()
-                    .forEach(n -> System.out.println("Sequential: " + n));
-    
-            // Parallel stream
-            numbers.parallelStream()
-                    .forEach(n -> System.out.println("Parallel: " + n));
-        }
+```java
+import java.util.Arrays;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        // Sequential stream
+        numbers.stream()
+                .forEach(n -> System.out.println("Sequential: " + n));
+
+        // Parallel stream
+        numbers.parallelStream()
+                .forEach(n -> System.out.println("Parallel: " + n));
     }
-    ```
+}
+```
 In this example, the `stream()` method processes the elements sequentially, while the `parallelStream()` method processes the elements in parallel, potentially out of order.
 
 **Note**: 
@@ -2472,65 +2628,64 @@ Spring Security authorization determines what a successfully authenticated user 
 Authorization rules can be configured at different levels: 
 
 - **Request level:** Using `HttpSecurity` configuration, specific roles or permissions can be assigned to URL patterns. 
-  ```
-  @Configuration
-  @EnableWebSecurity
-  public class SecurityConfig {
-      @Bean
-      public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-          http
-              .authorizeHttpRequests(authorize -> authorize
-                  .requestMatchers("/admin/**").hasRole("ADMIN")
-                  .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-                  .requestMatchers("/public/**").permitAll()
-                  .anyRequest().authenticated()
-              )
-              .formLogin(withDefaults());
-          return http.build();
-      }
-  }
-  ```
+```java
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/public/**").permitAll()
+                .anyRequest().authenticated()
+            )
+            .formLogin(withDefaults());
+        return http.build();
+    }
+}
+```
 
 - **Method level:** Using annotations like `@PreAuthorize`, `@PostAuthorize`, and `@Secured`, authorization rules can be applied to individual methods. 
-  ```
-  @Service
-  public class MyService {
-      @PreAuthorize("hasRole('ADMIN')")
-      public void adminOnlyMethod() {
-          // ...
-      }
-  
-      @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-      public String userOrAdminMethod() {
-          return "Accessible to users and admins";
-      }
-  }
-  ```
+```java
+@Service
+public class MyService {
+    @PreAuthorize("hasRole('ADMIN')")
+    public void adminOnlyMethod() {
+        // ...
+    }
+
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public String userOrAdminMethod() {
+        return "Accessible to users and admins";
+    }
+}
+```
 
 - **Custom authorization:** Implementing `AuthorizationManager` allows for more complex, programmatic authorization logic. 
-  ```
-  @Component
-  public class CustomAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
-      @Override
-      public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext context) {
-          HttpServletRequest request = context.getRequest();
-          // Custom logic to determine authorization
-          if (request.getHeader("X-Tenant-ID").equals(authentication.get().getName())) {
-              return new AuthorizationDecision(true);
-          }
-          return new AuthorizationDecision(false);
-      }
-  }
+```java
+@Component
+public class CustomAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
+    @Override
+    public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext context) {
+        HttpServletRequest request = context.getRequest();
+        // Custom logic to determine authorization
+        if (request.getHeader("X-Tenant-ID").equals(authentication.get().getName())) {
+            return new AuthorizationDecision(true);
+        }
+        return new AuthorizationDecision(false);
+    }
+}
   ```
 
 Spring Security's authorization process ensures that only authorized users can access specific resources, maintaining the security and integrity of the application. 
-
 
 ---
 ## 48. How to Use Caching in Spring Boot
 Spring Boot provides built-in support for caching using the **Spring Cache Abstraction**. This allows caching data in memory or using external cache providers like **Redis**, **EhCache**, and **Caffeine**.
 
-#### **1. Enable Caching in Spring Boot**
+### 1. Enable Caching in Spring Boot
 
 First, enable caching in your Spring Boot application by adding the `@EnableCaching` annotation in your main class or a configuration class.
 ```java
@@ -2547,7 +2702,7 @@ public class CachingExampleApplication {
 }
 ```
 
-#### **2. Use @Cacheable Annotation**
+### **2. Use @Cacheable Annotation**
 You can use `@Cacheable` to cache method results so that subsequent calls with the same arguments return the cached result instead of executing the method again.
 
 **Example: Caching a Method Result**
@@ -2570,7 +2725,7 @@ public class UserService {
 1. The first time `getUserById(1)` is called, it fetches data and stores it in the cache.
 2. The next time `getUserById(1)` is called, it returns the cached result instead of executing the method.
 
-#### **3. Clear Cache with @CacheEvict**
+### **3. Clear Cache with @CacheEvict**
 
 If data changes and you need to remove it from the cache, use `@CacheEvict`.
 ```java
@@ -2589,7 +2744,7 @@ public class UserService {
 - `allEntries = true` clears all cached entries under "users".
 - `@CacheEvict(value = "users", key = "#userId")` clears a specific entry.
 
-#### **4. Update Cache with @CachePut**
+### **4. Update Cache with @CachePut**
 Use `@CachePut` to update the cache when a method is called.
 ```java
 import org.springframework.cache.annotation.CachePut;
@@ -2606,7 +2761,7 @@ public class UserService {
 }
 ```
 
-#### **5. Configure Cache in application.properties**
+### **5. Configure Cache in application.properties**
 Spring Boot uses **ConcurrentHashMap** as the default cache. You can configure other cache providers like **EhCache, Redis, or Caffeine**.
 **For Simple In-Memory Cache:**
 ```properties
@@ -2619,7 +2774,7 @@ spring.redis.host=localhost
 spring.redis.port=6379
 ```
 
-#### **6. Example with Redis Cache**
+### **6. Example with Redis Cache**
 If you want to use Redis as a cache, add the following dependency in `pom.xml`:
 ```xml
 <dependency>
@@ -2648,7 +2803,8 @@ public class RedisConfig {
     }
 }
 ```
-**Conclusion**
+
+### Conclusion
 
 Spring Boot provides simple caching mechanisms using annotations. The best caching approach depends on your use case:
 - **For small applications** → Use default simple cache (`ConcurrentHashMap`).
@@ -2686,8 +2842,8 @@ public class ConcurrentModificationExample {
 Exception in thread "main" java.util.ConcurrentModificationException
 ```
 
-**Ways to Avoid ConcurrentModificationException**
-- **1. Use Iterator’s remove() Method**
+### Ways to Avoid `ConcurrentModificationException`
+- **1. Use Iterator’s `remove()` Method**
 Instead of modifying the list directly, use `Iterator.remove()`.
 ```java
 import java.util.*;
@@ -2712,9 +2868,9 @@ public class FixWithIterator {
 }
 ```
 
-**2. Use `CopyOnWriteArrayList` (Thread-Safe)**
+- **2. Use `CopyOnWriteArrayList` (Thread-Safe)**
 `CopyOnWriteArrayList` creates a copy of the list whenever modified, avoiding modification issues.
-```
+```java
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class FixWithCopyOnWriteArrayList {
@@ -2735,7 +2891,7 @@ public class FixWithCopyOnWriteArrayList {
 }
 ```
 
-**3. Use `removeIf()` Method (Java 8+)**
+- **3. Use `removeIf()` Method (Java 8+)**
 Java 8 introduced `removeIf()`, which removes elements safely while iterating.
 ```java
 import java.util.*;
@@ -2754,7 +2910,7 @@ public class FixWithRemoveIf {
 }
 ```
 
-**4. Use `Stream API` for Filtering (Java 8+)**
+- **4. Use `Stream API` for Filtering (Java 8+)**
 Instead of modifying a list during iteration, create a new list with filtered values.
 ```java
 import java.util.*;
@@ -2777,7 +2933,7 @@ public class FixWithStreams {
 }
 ```
 
-**Conclusion**
+### Conclusion
 | Approach | Safe? | Best For |
 |----------|------|---------|
 | `Iterator.remove()` | Yes | Single-threaded list modification |
@@ -2789,7 +2945,7 @@ public class FixWithStreams {
 ## 50. Thread Communication in Java
 Threads in Java communicate with each other mainly using **wait(), notify(), and notifyAll()**, which are part of the `Object` class. This is commonly used for **inter-thread synchronization**.
 
-**1. Using wait() and notify()**
+**1. Using `wait()` and `notify()`**
 - `wait()`: Causes the current thread to wait until another thread calls `notify()` or `notifyAll()`.
 - `notify()`: Wakes up one thread that is waiting on the same object's monitor.
 - `notifyAll()`: Wakes up all threads waiting on the object's monitor.
@@ -3124,10 +3280,10 @@ Cannot add or remove elements
 - **Need a single-element immutable list?** → Use `Collections.singletonList()`
 
 ---
-## 52. Reasons Why Java is Not Fully OOP
+## 52. Reasons Why Java is not considered as pure OOP?
 Java is **not considered a "pure" Object-Oriented Programming (OOP) language** because it does not strictly enforce all object-oriented principles. While Java follows OOP concepts like **encapsulation, inheritance, and polymorphism**, it includes some features that break the pure OOP model.  
 
-**1. Presence of Primitive Data Types (`int`, `char`, etc.)**
+### 1. Presence of Primitive Data Types (`int`, `char`, etc.)
 - Java has **primitive types** (`int`, `char`, `double`, `boolean`, etc.) that are **not objects**.
 - In a fully OOP language, everything should be an object.
 
@@ -3140,7 +3296,7 @@ Java is **not considered a "pure" Object-Oriented Programming (OOP) language** b
 	```java
 	Integer num = Integer.valueOf(10);  // Now, num is an object
 	```
-**2. Static Methods and Variables**
+### 2. Static Methods and Variables
 - Java allows **static methods** and **static variables** that belong to a class rather than an object.
 - In **pure OOP**, everything should be associated with objects.
 
@@ -3162,7 +3318,7 @@ public class Main {
 ```
 **In pure OOP, you would need to create an instance to access any method.**
 
-**3. Use of `static` Keyword in Main Method**
+### 3. Use of `static` Keyword in Main Method
 - The `main()` method is **static**, meaning it can run without creating an object.
 - In **true OOP**, execution should start with an object.
 **Example:**
@@ -3175,7 +3331,7 @@ public class Main {
 ```
 **In a fully OOP language, the entry point should require an object instance.**
 
-**4. Lack of Multiple Inheritance (Uses Interfaces Instead)**
+### 4. Lack of Multiple Inheritance (Uses Interfaces Instead)
 - Java **does not support multiple inheritance** for classes due to the **diamond problem**.
 - Instead, Java uses **interfaces** as a workaround.
 
@@ -3196,6 +3352,7 @@ class B {
 //  Java does not allow multiple inheritance
 class C extends A, B {}  // Compilation error
 ```
+
 **In fully OOP languages like C++, multiple inheritance is supported.**
 **Java Workaround:**
 ```java
@@ -3218,7 +3375,7 @@ class C implements A, B {  // Using interfaces
 }
 ```
 
-**5. Non-OOP Features Like Operators and Control Statements**
+### 5. Non-OOP Features Like Operators and Control Statements
 - Java still uses **procedural programming** constructs like:
 - `if`, `for`, `while` loops (not object-based)
 - Arithmetic operators (`+`, `-`, `*`, `/`) are not method calls.
@@ -3253,7 +3410,9 @@ Java follows **OOP principles**, but its design **includes non-OOP features** fo
 
 ---
 ## 53. If you have two default methods in a functional interface and you are printing ram from one method and Shyam from other method then how to print Shyam using other class
+
 A **functional interface** in Java is an interface that has only **one abstract method**. However, it can have **multiple default methods**.  
+
 ### Problem Breakdown:
 - You have two `default` methods in a functional interface.
 - One method prints `"Ram"`, and the other prints `"Shyam"`.
@@ -3261,6 +3420,7 @@ A **functional interface** in Java is an interface that has only **one abstract 
 
 ### Solution:
 You can achieve this by **overriding** the `default` method in a class that implements the interface. Here’s how you can do it:
+
 ### Code Implementation:
 #### **1. Define the Functional Interface**
 ```java
@@ -3358,9 +3518,9 @@ Can a functional interface extend another interface that has a default method? I
 
 Yes, a functional interface **can** extend another interface. The implementing class will inherit the default method unless it overrides it.  
 
-Here are some **scenario-based** and **real-world** interview questions on **functional interfaces and default methods** in Java:  
+### Here are some _scenario-based_ and _real-world_ interview questions on _functional interfaces_ and _default methods_ in Java:  
 
-### **1. Real-World Scenario: Logging Mechanism**  
+### 1. Real-World Scenario: Logging Mechanism
 **Question:**  
 Imagine you are designing a logging framework where multiple classes need a default logging method. You want to provide a `log()` method in an interface, but also allow classes to override it if needed.  
 - How would you design the interface using default methods?  
@@ -3400,7 +3560,7 @@ You are designing a payment gateway where different payment processors (PayPal, 
 - How would you design a functional interface for this use case?  
 - If a new payment provider wants to modify only the validation logic, how can it override the default method?  
 
-##### **Hint:**  
+#### **Hint:**  
 Use a **functional interface** with one abstract method (`processPayment()`) and a default method (`validatePayment()`). Allow implementing classes to override validation logic if necessary.  
 
 ### **4. Combining Functional Interfaces and Streams**  
@@ -3418,7 +3578,7 @@ You have a functional interface with a default method for sending notifications.
 - How can you modify the default method dynamically based on user preference **without modifying the interface**?  
 - Can this be achieved using **lambda expressions** or **method references**?
  
-##### **Hint:**  
+#### **Hint:**  
 Pass a custom implementation using lambda expressions or override the default method in an anonymous class.  
 
 ### **6. Default Methods vs. Abstract Classes**  
@@ -3459,7 +3619,8 @@ Both **default methods in interfaces** and **methods in abstract classes** allow
    - Uses **HQL (Hibernate Query Language)** or **Criteria API** instead of raw SQL.  
 5. **Caching & Optimization**  
    - First-level cache (default) and second-level cache (optional).  
-   - Lazy loading prevents unnecessary data retrieval.  
+   - Lazy loading prevents unnecessary data retrieval. 
+ 
 ### **Why Hibernate is Better Than JDBC?**
 | Feature | Hibernate | JDBC |
 |---------|----------|------|
@@ -3474,7 +3635,7 @@ Both **default methods in interfaces** and **methods in abstract classes** allow
 **Hibernate reduces boilerplate code, improves maintainability, and provides flexibility across different databases.**  
 
 ### **Example: Hibernate vs. JDBC**
-#### **JDBC Approach (Manual SQL Queries)**
+### **JDBC Approach (Manual SQL Queries)**
 ```java
 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/db", "user", "pass");
 PreparedStatement ps = con.prepareStatement("INSERT INTO Employee VALUES (?,?)");
@@ -3482,11 +3643,11 @@ ps.setInt(1, 101);
 ps.setString(2, "John");
 ps.executeUpdate();
 ```
-- 🚨 Requires **manual SQL handling**.  
-- 🚨 **DB-specific queries** → Less flexible.  
-- 🚨 **No built-in caching** → Slower performance.
+- Requires **manual SQL handling**.  
+- **DB-specific queries** → Less flexible.  
+- **No built-in caching** → Slower performance.
 
-#### **Hibernate Approach (Entity-Based)**
+### **Hibernate Approach (Entity-Based)**
 ```java
 @Entity
 @Table(name="Employee")
@@ -3510,16 +3671,16 @@ session.close();
 - **Database independent** (Works with MySQL, PostgreSQL, etc.).  
 - **Faster performance** via caching.
 
-#### **When Should You Use Hibernate?**
-✔ **Enterprise Applications** (Spring Boot, Microservices).  
-✔ **Projects Needing DB Portability** (Supports MySQL, PostgreSQL, Oracle, etc.).  
-✔ **Scalable & Maintainable Apps** (Less SQL, more object-oriented).  
+### **When Should You Use Hibernate?**
+- **Enterprise Applications** (Spring Boot, Microservices).  
+- **Projects Needing DB Portability** (Supports MySQL, PostgreSQL, Oracle, etc.).  
+- **Scalable & Maintainable Apps** (Less SQL, more object-oriented).  
 
-#### **When Not to Use Hibernate?**  
+### **When Not to Use Hibernate?**  
 - If **performance is extremely critical**, raw JDBC **may be faster** for simple queries.  
 - If the project **does not involve relational databases** (NoSQL, Redis).
 
-#### **Conclusion**
+### **Conclusion**
 Hibernate simplifies database interactions **by removing the need for raw SQL** and handling **transactions, caching, and object mappings** efficiently.  
 - **Configuration & Annotations** – Setting up Hibernate with `hibernate.cfg.xml` and using JPA annotations like `@Entity`, `@Table`, `@Column`, etc.
 - **Session & SessionFactory** – Understanding how Hibernate manages database operations using Session and SessionFactory.
@@ -3536,7 +3697,8 @@ Hibernate simplifies database interactions **by removing the need for raw SQL** 
 ---
 ## 55. DTO vs Entity
 Both **DTO (Data Transfer Object)** and **Entity** are commonly used in Java applications, but they serve different purposes. Let’s break down their differences:
-#### **1. What is an Entity?**
+
+### **1. What is an Entity?**
 An **Entity** is a Java class that represents a **database table**. It is directly mapped to a table using **JPA annotations** (`@Entity`).  
 **Key Features of an Entity:**  
 - Represents a **database table**.  
@@ -3544,7 +3706,7 @@ An **Entity** is a Java class that represents a **database table**. It is direct
 - Contains **database-specific fields** (e.g., `@Id`, `@Column`).  
 - **Tightly coupled** with the database.
 
-#### **Example: Entity Class**
+### **Example: Entity Class**
 ```java
 import jakarta.persistence.*;
 
@@ -3564,9 +3726,10 @@ public class User {
 - **`@Entity`** → Marks it as a JPA entity.  
 - **`@Table(name = "users")`** → Maps to the database table "users".  
 - **`@Id`** → Primary key.  
-🔹 **Used for:** Database operations (CRUD).
 
-#### **2. What is a DTO (Data Transfer Object)?**
+**Used for:** Database operations (CRUD).
+
+### **2. What is a DTO (Data Transfer Object)?**
 A **DTO** is a **plain Java class** used to **transfer data** between layers (Controller ↔ Service ↔ Client).  
 DTOs are **not managed by JPA** and usually contain only required fields.  
 **Key Features of a DTO:**  
@@ -3575,7 +3738,7 @@ DTOs are **not managed by JPA** and usually contain only required fields.
 - Improves **performance & security** (only necessary fields exposed).  
 - Helps **avoid exposing entity structure** to external clients (REST APIs).
 
-##### **Example: DTO Class**
+#### **Example: DTO Class**
 ```java
 public class UserDTO {
     private String name;
@@ -3595,7 +3758,7 @@ public class UserDTO {
 - 
 **Used for:** API responses, reducing data exposure.
 
-#### **3. Differences Between DTO and Entity**
+### **3. Differences Between DTO and Entity**
 | Feature        | Entity | DTO |
 |---------------|--------|-----|
 | **Purpose**   | Represents a database table | Transfers data between layers |
@@ -3605,10 +3768,10 @@ public class UserDTO {
 | **Performance** | Can be slow (large data fetch) | Optimized, lightweight |
 | **Security** | Exposes all fields (risk) | Can hide sensitive fields |
 
-#### **4. How to Convert Between DTO and Entity?**
+### **4. How to Convert Between DTO and Entity?**
 Since DTOs and Entities serve different purposes, we need to **convert** between them using a **Mapper** function.
 
-##### **Example: Convert Entity → DTO in a Service Layer**
+#### **Example: Convert Entity → DTO in a Service Layer**
 ```java
 @Service
 public class UserService {
@@ -3622,7 +3785,7 @@ public class UserService {
     }
 }
 ```
-##### **Example: Convert DTO → Entity (For Saving to Database)**
+#### **Example: Convert DTO → Entity (For Saving to Database)**
 ```java
 public User convertToEntity(UserDTO userDTO) {
     User user = new User();
@@ -3633,7 +3796,7 @@ public User convertToEntity(UserDTO userDTO) {
 ```
 **Using a DTO ensures the API does not expose database fields like `id`, `password`, etc.**  
 
-#### **5. When to Use DTO vs. Entity?**
+### **5. When to Use DTO vs. Entity?**
 | **Scenario** | **Use DTO?** | **Use Entity?** |
 |-------------|-------------|-------------|
 | **Fetching data for API response** | Yes (return only necessary fields) |  No (avoid exposing entity directly) |
@@ -3641,7 +3804,7 @@ public User convertToEntity(UserDTO userDTO) {
 | **Internal database operations** |  No | Yes |
 | **Avoiding lazy loading issues** | Yes |  No |
 
-#### **6. Why Use DTOs Instead of Entities in APIs?**
+### **6. Why Use DTOs Instead of Entities in APIs?**
 **Advantages of DTOs in REST APIs:**  
 1. **Prevents over-exposure of database fields** (e.g., `password`, `createdAt`).  
 2. **Reduces response size** (improves performance).  
@@ -3663,7 +3826,7 @@ public UserDTO getUser(@PathVariable Long id) { // Uses DTO
 }
 ```
 
-#### **7. Conclusion**
+### **7. Conclusion**
 **Use `Entity` for database operations (JPA/Hibernate).**  
 **Use `DTO` for API responses, improving security & performance.**  
 **Convert between `Entity` ↔ `DTO` using Mapper functions.**  
@@ -3672,19 +3835,19 @@ public UserDTO getUser(@PathVariable Long id) { // Uses DTO
 ## 56. Why Choose Spring Boot over spring MVC?
 Spring MVC and Spring Boot both help build Java web applications, but **Spring Boot simplifies development** significantly. Let’s compare them and see why **Spring Boot is the preferred choice.**
 
-#### ** Spring MVC** (Traditional Approach)  
+#### Spring MVC (Traditional Approach)  
 - Requires **manual configuration** of dependencies, database, and web server.  
 - Needs **boilerplate code** for XML or Java-based configurations.  
 - Requires an **external** server (Tomcat, Jetty) to run.  
 - Complex **integration of third-party libraries** (Jackson, Hibernate, etc.).
 
-#### ** Spring Boot** (Modern Approach)  
+#### Spring Boot (Modern Approach)  
 - **Auto-configures** dependencies, database, and embedded servers.  
 - Provides **built-in Tomcat/Jetty** (No need for an external server).  
 - **Production-ready features** (Actuator, Metrics, Logging).  
 - Requires **less code**, reducing development time.  
 
-#### **2. Key Differences Between Spring Boot & Spring MVC**  
+#### Key Differences Between Spring Boot & Spring MVC
 | Feature             | Spring MVC | Spring Boot |
 |---------------------|-----------|-------------|
 | **Setup Complexity** | High (Requires manual setup) | Low (Auto-configuration) |
@@ -3698,7 +3861,7 @@ Spring MVC and Spring Boot both help build Java web applications, but **Spring B
 | **REST API Support** | Needs manual configuration | Built-in REST support |
 | **Security** | Needs extra setup | Auto-configured with Spring Security |
 
-**When to Use Spring Boot vs Spring MVC?****  
+#### When to Use Spring Boot vs Spring MVC?
 
 | **Scenario** | **Use Spring MVC** | **Use Spring Boot** |
 |-------------|--------------------|---------------------|
@@ -3720,8 +3883,8 @@ Spring MVC and Spring Boot both help build Java web applications, but **Spring B
 ## 57. Java Singleton Design Pattern
 The **Singleton pattern** ensures that a class has **only one instance** and provides a **global point of access** to that instance. This is useful for scenarios like **database connections, logging, configuration management, and thread pools**.
 
-#### 1. Implementing Singleton Pattern in Java**
-##### A. Eager Initialization (Thread-Safe)**
+### 1. Implementing Singleton Pattern in Java**
+#### A. Eager Initialization (Thread-Safe)**
 In this approach, the instance is created **at the time of class loading**.  
 ```java
 public class Singleton {
@@ -3735,8 +3898,9 @@ public class Singleton {
 }
 ```
 **Pros:** Simple, thread-safe  
- **Cons:** Instance is created even if not used  
-##### **B. Lazy Initialization (Not Thread-Safe)**
+ **Cons:** Instance is created even if not used
+
+#### **B. Lazy Initialization (Not Thread-Safe)**
 Instance is created **only when needed**, but this is **not thread-safe**.
 ```java
 public class Singleton {
@@ -3754,7 +3918,8 @@ public class Singleton {
 ```
 **Pros:** Saves memory if the instance is never used  
  **Cons:** **Not thread-safe** in multi-threaded environments  
-##### **C. Thread-Safe Singleton (Double-Checked Locking)**
+
+#### **C. Thread-Safe Singleton (Double-Checked Locking)**
 A better approach to make the Singleton thread-safe **without performance issues**.
 ```java
 public class Singleton {
@@ -3776,7 +3941,8 @@ public class Singleton {
 ```
 **Pros:** Thread-safe, efficient performance  
  **Cons:** More complex  
-##### **D. Bill Pugh Singleton (Best Approach)**
+
+#### **D. Bill Pugh Singleton (Best Approach)**
 This approach uses an **inner static helper class**, which ensures **lazy initialization and thread safety**.
 ```java
 public class Singleton {
@@ -3793,7 +3959,8 @@ public class Singleton {
 ```
 **Pros:** Lazy-loaded, thread-safe, best performance  
  **Cons:** None  
-##### **E. Enum Singleton (Recommended for Thread-Safety)**
+
+#### **E. Enum Singleton (Recommended for Thread-Safety)**
 Using an `enum` prevents multiple instances **even during serialization and reflection**.
 ```java
 public enum Singleton {
@@ -3807,20 +3974,21 @@ public enum Singleton {
 **Pros:** Simplest, thread-safe, prevents reflection attacks  
  **Cons:** Cannot support lazy initialization  
  
-#### **2. When to Use Singleton Pattern?**
+### **2. When to Use Singleton Pattern?**
 - **Database connections** (JDBC, Hibernate)
 - **Logging framework** (Log4j, SLF4J)
 - **Configuration management** (properties, environment variables)
 - **Caching mechanisms** (storing frequently used objects)
 - **Thread pools** (managing reusable worker threads)
 
-#### **3. Avoiding Issues with Singleton**
-##### **Common Problems**
+### **3. Avoiding Issues with Singleton**
+#### **Common Problems**
 1. **Multi-threading issues** (use **Double-Checked Locking** or **Bill Pugh method**)
 2. **Serialization creates multiple instances** (implement `readResolve()` method)
 3. **Reflection can break Singleton** (use `Enum Singleton`)
 4. **Cloning can break Singleton** (override `clone()` and throw exception)
-##### **Best Practices**
+
+#### **Best Practices**
 - Prefer **Enum Singleton** for the safest implementation.
 - Use **Bill Pugh Singleton** for **lazy initialization with thread safety**.
 - Avoid unnecessary **synchronization**, as it affects performance.
@@ -3876,9 +4044,9 @@ In essence:
 - `@Primary`: "This is the preferred bean if you don't need to specify any further criteria." 
 - `@Qualifier`: "This is the specific bean I want."  
 
-**Example:* 
+**Example:**
 Consider two implementations of an `EmailService` interface: `MailgunEmailService` and `PostmarkEmailService`. 
-```
+```java
 interface EmailService {
     void sendEmail(String to, String subject, String body);
 }
@@ -3901,7 +4069,7 @@ public class MyService {
 }
 ```
 In this case, if `@Autowired` is used without `@Qualifier`, `MailgunEmailService` will be injected into `MyService` due to the `@Primary` annotation. To explicitly inject `PostmarkEmailService`, you would use `@Qualifier` on the injection point: 
-```
+```java
 @Component
 public class MyService {
     @Autowired
@@ -3911,94 +4079,92 @@ public class MyService {
 ```
 This allows you to manage and configure your Spring Boot applications more effectively when dealing with multiple beans of the same type.
 
-
 ---
 ## 60. How to create custom class object method in java
 Here is how to create a custom class object method in Java: 
 
 - **Define the class:** Use the `class` keyword followed by the class name. Inside the class, declare instance variables (attributes) and methods (behaviors). 
-    ```
-    public class Dog {
-        String name;
-        String breed;
-    
-        // Constructor
-        public Dog(String name, String breed) {
-            this.name = name;
-            this.breed = breed;
-        }
-    
-        // Custom method
-        public void bark() {
-            System.out.println("Woof! My name is " + this.name);
-        }
-    
-        public String getName() {
-            return this.name;
-        }
-    
-        public String getBreed() {
-            return this.breed;
-        }
+```java
+public class Dog {
+    String name;
+    String breed;
+
+    // Constructor
+    public Dog(String name, String breed) {
+        this.name = name;
+        this.breed = breed;
     }
-    ```
+
+    // Custom method
+    public void bark() {
+        System.out.println("Woof! My name is " + this.name);
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getBreed() {
+        return this.breed;
+    }
+}
+```
 
 - **Create an object (instance) of the class:** Use the `new` keyword followed by the class name and constructor arguments. 
-    ```
-    public class Main {
-        public static void main(String[] args) {
-            // Create a Dog object
-            Dog myDog = new Dog("Buddy", "Golden Retriever");
-    
-            // Access object attributes
-            System.out.println("Dog's name: " + myDog.getName());
-            System.out.println("Dog's breed: " + myDog.getBreed());
-    
-            // Call the custom method
-            myDog.bark();
-        }
+```java
+public class Main {
+    public static void main(String[] args) {
+        // Create a Dog object
+        Dog myDog = new Dog("Buddy", "Golden Retriever");
+
+        // Access object attributes
+        System.out.println("Dog's name: " + myDog.getName());
+        System.out.println("Dog's breed: " + myDog.getBreed());
+
+        // Call the custom method
+        myDog.bark();
     }
-    ```
+}
+```
 
 - **Call the method:** Use the dot operator (`.`) to access the method of an object. 
 
 Output of the above code: 
-    ```
-    Dog's name: Buddy
-    Dog's breed: Golden Retriever
-    Woof! My name is Buddy
-    ```
-
+```java
+Dog's name: Buddy
+Dog's breed: Golden Retriever
+Woof! My name is Buddy
+```
 
 ---
 ## 61. Java 8 Features Introduced
 ### Major Features
 
-#### 1. Lambda Expressions  
+### 1. Lambda Expressions  
 Concise functional code using `->`.
 
-#### 2. Functional Interfaces  
+### 2. Functional Interfaces  
 Single-method interfaces.
 
-#### 3. Introduced and Improved APIs  
+### 3. Introduced and Improved APIs  
 - **Stream API**: Efficient data manipulation.  
 - **Date/Time API**: Robust date and time handling.  
 - **Collection API Improvements**: Enhanced methods for collections (e.g., `removeIf`, `replaceAll`).  
 - **Concurrency API Improvements**: New classes for parallel processing (e.g., `CompletableFuture`).  
 
-#### 4. Optional Class  
+### 4. Optional Class  
 Handle `null` values safely.
 
-#### 5. `forEach()` Method in Iterable Interface  
+### 5. `forEach()` Method in Iterable Interface  
 Executes an action for each element in a collection.
 
-#### 6. Default Methods  
+### 6. Default Methods  
 Evolve interfaces without breaking compatibility.
 
-#### 7. Static Methods in Interfaces  
+### 7. Static Methods in Interfaces  
 Allows adding methods with default implementations to interfaces. 
 
-#### 8. Method References  
+### 8. Method References  
 Refer to methods easily.
 
 ---
@@ -4016,15 +4182,15 @@ Refer to methods easily.
 
 ### How to Implement in Spring Boot
 
-#### 1. **Using Hibernate Multi-Tenancy Support**
+### 1. **Using Hibernate Multi-Tenancy Support**
 Spring Boot supports Hibernate multi-tenancy via:
 - `MULTI_TENANT_DATABASE`
 - `MULTI_TENANT_SCHEMA`
 - `MULTI_TENANT_DISCRIMINATOR`
 
-#### 2. **Setup Example: Schema-Based Multi-Tenancy**
+### 2. **Setup Example: Schema-Based Multi-Tenancy**
 
-##### a. Add dependencies in `pom.xml`
+#### a. Add dependencies in `pom.xml`
 
 ```xml
 <dependency>
@@ -4033,7 +4199,7 @@ Spring Boot supports Hibernate multi-tenancy via:
 </dependency>
 ```
 
-##### b. Configure `MultiTenantConnectionProvider` and `CurrentTenantIdentifierResolver`
+#### b. Configure `MultiTenantConnectionProvider` and `CurrentTenantIdentifierResolver`
 
 ```java
 @Component
@@ -4069,7 +4235,7 @@ public class CurrentTenantIdentifierResolverImpl implements CurrentTenantIdentif
 }
 ```
 
-##### c. Register Hibernate Multi-Tenant Configuration
+#### c. Register Hibernate Multi-Tenant Configuration
 
 ```java
 @Configuration
@@ -4099,7 +4265,7 @@ public class HibernateConfig {
 }
 ```
 
-#### 3. **Setting Tenant Context**
+### 3. **Setting Tenant Context**
 
 Create a `TenantContext` and set the tenant identifier from request headers or security context:
 
@@ -4153,33 +4319,33 @@ public class TenantFilter extends OncePerRequestFilter {
 
 
 ---
-## 63. @Component vs @Service vs @Controller
-In the Spring framework, @Component, @Service, and @Controller are annotations used for dependency injection and component scanning, each with a specific semantic meaning.
+## 63. `@Component` vs `@Service` vs `@Controller`
+In the Spring framework, `@Component`, `@Service`, and `@Controller` are annotations used for dependency injection and component scanning, each with a specific semantic meaning.
 
-- _@Component:_
-	This is the most generic annotation and marks a class as a Spring-managed component. It indicates that Spring should detect and register the class as a bean in the application context. It is used for general-purpose components that don't fit neatly into the roles of @Service or @Controller.
-- _@Service:_
-	This annotation specializes @Component and designates a class as belonging to the service layer. It's used for classes containing business logic and operations. While it doesn't add specific 		functionality beyond @Component, it provides better code organization and clarity, indicating the purpose of the class within the application architecture.
-- _@Controller:_
-	This annotation, also a specialization of @Component, is used for classes that handle incoming web requests in Spring MVC applications. It marks a class as a controller, enabling it to define request handling methods and interact with the view layer. It is mainly used in the presentation layer.
-In essence, @Service and @Controller are specialized forms of @Component. They don't inherently add new technical capabilities but provide semantic meaning, making the code more readable and maintainable by clearly defining the role of each component within the application's architecture.
+- **_`@Component`:_**
+	This is the most generic annotation and marks a class as a Spring-managed component. It indicates that Spring should detect and register the class as a bean in the application context. It is used for general-purpose components that don't fit neatly into the roles of `@Service` or `@Controller`.
+- **_`@Service`:_**
+	This annotation specializes `@Component` and designates a class as belonging to the service layer. It's used for classes containing business logic and operations. While it doesn't add specific functionality beyond `@Component`, it provides better code organization and clarity, indicating the purpose of the class within the application architecture.
+- **_`@Controller`:_**
+	This annotation, also a specialization of `@Component`, is used for classes that handle incoming web requests in Spring MVC applications. It marks a class as a controller, enabling it to define request handling methods and interact with the view layer. It is mainly used in the presentation layer.
+In essence, `@Service` and `@Controller` are specialized forms of `@Component`. They don't inherently add new technical capabilities but provide semantic meaning, making the code more readable and maintainable by clearly defining the role of each component within the application's architecture.
 
 ---
 ## 64. ArrayList vs LinkedList
-|     |                                                                                   ArrayList                                                                                   |                                                                                                 LinkedList                                                                                                |
-|:---:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|   S.No.  |ArrayList|LinkedList|
+|:---:|:-------------------------:|:--------------------------:|
 |  1. |            This class uses a dynamic array to store the elements in it. With the introduction of generics, this class supports the storage of all types of objects.           |                         This class uses a doubly linked list to store the elements in it. Similar to the ArrayList, this class also supports the storage of all types of objects.                         |
 |  2. | Manipulating ArrayList takes more time due to the internal implementation. Whenever we remove an element, internally, the array is traversed and the memory bits are shifted. | Manipulating LinkedList takes less time compared to ArrayList because, in a doubly-linked list, there is no concept of shifting the memory bits. The list is traversed and the reference link is changed. |
-|  3. |                                                                        Inefficient memory utilization.                                                                        |                                                                                          Good memory utilization.                                                                                         |
-|  4. |                                                                    It can be one, two or multi-dimensional.                                                                   |                                                                          It can either be single, double or circular LinkedList.                                                                          |
-|  5. |                                                                          Insertion operation is slow.                                                                         |                                                                                        Insertion operation is fast.                                                                                       |
-|  6. |                                                    This class implements a List interface. Therefore, this acts as a list.                                                    |                                            This class implements both the List interface and the Deque interface. Therefore, it can act as a list and a deque.                                            |
-|  7. |                                            This class works better when the application demands storing the data and accessing it.                                            |                                                           This class works better when the application demands manipulation of the stored data.                                                           |
-|  8. |                                         Data access and storage is very efficient as it stores the elements according to the indexes.                                         |                                                                               Data access and storage is slow in LinkedList.                                                                              |
-|  9. |                                                                   Deletion operation is not very efficient.                                                                   |                                                                                   Deletion operation is very efficient.                                                                                   |
-| 10. |                                                                It is used to store only similar types of data.                                                                |                                                                                   It is used to store any types of data.                                                                                  |
-| 11. |                                                                              Less memory is used.                                                                             |                                                                                            More memory is used.                                                                                           |
-| 12. |                                                                   This is known as static memory allocation.                                                                  |                                                                                This is known as dynamic memory allocation.                                                                                |
+|  3. |Inefficient memory utilization.                                                                        |                                                                                          Good memory utilization.                                                                                         |
+|  4. |It can be one, two or multi-dimensional.                                                                   |                                                                          It can either be single, double or circular LinkedList.                                                                          |
+|  5. |Insertion operation is slow.                                                                         |                                                                                        Insertion operation is fast.                                                                                       |
+|  6. |This class implements a List interface. Therefore, this acts as a list.                                                    |                                            This class implements both the List interface and the Deque interface. Therefore, it can act as a list and a deque.                                            |
+|  7. |This class works better when the application demands storing the data and accessing it.                                            |                                                           This class works better when the application demands manipulation of the stored data.                                                           |
+|  8. |Data access and storage is very efficient as it stores the elements according to the indexes.                                         |                                                                               Data access and storage is slow in LinkedList.                                                                              |
+|  9. |Deletion operation is not very efficient.                                                                   |                                                                                   Deletion operation is very efficient.                                                                                   |
+| 10. |It is used to store only similar types of data.                                                                |                                                                                   It is used to store any types of data.                                                                                  |
+| 11. |Less memory is used.                                                                             |                                                                                            More memory is used.                                                                                           |
+| 12. |This is known as static memory allocation.                                                                  |                                                                                This is known as dynamic memory allocation.                                                                                |
 
 ---
 ## 65. 
@@ -4222,7 +4388,7 @@ public class MySpringBootApplication {
 ## 67. How to configure multiple database in Spring Boot.
 It's common for applications to interact with multiple databases. 
 Here's how you can configure this in Spring Boot:
-#### 1. Define Data Source Properties
+### 1. Define Data Source Properties
 - In your `application.properties` or `application.yml` file, define the properties for each data source. Use distinct prefixes to differentiate them.
 ```properties
 # Primary database
@@ -4238,7 +4404,7 @@ spring.datasource.secondary.password=password2
 spring.datasource.secondary.driver-class-name=org.postgresql.Driver
 ```
 
-#### 2. Create DataSource Configurations
+### 2. Create DataSource Configurations
 - Create configuration classes to define each `DataSource`. Use `@ConfigurationProperties` to bind the properties defined in the `application.properties` file. Mark one `DataSource` as `@Primary` if it should be the default.
 ```java
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -4278,7 +4444,7 @@ public class DataSourceConfig {
 }
 ```
 
-#### 3. Configure EntityManagerFactories (JPA)
+### 3. Configure EntityManagerFactories (JPA)
 If you're using Spring Data JPA, you'll need to configure separate `EntityManagerFactory` beans for each data source. This ensures that JPA knows which database to use for which entities.
 ```java
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -4340,7 +4506,7 @@ public class JpaConfig {
 }
 ```
 
-#### 4. Configure Spring Data JPA Repositories
+### 4. Configure Spring Data JPA Repositories
 Create separate Spring Data JPA repository interfaces for each database, specifying the correct `entityManagerFactoryRef` and `transactionManagerRef`.
 ```java
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -4632,45 +4798,50 @@ Here's a more detailed breakdown:
 
 ### 1. Frontend (Client-Side) Validation:
 
-- Purpose: Improve user experience by providing immediate feedback on invalid input, reducing unnecessary server requests, and potentially preventing certain types of attacks.  
-- Techniques:   
-	- JavaScript: Use JavaScript to validate input fields in real-time, for example, by checking for required fields, valid email formats, or numerical ranges.  
-	- HTML5 Validation: Leverage HTML5 validation features for basic input validation, like email, URL, and number fields.
+- **Purpose**: Improve user experience by providing immediate feedback on invalid input, reducing unnecessary server requests, and potentially preventing certain types of attacks.  
+- **Techniques**:   
+	- **JavaScript**: Use JavaScript to validate input fields in real-time, for example, by checking for required fields, valid email formats, or numerical ranges.  
+	- **HTML5 Validation**: Leverage HTML5 validation features for basic input validation, like email, URL, and number fields.
 
-- Benefits: Faster feedback to users, reduces unnecessary server load, and can catch common errors before they reach the server.  
-- Example: A form that requires an email address can use JavaScript to check if the input matches a regular expression for a valid email format.   
+- **Benefits**: 
+  - Faster feedback to users, reduces unnecessary server load, and can catch common errors before they reach the server.  
+- **Example**: 
+  - A form that requires an email address can use JavaScript to check if the input matches a regular expression for a valid email format.   
 
 ### 2. Backend (Server-Side) Validation:
 
-- Purpose: Ensure data integrity and security by validating data before it's stored in the database, even if client-side validation is implemented.  
-- Techniques:   
-	- Schema Validators: Use libraries like Zod to define and validate data schemas.
-	- Custom Validators: Implement custom validation logic using programming languages and frameworks like PHP, Node.js, etc.
+- **Purpose**: Ensure data integrity and security by validating data before it's stored in the database, even if client-side validation is implemented.  
+- **Techniques**:   
+	- **Schema Validators**: Use libraries like Zod to define and validate data schemas.
+	- **Custom Validators**: Implement custom validation logic using programming languages and frameworks like PHP, Node.js, etc.
 
-- Benefits: Prevents malicious or invalid data from reaching the database, ensures data consistency, and protects against security vulnerabilities.
-- Example: A backend service can use a schema validator to ensure that a user profile object contains the expected fields (name, email, age) and that the values are of the correct data type.  
+- **Benefits**: 
+  - Prevents malicious or invalid data from reaching the database, ensures data consistency, and protects against security vulnerabilities.
+- **Example**: 
+  - A backend service can use a schema validator to ensure that a user profile object contains the expected fields (name, email, age) and that the values are of the correct data type.  
 
 ### 3. Database Validation:
 
-- Purpose: Enforce data integrity at the database level, ensuring that only valid data is stored. 
-- Techniques: 
-	- Database Constraints: Use constraints like `CHECK` constraints (for validating ranges or formats), `NOT NULL` constraints, and `UNIQUE` constraints to enforce data validation rules at the database level. 
-	- Referential Integrity: Use foreign keys to enforce relationships between tables and prevent orphaned records. 
+- **Purpose**: Enforce data integrity at the database level, ensuring that only valid data is stored. 
+- **Techniques**: 
+	- **Database Constraints**: Use constraints like `CHECK` constraints (for validating ranges or formats), `NOT NULL` constraints, and `UNIQUE` constraints to enforce data validation rules at the database level. 
+	- **Referential Integrity**: Use foreign keys to enforce relationships between tables and prevent orphaned records. 
 
-- Benefits: Data integrity is guaranteed even if the frontend and backend validation fail, and the database is protected from invalid or malicious data. 
-- Example: A database can use a `CHECK` constraint to ensure that an age field is within a valid range (e.g., between 0 and 120).  
+- **Benefits**: 
+  - Data integrity is guaranteed even if the frontend and backend validation fail, and the database is protected from invalid or malicious data. 
+- **Example**: 
+  - A database can use a `CHECK` constraint to ensure that an age field is within a valid range (e.g., between 0 and 120).  
 
 In summary, a robust data validation strategy in a full-stack application should involve all three levels: frontend for user experience and performance, backend for security and integrity, and database for data consistency and reliability.
 
 ### Additional Considerations:  
 
-- Error Handling: Implement proper error handling to display meaningful error messages to users on the frontend and log errors on the backend.  
-- Testing: Thoroughly test data validation logic with various input scenarios, including valid and invalid data, to ensure its effectiveness.
-- Security: Be aware of common security vulnerabilities related to data validation, such as XSS and CSRF attacks, and take appropriate measures to mitigate them.
-- Data Sanitization: Sanitize user input to remove potentially malicious characters or code before storing it in the database.
+- **Error Handling**: Implement proper error handling to display meaningful error messages to users on the frontend and log errors on the backend.  
+- **Testing**: Thoroughly test data validation logic with various input scenarios, including valid and invalid data, to ensure its effectiveness.
+- **Security**: Be aware of common security vulnerabilities related to data validation, such as XSS and CSRF attacks, and take appropriate measures to mitigate them.
+- **Data Sanitization**: Sanitize user input to remove potentially malicious characters or code before storing it in the database.
 
 ---
-
 ## 73. What happened when a duplicate key is added to a HashMap? 
 When a duplicate key is added to a HashMap, the old value associated with that key is replaced by the new value, and the HashMap continues to store only one value for that key.
 
@@ -4686,7 +4857,6 @@ Example:
     map.put("key1", "value2"); // map now contains {"key1": "value2"} (value1 is replaced)
 ```
 ---
-
 ## 74. How hashmap works internally?
 A HashMap in Java uses a hash table to store key-value pairs. The hash table is made up of an array of buckets, and each bucket can contain multiple key-value pairs.
 
@@ -4713,12 +4883,14 @@ The most common garbage collection algorithm is the mark-and-sweep algorithm, wh
 - **Compacting**: After sweeping, the garbage collector may compact the remaining objects to reduce memory fragmentation. 
 
 Garbage collection is triggered automatically by the JVM when it detects low memory or when an object cannot be allocated due to insufficient space. Developers can also manually request garbage collection using `System.gc()`, although this is generally discouraged as it can impact performance. 
+
 Java uses generational garbage collection, dividing the heap into generations (young, old/tenured). Newly created objects are placed in the young generation, and objects that survive multiple garbage collection cycles are promoted to older generations. This approach optimizes garbage collection by focusing on the young generation, where most objects are short-lived. 
 
 ---
 ## 76. Can we override main method in java?
 The main method in Java cannot be overridden in the traditional sense due to it being a `static` method. Overriding applies to instance methods in the context of inheritance. However, the main method can be overloaded. 
 Overloading the main method means creating multiple methods with the same name but different signatures (different parameter lists). When the Java Virtual Machine (JVM) starts a program, it specifically looks for the main method with the signature `public static void main(String[] args)`. Other overloaded main methods will not be executed automatically by the JVM; they must be called explicitly from within the `public static void main(String[] args)` method or other parts of the code. 
+
 ```java
 class MainMethodExample {
 
@@ -4741,7 +4913,7 @@ class MainMethodExample {
 ---
 ## 77. What are the methods of Optional in java
 Here are the commonly used **methods of `Optional`** in Java 8, categorized by purpose for better clarity:
-#### **Creation Methods**
+### **Creation Methods**
 - `Optional.of(value)`  
   → Creates an Optional with a non-null value (throws `NullPointerException` if value is null).
 
@@ -4757,7 +4929,7 @@ Optional<String> opt2 = Optional.ofNullable(null);      // Can be null
 Optional<String> opt3 = Optional.empty();               // Empty optional
 ```
 
-#### **Value Access & Checks**
+### **Value Access & Checks**
 - `get()`  
   → Returns the value if present; otherwise throws `NoSuchElementException`.
 
@@ -4775,7 +4947,7 @@ System.out.println(name.isPresent());     // true
 System.out.println(name.isEmpty());       // false (Java 11+)
 ```
 
-#### **Fallbacks & Defaults**
+### **Fallbacks & Defaults**
 - `orElse(defaultValue)`  
   → Returns the value if present, else returns `defaultValue`.
 
@@ -4796,7 +4968,7 @@ String val2 = emptyOpt.orElseGet(() -> "From Supplier");// "From Supplier"
 String val3 = emptyOpt.orElseThrow(() -> new RuntimeException("No value")); // throws RuntimeException
 ```
 
-#### **Transformation Methods**
+### **Transformation Methods**
 - `map(Function)`  
   → Applies the function if value is present and wraps the result in an Optional.
 
@@ -4813,7 +4985,7 @@ Optional<Integer> length = opt.map(String::length);
 System.out.println(length.get()); // 4
 ```
 
-#### **Filtering**
+### **Filtering**
 - `filter(Predicate)`  
   → Returns the same Optional if the value matches the predicate; otherwise returns empty.
 
@@ -4841,7 +5013,7 @@ Types of Transaction Propagation. Spring Boot supports several types of transact
 - SUPPORTS
 
 Let’s dive into each of these types with detailed explanations and examples.
-#### **1. REQUIRED**
+### **1. REQUIRED**
 It is the default propagation type in Spring. It means that the method must run within a transaction. If a transaction already exists, the method will run within that transaction. If there is no existing transaction, a new one will be started.
 Example:
 ```
@@ -4858,7 +5030,7 @@ public class TransactionService {
 
 Use REQUIRED when you want your method to participate in an existing transaction if one exists, or to create a new one if not. This is useful for methods that need to ensure that all database operations are part of a single transaction.
 
-#### **2. REQUIRES_NEW**
+### **2. REQUIRES_NEW**
 It always starts a new transaction. If an existing transaction is present, it will be suspended until the new transaction completes.
 Example:
 ```
@@ -4872,7 +5044,7 @@ public class TransactionService {
 }
 ```
 
-#### **3. MANDATORY**
+### **3. MANDATORY**
 It requires an existing transaction. If there is no active transaction, an exception will be thrown.
 Example:
 ```
@@ -4889,7 +5061,7 @@ public class TransactionService {
 
 Use MANDATORY when a method must be called within an existing transaction context, such as methods that depend on the integrity of the outer transaction.
 
-#### **4. NESTED**
+### **4. NESTED**
 It creates a nested transaction if an existing transaction is present. Otherwise, it behaves like REQUIRED and starts a new transaction.
 Example:
 ```
@@ -4906,7 +5078,7 @@ public class TransactionService {
 
 Use NESTED for scenarios where you need savepoints and rollback capabilities within a larger transaction. This is useful for complex operations that require partial rollbacks.
 
-#### **5. NOT_SUPPORTED**
+### **5. NOT_SUPPORTED**
 It executes the method without a transaction. If a transaction is present, it will be suspended during the method execution.
 Example:
 
@@ -4924,7 +5096,7 @@ public class TransactionService {
 
 Use NOT_SUPPORTED when you want to ensure that a method does not run within a transaction context, such as for non-transactional operations like reading configuration data.
 
-#### **6. NEVER**
+### **6. NEVER**
 It ensures that the method is never executed within a transaction. If an existing transaction is present, an exception will be thrown.
 Example:
 ```
@@ -4941,7 +5113,7 @@ public class TransactionService {
 
 Use NEVER when you need to guarantee that a method runs outside of any transaction context, typically for operations that should fail if invoked within a transaction.
 
-#### **7. SUPPORTS**
+### **7. SUPPORTS**
 It runs the method within a transaction if one exists, but does not start a new transaction if none exists.
 Example:
 ```
@@ -4957,13 +5129,13 @@ public class TransactionService {
 **Use Case:**
 Use SUPPORTS for methods that can optionally run within a transaction, such as read-only operations that don't necessarily require transaction management.
 
-**Best Practices**
+### **Best Practices**
 Choose the Right Propagation Type: 
 - Select the appropriate propagation type based on your method’s transactional requirements and the overall transaction management strategy.
 - Avoid Overusing _REQUIRES_NEW_: Starting new transactions frequently can lead to performance issues and increased complexity. Use _REQUIRES_NEW_ sparingly.
 - Use _MANDATORY_ and _NEVER_ Wisely: These propagation types enforce strict transactional requirements and should be used with a clear understanding of their implications.
 
-**Summary**
+### **Summary**
 Understanding and correctly using transaction propagation in Spring Boot is essential for building robust and reliable applications. By choosing the right propagation type, you can ensure that your transactional methods behave as expected, maintaining data consistency and integrity.
 
 ---
@@ -5045,7 +5217,7 @@ Spring supports two types of proxies:
 - **CGLIB Proxies**: Used for classes. The proxy is a subclass of the target class and overrides its methods.
 
 ---
-## Q. How does @Transactional work in Spring Boot?
+## Q. How does `@Transactional` work in Spring Boot?
 The `@Transactional` annotation in Spring Boot is used to manage transactions declaratively. It can be applied at the class or method level. Here’s how it works:
 1. **Transaction Management**: When a method annotated with `@Transactional` is called, Spring creates a new transaction or joins an existing one, depending on the propagation settings.
 2. **Rollback Behavior**: If an unchecked exception (like `RuntimeException`) occurs within the transactional method, the transaction is automatically rolled back. You can customize the rollback behavior by specifying which exceptions should trigger a rollback.
@@ -5096,7 +5268,7 @@ Java Streams provide a powerful way to process sequences of elements (like colle
                                   .reduce((a, b) -> a + b);
    // sum will contain Optional[15]
    ```
-
+------------------------------------------------Continue
 ## Q. How do you handle parallel streams, and when should you use them?
 **Handling Parallel Streams**:
 - You can create a parallel stream by calling the `parallelStream()` method on a collection or by using the `parallel()` method on an existing stream.
@@ -5171,8 +5343,8 @@ List<String> filteredNames = names.stream()
 // Now you can safely modify the original list if needed
 ```
 
-#### Additional Information on Stream Operations
-#### Collectors
+### Additional Information on Stream Operations
+### Collectors
 In addition to filter, map, and reduce, the `Collectors` utility class provides various methods to accumulate elements from a stream into collections, such as lists, sets, or maps. 
 
 **Example**:
@@ -5183,7 +5355,7 @@ Set<String> nameSet = names.stream()
 // nameSet will contain {"Alice", "Bob", "Charlie"}
 ```
 
-#### FlatMap
+### FlatMap
 The `flatMap` operation is used to flatten nested structures. It takes a function that returns a stream for each element and combines all the resulting streams into a single stream.
 
 **Example**:
@@ -6851,6 +7023,45 @@ Here's the breakdown of whether you need CSRF protection with JWT:
 
 In summary: 
 - If you're using JWT and handling it correctly (primarily via the `Authorization` header), you are less vulnerable to CSRF, but if you are storing the JWT in cookies, you are still vulnerable to CSRF.
+---
+## Q. Annotations Used in Java  
+- `@Override`
+- `@FunctionalInterface`
+- `@Deprecated`
+- `@SpringBootApplication`
+- `@RestController`
+
+---
+## Q. Technical Architecture  
+Spring Boot follows **Microservices architecture** and includes:
+- **Controller Layer** - API Handling
+- **Service Layer** - Business Logic
+- **Repository Layer** - Database Interaction 
+
+---
+## Q. Algorithm Behind `Collections.sort()`  
+It uses **TimSort**, which is a hybrid of **MergeSort and InsertionSort**.
+
+---
+
+## Q. Challenges Faced as an Engineer  
+- **Performance Issues** → Optimized SQL Queries  
+- **Scalability** → Used Caching Mechanisms
+
+---
+## Q. Understanding Browser Caching  
+- **Cache-Control: max-age=3600**  
+- **ETag for validation** 
+
+---
+## Q. Lazy Loading in Hibernate  
+```java
+@OneToMany(fetch = FetchType.LAZY)
+private List<Order> orders;
+```
+
+---
+
 
 
 ### TODO
@@ -6862,6 +7073,7 @@ how to increase application performance
 spring boot started dependencies
 volatile vs transient
 csfr
+ 
  
 
 
