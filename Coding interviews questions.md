@@ -1893,7 +1893,6 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
-
         String input = "programming";
 
         Map<Character, Long> characterCount = input.chars()  // IntStream of character codes
@@ -1901,14 +1900,14 @@ public class Main {
                 .collect(Collectors.groupingBy(               // group by character
                         Function.identity(),                 // key: character itself
                         Collectors.counting()                // value: count occurrences
-                ));
+                )); // {p=1, a=1, r=2, g=2, i=1, m=2, n=1, o=1}
 
         Map<Character, Integer> cc = input.chars()
                 .mapToObj(c -> (char) c)
                 .collect(Collectors.groupingBy(
                     Function.identity(),
                     Collectors.summingInt(c -> 1)            // If you want interger counts
-                ));
+                )); // {p=1, a=1, r=2, g=2, i=1, m=2, n=1, o=1}
 
         Map<Character, Integer> countMap = input.chars()
                 .mapToObj(c -> (char) c)
@@ -1916,12 +1915,8 @@ public class Main {
                     Function.identity(),    // Key: each character
                     c -> 1,                 // Initial count = 1
                     Integer::sum             // Merge function to sum counts
-                ));
+                )); // {p=1, a=1, r=2, g=2, i=1, m=2, n=1, o=1}
 
-
-        System.out.println(characterCount); // {p=1, a=1, r=2, g=2, i=1, m=2, n=1, o=1}
-        System.out.println(cc); // {p=1, a=1, r=2, g=2, i=1, m=2, n=1, o=1}
-        System.out.println(countMap); // {p=1, a=1, r=2, g=2, i=1, m=2, n=1, o=1}
     }
 }
 ```
@@ -2030,7 +2025,6 @@ public class HashMapSortWithNullKeyStream {
 {null=No Color, Apple=Red, Banana=Yellow, Mango=Orange}
 
 ```
-
 
 #### What's happening:
 - `Map.Entry.comparingByKey(Comparator.nullsFirst(...))` safely compares keys, putting `null` first.
@@ -2195,11 +2189,17 @@ public class ListCharToString {
                 .map(String::valueOf) // Convert each Character to a String
                 .collect(Collectors.joining()); // Join the strings
 
+        String uniqueCharactersString1 = charactersWithDuplicates.stream()
+                .map(String::valueOf) // Convert each Character to a String
+                .collect(Collectors.joining()); // Join the strings
+
         // Print the string
-        System.out.println("String with unique characters: " + uniqueCharactersString); // Output: algnala
+        System.out.println("String with unique characters: " + uniqueCharactersString); // Output: agln
+        System.out.println("String with unique characters: " + uniqueCharactersString1); // Output: algnala
     }
 }
 ```
+**[Sample code:](https://onecompiler.com/java/43fszg2vp)**
 
 ---
 ### 29. Flatter an Array using Java Stream. 
@@ -2227,7 +2227,6 @@ public class Main {
     }
     
     private static Stream<Integer> flatten(List<?> list) {
-        
         return list.stream()
                 .flatMap(e->{
                   if (e instanceof Integer) {
@@ -2251,7 +2250,266 @@ List<String> flatList = listOfLists.stream()
                                     .collect(Collectors.toList()); // flatList will contain ["A", "B", "C", "D"]
 
 ```
+---
+### 30. Find the longest string in a list of strings using Java streams:
+```java
+List<String> strings = Arrays
+              .asList("apple", "banana", "cherry", "date", "grapefruit");
+Optional<String> longestString = strings
+              .stream()
+              .max(Comparator.comparingInt(String::length)); // Output:
+```
 
+---
+### 31. Calculate the average age of a list of Person objects using Java streams:
+```java
+List<Person> persons = Arrays.asList(
+    new Person("Alice", 25),
+    new Person("Bob", 30),
+    new Person("Charlie", 35)
+);
+double averageAge = persons.stream()
+                          .mapToInt(Person::getAge)
+                          .average()
+                          .orElse(0);
+```
+---
+### 32. Check if a list of integers contains a prime number using Java streams:
+```java
+public boolean isPrime(int number) {
+  if (number <= 1) {
+    return false;
+  }
+  for (int i = 2; i <= Math.sqrt(number); i++) {
+    if (number % i == 0) {
+        return false;
+    }
+  }
+  return true;
+}
+ 
+private void printPrime() {
+  List<Integer> numbers = Arrays.asList(2, 4, 6, 8, 10, 11, 12, 13, 14, 15);
+  boolean containsPrime = numbers.stream()
+                                 .anyMatch(this::isPrime);
+  System.out.println("List contains a prime number: " + containsPrime);
+
+}
+```
+---
+### 33. Merge two sorted lists into a single sorted list using Java streams:
+```java
+List<Integer> list1 = Arrays.asList(1, 3, 5, 7, 9);
+List<Integer> list2 = Arrays.asList(2, 4, 6, 8, 10);
+List<Integer> mergedList = Stream.concat(list1.stream(), list2.stream())
+                                .sorted()
+                                .collect(Collectors.toList());
+```
+---
+### 34. Find the intersection of two lists using Java streams:
+```java
+List<Integer> list1 = Arrays.asList(1, 2, 3, 4, 5);
+List<Integer> list2 = Arrays.asList(3, 4, 5, 6, 7);
+List<Integer> intersection = list1.stream()
+                                  .filter(list2::contains)
+                                  .collect(Collectors.toList());
+```
+---
+### 35. Remove duplicates from a list while preserving the order using Java streams:
+```java
+List<Integer> numbersWithDuplicates = Arrays.asList(1, 2, 3, 2, 4, 1, 5, 6, 5);
+List<Integer> uniqueNumbers = numbersWithDuplicates
+                                       .stream()
+                                       .distinct()
+                                       .collect(Collectors.toList());
+```
+---
+### 36. Given a list of transactions, find the sum of transaction amounts for each day using Java streams:
+```java
+List<Transaction> transactions = Arrays.asList(
+    new Transaction("2022-01-01", 100),
+    new Transaction("2022-01-01", 200),
+    new Transaction("2022-01-02", 300),
+    new Transaction("2022-01-02", 400),
+    new Transaction("2022-01-03", 500)
+);
+
+Map<String, Integer> sumByDay = transactions
+                        .stream()
+                        .collect(Collectors.groupingBy(Transaction::getDate,
+                               Collectors.summingInt(Transaction::getAmount)));
+```
+---
+### 37. Find the kth smallest element in an array using Java streams:
+```java
+int[] array = {4, 2, 7, 1, 5, 3, 6};
+int k = 3; // Find the 3rd smallest element
+int kthSmallest = Arrays.stream(array)
+                       .sorted()
+                       .skip(k - 1)
+                       .findFirst()
+                       .orElse(-1);
+```
+---
+### 38. Given a list of strings, find the frequency of each word using Java streams:
+```java
+List<String> words = Arrays.asList("apple", "banana", "apple", "cherry", 
+                                    "banana", "apple");
+Map<String, Long> wordFrequency = words
+              .stream()
+              .collect(Collectors
+                    .groupingBy(Function.identity(), Collectors.counting())
+                );
+```
+----
+### 39. Implement a method to partition a list into two groups based on a predicate using Java streams:
+```java
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+Map<Boolean, List<Integer>> partitioned = numbers
+                        .stream()
+                        .collect(Collectors.partitioningBy(n -> n % 2 == 0));
+List<Integer> evenNumbers = partitioned.get(true);
+List<Integer> oddNumbers = partitioned.get(false);
+System.out.println("Even numbers: " + evenNumbers);
+System.out.println("Odd numbers: " + oddNumbers);
+```
+---
+### 40. Q. Implement a method to calculate the Fibonacci sequence using Java streams:
+```java
+Stream<Long> fibonacci = Stream.iterate(
+                    new long[]{0, 1}, f -> new long[]{f[1], f[0] + f[1]})
+                 .mapToLong(f -> f[0]);
+// Print first 10 Fibonacci numbers
+fibonacci.limit(10).forEach(System.out::println); 
+```
+---
+### 41. Find the median of a list of integers using Java streams:
+```java
+List<Integer> numbers = Arrays.asList(5, 2, 1, 3, 4);
+OptionalDouble median = numbers.stream()
+                               .sorted()
+                               .mapToInt(Integer::intValue)
+                               .collect(IntStatistics.summaryStatistics())
+                               .getMedian();
+System.out.println("Median: " + median.getAsDouble());
+```
+---
+### 42. Given a list of strings, find the longest common prefix using Java streams:
+```java
+List<String> strings = Arrays.asList("flower", "flow", "flight");
+String longestCommonPrefix = strings.stream()
+                   .reduce((s1, s2) -> {
+                       int length = Math.min(s1.length(), s2.length());
+                       int i = 0;
+                       while (i < length && s1.charAt(i) == s2.charAt(i)) {
+                           i++;
+                       }
+                       return s1.substring(0, i);
+                   })
+                   .orElse("");
+System.out.println("Longest common prefix: " + longestCommonPrefix);
+```
+---
+### 43. Find the maximum product of two integers in an array using Java streams:
+```java
+int[] array = {1, 4, 3, 6, 2, 7, 8};
+int maxProduct = IntStream.range(0, array.length)
+                      .mapToObj(i -> IntStream.range(i + 1, array.length)
+                                              .map(j -> array[i] * array[j])
+                                              .max()
+                                              .orElse(Integer.MIN_VALUE))
+                      .max(Integer::compare)
+                      .orElse(Integer.MIN_VALUE);
+System.out.println("Maximum product: " + maxProduct);
+```
+---
+### 44. Implement a method to find all anagrams in a list of strings using Java streams:
+```java
+List<String> words = Arrays.asList("listen", "silent", "hello",
+                                   "world", "night", "thing");
+Map<String, List<String>> anagrams = words.stream()
+                                   .collect(Collectors.groupingBy(str -> {
+                                       char[] chars = str.toCharArray();
+                                       Arrays.sort(chars);
+                                       return new String(chars);
+                                   }));
+System.out.println("Anagrams: " + anagrams);
+```
+---
+### 45. Given a list of intervals, find the total covered length using Java streams:
+```java
+List<Interval> intervals = Arrays.asList(new Interval(1, 3),
+                   new Interval(5, 8), new Interval(10, 12));
+int totalCoveredLength = intervals.stream()
+             .mapToInt(interval -> interval.getEnd() - interval.getStart())
+             .sum();
+System.out.println("Total covered length: " + totalCoveredLength);
+```
+### 46. Find the number of occurrences of a given character in a list of strings using Java streams:
+```java
+List<String> strings = Arrays.asList("apple", "banana", "orange", 
+                                    "grape", "melon");
+char target = 'a';
+long occurrences = strings.stream()
+                         .flatMapToInt(CharSequence::chars)
+                         .filter(c -> c == target)
+                         .count();
+System.out.println("Occurrences of '" + target + "': " + occurrences);
+```
+---
+### 47. Given a list of integers, find all pairs of numbers that sum up to a given target using Java streams:
+```java
+List<Integer> numbers = Arrays.asList(2, 4, 6, 8, 10);
+int target = 12;
+Set<String> pairs = numbers.stream()
+      .flatMap(i -> numbers.stream().
+                    map(j -> i + j == target ? "(" + i + ", " + j + ")" : ""))
+      .filter(s -> !s.isEmpty())
+      .collect(Collectors.toSet());
+System.out.println("Pairs that sum up to " + target + ": " + pairs);
+```
+---
+### 48. Given a list of integers, find all non duplicate integers using Java streams:
+```java
+List<Integer> numbers = Arrays.asList(1, 2, 3, 2, 4, 5, 6, 4, 7, 8, 9, 9);
+
+// Count the occurrences of each number
+Map<Integer, Long> frequencyMap = numbers.stream()
+        .collect(Collectors
+              .groupingBy(Function.identity(), Collectors.counting())
+         );
+
+// Filter out non-duplicate numbers
+numbers.stream()
+        .filter(number -> frequencyMap.get(number) == 1)
+        .forEach(System.out::println);
+```
+---
+### 49. Given a list of strings, find the longest string using Java streams.
+```java
+List<String> strings = Arrays.asList("apple", "banana", "orange",
+                                     "grape", "kiwi");
+
+String longestString = strings.stream()
+        .max((s1, s2) -> Integer.compare(s1.length(), s2.length()))
+        .orElse(null);
+```
+
+
+
+### 50. Stream API  
+Stream API in Java is used for processing collections efficiently.
+
+Examples:
+```java
+List<Integer> evenNumbers = numbers.stream()
+    .filter(n -> n % 2 == 0)
+    .collect(Collectors.toList());
+
+List<String> stringList = numbers.stream()
+    .map(String::valueOf)
+    .collect(Collectors.toList());
+```
 
 
 

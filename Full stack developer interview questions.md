@@ -1,25 +1,9 @@
 # Angular, Java & Spring Boot Interview Questions  
 
-## Q1. Difference Between Parallelism and Concurrency  
-| S.NO | Concurrency | Parallelism |
-|:----:|:-------------------------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
-|  1.  | Concurrency is the task of running and managing multiple computations at the same time. | Parallelism is the task of running multiple computations simultaneously. |
-|  2.  | Concurrency is achieved through interleaving operations of processes on the CPU or by context switching. | Parallelism is achieved through multiple CPUs. |
-|  3.  | Concurrency can be done using a single processing unit. | Parallelism requires multiple processing units. |
-|  4.  | Concurrency increases the amount of work finished at a time. | Parallelism improves throughput and computational speed. |
-|  5.  | Concurrency deals with many tasks simultaneously. | Parallelism does many things simultaneously. |
-|  6.  | Concurrency follows a non-deterministic control flow. | Parallelism follows a deterministic control flow. |
-|  7.  | Debugging concurrency issues is very hard. | Debugging parallelism is also hard but simpler than concurrency. |
+## Q1. 
 
 ---
-## Q2. List vs Set  
-| S.NO | List | Set |
-|:----:|:-----------------------------------------:|:-------------------------------------------:|
-|  1.  | Allows duplicate elements | Does not allow duplicate elements |
-|  2.  | Elements are ordered (insertion order) | Elements are unordered (HashSet) or ordered (TreeSet) |
-|  3.  | Allows multiple null values | Allows only one null value |
-|  4.  | Access elements by index | No index-based access |
-|  5.  | Implementations: ArrayList, LinkedList | Implementations: HashSet, TreeSet, LinkedHashSet |
+## Q2.
 
 ---
 ## Q3. Creating an Immutable Class in Java  
@@ -72,6 +56,7 @@ In Java, an **immutable class** is one whose **instances cannot be modified afte
     }
  }
 ```
+
 ### **Benefits of Immutable Classes**  
 ✔ **Thread Safety:** Immutable objects are inherently thread-safe as their state cannot change, eliminating the need for synchronization.  
 ✔ **Caching:** Since values remain constant, immutable objects can be safely cached and reused.  
@@ -91,12 +76,66 @@ In Java, the term "immutable" means that once a String object is created, its co
 - _String Pool_: Immutability also allows for the implementation of the String pool, where the JVM caches String objects with the same content. This can save memory by reusing the same object when multiple String variables refer to the same value.
 
 **Example:**
-```
+```java
 String str1 = "Hello";
 String str2 = str1 + " World";
 System.out.println(str1); // Output: Hello (str1 remains unchanged)
 System.out.println(str2); // Output: Hello World (str2 is a new string)
 ```
+
+## String Immutability in Java Explained
+Here's an explanation of String immutability in Java, using your example:
+```
+String s = "A";
+s = "B";
+System.out.println(s);
+```
+**Understanding the Code**
+#### 1. `String s = "A";`
+- This line creates a String object in memory containing the character "A".
+- The variable s is a reference that stores the memory address of this String object.
+
+#### 2. `s = "B";`
+- This line does not change the existing String object that contains "A".
+- Instead, it creates a new String object in memory containing the character "B".
+- The reference s is then updated to store the memory address of this new String object.
+- The original String object ("A") still exists in memory, but there are no more references pointing to it.  It will eventually be garbage collected by the JVM.
+
+#### 3. `System.out.println(s);
+- This line prints the value of s, which is now the memory address of the String object containing "B".  So, the output is "B".
+
+**How String Immutability Works**
+- **_Strings are Objects:_** In Java, String is a class, and string literals (like "A" and "B") are instances of that class (String objects).
+- **_Memory Allocation:_** When you create a string, the JVM allocates a block of memory to store the sequence of characters.Immutable Nature: The key point is that once a String object is created, its internal state (the character sequence) cannot be changed.  Any operation that appears to modify a string (e.g., concatenation, substring) actually creates a new String object with the modified content. The original String object remains unchanged.
+- **_No Setter Methods:_** The String class doesn't provide any methods to directly change the characters within an existing String object. You can't do something like `s.changeCharacter(0, 'C')`.
+
+**Visual Representation**
+Here's a simplified visual representation of what happens in memory:
+
+_Initial State_:
+```java
+Memory:
+[ "A" ]  <-- String object 1
+   ^
+   |
+s:  -------
+```
+After `s = "B";`
+```java
+Memory:
+[ "A" ]  <-- String object 1 (no longer referenced)
+[ "B" ]  <-- String object 2
+   ^
+   |
+s:  -------
+```
+#### Advantages of Immutability
+- **_Thread Safety:_** Immutable objects are inherently thread-safe. Multiple threads can access and share String objects without the risk of data corruption or synchronization issues. This is crucial in multithreaded applications.
+- **_Caching:_** The JVM can optimize the storage of string literals by using a string pool. Since strings are immutable, it's safe to share the same String object between different parts of the program, reducing memory usage.
+  - For example, if you have multiple variables with the value "Hello", they might all point to the same String object in the pool.
+- **_Security:_** Immutability enhances security.
+  - For example, if you pass a String object containing a password to a function, you can be sure that the function cannot modify the password string.
+- **_Simplicity:_** Immutability makes String objects simpler to reason about and use. You don't have to worry about the value of a string changing unexpectedly.
 
 ---
 ## Q4. Validation in Spring Boot  
@@ -160,6 +199,7 @@ public class UserRequest {
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -168,6 +208,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@Validated
 public class UserController {
 
     @PostMapping("/users")
@@ -202,19 +243,7 @@ public class UserController {
 - The `@ExceptionHandler` method `handleValidationExceptions` is defined within the controller to handle `MethodArgumentNotValidException`.  When validation fails, this method is invoked, and it formats the error messages into a user-friendly JSON response. The `@ResponseStatus` annotation ensures that a 400 Bad Request status is returned.
 
 ---
-## 5. Stream API  
-Stream API in Java is used for processing collections efficiently.
-
-Examples:
-```java
-List<Integer> evenNumbers = numbers.stream()
-    .filter(n -> n % 2 == 0)
-    .collect(Collectors.toList());
-
-List<String> stringList = numbers.stream()
-    .map(String::valueOf)
-    .collect(Collectors.toList());
-```
+## 5. TODO
 
 ---
 ## 6. What are functional interfaces, and how are they used? 
@@ -273,7 +302,7 @@ Functional interfaces are primarily used in the context of lambda expressions an
    ```
 4. **Event Handling**: Functional interfaces can be used in event handling scenarios, such as in GUI applications, where you can define actions for button clicks or other events.
 
-**Conclusion**
+#### Conclusion
 Functional interfaces are a powerful feature in Java that enable functional programming paradigms. They allow for cleaner, more concise code by enabling the use of lambda expressions and method references, making it easier to pass behavior as parameters and work with collections and streams.
 
 ---
@@ -282,6 +311,7 @@ The SOLID principles are a set of design principles in object-oriented programmi
 
 #### S- Single Responsibility Principle (SRP)
 **Definition**: A class should have only one reason to change, meaning it should have only one job or responsibility.
+
 **Why it matters:**
 - Improves cohesion
 - Easier to test, maintain, and refactor
@@ -312,6 +342,7 @@ public class InvoiceRepository {
 
 #### O- Open/Closed Principle (OCP)
 **Definition**: A class should be open for extension but closed for modification.
+
 **Why it matters:**
 - Encourages reuse
 - Reduces risk of bugs when changing code
@@ -364,6 +395,7 @@ class AreaCalculator {
 
 #### L- Liskov Substitution Principle (LSP)
 **Definition**: Subtypes must be substitutable for their base types without altering the correctness of the program.
+
 **Why it matters:**
 - Ensures inheritance works as expected
 - Prevents runtime surprises
@@ -1501,59 +1533,26 @@ Here's a breakdown of some common codes:
 These codes are categorized into groups based on their meaning, such as 1xx (`informational`), 2xx (`success`), 3xx (`redirection`), 4xx (`client errors`), and 5xx (`server errors`).
 
 ---
-## 35. String Immutability in Java Explained
-Here's an explanation of String immutability in Java, using your example:
-```
-String s = "A";
-s = "B";
-System.out.println(s);
-```
-**Understanding the Code**
-#### 1. `String s = "A";`
-- This line creates a String object in memory containing the character "A".
-- The variable s is a reference that stores the memory address of this String object.
+## 35. Difference 
+### Difference between Parallelism and Concurrency  
+| S.NO | Concurrency | Parallelism |
+|:----:|:-----------:|:-----------:|
+|  1.  | Concurrency is the task of running and managing multiple computations at the same time. | Parallelism is the task of running multiple computations simultaneously. |
+|  2.  | Concurrency is achieved through interleaving operations of processes on the CPU or by context switching. | Parallelism is achieved through multiple CPUs. |
+|  3.  | Concurrency can be done using a single processing unit. | Parallelism requires multiple processing units. |
+|  4.  | Concurrency increases the amount of work finished at a time. | Parallelism improves throughput and computational speed. |
+|  5.  | Concurrency deals with many tasks simultaneously. | Parallelism does many things simultaneously. |
+|  6.  | Concurrency follows a non-deterministic control flow. | Parallelism follows a deterministic control flow. |
+|  7.  | Debugging concurrency issues is very hard. | Debugging parallelism is also hard but simpler than concurrency. |
 
-#### 2. `s = "B";`
-- This line does not change the existing String object that contains "A".
-- Instead, it creates a new String object in memory containing the character "B".
-- The reference s is then updated to store the memory address of this new String object.
-- The original String object ("A") still exists in memory, but there are no more references pointing to it.  It will eventually be garbage collected by the JVM.
-
-#### 3. `System.out.println(s);
-- This line prints the value of s, which is now the memory address of the String object containing "B".  So, the output is "B".
-
-**How String Immutability Works**
-- **_Strings are Objects:_** In Java, String is a class, and string literals (like "A" and "B") are instances of that class (String objects).
-- **_Memory Allocation:_** When you create a string, the JVM allocates a block of memory to store the sequence of characters.Immutable Nature: The key point is that once a String object is created, its internal state (the character sequence) cannot be changed.  Any operation that appears to modify a string (e.g., concatenation, substring) actually creates a new String object with the modified content. The original String object remains unchanged.
-- **_No Setter Methods:_** The String class doesn't provide any methods to directly change the characters within an existing String object. You can't do something like `s.changeCharacter(0, 'C')`.
-
-**Visual Representation**
-Here's a simplified visual representation of what happens in memory:
-
-_Initial State_:
-```
-Memory:
-[ "A" ]  <-- String object 1
-   ^
-   |
-s:  -------
-```
-After `s = "B";`
-```
-Memory:
-[ "A" ]  <-- String object 1 (no longer referenced)
-[ "B" ]  <-- String object 2
-   ^
-   |
-s:  -------
-```
-**Advantages of Immutability**
-- **_Thread Safety:_** Immutable objects are inherently thread-safe. Multiple threads can access and share String objects without the risk of data corruption or synchronization issues. This is crucial in multithreaded applications.
-- **_Caching:_** The JVM can optimize the storage of string literals by using a string pool. Since strings are immutable, it's safe to share the same String object between different parts of the program, reducing memory usage.
-  - For example, if you have multiple variables with the value "Hello", they might all point to the same String object in the pool.
-- **_Security:_** Immutability enhances security.
-  - For example, if you pass a String object containing a password to a function, you can be sure that the function cannot modify the password string.
-- **_Simplicity:_** Immutability makes String objects simpler to reason about and use. You don't have to worry about the value of a string changing unexpectedly.
+### Difference between List vs Set  
+| S.NO | List | Set |
+|:----:|:----:|:---:|
+|  1.  | Allows duplicate elements | Does not allow duplicate elements |
+|  2.  | Elements are ordered (insertion order) | Elements are unordered (HashSet) or ordered (TreeSet) |
+|  3.  | Allows multiple null values | Allows only one null value |
+|  4.  | Access elements by index | No index-based access |
+|  5.  | Implementations: ArrayList, LinkedList | Implementations: HashSet, TreeSet, LinkedHashSet |
 
 ---
 ## 36. Detailed comparison between `HashMap`, `TreeMap`, and `LinkedHashMap` in Java, along with examples to illustrate how and when you would use each.
@@ -4400,7 +4399,48 @@ Deployment relies on infrastructure, which could include:
 In essence, deployment is the process of taking software from development to production in a controlled and automated way.
 
 ---
-## 72. TODO
+## 72. How should you validate the data in full stack application
+Data validation in a full-stack application should be implemented at multiple levels: frontend, backend, and database to ensure data integrity and a better user experience. This involves validating data types, formats, ranges, and consistency on the client-side using JavaScript and built-in form validation, and enforcing data integrity on the server-side and at the database level using schema validators and database constraints.
+Here's a more detailed breakdown: 
+
+### 1. Frontend (Client-Side) Validation:
+
+- Purpose: Improve user experience by providing immediate feedback on invalid input, reducing unnecessary server requests, and potentially preventing certain types of attacks.  
+- Techniques:   
+	- JavaScript: Use JavaScript to validate input fields in real-time, for example, by checking for required fields, valid email formats, or numerical ranges.  
+	- HTML5 Validation: Leverage HTML5 validation features for basic input validation, like email, URL, and number fields.
+
+- Benefits: Faster feedback to users, reduces unnecessary server load, and can catch common errors before they reach the server.  
+- Example: A form that requires an email address can use JavaScript to check if the input matches a regular expression for a valid email format.   
+
+### 2. Backend (Server-Side) Validation:
+
+- Purpose: Ensure data integrity and security by validating data before it's stored in the database, even if client-side validation is implemented.  
+- Techniques:   
+	- Schema Validators: Use libraries like Zod to define and validate data schemas.
+	- Custom Validators: Implement custom validation logic using programming languages and frameworks like PHP, Node.js, etc.
+
+- Benefits: Prevents malicious or invalid data from reaching the database, ensures data consistency, and protects against security vulnerabilities.
+- Example: A backend service can use a schema validator to ensure that a user profile object contains the expected fields (name, email, age) and that the values are of the correct data type.  
+
+### 3. Database Validation:
+
+- Purpose: Enforce data integrity at the database level, ensuring that only valid data is stored. 
+- Techniques: 
+	- Database Constraints: Use constraints like `CHECK` constraints (for validating ranges or formats), `NOT NULL` constraints, and `UNIQUE` constraints to enforce data validation rules at the database level. 
+	- Referential Integrity: Use foreign keys to enforce relationships between tables and prevent orphaned records. 
+
+- Benefits: Data integrity is guaranteed even if the frontend and backend validation fail, and the database is protected from invalid or malicious data. 
+- Example: A database can use a `CHECK` constraint to ensure that an age field is within a valid range (e.g., between 0 and 120).  
+
+In summary, a robust data validation strategy in a full-stack application should involve all three levels: frontend for user experience and performance, backend for security and integrity, and database for data consistency and reliability.
+
+### Additional Considerations:  
+
+- Error Handling: Implement proper error handling to display meaningful error messages to users on the frontend and log errors on the backend.  
+- Testing: Thoroughly test data validation logic with various input scenarios, including valid and invalid data, to ensure its effectiveness.
+- Security: Be aware of common security vulnerabilities related to data validation, such as XSS and CSRF attacks, and take appropriate measures to mitigate them.
+- Data Sanitization: Sanitize user input to remove potentially malicious characters or code before storing it in the database.
 
 ---
 
@@ -6266,7 +6306,7 @@ public class Main {
 ---
 ## Q. `transient` keyword in Java
 The `transient` keyword in Java is a variable modifier that indicates that a field should be excluded from the serialization process. Serialization is the process of converting an object's state into a byte stream, which can then be stored or transmitted. When an object is deserialized, the byte stream is used to recreate the object.
-When a field is declared as `transient`, its value is not included in the serialized byte stream. As a result, when the object is deserialized, the transient field will have its default value (e.g., `0 for integers, `null` for objects). 
+When a field is declared as `transient`, its value is not included in the serialized byte stream. As a result, when the object is deserialized, the `transient` field will have its default value (e.g., `0 for integers`, `null` for objects). 
 
 The `transient` keyword is often used for fields that should not be persisted, such as: 
 - _Sensitive data_: Fields containing sensitive information, such as passwords or API keys, should be marked as `transient` to prevent them from being stored in a serialized form. 
@@ -6274,7 +6314,7 @@ The `transient` keyword is often used for fields that should not be persisted, s
 - _Non-serializable fields_: Fields that are not serializable, such as file handles or threads, must be marked as `transient`. 
 
 **Here's an example:** 
-```
+```java
 import java.io.*;
 
 class MyClass implements Serializable {
@@ -6332,7 +6372,7 @@ To create a Eureka Server in Java using Spring Boot, follow these steps:
 - **Project Setup:** 
   - Create a new Spring Boot project using Spring Initializr or your IDE. 
   - Add the `spring-cloud-starter-netflix-eureka-server` dependency to your `pom.xml` or `build.gradle` file. 
-```
+```application.yml
 <dependency>
 	<groupId>org.springframework.cloud</groupId>
 	<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
@@ -6341,7 +6381,8 @@ To create a Eureka Server in Java using Spring Boot, follow these steps:
 
 - **Enable Eureka Server: **
   - Add the `@EnableEurekaServer` annotation to your main application class. 
-```
+
+```java
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
@@ -6357,7 +6398,8 @@ public class EurekaServerApplication {
 
 - Configuration: 
   - Configure the Eureka Server in your `application.properties` or `application.yml` file. 
-```
+
+```application.yml
 server:
     port: 8761
     
@@ -6513,7 +6555,7 @@ While Spring Boot offers numerous advantages, it's important to be aware of its 
 It's important to note that many of these drawbacks can be mitigated with proper planning, development practices, and a good understanding of the Spring framework.
 
 ---
-## Q. Volatile vs. Transient in Java
+## Q. Difference between Volatile vs. Transient keyword in Java
 | Feature         | `volatile`             | `transient`         |
 |-----------------|------------------------|---------------------|
 | **Purpose**      | Ensures variable's value is always read from and written to main memory    | Excludes variable from serialization                               |
