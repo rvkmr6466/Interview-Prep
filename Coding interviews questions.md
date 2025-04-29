@@ -2203,6 +2203,7 @@ public class ListCharToString {
 
 ---
 ### 29. Flatter an Array using Java Stream. 
+#### Examples:
 | Input            | Output | Explanation                          |
 |-----------------|--------|--------------------------------------|
 | `"array = [1, [2, 3], [4, [5, 6]], 7]"` | `"[1, 2, 3, 4, 5, 6, 7]"`  | All element should be in 1D-Array  |
@@ -2223,7 +2224,6 @@ public class Main {
                 .collect(Collectors.toList());
 
         System.out.println(flatList); 
-      
     }
     
     private static Stream<Integer> flatten(List<?> list) {
@@ -2240,6 +2240,12 @@ public class Main {
     }
 }
 ```
+#### Examples
+| Input            | Output | Explanation                          |
+|-----------------|--------|--------------------------------------|
+| `"array = [[2, 3], [4], [5, 6]]"` | `"[2, 3, 4, 5, 6]"`  | All element should be in 1D-Array  |
+| `"array = [[1, 2], [3, 4], [5, 6]]"` | `"[1, 2, 3, 4, 5, 6]"`  | All element should be in 1D-Array  |
+
 ```java
 List<List<String>> listOfLists = Arrays.asList(
     Arrays.asList("A", "B"),

@@ -7,37 +7,38 @@
 
 ---
 ## Q3. Creating an Immutable Class in Java  
-In Java, an **immutable class** is one whose **instances cannot be modified after creation, ensuring their state remains constant**. To create an immutable class, you need to:  
-- Make the class `final`  
-- Declare fields as `private` and `final`  
-- Provide a constructor to initialize fields  
-- Use **defensive copying** for mutable objects
+An **immutable class** in Java is a class whose instances cannot be modified once they are created. This means that the state of an immutable object remains constant throughout its lifetime. Immutable classes are beneficial for various reasons, including thread-safety, simplicity, and predictability.
 
-### **Steps to Create an Immutable Class in Java**  
-1. **Make the class `final`**  
-   - Prevents inheritance, which could allow modification through subclassing.  
-2. **Make all fields `private` and `final`**  
-   - Prevents direct access and modification of fields after object creation.  
-3. **Provide a constructor to initialize all fields**  
-   - Use a constructor to set initial values.  
-   - Perform deep copies for mutable objects to avoid unintended modifications.  
-4. **Do not provide setter methods**  
-   - Since the object's state is immutable, there should be no methods to modify its fields.  
-5. **Use getter methods carefully**  
-   - If fields are mutable, return a **copy** of the object instead of exposing the original reference.  
-6. **Use defensive copying for mutable objects**  
-   - If the class contains references to mutable objects, create and return a copy in getter methods to **prevent external modification** of the internal state
-  
-### **Example: Immutable Class in Java**
+### Key Principles of Immutability
+
+To create an immutable class in Java, follow these principles:
+1. **Declare the class as final**: This prevents other classes from extending it.
+2. **Make all fields private and final**: This ensures that the fields cannot be modified after the object is created.
+3. **Provide a parameterized constructor**: Initialize all fields through the constructor.
+4. **Do not provide setter methods**: This prevents modification of the fields.
+5. **Perform deep copies for mutable fields**: Ensure that mutable fields are not exposed directly. If the class contains references to mutable objects, create and return a copy in getter methods to **prevent external modification** of the internal state
+
+### Example of an Immutable Class
+Here is an example of an immutable class in Java:
 ```java
- public final class Person {
+import java.util.HashMap;
+import java.util.Map;
+
+public final class Student {
     private final String name;
-    private final int age;
+    private final int regNo;
+    private final Map<String, String> metadata;
     private final String[] hobbies; // Example of a mutable object
 
-    public Person(String name, int age, String[] hobbies) {
+    public Student(String name, int regNo, Map<String, String> metadata) {
         this.name = name;
-        this.age = age;
+        this.regNo = regNo;
+        // Perform a deep copy of the metadata map
+        Map<String, String> tempMap = new HashMap<>();
+        for (Map.Entry<String, String> entry : metadata.entrySet()) {
+            tempMap.put(entry.getKey(), entry.getValue());
+        }
+        this.metadata = tempMap;
         // Defensive copy for mutable object
         this.hobbies = hobbies.clone();
     }
@@ -46,26 +47,43 @@ In Java, an **immutable class** is one whose **instances cannot be modified afte
         return name;
     }
 
-    public int getAge() {
-        return age;
+    public int getRegNo() {
+        return regNo;
+    }
+
+    public Map<String, String> getMetadata() {
+        // Return a deep copy of the metadata map
+        Map<String, String> tempMap = new HashMap<>();
+        for (Map.Entry<String, String> entry : this.metadata.entrySet()) {
+        tempMap.put(entry.getKey(), entry.getValue());
+        }
+        return tempMap;
     }
 
     // Defensive copy for mutable object in getter method
     public String[] getHobbies() {
         return hobbies.clone();
     }
- }
+}
 ```
+In this example, the `Student` class is immutable because:
+- The class is declared as `final`.
+- All fields are `private` and `final`.
+- There are no setter methods.
+- The `constructor` performs a deep copy of the `metadata` map.
+- The `getMetadata` method returns a deep copy of the `metadata` map.
 
-### **Benefits of Immutable Classes**  
-✔ **Thread Safety:** Immutable objects are inherently thread-safe as their state cannot change, eliminating the need for synchronization.  
-✔ **Caching:** Since values remain constant, immutable objects can be safely cached and reused.  
-✔ **Data Integrity:** Immutability ensures the object’s data remains consistent throughout its lifecycle.  
-✔ **Functional Programming:** Immutability is a core principle of functional programming, making code easier to understand and debug.  
-✔ **Security:** Prevents accidental or malicious modification of sensitive data.  
-✔ **Example** – 
+### Benefits of Immutable Classes
+- Immutable classes offer several advantages:
+  - **Thread-safety**: Immutable objects are inherently thread-safe since their state cannot be changed after creation.
+  - **Simplicity**: Immutable objects are easier to construct, test, and use.
+  - **Predictability**: Immutable objects guarantee that their state will not change, making them more predictable.
+  - **Cacheability**: Immutable objects can be safely cached without worrying about state changes.
+  - **Security:** Prevents accidental or malicious modification of sensitive data.  
+  - **Functional Programming:** Immutability is a core principle of functional programming, making code easier to understand and debug.
+  - **Example** – 
 
-**`String` Class:**  
+### `String` Class:  
    - The `String` class in Java is immutable. Once a `String` object is created, its value cannot be changed.
 In Java, the term "immutable" means that once a String object is created, its content cannot be changed. This implies that any operation that appears to modify a String actually creates a new String object with the modified content, leaving the original String unchanged.
 
@@ -83,7 +101,7 @@ System.out.println(str1); // Output: Hello (str1 remains unchanged)
 System.out.println(str2); // Output: Hello World (str2 is a new string)
 ```
 
-## String Immutability in Java Explained
+### String Immutability in Java Explained
 Here's an explanation of String immutability in Java, using your example:
 ```
 String s = "A";
@@ -128,14 +146,9 @@ Memory:
    ^
    |
 s:  -------
-```
-#### Advantages of Immutability
-- **_Thread Safety:_** Immutable objects are inherently thread-safe. Multiple threads can access and share String objects without the risk of data corruption or synchronization issues. This is crucial in multithreaded applications.
-- **_Caching:_** The JVM can optimize the storage of string literals by using a string pool. Since strings are immutable, it's safe to share the same String object between different parts of the program, reducing memory usage.
-  - For example, if you have multiple variables with the value "Hello", they might all point to the same String object in the pool.
-- **_Security:_** Immutability enhances security.
-  - For example, if you pass a String object containing a password to a function, you can be sure that the function cannot modify the password string.
-- **_Simplicity:_** Immutability makes String objects simpler to reason about and use. You don't have to worry about the value of a string changing unexpectedly.
+``` 
+
+By following these principles and practices, you can create robust and reliable immutable classes in Java. This approach helps in writing cleaner, safer, and more maintainable code.
 
 ---
 ## Q4. Validation in Spring Boot  
@@ -609,7 +622,7 @@ Spring Boot follows **Microservices architecture** and includes:
 ## 12. TODO
 
 ---
-## 13. What is the Factory Pattern?
+## 13. What is the Factory Design Pattern?
 The **Factory Design Pattern** is a **creational design pattern** used to create objects **without exposing the instantiation logic to the client**. It provides an interface for creating objects in a **superclass**, but allows **subclasses to alter the type of objects** that will be created.
 
 **When to Use:**
@@ -1785,12 +1798,12 @@ public class UserController {
 ## 38. Spring Boot - Dependency Injection
 Dependency Injection (DI) is a core principle in Spring Boot that enables the development of loosely coupled, testable, and maintainable applications. Spring Boot's DI mechanism is built on top of the Spring Framework's Inversion of Control (IoC) container.
 
-**Core Concepts in Spring Boot DI**
+### Core Concepts in Spring Boot DI
 - **Bean:** In Spring, a bean is an object that is managed by the Spring IoC container. These are the dependencies that get injected.
 - **Spring IoC Container:** The heart of Spring's DI, responsible for instantiating, configuring, and managing the lifecycle of beans.
 - **Injection:** The process of providing the required dependencies to a bean.
 
-**How Dependency Injection Works in Spring Boot**
+### How Dependency Injection Works in Spring Boot
 - **Bean Definition:** You define beans by annotating classes with `@Component`, `@Service`, `@Repository`, or `@Controller`.  You can also define beans using `@Bean` within a `@Configuration` class.
 ```
 @Service
@@ -1829,10 +1842,11 @@ public class MyController {
 
 - **Bean Resolution and Injection:** When the Spring Boot application starts, the Spring IoC container reads the bean definitions and resolves the dependencies. It then creates the required bean instances and injects them into the classes that need them.
 
-**Types of Dependency Injection in Spring Boot**
+### Types of Dependency Injection in Spring Boot
 - **Constructor Injection:**
   - The preferred way. Dependencies are provided through the constructor.
-```
+
+```java
 @Service
 public class MyService {
     private final MyRepository myRepository;
@@ -1869,7 +1883,8 @@ public class MyController {
     // ...
 }
 ```
-**Advantages of Using DI in Spring Boot**
+
+### Advantages of Using DI in Spring Boot
 - **Loose Coupling:** Components are less dependent on each other, leading to more modular and maintainable code.
 - **Testability:** Makes unit testing easier by allowing you to inject mock dependencies.
 - **Reusability:** Beans can be easily reused in different parts of the application.
@@ -1877,7 +1892,7 @@ public class MyController {
 - **Simplified Configuration:** Spring Boot simplifies DI with its auto-configuration capabilities.
 
 ---
-## 39. InterruptedException in Java
+## 39. `InterruptedException` in Java
 `InterruptedException` is a checked exception in Java that is closely related to thread management. It's thrown when a thread is interrupted while it's in a waiting, sleeping, or otherwise blocked state.
 
 **What is Thread Interruption?**
@@ -1956,23 +1971,157 @@ These patterns deal with class and object composition, defining ways to assemble
 - _Composite:_ 
   - Creates a tree-like structure of objects, allowing users to manipulate individual objects or collections of objects uniformly.
 - _Decorator:_ 
-  - Dynamically adds responsibilities to objects without changing their class, offering a flexible alternative to inheritance.
-- _Facade:_ 
-  - Provides a simplified interface to a complex subsystem, hiding its details.
+  - Dynamically adds responsibilities to objects without changing their class, offering a flexible alternative to inheritance.  
 - _Flyweight:_ 
   - Minimizes memory usage by sharing objects for similar functionality.
-- _Proxy:_ 
-  - Provides a placeholder for another object, controlling access to it and potentially reducing its cost or complexity.
+
+### Facade: 
+  - Provides a simplified interface to a complex subsystem, hiding its details.
+  - Facade defines a high-level interface that makes the subsystem easier to use. 
+![Facade Image](image-1.png)
+
+#### Advantages of Facade Method Design Pattern
+- Simplified Interface:
+  - Simplifies the use and understanding of a complex system by offering a clear and concise interface.
+  - Hides the internal details of the system, reducing cognitive load for clients.
+- Reduced Coupling:
+  - Clients become less reliant on the internal workings of the underlying system when they are disconnected from it.
+  - Encourages the reusability and modularity of code components.
+  - Allows for the independent testing and development of various system components.
+- Encapsulation:
+  - Encapsulates the complex interactions within a subsystem, protecting clients from changes in its implementation.
+  - Allows for changes to the subsystem without affecting clients, as long as the facade interface remains stable.
+- Improved Maintainability:
+  - Easier to change or extend the underlying system without affecting clients, as long as the facade interface remains consistent.
+  - Allows for refactoring and optimization of the subsystem without impacting client code.
+
+#### Disadvantages of Facade Method Design Pattern
+- Increased Complexity:
+  - Adding the facade layer in the system increases the level of abstraction.
+  - Because of this, the code may be more difficult to understand and debug
+- Reduced Flexibility:
+  - The facade acts as a single point of access to the underlying system.
+  - This can limit the flexibility for clients who need to bypass the facade or access specific functionalities hidden within the subsystem.
+- Overengineering:
+  - Applying the facade pattern to very simple systems can be overkill, adding unnecessary complexity where it’s not needed.
+  - Consider the cost-benefit trade-off before implementing a facade for every situation.
+- Potential Performance Overhead:
+  - Adding an extra layer of indirection through the facade can introduce a slight performance overhead, especially for frequently used operations.
+  - This may not be significant for most applications, but it’s worth considering in performance-critical scenarios.
+
+#### Conclusion
+The facade pattern is appropriate when you have a complex system that you want to expose to clients in a simplified way, or you want to make an external communication layer over an existing system that is incompatible with the system. Facade deals with interfaces, not implementation. Its purpose is to hide internal complexity behind a single interface that appears simple on the outside.  
+
+### Proxy: 
+  - Provides a placeholder for another object, controlling access to it and potentially reducing its cost or complexity. It is used to control access to the original object, adding a layer of abstraction.
+
+In a Spring Boot application, the Proxy Design Pattern can be implemented in various ways. One common use case is to add additional functionality to a service, such as logging, caching, or security checks, without modifying the original service code.
+
+#### Example: Logging Proxy
+
+Let's create a simple example where we use a proxy to add logging functionality to a service.
+
+**Step 1**: Define the Service Interface
+
+```java
+public interface UserService {
+    void createUser(String username);
+}
+```
+**Step 2**: Implement the Service
+```java
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserServiceImpl implements UserService {
+    @Override
+    public void createUser(String username) {
+        // Simulate user creation logic
+        System.out.println("User " + username + " created.");
+    }
+}
+```
+**Step 3**: Create the Proxy
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class UserServiceProxy implements UserService {
+
+    private final UserService userService;
+
+    @Autowired
+    public UserServiceProxy(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Override
+    public void createUser(String username) {
+        // Add logging before calling the actual service
+        System.out.println("Logging: Creating user " + username);
+        userService.createUser(username);
+        // Add logging after calling the actual service
+        System.out.println("Logging: User " + username + " created successfully");
+    }
+}
+```
+**Step 4**: Configure Spring to Use the Proxy
+
+To ensure that Spring uses the proxy instead of the actual service, you can use the `@Primary` annotation or configure it in a more advanced way using Spring's AOP features. Here, we'll use `@Primary` for simplicity.
+```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    @Primary
+    public UserService userService(UserServiceProxy userServiceProxy) {
+        return userServiceProxy;
+    }
+}
+```
+**Step 5**: Use the Service in a Controller
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class UserController {
+
+    private final UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping("/createUser")
+    public String createUser(@RequestParam String username) {
+        userService.createUser(username);
+        return "User created successfully";
+    }
+}
+```
+#### Explanation
+1. **Service Interface**: Defines the contract for the service.
+2. **Service Implementation**: Implements the actual business logic.
+3. **Proxy**: Implements the same interface and adds additional functionality (logging in this case) before and after delegating the call to the actual service.
+4. **Configuration**: Ensures that Spring uses the proxy instead of the actual service.
+5. **Controller**: Uses the service, unaware of whether it's calling the proxy or the actual service.
+
+This setup allows you to add or modify the additional functionality (like logging) without changing the original service code, adhering to the Open/Closed Principle.
 
 #### 3. Behavioral Patterns: 
-
 These patterns deal with the communication and interaction between objects, defining algorithms and responsibilities. 
 - _Chain of Responsibility:_
   - Passes a request down a chain of objects, allowing multiple objects to handle it.
 - _Command:_
   - Encapsulates a request as an object, allowing for parameterization of clients with different actions.
-- _Interpreter:_
-  - Defines how to represent a grammar of language elements and provide an interpreter to evaluate these elements.
 - _Iterator:_
   - Provides a way to access the elements of a collection sequentially without exposing its underlying implementation.
 - _Mediator:_
@@ -1989,6 +2138,84 @@ These patterns deal with the communication and interaction between objects, defi
   - Defines the skeleton of an algorithm, allowing subclasses to customize specific steps without modifying the algorithm itself.
 - _Visitor:_
   - Represents an operation to be performed on the elements of an object structure, allowing the same operation to be applied to different types of objects without code changes.
+
+### Interpreter:
+  - Defines how to represent a grammar of language elements and provide an interpreter to evaluate these elements.
+
+Here is an example of the Interpreter design pattern in Java, focusing on evaluating arithmetic expressions: 
+```java
+// Abstract Expression Interface
+interface Expression {
+    int interpret();
+}
+
+// Terminal Expression: Number
+class Number implements Expression {
+    private int number;
+
+    public Number(int number) {
+        this.number = number;
+    }
+
+    @Override
+    public int interpret() {
+        return number;
+    }
+}
+
+// Non-terminal Expression: Addition
+class Addition implements Expression {
+    private Expression left;
+    private Expression right;
+
+    public Addition(Expression left, Expression right) {
+        this.left = left;
+        this.right = right;
+    }
+
+    @Override
+    public int interpret() {
+        return left.interpret() + right.interpret();
+    }
+}
+
+// Non-terminal Expression: Subtraction
+class Subtraction implements Expression {
+    private Expression left;
+    private Expression right;
+
+    public Subtraction(Expression left, Expression right) {
+        this.left = left;
+        this.right = right;
+    }
+
+    @Override
+    public int interpret() {
+        return left.interpret() - right.interpret();
+    }
+}
+
+// Client Code
+public class Client {
+    public static void main(String[] args) {
+        // Example expression: (10 + 5) - 3
+        Expression expression = new Subtraction(
+            new Addition(new Number(10), new Number(5)),
+            new Number(3)
+        );
+
+        int result = expression.interpret();
+        System.out.println("Result: " + result); // Output: Result: 12
+    }
+}
+```
+
+In this example: 
+
+- Expression is the abstract interface for all expressions. 
+- Number is a terminal expression representing a number. 
+- Addition and Subtraction are non-terminal expressions representing operations. 
+- The Client builds and interprets the expression tree. 
 
 ---
 ## 41. What is Microservice Architecture?
