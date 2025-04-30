@@ -2439,7 +2439,7 @@ Map<String, List<String>> anagrams = words.stream()
                                        Arrays.sort(chars);
                                        return new String(chars);
                                    }));
-System.out.println("Anagrams: " + anagrams);
+System.out.println("Anagrams: " + anagrams); // TODO
 ```
 ---
 ### 45. Given a list of intervals, find the total covered length using Java streams:
@@ -2449,7 +2449,7 @@ List<Interval> intervals = Arrays.asList(new Interval(1, 3),
 int totalCoveredLength = intervals.stream()
              .mapToInt(interval -> interval.getEnd() - interval.getStart())
              .sum();
-System.out.println("Total covered length: " + totalCoveredLength);
+System.out.println("Total covered length: " + totalCoveredLength); // TODO
 ```
 ### 46. Find the number of occurrences of a given character in a list of strings using Java streams:
 ```java
@@ -2460,7 +2460,7 @@ long occurrences = strings.stream()
                          .flatMapToInt(CharSequence::chars)
                          .filter(c -> c == target)
                          .count();
-System.out.println("Occurrences of '" + target + "': " + occurrences);
+System.out.println("Occurrences of '" + target + "': " + occurrences); // TODO
 ```
 ---
 ### 47. Given a list of integers, find all pairs of numbers that sum up to a given target using Java streams:
@@ -2472,8 +2472,9 @@ Set<String> pairs = numbers.stream()
                     map(j -> i + j == target ? "(" + i + ", " + j + ")" : ""))
       .filter(s -> !s.isEmpty())
       .collect(Collectors.toSet());
-System.out.println("Pairs that sum up to " + target + ": " + pairs);
+System.out.println("Pairs that sum up to " + target + ": " + pairs); // TODO
 ```
+
 ---
 ### 48. Given a list of integers, find all non duplicate integers using Java streams:
 ```java
@@ -2488,7 +2489,7 @@ Map<Integer, Long> frequencyMap = numbers.stream()
 // Filter out non-duplicate numbers
 numbers.stream()
         .filter(number -> frequencyMap.get(number) == 1)
-        .forEach(System.out::println);
+        .forEach(System.out::println); // TODO
 ```
 ---
 ### 49. Given a list of strings, find the longest string using Java streams.
@@ -2499,6 +2500,7 @@ List<String> strings = Arrays.asList("apple", "banana", "orange",
 String longestString = strings.stream()
         .max((s1, s2) -> Integer.compare(s1.length(), s2.length()))
         .orElse(null);
+        System.out.println(longesString); // TODO
 ```
 
 
@@ -2516,7 +2518,26 @@ List<String> stringList = numbers.stream()
     .map(String::valueOf)
     .collect(Collectors.toList());
 ```
+---
+### 51. Reverse a String in O(n/2) time complexity.
+```java
+public static void main(String[] args) {
+    String str= "ghfgytytyp";
 
+    char[] ss = str.toCharArray();
+    
+    for (int i = 0; i < ss.length/2; i++) {
+    char temp = ss[i];
+    ss[i] = ss[ss.length-1-i];
+    ss[ss.length-1-i] = temp;
+    }
+    
+    String rev = new String(ss);
+    System.out.println(rev); // Output: pytytygfhg
+}
+```
+---
+### 52. 
 
 
 ---

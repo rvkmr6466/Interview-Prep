@@ -1,6 +1,170 @@
-# Angular, Java & Spring Boot Interview Questions  
+# Java, Spring Boot, JPA & Microservices Interview Questions  
 
-## Q1. 
+### Q1. Spring Boot application works internally?
+Understanding how a **Spring Boot application works internally** is crucial for mastering backend development. Here's a detailed explanation of the internal workflow when a Spring Boot application starts and runs.
+
+### 1. **Spring Boot Application Entry Point**
+
+Every Spring Boot application starts from a class annotated with:
+
+```java
+@SpringBootApplication
+public class MyApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MyApplication.class, args);
+    }
+}
+```
+
+#### `@SpringBootApplication` is a meta-annotation:
+- Combines:
+  - `@Configuration` – marks the class as a configuration class.
+  - `@EnableAutoConfiguration` – enables Spring Boot's auto-configuration mechanism.
+  - `@ComponentScan` – enables component scanning in the package and sub-packages.
+
+### 2. **`SpringApplication.run()` Method**
+
+This is the core of Spring Boot's startup process.
+
+```java
+SpringApplication.run(MyApplication.class, args);
+```
+
+Internally, it performs the following:
+
+- **Creates a `SpringApplication` instance**
+- **Sets up default configurations**
+- **Starts logging system**
+- **Loads application properties** (`application.yml` or `application.properties`)
+- **Determines web application type** (Servlet, Reactive, or None)
+- **Prepares the application context**
+
+### 3. **ApplicationContext Initialization**
+
+Spring Boot uses either:
+- `AnnotationConfigServletWebServerApplicationContext` for web apps.
+- `AnnotationConfigApplicationContext` for non-web apps.
+
+It:
+- Loads all `@Component`, `@Service`, `@Repository`, and `@Controller` beans.
+- Applies any custom `@Configuration` classes.
+- Processes `@Autowired`, `@Value`, and `@ComponentScan`.
+
+### 4. **Auto-Configuration**
+
+- Triggered by `@EnableAutoConfiguration`.
+- Spring Boot scans `spring.factories` for `AutoConfiguration` classes.
+- Based on the classpath (e.g., if `spring-boot-starter-web` is found), it automatically configures:
+  - Embedded Tomcat
+  - DispatcherServlet
+  - Jackson for JSON, etc.
+
+### 5. **Embedded Server Startup**
+
+If it's a web application:
+- Spring Boot starts an **embedded server** like **Tomcat**, **Jetty**, or **Undertow**.
+- Registers a **DispatcherServlet** to handle all incoming HTTP requests.
+
+### 6. **Application Ready**
+
+Once the ApplicationContext is fully initialized and all beans are ready:
+- `CommandLineRunner` and `ApplicationRunner` beans are executed.
+- Logs: `"Started MyApplication in X seconds"`
+
+### Summary
+
+Here's the high-level sequence:
+
+1. Run `main()` → `SpringApplication.run()`
+2. Bootstraps Spring context
+3. Loads auto-configurations and beans
+4. Starts embedded web server
+5. Application is ready to serve requests
+
+#### Example
+
+If you have this controller:
+
+```java
+@RestController
+public class HelloController {
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello, Spring Boot!";
+    }
+}
+```
+
+Spring Boot auto-configures everything:
+- Starts Tomcat
+- Registers this controller as a bean
+- Maps `/hello` endpoint
+
+You just run the app and hit `http://localhost:8080/hello`.
+
+![Microservice architecture using Spring Boot and Spring Cloud](image-2.png) 
+![Spring Boot flow architecture](image-3.png)
+
+[![Spring Boot – Architecture | GeeksforGeeks](https://images.openai.com/thumbnails/69ea41bad0e6623b5a331bfed8e46547.png)](https://www.geeksforgeeks.org/spring-boot-architecture/)
+Certainly! Let's delve into the internal workings of a Spring Boot application, accompanied by a diagram to illustrate the flow.
+
+--- 
+### Spring Boot Application Workflow
+
+Here's a step-by-step breakdown of how a Spring Boot application initializes and processes requests:
+
+1. **Application Entry Point**:
+   - The application starts with the `main` method in a class annotated with `@SpringBootApplication`.
+   - This annotation combines `@Configuration`, `@EnableAutoConfiguration`, and `@ComponentScan`.
+
+2. **SpringApplication.run()**:
+   - Invoking `SpringApplication.run()` bootstraps the application.
+   - It sets up the default configuration, starts the Spring application context, and performs class path scans. ([Understanding the internal processes when a Spring Boot ... - Medium](https://medium.com/%40tuananhbk1996/understanding-the-internal-processes-when-a-spring-boot-application-begins-d906a8f71ce2?utm_source=chatgpt.com))
+
+3. **ApplicationContext Initialization**:
+   - Spring Boot determines the type of `ApplicationContext` to create based on the application type (web, reactive, etc.).
+   - It initializes the context, loading all beans and configurations. ([Spring Boot Startup Process - Dev Skill Builder](https://www.devskillbuilder.com/spring-boot-startup-process-dc851f670c42?utm_source=chatgpt.com))
+
+4. **Auto-Configuration**:
+   - Based on the dependencies present, Spring Boot auto-configures beans and settings.
+   - For instance, if `spring-boot-starter-web` is present, it sets up an embedded web server.
+
+5. **Embedded Server Startup**:
+   - If it's a web application, an embedded server like Tomcat is started.
+   - The `DispatcherServlet` is registered to handle incoming HTTP requests.
+
+6. **Request Handling**:
+   - Incoming requests are routed through the `DispatcherServlet`.
+   - They are then dispatched to appropriate controllers, services, and repositories.
+
+7. **Response Generation**:
+   - Controllers process the requests and return responses, which are sent back to the client.
+
+### Diagram: Spring Boot Application Architecture
+
+![Spring Boot flow architecture](image-3.png)
+
+### Layered Architecture Breakdown
+
+Spring Boot applications typically follow a layered architecture: ([How Spring Boot Application Works Internally? | GeeksforGeeks](https://www.geeksforgeeks.org/how-spring-boot-application-works-internally/?utm_source=chatgpt.com))
+
+1. **Presentation Layer**:
+   - Handles HTTP requests and responses.
+   - Contains controllers annotated with `@RestController` or `@Controller`.
+
+2. **Business Layer**:
+   - Contains business logic.
+   - Services are annotated with `@Service`.
+
+3. **Persistence Layer**:
+   - Handles data access.
+   - Repositories are annotated with `@Repository` and often extend Spring Data JPA interfaces. ([The startup process of the Spring Boot application. - ResearchGate](https://www.researchgate.net/figure/The-startup-process-of-the-Spring-Boot-application_fig4_355936643?utm_source=chatgpt.com))
+
+4. **Database Layer**:
+   - The actual database where data is stored.
+   - Can be relational (e.g., MySQL, PostgreSQL) or NoSQL (e.g., MongoDB). ([Spring Boot – Architecture | GeeksforGeeks](https://www.geeksforgeeks.org/spring-boot-architecture/?utm_source=chatgpt.com))
+
+This structured approach ensures a clear separation of concerns, making the application more maintainable and scalable.
 
 ---
 ## Q2.
@@ -318,6 +482,8 @@ Functional interfaces are primarily used in the context of lambda expressions an
 
 ### Conclusion
 Functional interfaces are a powerful feature in Java that enable functional programming paradigms. They allow for cleaner, more concise code by enabling the use of lambda expressions and method references, making it easier to pass behavior as parameters and work with collections and streams.
+
+**[BiFunction](https://www.geeksforgeeks.org/java-bifunction-interface-methods-apply-and-andthen/)**
 
 ---
 ## 7. SOLID Principles  
@@ -956,7 +1122,7 @@ Here's a more detailed breakdown:
 - This is achieved by the JVM handling the translation of bytecode into machine code specific to the underlying platform. 
 
 ---
-## 17. Spring Actuator  
+## 17. Spring Boot Actuator  
 Spring Boot Actuator provides production-ready features to monitor and manage Spring Boot applications. It exposes operational information about the application, such as health, metrics, and environment details, through HTTP endpoints or JMX beans. By adding the `spring-boot-starter-actuator` dependency, several built-in endpoints become available, allowing for easy interaction and monitoring of the application's state. 
 
 ### Key Features 
@@ -1608,7 +1774,7 @@ Let's say microservice A needs to call microservice B.
 - **Eureka:** A service discovery platform from Netflix Open Source
 - **ZooKeeper:** Spring Cloud Zookeeper provides an integration for using ZooKeeper with Spring Boot applications for service discovery. By including the appropriate dependency, you can enable autoconfiguration to set up service discovery. Clients can then use Spring-managed beans to discover service instances registered in ZooKeeper.
 
-### Types of Service Discovery. 
+### Types of Service Discovery
 There are two primary patterns of service discovery, client-side discovery and server-side discovery. They both have their own uses, advantages, and disadvantages.
 
 ---

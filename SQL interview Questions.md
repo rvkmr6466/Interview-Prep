@@ -70,8 +70,18 @@ To optimize SQL queries, focus on efficient indexing, minimizing data retrieval,
 ## Q. Second Highest Salary in SQL  
 ### From a single table
 ```sql
-SELECT salary FROM employees ORDER BY salary DESC LIMIT 1 OFFSET 1;
+SELECT DISTINCT salary 
+FROM employees 
+ORDER BY salary DESC 
+LIMIT 1 OFFSET 1;
 ```
+
+This query:
+- Removes duplicates with `DISTINCT`
+- Orders salaries in descending order
+- Skips the highest salary (`OFFSET` 1)
+- Limits result to 1 row (`LIMIT` 1)
+
 
 ### With multiple table
 ```sql

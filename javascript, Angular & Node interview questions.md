@@ -707,7 +707,48 @@ This example reads a file, compresses it using `zlib.createGzip()`, and writes t
 Piping in Node.js is a clean and efficient way to **stream data between sources and destinations**, especially useful in file manipulation, real-time processing, and network data transfer. It helps build fast, low-memory, scalable applications in Node.js.
 
 ---
-## Q. 
+## Q. Splice in JavaScript
+The `splice()` method in JavaScript modifies an array by removing, replacing, or adding elements. It changes the original array and returns an array containing the removed elements.
+
+**Syntax** 
+```javascript
+array.splice(start, deleteCount, item1, item2, ...);
+```
+- `start`: The index to start changing the array. 
+- `deleteCount`: The number of elements to remove. If 0, no elements are removed. 
+- `item1, item2, ...`: Optional. The elements to add to the array, starting at the start index. 
+
+**Examples** 
+
+```javascript
+const months = ["Jan", "Feb", "Mar", "Apr"];
+
+// Remove 1 element starting at index 2
+const removed = months.splice(2, 1);
+// months: ["Jan", "Feb", "Apr"]
+// removed: ["Mar"]
+
+// Add elements without removing any
+months.splice(2, 0, "Mar", "Apr");
+// months: ["Jan", "Feb", "Mar", "Apr", "Apr"]
+
+// Replace 1 element at index 1 with two new elements
+months.splice(1, 1, "New Feb 1", "New Feb 2");
+// months: ["Jan", "New Feb 1", "New Feb 2", "Mar", "Apr", "Apr"]
+
+// Remove elements from the end using a negative start index
+months.splice(-2, 2)
+// months: ["Jan", "New Feb 1", "New Feb 2", "Mar"]
+```
+
+**Return Value** 
+
+`splice()` returns an array containing the deleted elements. If no elements are removed, it returns an empty array.
+
+**Mutating the Array**
+
+It's important to note that `splice()` modifies the original array directly. If you need to keep the original array unchanged, consider using `toSpliced()` (ES2023) or creating a copy of the array before using `splice()`. For shallow copies, methods like `slice()`, `Array.from()`, or `Object.assign()` can be used. 
+
 
 ---
 ## Q. 
