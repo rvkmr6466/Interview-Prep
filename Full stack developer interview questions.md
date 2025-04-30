@@ -1,6 +1,6 @@
 # Java, Spring Boot, JPA & Microservices Interview Questions  
 
-### Q1. Spring Boot application works internally?
+## Q1. Spring Boot application works internally?
 Understanding how a **Spring Boot application works internally** is crucial for mastering backend development. Here's a detailed explanation of the internal workflow when a Spring Boot application starts and runs.
 
 ### 1. **Spring Boot Application Entry Point**
@@ -71,7 +71,7 @@ Once the ApplicationContext is fully initialized and all beans are ready:
 - `CommandLineRunner` and `ApplicationRunner` beans are executed.
 - Logs: `"Started MyApplication in X seconds"`
 
-### Summary
+#### Summary
 
 Here's the high-level sequence:
 
@@ -104,9 +104,6 @@ You just run the app and hit `http://localhost:8080/hello`.
 
 ![Microservice architecture using Spring Boot and Spring Cloud](image-2.png) 
 ![Spring Boot flow architecture](image-3.png)
-
-[![Spring Boot – Architecture | GeeksforGeeks](https://images.openai.com/thumbnails/69ea41bad0e6623b5a331bfed8e46547.png)](https://www.geeksforgeeks.org/spring-boot-architecture/)
-Certainly! Let's delve into the internal workings of a Spring Boot application, accompanied by a diagram to illustrate the flow.
 
 --- 
 ### Spring Boot Application Workflow
