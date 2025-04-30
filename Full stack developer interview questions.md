@@ -102,9 +102,6 @@ Spring Boot auto-configures everything:
 
 You just run the app and hit `http://localhost:8080/hello`.
 
-![Microservice architecture using Spring Boot and Spring Cloud](image-2.png) 
-![Spring Boot flow architecture](image-3.png)
-
 --- 
 ### Spring Boot Application Workflow
 
@@ -116,11 +113,11 @@ Here's a step-by-step breakdown of how a Spring Boot application initializes and
 
 2. **SpringApplication.run()**:
    - Invoking `SpringApplication.run()` bootstraps the application.
-   - It sets up the default configuration, starts the Spring application context, and performs class path scans. ([Understanding the internal processes when a Spring Boot ... - Medium](https://medium.com/%40tuananhbk1996/understanding-the-internal-processes-when-a-spring-boot-application-begins-d906a8f71ce2?utm_source=chatgpt.com))
+   - It sets up the default configuration, starts the Spring application context, and performs class path scans. 
 
 3. **ApplicationContext Initialization**:
    - Spring Boot determines the type of `ApplicationContext` to create based on the application type (web, reactive, etc.).
-   - It initializes the context, loading all beans and configurations. ([Spring Boot Startup Process - Dev Skill Builder](https://www.devskillbuilder.com/spring-boot-startup-process-dc851f670c42?utm_source=chatgpt.com))
+   - It initializes the context, loading all beans and configurations. 
 
 4. **Auto-Configuration**:
    - Based on the dependencies present, Spring Boot auto-configures beans and settings.
@@ -143,7 +140,7 @@ Here's a step-by-step breakdown of how a Spring Boot application initializes and
 
 ### Layered Architecture Breakdown
 
-Spring Boot applications typically follow a layered architecture: ([How Spring Boot Application Works Internally? | GeeksforGeeks](https://www.geeksforgeeks.org/how-spring-boot-application-works-internally/?utm_source=chatgpt.com))
+Spring Boot applications typically follow a layered architecture: 
 
 1. **Presentation Layer**:
    - Handles HTTP requests and responses.
@@ -155,16 +152,131 @@ Spring Boot applications typically follow a layered architecture: ([How Spring B
 
 3. **Persistence Layer**:
    - Handles data access.
-   - Repositories are annotated with `@Repository` and often extend Spring Data JPA interfaces. ([The startup process of the Spring Boot application. - ResearchGate](https://www.researchgate.net/figure/The-startup-process-of-the-Spring-Boot-application_fig4_355936643?utm_source=chatgpt.com))
+   - Repositories are annotated with `@Repository` and often extend Spring Data JPA interfaces. 
 
 4. **Database Layer**:
    - The actual database where data is stored.
-   - Can be relational (e.g., MySQL, PostgreSQL) or NoSQL (e.g., MongoDB). ([Spring Boot – Architecture | GeeksforGeeks](https://www.geeksforgeeks.org/spring-boot-architecture/?utm_source=chatgpt.com))
+   - Can be relational (e.g., MySQL, PostgreSQL) or NoSQL (e.g., MongoDB). 
 
 This structured approach ensures a clear separation of concerns, making the application more maintainable and scalable.
 
+**Refs:**
+[Understanding the internal processes when a Spring Boot ... - Medium](https://medium.com/%40tuananhbk1996/understanding-the-internal-processes-when-a-spring-boot-application-begins-d906a8f71ce2?utm_source=chatgpt.com)
+
+([Spring Boot Startup Process - Dev Skill Builder](https://www.devskillbuilder.com/spring-boot-startup-process-dc851f670c42?utm_source=chatgpt.com))
+
+([The startup process of the Spring Boot application. - ResearchGate](https://www.researchgate.net/figure/The-startup-process-of-the-Spring-Boot-application_fig4_355936643?utm_source=chatgpt.com))
+
+([Spring Boot – Architecture | GeeksforGeeks](https://www.geeksforgeeks.org/spring-boot-architecture/?utm_source=chatgpt.com))
+
+([How Spring Boot Application Works Internally? | GeeksforGeeks](https://www.geeksforgeeks.org/how-spring-boot-application-works-internally/?utm_source=chatgpt.com))
+
 ---
-## Q2.
+## Q2. How to disable auto-configuration in Spring Boot?
+### Understanding Auto-Configuration
+Spring Boot's auto-configuration automatically configures your application based on the dependencies it finds on the classpath. This significantly reduces the amount of manual configuration you need to write. However, in some cases, you might want to disable auto-configuration and take full control of your application's configuration.
+
+### Methods to Disable Auto-Configuration
+There are several ways to disable auto-configuration. Here are the most common and recommended methods:
+#### 1. Using `@SpringBootApplication` Exclusion
+- The `@SpringBootApplication` annotation is a convenience annotation that combines @Configuration, `@EnableAutoConfiguration`, and `@ComponentScan`.
+- You can exclude specific auto-configuration classes using the `exclude` or `excludeName` attributes of `@SpringBootApplication`.
+- This is the most common and recommended way to disable specific auto-configurations.
+#### Example:
+```java
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
+public class MyApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MyApplication.class, args);
+    }
+}
+```
+
+- #### Explanation:
+  - `DataSourceAutoConfiguration.class`: Excludes the auto-configuration for `DataSource`, preventing Spring Boot from automatically configuring a database connection.
+  - `HibernateJpaAutoConfiguration.class`: Excludes the auto-configuration for Spring Data JPA (Hibernate), preventing Spring Boot from setting up JPA.
+  - Add any other auto-configuration classes you want to exclude to the exclude array.
+  
+#### 2.  Using `@EnableAutoConfiguration` Exclusion
+- If you're not using `@SpringBootApplication`, you might be using `@EnableAutoConfiguration` directly. You can use the same `exclude` or `excludeName` attributes with `@EnableAutoConfiguration` as well.
+
+#### Example:
+```java
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.boot.SpringApplication;
+
+@Configuration
+@ComponentScan
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
+public class MyApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MyApplication.class, args);
+    }
+}
+```
+- #### Explanation: 
+  - This example is very similar to the first one, but it uses `@EnableAutoConfiguration` directly.  The exclude attribute works the same way.
+  
+#### 3.  Disabling All Auto-Configuration
+- You can disable all auto-configuration by setting `spring.autoconfigure.exclude` property.
+- This is generally not recommended because it requires you to configure everything manually, which defeats the purpose of Spring Boot. It's usually better to exclude only the auto-configurations you don't want.
+
+#### application.properties (or application.yml):
+```
+spring.autoconfigure.exclude=*
+```
+##### Explanation:
+- `spring.autoconfigure.exclude=*`: The asterisk "*" excludes all auto-configuration classes.
+
+#### Gradle Configuration (build.gradle)
+- The Gradle configuration is primarily about managing your dependencies.  You don't typically configure auto-configuration exclusions directly in `build.gradle`. The exclusions are done in your Java code using the `@SpringBootApplication` or `@EnableAutoConfiguration` annotations, as shown in the examples above.
+- Your `build.gradle` file will include the necessary Spring Boot dependencies:
+```gradle.properties
+plugins {
+    id 'org.springframework.boot' version '3.2.3' // Use the latest version
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'  // Or 11, 21, etc.
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // Add other dependencies as needed (e.g., for data, security, etc.)
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+    useJUnitPlatform()
+}
+```
+
+#### Explanation:
+- `plugins`: Configures the Spring Boot and dependency management plugins.
+- `dependencies`: Declares the dependencies your project needs.  
+- `spring-boot-starter-web` is a common starter for web applications. You'll add other starters or dependencies as needed (e.g., for Spring Data JPA if you're working with a database, but remember to exclude `DataSourceAutoConfiguration` and `HibernateJpaAutoConfiguration` if you want to configure it yourself).
+- `useJUnitPlatform()`: Configures the testing framework.
+
+#### Important Considerations
+- **Identify the Correct Auto-Configuration Class**: To exclude a specific auto-configuration, you need to know its fully qualified class name.  You can usually find this in the Spring Boot documentation or by examining the stack trace when auto-configuration fails.
+- **Minimum Exclusion Principle**: Exclude only the auto-configurations you _really_ don't need. Let Spring Boot handle the rest. This makes your application configuration simpler and more maintainable.
+- **Order of Operations**: Spring Boot processes exclusions defined in `@SpringBootApplication` or `@EnableAutoConfiguration` before those defined in `spring.autoconfigure.exclude`.
+- **Spring Boot Starters**: Be mindful of Spring Boot Starters. Starters are convenient dependency bundles, but they bring in auto-configurations. If you exclude an auto-configuration, ensure you're providing the necessary configuration yourself.  For example, if you exclude `DataSourceAutoConfiguration`, you'll need to create your own `DataSource` bean.
+- **Documentation**: Document clearly which auto-configurations you've excluded and why.  This will help other developers (and yur future self) understand the application's configuration.
 
 ---
 ## Q3. Creating an Immutable Class in Java  
@@ -418,7 +530,26 @@ public class UserController {
 - The `@ExceptionHandler` method `handleValidationExceptions` is defined within the controller to handle `MethodArgumentNotValidException`.  When validation fails, this method is invoked, and it formats the error messages into a user-friendly JSON response. The `@ResponseStatus` annotation ensures that a 400 Bad Request status is returned.
 
 ---
-## 5. TODO
+## 5. Spring – Dependency Injection with Factory Method
+Spring framework provides Dependency Injection to remove the conventional dependency relationship between objects. To inject dependencies using the factory method, we will use two attributes factory-method and factory-bean of bean elements.
+
+#### Note: 
+Factory methods are those methods that return the instance of the class.
+
+- #### Factory Method: 
+These are those types of methods that are invoked to inject the beans.
+- #### Factory Bean: 
+These are the references of the beans by which factory methods are invoked.
+
+### Types of Factory Method
+There are three types of factory methods:
+
+1. **Static Factory Method for Singleton Design Pattern** – It is used to return the instance of its own class. Static factory methods are commonly used for Singleton Design Pattern.
+2. **Static Factory Method for Creating Instances of Another Class** – It is used to return the runtime instance of another class.
+3. **Non-Static Factory Method** – It is used to return the runtime instance of another class through an instance method, allowing for more flexible and customizable instantiation processes. 
+
+#### Ref: 
+[Factory Method](https://www.geeksforgeeks.org/spring-dependency-injection-with-factory-method/)
 
 ---
 ## 6. What are functional interfaces, and how are they used? 
@@ -2975,6 +3106,78 @@ Spring Boot provides simple caching mechanisms using annotations. The best cachi
 - **For advanced caching** → Use **EhCache, Caffeine, or Hazelcast**.
 
 ---
+
+**Caching in Hibernate within a Spring Boot application** involves leveraging different levels of caching to improve performance by reducing database access. Hibernate offers first-level cache (session-level) and second-level cache (application-level), while Spring provides its caching abstraction. 
+
+### First-Level Cache 
+It is enabled by default and associated with the Hibernate Session. Data is cached within the session scope, and it's not configurable. 
+
+### Second-Level Cache 
+It is shared across sessions and is configurable. To enable it, add the following dependency in pom.xml: 
+```
+compile "org.springframework.boot:spring-boot-starter-cache:*"
+```
+
+Configure a cache provider (e.g., EhCache, Hazelcast, Redis) in `application.properties` or `application.yml`. For example, using EhCache: 
+```
+spring.cache.type=ehcache
+```
+
+Add Ehcache dependency: 
+```
+compile "net.sf.ehcache:ehcache:2.10.6"
+```
+Annotate entities with `@Cacheable` for caching: 
+```java
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+public class MyEntity {
+    @Id
+    private Long id;
+    private String data;
+
+    // Getters and setters
+}
+```
+
+### Spring Caching 
+It provides an abstraction over different caching providers. Use annotations like `@Cacheable`, `@CachePut`, `@CacheEvict`, and `@Caching` to manage cached data. For instance: 
+```java
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+
+@Service
+public class MyService {
+
+    @Cacheable(value = "myCache", key = "#id")
+    public MyEntity getEntity(Long id) {
+        // Logic to fetch entity from database
+    }
+}
+```
+To enable Spring caching, add `@EnableCaching` annotation to a configuration class. 
+
+#### How Does Hibernate second-level cache work?
+- Hibernate second-level cache works by storing entity and query data in a shared cache that is accessible across multiple sessions. When a query or entity is fetched for the first time, it is stored in the second-level cache, and any subsequent requests for the same entity or query are served from the cache rather than querying the database again.
+- Here is a high-level overview of how Hibernate second-level cache works:
+  - **A request is made to fetch an entity or execute a query**: When a request is made to fetch an entity or execute a query, Hibernate checks the second-level cache to see if the data is already cached.
+  - **Cache lookup**: If the data is already cached, Hibernate retrieves it from the cache and returns it to the user.
+  - **Database query**: If the data is not cached, Hibernate queries the database to fetch the data and then stores it in the second-level cache for future use.
+  - **Cache eviction**: When an entity is updated or deleted, Hibernate automatically removes the corresponding entry from the second-level cache to ensure data consistency.
+  - **Cache expiration**: The second-level cache can also be configured to expire entries based on certain criteria such as time-to-live or maximum cache size.
+- Hibernate supports different caching strategies, including read-only, read-write, and transactional caching. The caching strategy determines how the data is stored and retrieved from the cache, and developers can choose the appropriate strategy based on their specific requirements.
+
+![Caching levels](image-5.png)
+
+[Hibernate interview questions](https://www.interviewbit.com/hibernate-interview-questions/)
+
+---
 ## 49. ConcurrentModificationException in Java
 The `ConcurrentModificationException` occurs when a collection (like `ArrayList`, `HashMap`, etc.) is modified while iterating over it using an **iterator** or **enhanced for loop**.
 
@@ -3856,6 +4059,98 @@ Hibernate simplifies database interactions **by removing the need for raw SQL** 
 - **Hibernate Relationships & Mappings** – Implementing `@OneToOne`, `@OneToMany`, `@ManyToOne`, and `@ManyToMany` mappings.
 - **Pagination in Hibernate** – Efficiently fetching large datasets using pagination.
 - **Native SQL Queries** – Using createNativeQuery() to run raw SQL queries when needed. 
+
+
+### What is a SessionFactory?
+SessionFactory provides an instance of Session. It is a factory class that gives the Session objects based on the configuration parameters in order to establish the connection to the database.
+As a good practice, the application generally has a single instance of SessionFactory. The internal state of a SessionFactory which includes metadata about ORM is immutable, i.e once the instance is created, it cannot be changed.
+
+This also provides the facility to get information like statistics and metadata related to a class, query executions, etc. It also holds second-level cache data if enabled.
+
+### What are some of the important interfaces of Hibernate framework?
+Hibernate core interfaces are:
+
+- Configuration
+- SessionFactory
+- Session
+- Criteria
+- Query
+- Transaction
+
+###  What are the most commonly used annotations available to support hibernate mapping?
+- `javax.persistence.Entity`: This annotation is used on the model classes by using “@Entity” and tells that the classes are entity beans.
+- `javax.persistence.Table`: This annotation is used on the model classes by using “@Table” and tells that the class maps to the table name in the database.
+- `javax.persistence.Access`: This is used as “@Access” and is used for defining the access type of either field or property. When nothing is specified, the default value taken is “field”.
+- `javax.persistence.Id`: This is used as “@Id” and is used on the attribute in a class to indicate that attribute is the primary key in the bean entity.
+- `javax.persistence.EmbeddedId`: Used as “@EmbeddedId” upon the attribute and indicates it is a composite primary key of the bean entity.
+- `javax.persistence.Column`: “@Column” is used for defining the column name in the database table.
+- `javax.persistence.GeneratedValue`: “@GeneratedValue” is used for defining the strategy used for primary key generation. This annotation is used along with javax.persistence.GenerationType enum.
+- `javax.persistence.OneToOne`: “@OneToOne” is used for defining the one-to-one mapping between two bean entities. 
+
+Similarly, hibernate provides `OneToMany`, `ManyToOne` and `ManyToMany` annotations for defining different mapping types.
+- `org.hibernate.annotations.Cascade`: “@Cascade” annotation is used for defining the cascading action between two bean entities. It is used with `org.hibernate.annotations.CascadeType` enum to define the type of cascading.
+
+```java
+package com.dev.interviewbit.model;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+
+@Entity
+@Table(name = "InterviewBitEmployee")
+@Access(value=AccessType.FIELD)
+public class InterviewBitEmployee {
+
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @Column(name = "employee_id")
+   private long id;
+
+   @Column(name = "full_name")
+   private String fullName;
+
+   @Column(name = "email")
+   private String email;
+   
+   @OneToOne(mappedBy = "employee")
+   @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
+   private Address address;
+
+   //getters and setters methods
+}
+```
+
+### Explain Hibernate architecture
+The Hibernate architecture consists of many objects such as a persistent object, session factory, session, query, transaction, etc. Applications developed using Hibernate is mainly categorized into 4 parts:
+
+- Java Application
+- Hibernate framework - Configuration and Mapping Files
+- Internal API -
+  - JDBC (Java Database Connectivity)
+  - JTA (Java Transaction API)
+  - JNDI (Java Naming Directory Interface).
+  - Database - MySQL, PostGreSQL, Oracle, etc
+
+The main elements of Hibernate framework are:
+
+- **SessionFactory**: This provides a factory method to get session objects and clients of ConnectionProvider. It holds a second-level cache (optional) of data.
+- **Session**: This is a short-lived object that acts as an interface between the java application objects and database data.
+  - The session can be used to generate transaction, query, and criteria objects.
+  - It also has a mandatory first-level cache of data.
+- **Transaction**: This object specifies the atomic unit of work and has methods useful for transaction management. This is optional.
+- **ConnectionProvider**: This is a factory of JDBC connection objects and it provides an abstraction to the application from the DriverManager. This is optional.
+- **TransactionFactory**: This is a factory of Transaction objects. It is optional.
+
+
+![Hibernate Architecture](image-4.png)
 
 ---
 ## 55. DTO vs Entity
