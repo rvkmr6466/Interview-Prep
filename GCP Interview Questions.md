@@ -37,6 +37,77 @@ Store the encrypted secret data in a secure location like Google Cloud Storage o
 - **Key Rotation:** Regularly rotate your Cloud KMS keys to minimize the risk of compromise.
 
 ---
-## Q. TODO
-- GCP ( cloud run, cloud function)
-- cloud front
+## Q. GCP ( cloud run, cloud function)
+
+### **Google Cloud Run**
+
+**Overview**:  
+Cloud Run lets you deploy and run containerized applications that scale automatically. It's a serverless compute platform based on containers.
+
+**Key Features**:
+- Supports **any language**, framework, or binary as long as it can be containerized.
+- Full **HTTP request handling**.
+- Scales from zero to thousands of instances.
+- Can run **longer processes** (up to 60 minutes).
+- More **control over the runtime**, memory, CPU, and concurrency.
+- Easily connect to **Cloud SQL**, VPC, or use custom domains.
+
+**Use Cases**:
+- Microservices with REST APIs.
+- Web applications or backend services.
+- Background workers or batch jobs.
+
+---
+
+### ⚡️ **Google Cloud Functions**
+
+**Overview**:  
+Cloud Functions is a lightweight, event-driven serverless platform. You deploy small units of code that respond to events.
+
+**Key Features**:
+- **No need for containerization**—just write the function code and deploy.
+- Triggers from **HTTP, Pub/Sub, Cloud Storage, Firestore**, etc.
+- **Auto-scales** instantly depending on load.
+- Shorter execution time (max **9 minutes**).
+- **Stateless** and ideal for event-driven architecture.
+
+**Use Cases**:
+- Real-time file processing (e.g., image resize on upload).
+- Responding to Pub/Sub messages.
+- Webhooks or lightweight HTTP APIs.
+- Automation scripts.
+
+---
+
+### **Comparison Table**
+
+| Feature                | Cloud Run                        | Cloud Functions                  |
+|------------------------|----------------------------------|----------------------------------|
+| Runtime                | Container-based (any language)   | Code-based (Node.js, Python, etc)|
+| Trigger                | HTTP, Pub/Sub, Scheduler, etc.   | HTTP, Pub/Sub, Cloud Events      |
+| Concurrency            | Supports concurrent requests     | One request per instance         |
+| Max Execution Time     | 60 minutes                       | 9 minutes                        |
+| Deployment Model       | Container image                  | Function source code             |
+| Use Case               | REST APIs, web apps, workers     | Event-driven, lightweight tasks  |
+| VPC & Networking       | Full control available           | Limited                          |
+| Custom Domains         | Supported                        | Supported (via HTTP trigger)     |
+
+---
+
+### When to Use What?
+
+- Use **Cloud Run** when:
+  - You need full control over the runtime (e.g., custom dependencies, multi-threading).
+  - Your app is already containerized.
+  - Your tasks need more than 9 minutes.
+  - You need concurrency or large-scale APIs.
+
+- Use **Cloud Functions** when:
+  - You want to run code quickly in response to an event.
+  - Simplicity and quick setup matter.
+  - You’re handling lightweight, short-lived logic.
+
+---
+## Q. Explain BigQuery.
+BigQuery is a service that can be found on the Google Cloud Platform. This service acts as a storage facility for major companies and organizations. This reasonably priced and highly scalable software analyses data in memory and makes use of machine learning to improve the quality of the results.
+

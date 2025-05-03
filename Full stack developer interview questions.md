@@ -136,7 +136,7 @@ Here's a step-by-step breakdown of how a Spring Boot application initializes and
 
 ### Diagram: Spring Boot Application Architecture
 
-![Spring Boot flow architecture](image-3.png)
+![Spring Boot flow architecture](./images/image-3.png)
 
 ### Layered Architecture Breakdown
 
@@ -159,6 +159,112 @@ Spring Boot applications typically follow a layered architecture:
    - Can be relational (e.g., MySQL, PostgreSQL) or NoSQL (e.g., MongoDB). 
 
 This structured approach ensures a clear separation of concerns, making the application more maintainable and scalable.
+
+---
+@SpringBootApplication Annotation in Spring Boot
+The `@SpringBootApplication` annotation is a **composite annotation** in Spring Boot that combines three other annotations:  
+
+1. **`@Configuration`**  
+   - Marks the class as a configuration class.  
+   - Allows defining beans using `@Bean` annotated methods.  
+
+2. **`@EnableAutoConfiguration`**  
+   - Enables **Spring Boot’s auto-configuration mechanism**.  
+   - Automatically configures beans based on the classpath dependencies.  
+
+3. **`@ComponentScan`**  
+   - Enables **component scanning**.  
+   - Automatically discovers and registers Spring beans within the package and its sub-packages.  
+
+#### **Purpose of `@SpringBootApplication`**  
+- Marks the **main class** of a Spring Boot application.  
+- Simplifies the setup by reducing the need for manual configuration.  
+- Provides a **concise way** to bootstrap a Spring Boot application.  
+
+
+### Class level annotation in spring boot
+In Spring Boot, class-level annotations are used to define configurations, components, and behaviors at the class level. Here are some commonly used class-level annotations:
+#### 1. **[@RestController](w)**
+   - Used in Spring MVC to define a RESTful controller.
+   ```java
+   @RestController
+   public class MyController {
+       @GetMapping("/hello")
+       public String hello() {
+           return "Hello, World!";
+       }
+   }
+   ```
+#### 2. **[@Controller](w)**
+   - Marks a class as a Spring MVC controller (typically used with views like Thymeleaf).
+   ```java
+   @Controller
+   public class MyController {
+       @GetMapping("/home")
+       public String home() {
+           return "home";
+       }
+   }
+   ```
+#### 3. **[@Service](w)**
+   - Marks a class as a service component in the business layer.
+   ```java
+   @Service
+   public class MyService {
+       public String process() {
+           return "Processing data";
+       }
+   }
+   ```
+#### 4. **[@Repository](w)**
+   - Indicates a DAO (Data Access Object) and enables exception translation.
+   ```java
+   @Repository
+   public class MyRepository {
+       // Data access logic
+   }
+   ```
+#### 5. **[@Component](w)**
+   - Generic stereotype for any Spring-managed component.
+   ```java
+   @Component
+   public class MyComponent {
+       public void execute() {
+           System.out.println("Executing component logic");
+       }
+   }
+   ```
+#### 6. **[@Configuration](w)**
+   - Marks a class as a source of Spring bean definitions.
+   ```java
+   @Configuration
+   public class AppConfig {
+       @Bean
+       public MyService myService() {
+           return new MyService();
+       }
+   }
+   ```
+#### 7. **[@SpringBootApplication](w)**
+   - Combination of `@Configuration`, `@EnableAutoConfiguration`, and `@ComponentScan`.
+   ```java
+   @SpringBootApplication
+   public class MyApplication {
+       public static void main(String[] args) {
+           SpringApplication.run(MyApplication.class, args);
+       }
+   }
+   ```
+#### 8. **[@EnableScheduling](w)**
+   - Enables scheduling for running scheduled tasks.
+   ```java
+   @Configuration
+   @EnableScheduling
+   public class SchedulerConfig {
+   }
+   ```
+These annotations help configure and organize a Spring Boot application efficiently.
+
 
 **Refs:**
 [Understanding the internal processes when a Spring Boot ... - Medium](https://medium.com/%40tuananhbk1996/understanding-the-internal-processes-when-a-spring-boot-application-begins-d906a8f71ce2?utm_source=chatgpt.com)
@@ -859,7 +965,7 @@ class Switch {
 ### Facade: 
   - Provides a simplified interface to a complex subsystem, hiding its details.
   - Facade defines a high-level interface that makes the subsystem easier to use. 
-![Facade Image](image-1.png)
+![Facade Image](./images/image-1.png)
 
 #### Advantages of Facade Method Design Pattern
 - Simplified Interface:
@@ -1125,7 +1231,11 @@ concurrentMap.put(1, "A");
 In summary, choose `HashMap` for single-threaded applications and `ConcurrentHashMap` for multi-threaded environments where thread safety is a concern.
 
 ---
-## 11. TODO
+## 11. What is Java Persistence API (JPA)?
+Java Persistence API is a collection of classes and methods to persist or store a vast amount of data in a database using ORM. JPA Persistence framework needs to follow:
+
+- **Spring Data JPA**: It reduces the amount of boilerplate code needed for common database operations like GET, PUT, POST, etc.
+- **Spring Repository**: It is an extension of Spring Repository which contains APIs for basic CRUD operations, pagination, and Sorting.
 
 ---
 ## 12. TODO
@@ -1143,6 +1253,7 @@ The **Factory Design Pattern** is a **creational design pattern** used to create
 Suppose we want to create a `Shape` object, but the exact type (`Circle`, `Rectangle`, etc.) is determined at runtime.
 
 **Step-by-Step Implementation**
+
 **Step 1: Define the interface or abstract class**
 ```java
 public interface Shape {
@@ -1241,7 +1352,7 @@ Here's a more detailed breakdown:
 - The JIT compiler optimizes frequently used bytecode, improving performance.
 - This optimized code is stored in cached memory for reuse.
 
-### 4. Memory Management:** 
+### 4. Memory Management:
 - The JVM automatically manages memory through allocation and garbage collection.
 - Objects are allocated in the heap, and when no longer referenced, the garbage collector reclaims their memory.
 
@@ -1670,9 +1781,9 @@ spring:
 ## 22. JpaRepository vs CrudRepository in SpringBoot
 `JpaRepository` extends `PagingAndSortingRepository` which in turn extends `CrudRepository`.
 Their main functions are:
-- CrudRepository mainly provides CRUD functions.
-- PagingAndSortingRepository provides methods to do pagination and sorting records.
-- JpaRepository provides some JPA-related methods such as flushing the persistence context and deleting records in a batch.
+- `CrudRepository` mainly provides CRUD functions.
+- `PagingAndSortingRepository` provides methods to do pagination and sorting records.
+- `JpaRepository` provides some JPA-related methods such as flushing the persistence context and deleting records in a batch.
 Because of the inheritance mentioned above, `JpaRepository` will have all the functions of `CrudRepository` and `PagingAndSortingRepository`. So if you don't need the repository to have the functions provided by `JpaRepository` and `PagingAndSortingRepository`, use `CrudRepository`.
 
 ---
@@ -1759,10 +1870,31 @@ In microservices architectures, effective logging and monitoring are crucial for
 [Microservices cross cutting concerns](https://www.geeksforgeeks.org/microservices-cross-cutting-concerns/)
 
 ---
-## 26. Orchestration vs Choreography in microservices
+## 26. SAGA Design Pattern
+The SAGA Design Pattern is a pattern used to manage long-running and distributed transactions, particularly in microservices architecture.
+
+#### What is a Distributed Transaction?
+A distributed transaction refers to a type of transaction that involves multiple, separate systems or databases, often spread across different locations or networks, which need to work together to complete a task. It’s like a coordinated team effort, where each system handles a small part of the work, but they all must complete their respective tasks successfully for the overall transaction to be considered successful.
+
+For example, imagine you’re making an online purchase. The transaction might involve:
+
+- Your bank checks if you have enough funds.
+- The e-commerce platform reserving the product you’re buying.
+- A shipping service getting ready to send your item.
+- A warehouse updating its stock levels
+
+SAGA addresses the limitations of 2PC (Two-Phase Commit) by breaking a transaction into smaller, independent steps, each with its own compensating action if something goes wrong.
+
+##### Note: 
+2PC (Two-Phase Commit) is a protocol used to ensure all participants in a distributed transaction either commit or abort, ensuring consistency. In the first phase, the coordinator asks all participants to agree to commit, and in the second phase, participants either vote to commit or abort the transaction.
+
+### Approaches to Implemement SAGA Design Pattern
+- #### Orchestration-Based Approach (Centralized)
+- #### Choreography-Based Approach (Event-Driven)
+
 In microservices architecture, orchestration uses a central controller to manage interactions between services, while choreography relies on decentralized, event-driven communication where services interact independently. 
 
-### Orchestration:**
+### Orchestration:
 - _Centralized Control:_ A central orchestrator or conductor manages the flow of interactions between microservices.
 - _Command-Driven:_ The orchestrator sends commands or instructions to other services, dictating the sequence of operations.
 - _Simpler to Implement:_ Orchestration can be easier to implement and maintain, as the control logic is centralized.
@@ -1902,8 +2034,65 @@ Let's say microservice A needs to call microservice B.
 - **Eureka:** A service discovery platform from Netflix Open Source
 - **ZooKeeper:** Spring Cloud Zookeeper provides an integration for using ZooKeeper with Spring Boot applications for service discovery. By including the appropriate dependency, you can enable autoconfiguration to set up service discovery. Clients can then use Spring-managed beans to discover service instances registered in ZooKeeper.
 
-### Types of Service Discovery
+#### Types of Service Discovery
 There are two primary patterns of service discovery, client-side discovery and server-side discovery. They both have their own uses, advantages, and disadvantages.
+
+---
+### What is Eureka Server? 
+Eureka Server is a crucial component in a microservices architecture, acting as a service registry. It allows microservices to register themselves and discover other services dynamically. This eliminates the need for hardcoded service addresses, enabling loose coupling and scalability.  
+To create a Eureka Server in Java using Spring Boot, follow these steps: 
+
+- **Project Setup:** 
+  - Create a new Spring Boot project using Spring Initializr or your IDE. 
+  - Add the `spring-cloud-starter-netflix-eureka-server` dependency to your `pom.xml` or `build.gradle` file. 
+```application.yml
+<dependency>
+	<groupId>org.springframework.cloud</groupId>
+	<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+</dependency>
+```
+
+- **Enable Eureka Server: **
+  - Add the `@EnableEurekaServer` annotation to your main application class. 
+
+```java
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+
+@SpringBootApplication
+@EnableEurekaServer
+public class EurekaServerApplication {
+	public static void main(String[] args) {
+	    SpringApplication.run(EurekaServerApplication.class, args);
+	}
+}
+```
+
+- Configuration: 
+  - Configure the Eureka Server in your `application.properties` or `application.yml` file. 
+
+```application.yml
+server:
+    port: 8761
+    
+eureka:
+    client:
+        register-with-eureka: false
+        fetch-registry: false
+```
+
+- `server.port`: Specifies the port on which the Eureka Server will run (default is `8761`). 
+- `eureka.client.register-with-eureka`: Set to false because the server doesn't need to register itself. 
+- `eureka.client.fetch-registry`: Set to false as the server doesn't need to fetch the registry from itself. 
+
+- **Run the Application:** 
+  - Run the `EurekaServerApplication`. 
+  - Access the Eureka dashboard at `http://localhost:8761`. 
+
+With these steps, a basic Eureka Server is set up and running, ready for microservices to register and discover each other.
+
+
 
 ---
 ## 30. Exception Handling in Spring Boot
@@ -2146,6 +2335,70 @@ public void calculateBonus() {
 | Instance Variable  | Per object           | As long as object lives | Object-specific data like name, age                        |
 | Method Variable    | Inside method        | During method execution | Temporary calculations or helper values inside methods     |
 
+
+### What are static methods and variables, and when should you use them? 
+In Java, the `static` keyword is used for defining **class-level members**, which means they **belong to the class itself**, rather than any specific instance (object) of the class.
+
+**Static Variables (Class Variables)**
+- Declared using `static` inside a class but outside any method.
+- Shared across **all instances** of the class.
+- Only **one copy** exists in memory, no matter how many objects you create.
+
+**Example:**
+```java
+class Counter {
+    static int count = 0; // Static variable
+
+    Counter() {
+        count++;
+        System.out.println("Count: " + count);
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        new Counter(); // Count: 1
+        new Counter(); // Count: 2
+        new Counter(); // Count: 3
+    }
+}
+```
+Here, `count` is shared across all objects, so it's incremented globally.
+
+**Static Methods**
+- Declared with `static` keyword.
+- Can be called **without creating an object** of the class.
+- **Cannot access instance variables** or methods directly (since no `this` context).
+- Mostly used for utility or helper functions.
+
+**Example:**
+```java
+class MathUtils {
+    public static int square(int x) {
+        return x * x;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        int result = MathUtils.square(5); // No object creation
+        System.out.println(result); // Output: 25
+    }
+}
+```
+
+**When Should You Use Static?**
+- Use **static variables** when the value is shared across all instances (like a global counter, configuration, constants).
+- Use **static methods** for:
+  - Utility/helper methods (e.g., `Collections.sort()`)
+  - Factory methods (`valueOf()` in wrapper classes)
+  - Operations not dependent on instance data
+
+**Caution:**
+- Overuse of static can lead to **tight coupling**, **difficulty in testing**, and **global state problems**.
+- Avoid using static where instance-level behavior is required.
+
+
 ---
 ## 32. What happen when API A is calling to API B and it is down?
 When API A calls API B and B is down, API A will typically receive an error response indicating the issue. This could manifest as a timeout, a _503 Service Unavailable_ error, or other HTTP error codes. API A needs to be designed to handle these error responses gracefully, potentially retrying the call, falling back to a cached response, or informing the user of the problem.
@@ -2192,6 +2445,32 @@ In Java, overriding `equals()` and `hashCode()` is crucial when a class is inten
 
 ### **In summary:** 
 Overriding `equals()` and `hashCode()` is essential for custom classes that need to be compared based on their content or used in hash-based collections. By adhering to the `equals()` and `hashCode()` contract, you ensure that your code behaves predictably and efficiently.
+
+
+Overriding `equals()` without also overriding `hashCode()` (or vice versa) leads to violations of the contract between these methods, resulting in unexpected behavior, especially when using objects in hash-based collections like HashMap or HashSet. If you override `equals()`, you must also override `hashCode()` to ensure that equal objects have the same hash code. If you only override `equals()`, two objects deemed equal by your `equals()` implementation might have different hash codes, leading to potential issues with hash-based collections.
+
+Here's a more detailed explanation:
+
+### **The Contract**: 
+- The fundamental contract between `equals()` and `hashCode()` is that if two objects are equal according to `equals()`, they must have the same hash code. This contract is crucial for the proper functioning of hash-based collections.
+
+### **Consequences of Overriding Only `equals()`**:  
+   - **Hash-based collections**: If you only override `equals()` and don't override `hashCode()`, you violate the contract. Two objects considered equal by your `equals()` implementation will likely have different hash codes, which can cause problems in hash-based collections. For example, in a HashSet, two objects that are equal according to your `equals()` might be stored separately because they have different hash codes, leading to unexpected behavior.  
+   - **Performance**: In hash-based collections, `hashCode()` is used to determine the "bucket" in which an object is stored. If two equal objects have different hash codes, they might be placed in different buckets, leading to slower lookups and potentially more collisions within those buckets.  
+   - **`equals()` not used**: In the worst-case scenario, `equals()` is never invoked because the objects might be placed in different buckets in the first place.  
+
+### Consequences of Overriding Only `hashCode()`:  
+   - **Referential equality**: If you only override `hashCode()`, you are effectively using the default `equals()` implementation, which checks for object identity (referential equality). Two objects that are logically equal (according to your intended meaning of equality) but are not the same object instance will still return different `hashCode()` values.  
+   - Inconsistent behavior: This inconsistent behavior can lead to problems when using these objects in hash-based collections.  
+
+### Recommendations:  
+   - If you override `equals()`, you must also override `hashCode()`.  
+   - The logic in your `hashCode()` implementation should be consistent with your `equals()` implementation. If two objects are equal according to your `equals()`, they should also have the same hash code.
+   - If you are not using objects in hash-based collections, you can choose to not override either method, but it's generally good practice to override both if you intend to use a custom concept of equality.
+
+In essence, overriding only one of these methods without the other leads to a breach of the contract between `equals()` and `hashCode()`, which can have significant implications for the behavior of your code, particularly when working with hash-based collections.
+
+
 
 ---
 ## 34. Common HTTP Status Codes
@@ -2705,6 +2984,84 @@ Microservices is an architectural style that structures an application as a coll
 - **Security Concerns:** Securing communication between services requires careful consideration.
 
 ---
+### Microservice Architecture Pattern
+
+Microservice architecture is a **design approach** in which a large application is composed of **small, independent services** that communicate over well-defined APIs. Each microservice is designed to be **loosely coupled**, **highly maintainable**, and **independently deployable**.
+
+### Key Characteristics
+
+| Feature | Description |
+|--------|-------------|
+| **Service Independence** | Each microservice is developed, deployed, and scaled independently. |
+| **Single Responsibility** | Each service has a specific business function (e.g., User Service, Payment Service). |
+| **Decentralized Data** | Each microservice owns its own database to avoid tight coupling. |
+| **Lightweight Communication** | Services communicate using REST, gRPC, messaging (Kafka, RabbitMQ). |
+| **Technology Agnostic** | Different microservices can be developed using different programming languages and technologies. |
+| **Resilience** | Failures are contained within the service without affecting the entire system. |
+
+### Components of Microservices Architecture
+
+1. **API Gateway**
+   - Acts as a single entry point for all clients.
+   - Handles routing, rate limiting, authentication, etc.
+
+2. **Service Registry and Discovery**
+   - Allows services to register themselves and discover other services (e.g., Eureka, Consul).
+
+3. **Config Server**
+   - Centralized configuration management (e.g., Spring Cloud Config).
+
+4. **Communication Mechanisms**
+   - REST (Synchronous)
+   - Message Brokers (Asynchronous): Kafka, RabbitMQ
+
+5. **Database per Service**
+   - Each service manages its own schema and database for isolation and autonomy.
+
+6. **Monitoring & Logging**
+   - Tools: Prometheus, Grafana, ELK stack, Zipkin, Jaeger for observability.
+
+7. **Saga Pattern**
+   - A saga is a series of local transactions. In microservices applications, a saga patterncan help maintain data consistency during distributed transactions.
+
+8. **Circuit Breaker**
+   - This pattern is usually applied between services that are communicating synchronously. 
+
+### Common Patterns in Microservices
+
+| Pattern | Description |
+|--------|-------------|
+| **Decomposition** | Break monolith into smaller services. |
+| **API Gateway** | Unified access layer for clients. |
+| **Service Discovery** | Dynamic resolution of service locations. |
+| **Circuit Breaker** | Avoid cascading failures by short-circuiting failed services. |
+| **Bulkhead** | Isolate resources for each service to prevent resource exhaustion. |
+| **Saga** | Manage distributed transactions using a series of local transactions. |
+| **Event Sourcing** | Persist state changes as a sequence of events. |
+| **CQRS** | Separate read and write models for better scalability and performance. |
+
+### Benefits
+- Faster deployment cycles
+- Better scalability and flexibility
+- Technology diversity
+- Improved fault isolation
+
+### Challenges
+- Complex deployment and testing
+- Data consistency across services
+- Network latency and failure handling
+- Requires DevOps maturity and automation
+
+#### Real-World Example
+**E-commerce platform**:
+- **User Service** - Handles registration/login
+- **Product Service** - Manages product catalog
+- **Order Service** - Handles order processing
+- **Payment Service** - Handles transactions
+- **Notification Service** - Sends email/SMS updates
+
+
+---
 ## 42. What is API Gateway?
 In a microservices architecture, an API Gateway acts as a single entry point for client requests. It sits in front of the microservices and handles various tasks such as routing, authentication, and load balancing.
 
@@ -2739,88 +3096,7 @@ An API Gateway solves these problems by providing a single, unified interface fo
 **Examples**. Apigee, NGINX, apiman, kong, WSO2 API Manager, Azure API management, Amazon API Management etc.
 
 ---
-## 43. Class level annotation in spring boot
-In Spring Boot, class-level annotations are used to define configurations, components, and behaviors at the class level. Here are some commonly used class-level annotations:
-#### 1. **[@RestController](w)**
-   - Used in Spring MVC to define a RESTful controller.
-   ```java
-   @RestController
-   public class MyController {
-       @GetMapping("/hello")
-       public String hello() {
-           return "Hello, World!";
-       }
-   }
-   ```
-#### 2. **[@Controller](w)**
-   - Marks a class as a Spring MVC controller (typically used with views like Thymeleaf).
-   ```java
-   @Controller
-   public class MyController {
-       @GetMapping("/home")
-       public String home() {
-           return "home";
-       }
-   }
-   ```
-#### 3. **[@Service](w)**
-   - Marks a class as a service component in the business layer.
-   ```java
-   @Service
-   public class MyService {
-       public String process() {
-           return "Processing data";
-       }
-   }
-   ```
-#### 4. **[@Repository](w)**
-   - Indicates a DAO (Data Access Object) and enables exception translation.
-   ```java
-   @Repository
-   public class MyRepository {
-       // Data access logic
-   }
-   ```
-#### 5. **[@Component](w)**
-   - Generic stereotype for any Spring-managed component.
-   ```java
-   @Component
-   public class MyComponent {
-       public void execute() {
-           System.out.println("Executing component logic");
-       }
-   }
-   ```
-#### 6. **[@Configuration](w)**
-   - Marks a class as a source of Spring bean definitions.
-   ```java
-   @Configuration
-   public class AppConfig {
-       @Bean
-       public MyService myService() {
-           return new MyService();
-       }
-   }
-   ```
-#### 7. **[@SpringBootApplication](w)**
-   - Combination of `@Configuration`, `@EnableAutoConfiguration`, and `@ComponentScan`.
-   ```java
-   @SpringBootApplication
-   public class MyApplication {
-       public static void main(String[] args) {
-           SpringApplication.run(MyApplication.class, args);
-       }
-   }
-   ```
-#### 8. **[@EnableScheduling](w)**
-   - Enables scheduling for running scheduled tasks.
-   ```java
-   @Configuration
-   @EnableScheduling
-   public class SchedulerConfig {
-   }
-   ```
-These annotations help configure and organize a Spring Boot application efficiently.
+## 43. TODO
 
 ---
 ## 44. PUT vs PATCH in REST APIs
@@ -2916,7 +3192,46 @@ public class Main {
 ```
 
 ---
-## 47. How authorization works in spring security?
+## 47. Spring Security
+
+### Spring Context
+The Spring context provides the foundation for Spring Security, managing the beans and their dependencies required for security features. Within Spring Security, specific contexts play crucial roles: 
+
+### SecurityContext 
+It holds the `Authentication` object, representing the current user's security information, including their identity and granted authorities (roles/permissions). The `SecurityContext` is associated with the current thread of execution. 
+
+### SecurityContextHolder 
+It provides access to the `SecurityContext`. It uses a ThreadLocal to store the `SecurityContext`, making it available throughout the current thread. `SecurityContextHolder` allows retrieval and modification of the `SecurityContext`. 
+
+## SecurityContextRepository 
+Strategies for persisting the `SecurityContext` between requests. The default implementation uses the HttpSession, but other options exist, like storing it in the `HttpRequest` or not persisting it at all for stateless applications. 
+
+### RequestContext 
+While not exclusive to Spring Security, `RequestContext` is relevant in web applications. It holds request-specific state, including the current web application context. Spring Security filters operate within the request lifecycle, interacting with the `RequestContext`. 
+
+### **How they interact** 
+
+**Authentication:** 
+
+- When a user authenticates, Spring Security creates an `Authentication` object. 
+
+**Storing in Context:** 
+
+- The `Authentication` object is placed in the SecurityContext, which is then stored in the `SecurityContextHolder`. 
+
+**Persistence:** 
+
+- The `SecurityContextRepository` saves the `SecurityContext`, typically in the `HttpSession`. 
+
+**Retrieval:** 
+
+- On subsequent requests, the `SecurityContextRepository` retrieves the `SecurityContext` and places it back in the `SecurityContextHolder`, making the user's authentication information available. 
+
+These contexts ensure that security information is properly managed and accessible throughout the application, enabling Spring Security to enforce authentication and authorization rules. 
+
+
+### How authorization works in spring security?
+
 Spring Security authorization determines what a successfully authenticated user is allowed to do. It occurs after authentication and before the requested resource is accessed. The framework uses the `SecurityContextHolder` to retrieve the `Authentication` object, which contains the user's roles and permissions, and then compares these against the required authorities for the requested resource. If the user has the necessary authority, access is granted; otherwise, an `AccessDeniedException` is thrown. 
 
 Authorization rules can be configured at different levels: 
@@ -3173,7 +3488,7 @@ To enable Spring caching, add `@EnableCaching` annotation to a configuration cla
   - **Cache expiration**: The second-level cache can also be configured to expire entries based on certain criteria such as time-to-live or maximum cache size.
 - Hibernate supports different caching strategies, including read-only, read-write, and transactional caching. The caching strategy determines how the data is stored and retrieved from the cache, and developers can choose the appropriate strategy based on their specific requirements.
 
-![Caching levels](image-5.png)
+![Caching levels](./images/image-5.png)
 
 [Hibernate interview questions](https://www.interviewbit.com/hibernate-interview-questions/)
 
@@ -4150,7 +4465,7 @@ The main elements of Hibernate framework are:
 - **TransactionFactory**: This is a factory of Transaction objects. It is optional.
 
 
-![Hibernate Architecture](image-4.png)
+![Hibernate Architecture](./images/image-4.png)
 
 ---
 ## 55. DTO vs Entity
@@ -4452,41 +4767,7 @@ public enum Singleton {
 - Avoid unnecessary **synchronization**, as it affects performance.
 
 ---
-## 58. Spring Context in Spring Security
-The Spring context provides the foundation for Spring Security, managing the beans and their dependencies required for security features. Within Spring Security, specific contexts play crucial roles: 
-
-### SecurityContext 
-It holds the `Authentication` object, representing the current user's security information, including their identity and granted authorities (roles/permissions). The `SecurityContext` is associated with the current thread of execution. 
-
-### SecurityContextHolder 
-It provides access to the `SecurityContext`. It uses a ThreadLocal to store the `SecurityContext`, making it available throughout the current thread. `SecurityContextHolder` allows retrieval and modification of the `SecurityContext`. 
-
-## SecurityContextRepository 
-Strategies for persisting the `SecurityContext` between requests. The default implementation uses the HttpSession, but other options exist, like storing it in the `HttpRequest` or not persisting it at all for stateless applications. 
-
-### RequestContext 
-While not exclusive to Spring Security, `RequestContext` is relevant in web applications. It holds request-specific state, including the current web application context. Spring Security filters operate within the request lifecycle, interacting with the `RequestContext`. 
-
-### **How they interact** 
-
-**Authentication:** 
-
-- When a user authenticates, Spring Security creates an `Authentication` object. 
-
-**Storing in Context:** 
-
-- The `Authentication` object is placed in the SecurityContext, which is then stored in the `SecurityContextHolder`. 
-
-**Persistence:** 
-
-- The `SecurityContextRepository` saves the `SecurityContext`, typically in the `HttpSession`. 
-
-**Retrieval:** 
-
-- On subsequent requests, the `SecurityContextRepository` retrieves the `SecurityContext` and places it back in the `SecurityContextHolder`, making the user's authentication information available. 
-
-These contexts ensure that security information is properly managed and accessible throughout the application, enabling Spring Security to enforce authentication and authorization rules. 
-
+## 58. TODO
 
 ---
 ## 59. `@qualifier` vs `@primary` annotatoion
@@ -4809,38 +5090,7 @@ In essence, `@Service` and `@Controller` are specialized forms of `@Component`. 
 ## 65. 
 
 ---
-## 66. @SpringBootApplication Annotation in Spring Boot
-The `@SpringBootApplication` annotation is a **composite annotation** in Spring Boot that combines three other annotations:  
-
-1. **`@Configuration`**  
-   - Marks the class as a configuration class.  
-   - Allows defining beans using `@Bean` annotated methods.  
-
-2. **`@EnableAutoConfiguration`**  
-   - Enables **Spring Boot’s auto-configuration mechanism**.  
-   - Automatically configures beans based on the classpath dependencies.  
-
-3. **`@ComponentScan`**  
-   - Enables **component scanning**.  
-   - Automatically discovers and registers Spring beans within the package and its sub-packages.  
-
-#### **Purpose of `@SpringBootApplication`**  
-- Marks the **main class** of a Spring Boot application.  
-- Simplifies the setup by reducing the need for manual configuration.  
-- Provides a **concise way** to bootstrap a Spring Boot application.  
-
-#### **Example Usage:**  
-```java
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
-public class MySpringBootApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(MySpringBootApplication.class, args);
-    }
-}
-```
+## 66. TODO
 
 ---
 ## 67. How to configure multiple database in Spring Boot.
@@ -5327,9 +5577,14 @@ A HashMap in Java uses a hash table to store key-value pairs. The hash table is 
 6. If there is a linked list at that index, the linked list is traversed until the key is found.
 
 - **Collisions** 
-When two keys hash to the same index, this is called a collision. To handle collisions, HashMap uses separate chaining (linked list or tree).  
+When two keys hash to the same index, this is called a collision. To handle collisions, HashMap uses separate chaining (linked list or tree). It will create another LinkedList at same bucket and store the value. 
 - **Performance**
 A good hash function distributes objects evenly. A good implementation of hashCode and equals method is required to avoid unwanted behavior.
+
+### HashSet internall working
+A HashSet in Java utilizes a HashMap internally to store its elements. When a HashSet is created, a corresponding HashMap is also instantiated. The elements added to the HashSet are stored as keys in this HashMap, with a constant dummy value associated with each key. This mechanism ensures that each element in the HashSet is unique, as duplicate keys are not permitted in a HashMap.
+When an element is added to the HashSet using the `add()` method, the `put()` method of the internal HashMap is invoked. The element being added becomes the key, and a predefined constant value, often named `PRESENT`, serves as its associated value. If the `put()` method returns `null`, it indicates that the key was not already present in the HashMap, and the element is successfully added to the HashSet. Conversely, if the `put()` method returns a non-null value, it signifies that the key already exists, and the new element is not added, maintaining the uniqueness of the HashSet.
+The `remove()` and `contains()` methods of the HashSet also leverage the internal HashMap's functionalities. The `remove()` method removes the key-value pair associated with the specified element, while the `contains()` method checks for the existence of the element as a key in the HashMap. These operations ensure the efficient management and retrieval of elements within the HashSet.
 
 ---
 ## 75. How does garbage collection work in java?
@@ -5638,18 +5893,44 @@ Spring Boot provides several key annotations that simplify the development of Sp
 10. **@Bean**: Indicates that a method produces a bean to be managed by the Spring container.
 11. **@Transactional**: Used to define the scope of a single database transaction.
 
+Some of the annotations that are available in this category are:
+
+- `@SpringBootApplication`
+- `@SpringBootConfiguration`
+- `@EnableAutoConfiguration`
+- `@ComponentScan`
+- Auto-Configuration Conditions
+  - `@ConditionalOnClass`, and `@ConditionalOnMissingClass`
+  - `@ConditionalOnBean`, and `@ConditionalOnMissingBean`
+  - `@ConditionalOnProperty`
+  - `@ConditionalOnResource`
+  - `@ConditionalOnWebApplication` and `@ConditionalOnNotWebApplication`
+  - `@ConditionalExpression`
+  - `@Conditional`
+
+#### Request Handling and Controller annotations:
+Some important annotations comes under this category are:
+
+- `@Controller` 
+    - Used in Spring MVC to define a controller that handles web requests.
+    - Typically returns a view name (e.g., JSP, Thymeleaf) that is resolved by a view resolver.
+    - Requires the use of `@ResponseBody` to return data directly in the response body.
+- `@RestController`
+    - A convenience annotation that combines `@Controller` and `@ResponseBody`.
+    - Used for RESTful web services, where the response is typically in JSON or XML format.
+    - Automatically serializes the return value of methods into the response body, eliminating the need for `@ResponseBody`.
+- `@RequestMapping`
+- `@RequestParam`
+- `@PathVariable`
+- `@RequestBody`
+- `@ResponseBody`
+- `@ModelAttribute`
+
+**Ref:**
+[SpringBoot Annotation](https://www.geeksforgeeks.org/spring-boot-annotations/)
+
 ---
-## Q. Difference between @Controller vs. @RestController?
-- **@Controller**:
-  - Used in Spring MVC to define a controller that handles web requests.
-  - Typically returns a view name (e.g., JSP, Thymeleaf) that is resolved by a view resolver.
-  - Requires the use of `@ResponseBody` to return data directly in the response body.
-
-- **@RestController**:
-  - A convenience annotation that combines `@Controller` and `@ResponseBody`.
-  - Used for RESTful web services, where the response is typically in JSON or XML format.
-  - Automatically serializes the return value of methods into the response body, eliminating the need for `@ResponseBody`.
-
+## Q. TODO
 ---
 ## Q. What is the Bean Lifecycle in Spring?
 The Bean Lifecycle in Spring consists of several phases:
@@ -7098,67 +7379,7 @@ In this example, `deepCopy` is a deep copy of `original`.  A new `InnerObject` i
 | **Memory Usage**   | Less memory (shares references)                                                  | More memory (copies all objects)                                                                 |
 
 ---
-## Q. What are static methods and variables, and when should you use them? 
-In Java, the `static` keyword is used for defining **class-level members**, which means they **belong to the class itself**, rather than any specific instance (object) of the class.
-
-**Static Variables (Class Variables)**
-- Declared using `static` inside a class but outside any method.
-- Shared across **all instances** of the class.
-- Only **one copy** exists in memory, no matter how many objects you create.
-
-**Example:**
-```java
-class Counter {
-    static int count = 0; // Static variable
-
-    Counter() {
-        count++;
-        System.out.println("Count: " + count);
-    }
-}
-
-public class Test {
-    public static void main(String[] args) {
-        new Counter(); // Count: 1
-        new Counter(); // Count: 2
-        new Counter(); // Count: 3
-    }
-}
-```
-Here, `count` is shared across all objects, so it's incremented globally.
-
-**Static Methods**
-- Declared with `static` keyword.
-- Can be called **without creating an object** of the class.
-- **Cannot access instance variables** or methods directly (since no `this` context).
-- Mostly used for utility or helper functions.
-
-**Example:**
-```java
-class MathUtils {
-    public static int square(int x) {
-        return x * x;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        int result = MathUtils.square(5); // No object creation
-        System.out.println(result); // Output: 25
-    }
-}
-```
-
-**When Should You Use Static?**
-- Use **static variables** when the value is shared across all instances (like a global counter, configuration, constants).
-- Use **static methods** for:
-  - Utility/helper methods (e.g., `Collections.sort()`)
-  - Factory methods (`valueOf()` in wrapper classes)
-  - Operations not dependent on instance data
-
-**Caution:**
-- Overuse of static can lead to **tight coupling**, **difficulty in testing**, and **global state problems**.
-- Avoid using static where instance-level behavior is required.
+## Q. TODO
 
 ---
 ## Q. `transient` keyword in Java
@@ -7221,60 +7442,24 @@ class MyClass implements Serializable {
 ```
 In this example, the password field is marked as `transient`. When the `MyClass` object is serialized, the value of `password` is not included in the serialized data. When the object is deserialized, the `password` field is `null`. 
 
----
-## Q. What is Eureka Server? 
-Eureka Server is a crucial component in a microservices architecture, acting as a service registry. It allows microservices to register themselves and discover other services dynamically. This eliminates the need for hardcoded service addresses, enabling loose coupling and scalability.  
-To create a Eureka Server in Java using Spring Boot, follow these steps: 
-
-- **Project Setup:** 
-  - Create a new Spring Boot project using Spring Initializr or your IDE. 
-  - Add the `spring-cloud-starter-netflix-eureka-server` dependency to your `pom.xml` or `build.gradle` file. 
-```application.yml
-<dependency>
-	<groupId>org.springframework.cloud</groupId>
-	<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-</dependency>
-```
-
-- **Enable Eureka Server: **
-  - Add the `@EnableEurekaServer` annotation to your main application class. 
+### Difference between Volatile vs. Transient keyword in Java
+| Feature         | `volatile`             | `transient`         |
+|-----------------|------------------------|---------------------|
+| **Purpose**      | Ensures variable's value is always read from and written to main memory    | Excludes variable from serialization                               |
+| **Memory**       | Value is not cached; read/write occurs directly in main memory              | Variable is not included in the serialized state of the object     |
+| **Visibility**   | Changes to the variable are immediately visible to other threads            | Variable is skipped during object serialization                    |
+| **Default Value**| Not re-initialized; retains latest updated value from memory                | Re-initialized to default value after deserialization              |
+| **Usage**        | Used in multi-threaded environments for safe access to shared variables     | Used to prevent sensitive or non-serializable fields from being saved |
 
 ```java
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
-
-@SpringBootApplication
-@EnableEurekaServer
-public class EurekaServerApplication {
-	public static void main(String[] args) {
-	    SpringApplication.run(EurekaServerApplication.class, args);
-	}
+public class Example implements Serializable {
+    private volatile int counter;      // Shared among threads
+    private transient String password; // Will not be serialized
 }
 ```
 
-- Configuration: 
-  - Configure the Eureka Server in your `application.properties` or `application.yml` file. 
-
-```application.yml
-server:
-    port: 8761
-    
-eureka:
-    client:
-        register-with-eureka: false
-        fetch-registry: false
-```
-
-- `server.port`: Specifies the port on which the Eureka Server will run (default is `8761`). 
-- `eureka.client.register-with-eureka`: Set to false because the server doesn't need to register itself. 
-- `eureka.client.fetch-registry`: Set to false as the server doesn't need to fetch the registry from itself. 
-
-- **Run the Application:** 
-  - Run the `EurekaServerApplication`. 
-  - Access the Eureka dashboard at `http://localhost:8761`. 
-
-With these steps, a basic Eureka Server is set up and running, ready for microservices to register and discover each other. 
+---
+## Q. TODO  
 
 ---
 ## Q. Real-World Usage Questions on Interfaces and Abstraction in Java
@@ -7412,21 +7597,8 @@ While Spring Boot offers numerous advantages, it's important to be aware of its 
 It's important to note that many of these drawbacks can be mitigated with proper planning, development practices, and a good understanding of the Spring framework.
 
 ---
-## Q. Difference between Volatile vs. Transient keyword in Java
-| Feature         | `volatile`             | `transient`         |
-|-----------------|------------------------|---------------------|
-| **Purpose**      | Ensures variable's value is always read from and written to main memory    | Excludes variable from serialization                               |
-| **Memory**       | Value is not cached; read/write occurs directly in main memory              | Variable is not included in the serialized state of the object     |
-| **Visibility**   | Changes to the variable are immediately visible to other threads            | Variable is skipped during object serialization                    |
-| **Default Value**| Not re-initialized; retains latest updated value from memory                | Re-initialized to default value after deserialization              |
-| **Usage**        | Used in multi-threaded environments for safe access to shared variables     | Used to prevent sensitive or non-serializable fields from being saved |
+## Q. TODO
 
-```java
-public class Example implements Serializable {
-    private volatile int counter;      // Shared among threads
-    private transient String password; // Will not be serialized
-}
-```
 ---
 ## Q. Asynchronous call in Frontend/Backend
 Asynchronous calls in Java enable a program to execute tasks concurrently without blocking the main thread. This approach enhances application performance and responsiveness, especially when dealing with long-running operations or I/O-bound tasks. Java offers several mechanisms for asynchronous programming, including threads, `ExecutorService`, and `CompletableFuture`.
@@ -7517,6 +7689,145 @@ It uses **TimSort**, which is a hybrid of **MergeSort and InsertionSort**.
 @OneToMany(fetch = FetchType.LAZY)
 private List<Order> orders;
 ```
+
+---
+## Q. TODO
+
+---
+## Q. Spring Boot - Interceptor
+Spring Boot Interceptor is an additional component that will intercept every request and response dispatch and perform some operations on it.
+
+![alt text](./images/image-6.png)
+
+Interceptors in web applications play a major in performing initial or finalization work.
+
+Interceptors have one primary purpose - "To intercept an incoming or outgoing request". 
+
+This intercepting behavior is done to perform some operation BEFORE or AFTER an action invocation. You can think of an interceptor as a mediator between the request and the business logic reserved for that request. Interceptor in Spring Boot can be implemented either by extending the HandlerInterceptorAdapter class or by implementing HandlerInterceptor Interface.
+
+### Request Interceptor
+Request Interceptor is an additional component class that intercepts all the incoming and outgoing requests (before any action is performed). It has the following 3 methods :
+
+#### 1. preHandle(): 
+- When an interceptor is implemented, any request before reaching the desired controller will be intercepted by this interceptor and some pre-processing can be performed like logging, authentication, redirection, etc.
+
+  - This method takes 3 parameters :
+    - HttpServletRequest request - represents the request being handled,
+    - HttpServletResponse response - represents the HTTP response to be sent back to the client,
+    - Object handler - the target controller method that will handle this request.
+  - Boolean return type: If the method returns true then the request will be directed towards the target control else the target controller method won't be invoked if this method returns false and the request will be halted.
+
+#### 2. postHandle(): 
+- This method is executed after the request is served but just before the response is sent back to the client. It intercepts the request in the final stage, giving us a chance to make any final trivial adjustments.
+
+  - We can modify the view response, for certain specific conditions.
+  - It takes 4 parameters -
+    - 3 are same as previous but there is one more
+    - 'ModelAndView'. It contains information about the model (data that is shipped across the parts of our web application) and the view that is rendered by the client.
+  - It can be used for debugging, logging, and capturing final response data.
+
+#### 3. afterCompletion(): 
+- This method is executed after the request and response mechanism is completed.
+  - This method can turn out to be very useful in cleaning up the resources once the request is served completely.
+  - It also takes 4 parameters, but the 'ModelAndView' object is replaced by an Exception object which contains information if any Exceptions occurred while serving the request.
+
+```java
+import com.GeeksforGeeks.requestinterceptorexample.RequestInterceptor.RequestInterceptor;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class RequestInterceptorConfig implements WebMvcConfigurer {
+   
+      // Register an interceptor with the registry, Interceptor name : RequestInterceptor
+      @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new RequestInterceptor());
+    }
+    //* We can register any number of interceptors with our spring application context
+}
+```
+```java
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+@Component
+public class RequestInterceptor implements HandlerInterceptor {
+
+    // Request is intercepted by this method before reaching the Controller
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        //* Business logic just when the request is received and intercepted by this interceptor before reaching the controller
+        try {
+            System.out.println("1 - preHandle() : Before sending request to the Controller");
+            System.out.println("Method Type: " + request.getMethod());
+            System.out.println("Request URL: " + request.getRequestURI());
+        }
+        //* If the Exception is caught, this method will return false
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    // Response is intercepted by this method before reaching the client
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        //* Business logic just before the response reaches the client and the request is served
+        try {
+            System.out.println("2 - postHandle() : After the Controller serves the request (before returning back response to the client)");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // This method is called after request & response HTTP communication is done.
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        //* Business logic after request and response is Completed
+        try {
+            System.out.println("3 - afterCompletion() : After the request and Response is completed");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+
+**Ref:-**
+[spring-boot-interceptor](https://www.geeksforgeeks.org/spring-boot-interceptor/)
+
+---
+## Q. How do you prevent concurrency issue in multithreading java?
+Concurrency issues in multithreaded Java applications arise when multiple threads access and modify shared resources simultaneously, leading to unexpected and erroneous outcomes. To prevent these issues, several techniques can be employed: 
+
+### Synchronization: 
+The synchronized keyword in Java ensures that only one thread can access a critical section of code or a method at a time. This prevents race conditions where multiple threads try to modify the same data concurrently. 
+### Locks: 
+Java's Lock interface and its implementations, such as ReentrantLock, provide more flexible control over locking than the synchronized keyword. They allow for features like timed waits and fairness, which can be useful in complex scenarios. 
+### Atomic Variables: 
+The java.util.concurrent.atomic package provides classes like AtomicInteger and AtomicLong that allow for atomic operations on variables. These operations are performed without the need for explicit locking, which can improve performance. 
+### Immutable Objects: 
+Immutable objects, whose state cannot be changed after they are created, are inherently thread-safe. Using immutable objects can eliminate the need for synchronization in many cases. 
+### Thread-Safe Collections: 
+Java's java.util.concurrent package provides thread-safe collections like ConcurrentHashMap and CopyOnWriteArrayList. These collections are designed to handle concurrent access from multiple threads without data corruption. 
+### ThreadLocal: 
+The ThreadLocal class allows each thread to have its own independent copy of a variable. This can be useful for avoiding shared state and the need for synchronization. 
+### Executors Framework: 
+The java.util.concurrent.Executors framework provides a way to manage threads in a thread pool. This can improve performance by reducing the overhead of creating and destroying threads. 
+### Careful Design: 
+A well-designed multithreaded application should minimize the use of shared resources and carefully consider how threads interact with each other. This can help to prevent concurrency issues before they arise. 
+
+By using these techniques, developers can write robust and reliable multithreaded Java applications that are free from concurrency issues. 
 
 ---
 

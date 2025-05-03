@@ -170,3 +170,22 @@ HAVING COUNT(*) > 1;
 | ACID | BASE |
 
 ---
+## Q. `WHERE` vs `HAVING` in sql
+In SQL, `WHERE` and `HAVING` are both used for filtering data, but they operate at different stages of query processing. `WHERE` filters rows before grouping, applying conditions to individual rows. `HAVING`, on the other hand, filters groups after they've been created by a `GROUP BY` clause, allowing conditions based on aggregate functions.
+
+### `WHERE` Clause:
+- Purpose: Filters rows based on individual row values.
+- Timing: Applied before the `GROUP BY` clause, meaning it filters data before any grouping or aggregation is performed.
+- Aggregate Functions: Cannot be used directly within the `WHERE` clause.
+- Usage: Can be used with `SELECT`, `UPDATE`, and `DELETE` statements. 
+
+### `HAVING` Clause:
+- Purpose: Filters groups of rows based on conditions involving aggregate functions. 
+- Timing: Applied after the `GROUP BY` clause, meaning it filters the results of grouped data. 
+- Aggregate Functions: Can be used within the `HAVING` clause to filter based on aggregated values like `COUNT()`, `SUM()`, `AVG()`. 
+- Usage: Can only be used with the `SELECT` statement. 
+
+#### In this example: 
+- `WHERE salary > 50000` filters the table to include only employees with a salary greater than $50,000.
+- `GROUP BY department` groups the remaining employees by department.
+- `HAVING employee_count > 5` then filters the groups to include only departments with more than 5 employees with salaries greater than $50,000.

@@ -1982,6 +1982,112 @@ export class App implements OnInit {
 
 }
 ```
+---
+## Q. Here are **Angular best practices** to implement **efficient and reusable frontend components**, focusing on maintainability, scalability, and performance:
+
+---
+
+## ✅ 1. **Use Presentational & Container Component Pattern**
+
+* **Container Components**: Handle data-fetching and business logic.
+* **Presentational Components**: Focus only on UI and accept inputs/emit outputs.
+* This separation promotes reusability and clean code architecture.
+
+```ts
+// Presentational: expense-card.component.ts
+@Input() expense: Expense;
+@Output() delete = new EventEmitter<number>();
+
+// Container: expense-list.component.ts
+<app-expense-card
+  *ngFor="let exp of expenses"
+  [expense]="exp"
+  (delete)="deleteExpense($event)">
+</app-expense-card>
+```
+
+## ✅ 2. **Keep Components Small and Focused**
+
+* Follow the **Single Responsibility Principle**: each component should do one thing well.
+* Split large components into smaller ones, especially when dealing with complex UIs.
+
+## ✅ 3. **Use `@Input()` and `@Output()` Smartly**
+
+* Use `@Input()` to pass data *into* a component.
+* Use `@Output()` with `EventEmitter` to communicate *out*.
+* Avoid tightly coupling components; use shared services only when needed.
+
+## ✅ 4. **Use Angular Reactive Forms for Complex Forms**
+
+* More scalable than template-driven forms.
+* Easier to unit test and dynamically control validation, visibility, and nested structures.
+
+## ✅ 5. **Avoid Logic in Templates**
+
+* Move complex expressions to the component class.
+* It improves readability and simplifies testing.
+
+```html
+<!-- Bad -->
+<div *ngIf="items.length > 0 && !loading">...</div>
+
+<!-- Good -->
+<div *ngIf="hasItems">...</div>
+```
+
+```ts
+get hasItems(): boolean {
+  return this.items.length > 0 && !this.loading;
+}
+```
+
+## ✅ 6. **Use `trackBy` in `*ngFor` Loops**
+
+Improves performance by preventing unnecessary re-renders:
+
+```html
+<li *ngFor="let user of users; trackBy: trackById">{{ user.name }}</li>
+```
+
+```ts
+trackById(index: number, item: User): number {
+  return item.id;
+}
+```
+
+## ✅ 7. **Modularize Your App**
+
+* Create **feature modules** (`ExpenseModule`, `AuthModule`, etc.).
+* Use **shared modules** for reusable components, directives, and pipes.
+
+## ✅ 8. **Style Components with View Encapsulation**
+
+* Keep styles scoped with Angular’s encapsulation (default is `Emulated`).
+* Use component-specific SCSS/CSS files for maintainability.
+
+## ✅ 9. **Lazy Load Feature Modules**
+
+* Improve initial load performance.
+* Use Angular routing to lazy-load modules when needed.
+
+```ts
+{ path: 'expenses', loadChildren: () => import('./expenses/expenses.module').then(m => m.ExpensesModule) }
+```
+
+## ✅ 10. **Use Services and Dependency Injection (DI)**
+
+* Extract business logic and API calls into services.
+* Inject services into components via DI to promote reusability and testing.
+
+## ✅ 11. **Use Angular CLI and Linting Tools**
+
+* Follow style guides and enforce standards using ESLint.
+* Use CLI to generate code scaffolds with best practices in place.
+
+## ✅ 12. **Write Unit and Integration Tests**
+
+* Use `TestBed`, mocks, and spies to ensure component behavior is predictable.
+* Keep test coverage high, especially for reusable components.
 
 ---
 ## Q. When to use ngoninit and constructor in Angular
@@ -2017,6 +2123,153 @@ export class MyComponent implements OnInit {
   }
 }
 ```
+---
+## Q. Angular form vs Reactive form
+Here's a comprehensive overview of **Angular Forms** with a focus on **Reactive Forms**, including comparison, examples, and best practices.
+
+---
+
+## ✅ Angular Forms Overview
+
+Angular offers **two types of forms**:
+
+| Form Type                 | Description                                                                                  |
+| ------------------------- | -------------------------------------------------------------------------------------------- |
+| **Template-driven forms** | Simpler to use, defined mostly in HTML using `ngModel`, suitable for basic use cases         |
+| **Reactive forms**        | More scalable, defined in the component class, offers better testability and dynamic control |
+
+---
+
+## ✅ Reactive Forms – Key Features
+
+* Defined and controlled in **TypeScript class**.
+* Built using `FormGroup`, `FormControl`, and `FormArray`.
+* Easy to **dynamically add/remove fields**, handle **complex validations**, and **unit test**.
+
+---
+
+## 🔧 Setup
+
+First, import the necessary module:
+
+```ts
+import { ReactiveFormsModule } from '@angular/forms';
+```
+
+In `app.module.ts`:
+
+```ts
+@NgModule({
+  imports: [
+    ReactiveFormsModule
+  ]
+})
+export class AppModule {}
+```
+
+---
+
+## ✨ Reactive Forms Example (Expense Form)
+
+### 📁 **expense-form.component.ts**
+
+```ts
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-expense-form',
+  templateUrl: './expense-form.component.html'
+})
+export class ExpenseFormComponent implements OnInit {
+  expenseForm!: FormGroup;
+
+  constructor(private fb: FormBuilder) {}
+
+  ngOnInit() {
+    this.expenseForm = this.fb.group({
+      title: ['', Validators.required],
+      amount: [null, [Validators.required, Validators.min(1)]],
+      category: ['Food', Validators.required],
+      date: [new Date(), Validators.required]
+    });
+  }
+
+  onSubmit() {
+    if (this.expenseForm.valid) {
+      console.log('Form Submitted:', this.expenseForm.value);
+    }
+  }
+}
+```
+
+---
+
+### 🧾 **expense-form.component.html**
+
+```html
+<form [formGroup]="expenseForm" (ngSubmit)="onSubmit()">
+  <label>Title:</label>
+  <input type="text" formControlName="title" />
+  <div *ngIf="expenseForm.get('title')?.invalid && expenseForm.get('title')?.touched">
+    Title is required.
+  </div>
+
+  <label>Amount:</label>
+  <input type="number" formControlName="amount" />
+  <div *ngIf="expenseForm.get('amount')?.errors?.['min']">
+    Amount must be at least 1.
+  </div>
+
+  <label>Category:</label>
+  <select formControlName="category">
+    <option value="Food">Food</option>
+    <option value="Travel">Travel</option>
+    <option value="Bills">Bills</option>
+  </select>
+
+  <label>Date:</label>
+  <input type="date" formControlName="date" />
+
+  <button type="submit" [disabled]="expenseForm.invalid">Submit</button>
+</form>
+```
+
+---
+
+## ✅ Best Practices with Reactive Forms
+
+1. **Use FormBuilder**: Simplifies syntax for creating nested forms.
+2. **Group Fields Logically**: Use `FormGroup` for related controls (e.g., address fields).
+3. **Custom Validators**: For complex business logic.
+4. **Async Validators**: For backend validations like checking username availability.
+5. **Reactive Form Hooks**: Use `valueChanges` and `statusChanges` to react to form changes.
+
+---
+
+## 🔍 Template-Driven Form (Quick Example)
+
+> Not ideal for dynamic or complex forms.
+
+```html
+<form #form="ngForm" (ngSubmit)="submit(form.value)">
+  <input name="name" ngModel required />
+  <input type="email" name="email" ngModel />
+  <button type="submit">Submit</button>
+</form>
+```
+
+---
+
+## 🚀 Summary
+
+| Feature                     | Reactive Forms ✅ | Template-driven Forms ❌ |
+| --------------------------- | ---------------- | ----------------------- |
+| Suitable for large forms    | ✅                | ❌                       |
+| Unit test friendly          | ✅                | ❌                       |
+| Complex validation handling | ✅                | ❌                       |
+| Dynamic form controls       | ✅                | ❌                       |
+| Simpler syntax              | ❌                | ✅                       |
 
 ---
 ## Q. How to migrate from Angular version 10 to 17? 
@@ -2525,7 +2778,77 @@ To make your Angular application compatible with different browsers:
 By following these steps, you can ensure that your Angular application works across a wide range of browsers, including older ones.
 
 ---
-## Q.
+## Q. How do you prevent the form on back of a browser in angular using canActivate?
+```typescript
+import { Injectable } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
+import { FormComponent } from '../components/form/form.component';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class FormGuard implements CanActivate {
+  constructor(private router: Router) {}
+
+  canActivate(component: FormComponent): boolean {
+    if (component.hasUnsavedChanges()) {
+      return window.confirm('You have unsaved changes. Do you really want to leave?');
+    }
+    return true;
+  }
+}
+```
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-form',
+  templateUrl: './form.component.html',
+  styleUrls: ['./form.component.css']
+})
+export class FormComponent {
+  private unsavedChanges = false;
+
+  // Call this method when form data changes
+  onFormChange() {
+    this.unsavedChanges = true;
+  }
+
+  // Call this method when form is submitted
+  onSubmit() {
+    // Handle form submission logic
+    this.unsavedChanges = false;
+  }
+
+  hasUnsavedChanges(): boolean {
+    return this.unsavedChanges;
+  }
+}
+```
+```typescript
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { FormComponent } from './components/form/form.component';
+import { FormGuard } from './guards/form.guard';
+
+const routes: Routes = [
+  { path: 'form', component: FormComponent, canActivate: [FormGuard] },
+  // other routes
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+```
+
+### Summary of Steps:
+
+- Create a guard that checks for unsaved changes.
+- Implement a method in your form component to track changes.
+- Use the guard in your routing configuration to protect the form route.
+
 
 ---
 ## Q.

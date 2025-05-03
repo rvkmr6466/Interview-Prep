@@ -2537,7 +2537,155 @@ public static void main(String[] args) {
 }
 ```
 ---
-### 52. 
+### 52. What will be the result of a given code
+```java
+class Example {
+    private static List<String> cache = new ArrayList<>();
+
+    public void addData() {
+        for (int i = 0; i < 1000000; i++) {
+            cache.add("Data-" + i);
+        }
+    }
+}
+```
+
+The `Example` class you've provided uses a **static list** (`cache`) that stores data when `addData()` is called. Let me break down the behavior, and point out potential concerns and use cases.
+
+### Key Observations
+
+1. **`cache` is static:**
+   - This means the list is **shared among all instances** of the `Example` class.
+   - The data persists as long as the application is running (in memory).
+
+2. **Memory Usage:**
+   - You're adding 1 million strings to memory.
+   - This could cause **OutOfMemoryError** if called multiple times or on constrained memory environments.
+
+3. **Thread-Safety:**
+   - `ArrayList` is **not thread-safe**.
+   - If multiple threads call `addData()` concurrently, **data corruption** or **ConcurrentModificationException** may occur.
+
+---
+
+### When to Use This Approach
+
+- If you're **caching data** that needs to be **globally accessible** across instances.
+- When the list doesn't need to change often (read-heavy scenarios).
+- When memory and thread safety are carefully managed.
+
+### Potential Improvements
+#### 1. Use a thread-safe collection:
+
+```java
+private static List<String> cache = Collections.synchronizedList(new ArrayList<>());
+```
+
+#### 2. Avoid memory overflow:
+
+Consider clearing or limiting the size of the list:
+
+```java
+if (cache.size() > 1000000) {
+    cache.clear();
+}
+```
+
+#### 3. Use better caching strategies:
+If this is for real caching, consider using:
+- **`ConcurrentHashMap`**
+- **`Guava Cache`**
+- **`Caffeine Cache`**
+
+### Real-World Analogy
+Imagine a static list as a **global whiteboard in an office**: every employee (object instance) can write to and read from it. If too many employees write to it at once (threads), it can become unreadable (corrupted). And if you never erase anything, it’ll eventually run out of space (memory).
+
+---
+## Q. To optimize the following Spring Boot controller logic:
+```java
+@GetMapping("/fn")
+public ResponseEntity<MyResponseDTO> fn() {
+    List<?> m1 = m1(); 
+    List<?> m2 = m2(); 
+    List<?> m3 = m3(); 
+
+    MyResponseDTO response = new MyResponseDTO(m1, m2, m3);
+    return ResponseEntity.ok(response);
+}
+```
+
+you can consider multiple types of **optimizations** based on your **application needs**—whether it’s **performance**, **code maintainability**, or **scalability**. Here’s how:
+
+### **Use `CompletableFuture` for Parallel Execution (Async)**
+
+If `m1()`, `m2()`, and `m3()` are **independent**, you can call them in **parallel** using `CompletableFuture` to improve performance:
+
+```java
+@GetMapping("/fn")
+public ResponseEntity<MyResponseDTO> fn() throws ExecutionException, InterruptedException {
+    CompletableFuture<List<?>> f1 = CompletableFuture.supplyAsync(() -> m1());
+    CompletableFuture<List<?>> f2 = CompletableFuture.supplyAsync(() -> m2());
+    CompletableFuture<List<?>> f3 = CompletableFuture.supplyAsync(() -> m3());
+
+    CompletableFuture.allOf(f1, f2, f3).join();
+
+    MyResponseDTO response = new MyResponseDTO(f1.get(), f2.get(), f3.get());
+    return ResponseEntity.ok(response);
+}
+```
+
+#### Note:
+You may annotate your service with `@Async` and enable `@EnableAsync` in a config class.
+
+---
+## Q. WAP using Java8 features: Compute average age of the all male authors having age less than 25 years
+```java
+import java.util.*;
+import java.util.stream.*;
+
+class Book {
+    int book_id;
+    String name;
+    Author author;
+
+    // constructor & getter setter
+}
+
+class Author {
+    String name;
+    int age;
+    String gender;
+
+    // constructor & getter setter
+}
+
+public class Main {
+    public static void main(String[] args) {
+        List<Book> books = Arrays.asList(
+            new Book(1, "Java Basics", new Author("John", 22, "Male")),
+            new Book(2, "Advanced Java", new Author("Mike", 24, "Male")),
+            new Book(3, "Spring Boot", new Author("Anna", 26, "Female")),
+            new Book(4, "Microservices", new Author("Tom", 28, "Male")),
+            new Book(5, "Streams API", new Author("Alex", 21, "Male"))
+        );
+
+        OptionalDouble averageAge = books.stream()
+            .map(Book::getAuthor)
+            .filter(author -> author.getGender().equalsIgnoreCase("Male") && author.getAge() < 25)
+            .mapToInt(Author::getAge)
+            .average();
+
+        if (averageAge.isPresent()) {
+            System.out.println("Average age of male authors < 25: " + averageAge.getAsDouble());
+        } else {
+            System.out.println("No male authors under 25 found.");
+        }
+    }
+}
+```
+---
+## Q. 
+
 
 
 ---
