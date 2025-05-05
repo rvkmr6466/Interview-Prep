@@ -490,7 +490,6 @@ public class Main {
     public static void main(String[] args) {
       String s1= "Ravi Kumar";
       String[] str = s1.split(" ");
-      String sss = "";
       List<String> list = new ArrayList<>();
       
       for (int i=0; i<str.length; i++) {
@@ -498,10 +497,10 @@ public class Main {
         list.add(s);
       }
       
-      System.out.println(Arrays.toString(str));
-      System.out.println(list.toString());
+      System.out.println(Arrays.toString(str)); //["Ravi, Kumar]
+      System.out.println(list.toString()); 
       
-      System.out.println(sss.join(" ", list));
+      System.out.println(String.join(" ", list)); // ivaR ramuK amrahS
   }
   
   public static String reverStr(String st) {
@@ -514,10 +513,7 @@ public class Main {
   }
 }
 ```
-#### Output
-```
-ivaR ramuK
-```
+
 #### Solution 2:
 ```java
 public class Main {
@@ -537,14 +533,10 @@ public class Main {
         list.add(reverseStrArray[j]);
       }
       
-      System.out.println(reverseStr.join(" ", list));
+      System.out.println(reverseStr.join(" ", list)); // ivaR ramuK amrahS
   }
   
 }
-```
-#### Output
-```
-ivaR ramuK amrahS
 ```
 
 ---
@@ -2684,15 +2676,80 @@ public class Main {
 }
 ```
 ---
-## Q. 
+## Q. nth Highest salary using stream.
+```java
+Long nthSalary = list.stream().distinct().sorted((a,b)-> b-a).skip(n).findFirst().orElse(0);
 
+Long nthSalary = list.stream().map(n->n.getSalary()).distinct().sorted((a,b)-> b-a).skip(n).findFirst().orElse(0);
+```
+---
+## Q. How to find the most frequent character (case-insensitive, ignoring spaces and digits) across a list of strings using Java streams
+```java
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
+public class MostFrequentChar {
+
+    public static Character findMostFrequentCharacter(List<String> strings) {
+        return strings.stream()
+                .flatMap(s -> s.toLowerCase().chars() // Convert to lowercase and get IntStream of chars
+                        .filter(Character::isLetter) // Filter out non-letter chars
+                        .mapToObj(c -> (char) c)) // Convert back to Stream of Character objects
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse(null);
+    }
+
+    public static void main(String[] args) {
+        List<String> input = Arrays.asList("Java", "Streams 123", "are powerful!");
+        Character mostFrequent = findMostFrequentCharacter(input);
+        System.out.println(mostFrequent); // Output: a
+    }
+}
+```
+The code first converts all strings to lowercase and extracts characters, filtering out spaces and digits. Then, it counts the occurrences of each character and returns the most frequent one.
 
 ---
+## Q. How to return a new list with each value multiplied by 2 using reduce() in Java
+```java
+import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
+
+public class MultiplyList {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+
+        List<Integer> multipliedNumbers = numbers.stream()
+            .reduce(new ArrayList<>(), (list, number) -> {
+                List<Integer> newList = new ArrayList<>(list);
+                newList.add(number * 2);
+                return newList;
+            }, (list1, list2) -> {
+                list1.addAll(list2);
+                return list1;
+            });
+
+        System.out.println(multipliedNumbers); // Output: [2, 4, 6, 8, 10]
+    }
+}
+```
+This code uses the `reduce` operation to iterate through the original list and construct a new list with doubled values. The accumulator function creates a new list in each step, avoiding modification of the original. The combiner function is essential for parallel streams, ensuring correct merging of results.
+
+---
+## Q.  
+
 
 ### Links:
 https://www.interviewbit.com/java-interview-questions-for-5-years-experience/
 https://www.geeksforgeeks.org/output-of-java-program-set-1/
+
+
 
 
 
