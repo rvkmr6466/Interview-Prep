@@ -1230,6 +1230,34 @@ concurrentMap.put(1, "A");
 
 In summary, choose `HashMap` for single-threaded applications and `ConcurrentHashMap` for multi-threaded environments where thread safety is a concern.
 
+### How `ConcurrentHashMap` works internally
+Internally, `ConcurrentHashMap` utilizes segmentation and fine-grained locking to enable efficient concurrent access. It's divided into segments, each acting as a mini `HashMap`, allowing multiple threads to operate on different segments concurrently. This reduces contention and improves performance, particularly for read operations, which can occur without blocking. 
+
+**Elaboration:** 
+
+#### - Segmentation: 
+`ConcurrentHashMap` is internally divided into segments (by default 16), each managed by its own lock. This partitioning allows multiple threads to access and modify the map concurrently, as long as they are working on different segments.
+
+#### - Fine-Grained Locking: 
+Each segment has its own lock, which is only held for the duration of the operation on that segment. This contrasts with `Hashtable`, which locks the entire table for every operation, leading to contention and reduced performance.  
+
+#### - Read Operations: 
+Read operations (like `get()`, `containsKey()`, etc.) can be performed concurrently without blocking, as they do not require any locking.
+
+#### - Write Operations: 
+Write operations (like `put()`, `remove()`, etc.) may require locking, as they modify the map and need to ensure data consistency. However, they are still concurrent, as they only lock the specific segment they are modifying, allowing other threads to access other segments.
+
+#### - Memory Visibility: 
+To ensure read operations see the most recently updated values, `ConcurrentHashMap` uses `volatile` reads, which guarantees that reads always see the latest state.
+
+#### - No Null Keys or Values: 
+`ConcurrentHashMap` does not allow `null` values for keys or values, similar to `Hashtable`.
+
+#### - Bulk Operations: 
+`ConcurrentHashMap` supports bulk operations (like `forEach()`, `transform()`, etc.) that are designed to be safely applied even with concurrent updates.  
+
+In essence, `ConcurrentHashMap` provides a thread-safe and performant way to manage concurrent access to a hash table by dividing the table into smaller, independently managed segments. This design minimizes contention and allows for efficient concurrent read and write operations.
+
 ---
 ## 11. What is Java Persistence API (JPA)?
 Java Persistence API is a collection of classes and methods to persist or store a vast amount of data in a database using ORM. JPA Persistence framework needs to follow:
@@ -2492,53 +2520,25 @@ Here's a more detailed breakdown:
 
 ---
 ## 33. Why we need to override equals and hashcode in Java?
-In Java, overriding `equals()` and `hashCode()` is crucial when a class is intended to be used in hash-based data structures like `HashMap` and `HashSet`, or when comparing objects based on their content rather than their memory location. Overriding `equals()` allows for custom equality comparisons, while overriding `hashCode()` ensures that objects considered equal by `equals()` also have the same hash code, maintaining the integrity of hash-based collections.
+Overriding only `equals()` or only `hashCode()` without the other can lead to inconsistent behavior, especially when using hash-based collections like HashMap or HashSet. If you override only `equals()`, two objects that are considered equal might not have the same hash code, leading to issues with hash-based collections. Conversely, if you override only `hashCode()`, two objects that are considered equal might not be detected as equal by the `equals()` method, also causing problems with hash-based collections.  
 
-### Here's a more detailed explanation:
-- **_`equals()` for Content Equality_**: 
-  - The default `equals()` method in Java compares objects based on their memory addresses (object references). Overriding `equals()` allows you to define equality based on the object's attributes or data, not its memory location.  
-- **_`hashCode()` for Hash-Based Collections_**: 
-  - Hash-based collections like `HashMap` and `HashSet` use `hashCode()` to determine where to store objects within the collection (bucket). If two objects are considered equal by `equals()`, they must also have the same hash code.
+### Overriding only `equals()`:
 
-### **Contract:** 
-- If you override `equals()`, you must also override `hashCode()` to maintain the contract between these two methods. This contract dictates that if `equals()` returns true for two objects, then `hashCode()` must also return the same value for both objects.
+• Violates the `hashCode()` contract: The `hashCode()` contract states that if two objects are equal according to `equals()`, they must have the same hash code. 
+• Causes issues with hash-based collections: When using HashMap or `HashSet`, the `equals()` method is used to compare objects, and the `hashCode()` method is used to determine which bucket to store the object in. If `equals()` is overridden but not `hashCode()`, objects that are logically equal might end up in different buckets, leading to incorrect behavior, such as `contains()` returning false for equal objects. 
+• Example: Imagine two Student objects with the same ID. If you override `equals()` to consider two students equal if their IDs match, but you don't override `hashCode()`, then these students might be placed in different buckets in a HashMap, even though they are logically equal according to your `equals()` implementation.
 
-### **Example:** 
-- Consider a Point class. If you define `equals()` to consider two points equal if they have the same x and y coordinates, then you must also define `hashCode()` based on these coordinates.  
+### Overriding only `hashCode()`:
+- Default `equals()` compares references: The default `equals()` method in the Object class compares object references, not their logical equality. 
+- Can lead to incorrect comparisons: If you override only `hashCode()`, but the default `equals()` is used, then logically equal objects might not be recognized as equal by the `equals()` method. 
+- Example: If you override `hashCode()` to return a hash based on the ID of a Student object, but you don't override `equals()`, then two Student objects with the same ID but different references will not be considered equal, even though they should be.
 
-### **Why is this important?**
+### In summary:
+Always override both `equals()` and `hashCode()` together. 
 
-- _Correct Functionality:_ Without overriding `equals()` and `hashCode()`, hash-based collections will treat two distinct objects with the same data as different, leading to incorrect behavior.  
-- _Performance:_ A good implementation of `hashCode()` helps distribute objects evenly across buckets in hash-based collections, improving performance and preventing collisions.  
-- _Consistency_: Overriding both methods ensures that your class behaves consistently with hash-based collections, providing reliable results when using your class in these contexts. 
+If you change the way objects are considered equal, you must also update the hash code calculation to maintain consistency. 
 
-### **In summary:** 
-Overriding `equals()` and `hashCode()` is essential for custom classes that need to be compared based on their content or used in hash-based collections. By adhering to the `equals()` and `hashCode()` contract, you ensure that your code behaves predictably and efficiently.
-
-Overriding `equals()` without also overriding `hashCode()` (or vice versa) leads to violations of the contract between these methods, resulting in unexpected behavior, especially when using objects in hash-based collections like HashMap or HashSet. If you override `equals()`, you must also override `hashCode()` to ensure that equal objects have the same hash code. If you only override `equals()`, two objects deemed equal by your `equals()` implementation might have different hash codes, leading to potential issues with hash-based collections.
-
-Here's a more detailed explanation:
-
-### **The Contract**: 
-- The fundamental contract between `equals()` and `hashCode()` is that if two objects are equal according to `equals()`, they must have the same hash code. This contract is crucial for the proper functioning of hash-based collections.
-
-### **Consequences of Overriding Only `equals()`**:  
-   - **Hash-based collections**: If you only override `equals()` and don't override `hashCode()`, you violate the contract. Two objects considered equal by your `equals()` implementation will likely have different hash codes, which can cause problems in hash-based collections. For example, in a HashSet, two objects that are equal according to your `equals()` might be stored separately because they have different hash codes, leading to unexpected behavior.  
-   - **Performance**: In hash-based collections, `hashCode()` is used to determine the "bucket" in which an object is stored. If two equal objects have different hash codes, they might be placed in different buckets, leading to slower lookups and potentially more collisions within those buckets.  
-   - **`equals()` not used**: In the worst-case scenario, `equals()` is never invoked because the objects might be placed in different buckets in the first place.  
-
-### Consequences of Overriding Only `hashCode()`:  
-   - **Referential equality**: If you only override `hashCode()`, you are effectively using the default `equals()` implementation, which checks for object identity (referential equality). Two objects that are logically equal (according to your intended meaning of equality) but are not the same object instance will still return different `hashCode()` values.  
-   - Inconsistent behavior: This inconsistent behavior can lead to problems when using these objects in hash-based collections.  
-
-### Recommendations:  
-   - If you override `equals()`, you must also override `hashCode()`.  
-   - The logic in your `hashCode()` implementation should be consistent with your `equals()` implementation. If two objects are equal according to your `equals()`, they should also have the same hash code.
-   - If you are not using objects in hash-based collections, you can choose to not override either method, but it's generally good practice to override both if you intend to use a custom concept of equality.
-
-In essence, overriding only one of these methods without the other leads to a breach of the contract between `equals()` and `hashCode()`, which can have significant implications for the behavior of your code, particularly when working with hash-based collections.
-
-
+Failure to do so will lead to inconsistencies and potentially errors in hash-based collections and other code that relies on these methods.
 
 ---
 ## 34. Common HTTP Status Codes
@@ -4887,6 +4887,112 @@ public class MyService {
 This allows you to manage and configure your Spring Boot applications more effectively when dealing with multiple beans of the same type.
 
 ---
+In Spring Boot, the `@Qualifier` annotation is used to resolve ambiguity when multiple beans of the same type are present in the application context. It allows you to specify which bean should be injected when there are multiple candidates. This is particularly useful in scenarios where you have multiple implementations of an interface or multiple beans of the same type.
+
+### Use Cases of `@Qualifier`
+
+1. **Multiple Implementations of an Interface**:
+   When you have multiple implementations of an interface, you can use `@Qualifier` to specify which implementation to inject.
+
+   **Example**:
+   ```java
+   public interface PaymentService {
+       void processPayment();
+   }
+
+   @Service
+   public class CreditCardPaymentService implements PaymentService {
+       @Override
+       public void processPayment() {
+           System.out.println("Processing credit card payment");
+       }
+   }
+
+   @Service
+   public class PayPalPaymentService implements PaymentService {
+       @Override
+       public void processPayment() {
+           System.out.println("Processing PayPal payment");
+       }
+   }
+
+   @Component
+   public class OrderService {
+       private final PaymentService paymentService;
+
+       @Autowired
+       public OrderService(@Qualifier("creditCardPaymentService") PaymentService paymentService) {
+           this.paymentService = paymentService;
+       }
+
+       public void placeOrder() {
+           paymentService.processPayment();
+       }
+   }
+   ```
+
+   In this example, `OrderService` has a dependency on `PaymentService`. By using `@Qualifier("creditCardPaymentService")`, we specify that the `CreditCardPaymentService` implementation should be injected.
+
+2. **Different Beans of the Same Type**:
+   If you have different beans of the same type that serve different purposes, you can use `@Qualifier` to differentiate between them.
+
+   **Example**:
+   ```java
+   @Component
+   public class UserService {
+       private final UserRepository userRepository;
+
+       @Autowired
+       public UserService(@Qualifier("mysqlUser Repository") UserRepository userRepository) {
+           this.userRepository = userRepository;
+       }
+
+       // Other methods...
+   }
+   ```
+
+   Here, if you have multiple `User Repository` implementations (e.g., `MySQLUser Repository`, `MongoDBUser Repository`), you can specify which one to inject using `@Qualifier`.
+
+3. **Using `@Qualifier` with `@Autowired`**:
+   You can use `@Qualifier` directly with the `@Autowired` annotation to specify the bean to be injected.
+
+   **Example**:
+   ```java
+   @Service
+   public class NotificationService {
+       private final MessageService messageService;
+
+       @Autowired
+       public NotificationService(@Qualifier("emailMessageService") MessageService messageService) {
+           this.messageService = messageService;
+       }
+
+       public void sendNotification(String message) {
+           messageService.sendMessage(message);
+       }
+   }
+   ```
+
+4. **Using `@Qualifier` with Field Injection**:
+   You can also use `@Qualifier` with field injection, although constructor injection is generally preferred for better testability and immutability.
+
+   **Example**:
+   ```java
+   @Component
+   public class UserController {
+       @Autowired
+       @Qualifier("mongoUser Repository")
+       private UserRepository userRepository;
+
+       // Other methods...
+   }
+   ```
+
+### Conclusion
+
+The `@Qualifier` annotation is a powerful tool in Spring Boot that helps manage bean injection when multiple candidates are available. By using `@Qualifier`, you can ensure that the correct bean is injected, thereby avoiding ambiguity and making your application more flexible and maintainable.
+
+---
 ## 60. How to create custom class object method in java
 Here is how to create a custom class object method in Java: 
 
@@ -5154,11 +5260,149 @@ In essence, `@Service` and `@Controller` are specialized forms of `@Component`. 
 | 11. |Less memory is used.                                                                             |                                                                                            More memory is used.                                                                                           |
 | 12. |This is known as static memory allocation.                                                                  |                                                                                This is known as dynamic memory allocation.                                                                                |
 
----
-## 65. 
+
+### How Araaylist works internally?
+The `ArrayList` in Java is a dynamic, resizable array implementation. It provides the functionality of a standard array while allowing its size to grow or shrink as needed. Internally, `ArrayList` uses an `Object` array to store its elements.
+
+When an `ArrayList` is created, it is initialized with a default capacity of 10. As elements are added, the `ArrayList` checks if the underlying array has enough space. If not, it creates a new array with a larger capacity, typically 50% greater than the old capacity, and copies the existing elements to the new array. This process is called "growing" the array. 
+
+**Adding an element to an `ArrayList` involves the following steps:**
+
+#### Ensure Capacity: 
+Checks if there is enough space in the underlying array. If the array is full, it calls the `grow()` method to increase the capacity. 
+
+#### Grow the Array: 
+If necessary, creates a new array with an increased capacity and copies the existing elements to the new array using `Arrays.copyOf()`. 
+#### Add the Element: Adds the new element to the next available position in the array. 
+
+Removing an element from an `ArrayList` involves shifting subsequent elements to the left to fill the gap created by the removal. 
+
+Accessing an element at a specific index in an `ArrayList` is a constant-time operation, denoted as `O(1)`, because it directly accesses the element in the underlying array. However, adding or removing elements at the beginning or middle of the list requires shifting elements, resulting in a linear-time operation, denoted as `O(n)`, where n is the number of elements. 
 
 ---
-## 66. TODO
+## 65. How accesssing an element from an Arraylist is better than Linkedlist in java
+Accessing an element in Java differs significantly between `ArrayList` and `LinkedList` due to their underlying data structures. 
+
+### ArrayList: 
+ArrayList uses a dynamic array, storing elements in contiguous memory locations. This allows for direct access to elements using their index, similar to a traditional array. Accessing an element by index in an `ArrayList` has a time complexity of `O(1)`, meaning it takes constant time regardless of the list's size. 
+
+### LinkedList: 
+`LinkedList` stores elements in nodes, where each node contains a value and a reference (or link) to the next node in the sequence. To access an element at a specific index, the list must be traversed from the beginning (or the end in a doubly linked list) until the desired index is reached. This sequential access results in a time complexity of `O(n)`, where n is the index of the element. In the worst case (accessing the last element), it takes time proportional to the size of the list. 
+
+In summary, `ArrayList` offers faster element access due to its direct indexing capability, while `LinkedList` requires traversal, making access slower, especially for elements located further down the list. 
+
+---
+## 66. How to prevent from circular dependency
+
+To prevent circular dependencies in Spring Boot, you can use several strategies such as employing setter or field injection instead of constructor injection, utilizing the `@Lazy` annotation to delay bean initialization, or refactoring your code to eliminate circular references altogether. These approaches help manage dependencies effectively and maintain a clean application structure. 
+
+### Strategies to Prevent Circular Dependency
+
+1. **Use Setter or Field Injection**:
+   - Instead of constructor injection, which can lead to circular dependencies, use setter or field injection. This allows Spring to create the beans first and then inject the dependencies later, avoiding the circular reference issue.
+
+   **Example**:
+   ```java
+   @Service
+   public class ServiceA {
+       private ServiceB serviceB;
+
+       @Autowired
+       public void setServiceB(ServiceB serviceB) {
+           this.serviceB = serviceB;
+       }
+   }
+
+   @Service
+   public class ServiceB {
+       private ServiceA serviceA;
+
+       @Autowired
+       public void setServiceA(ServiceA serviceA) {
+           this.serviceA = serviceA;
+       }
+   }
+   ```
+
+2. **Utilize `@Lazy` Annotation**:
+   - The `@Lazy` annotation can be used to delay the initialization of a bean until it is actually needed. This can help break the circular dependency by ensuring that one of the beans is not created until it is required.
+
+   **Example**:
+   ```java
+   @Service
+   public class ServiceA {
+       @Lazy
+       @Autowired
+       private ServiceB serviceB;
+   }
+
+   @Service
+   public class ServiceB {
+       @Autowired
+       private ServiceA serviceA;
+   }
+   ```
+
+3. **Refactor Code**:
+   - Refactoring your code to eliminate circular dependencies is often the best long-term solution. This can involve creating a new service or interface that both classes depend on, thus breaking the direct dependency cycle.
+
+   **Example**:
+   ```java
+   @Service
+   public class CommonService {
+       // Shared functionality
+   }
+
+   @Service
+   public class ServiceA {
+       private final CommonService commonService;
+
+       @Autowired
+       public ServiceA(CommonService commonService) {
+           this.commonService = commonService;
+       }
+   }
+
+   @Service
+   public class ServiceB {
+       private final CommonService commonService;
+
+       @Autowired
+       public ServiceB(CommonService commonService) {
+           this.commonService = commonService;
+       }
+   }
+   ```
+
+4. **Use Interfaces**:
+   - Introduce interfaces to decouple the classes. This allows you to inject the interface rather than the concrete implementation, which can help avoid circular dependencies.
+
+   **Example**:
+   ```java
+   public interface UserService {
+       void performAction();
+   }
+
+   @Service
+   public class UserServiceImplA implements UserService {
+       @Override
+       public void performAction() {
+           // Implementation A
+       }
+   }
+
+   @Service
+   public class UserServiceImplB implements UserService {
+       @Override
+       public void performAction() {
+           // Implementation B
+       }
+   }
+   ```
+
+### Conclusion
+
+By employing these strategies, you can effectively prevent circular dependencies in your Spring Boot applications. Each method has its own advantages, and the choice of which to use will depend on the specific context and requirements of your application.
 
 ---
 ## 67. How to configure multiple database in Spring Boot.
@@ -5521,6 +5765,50 @@ thread.start();
 - **Thread Safety:** Ensure that your code is thread-safe, meaning it can be executed correctly by multiple threads concurrently.
 - **Deadlocks:** Be careful to avoid deadlocks, where two or more threads are blocked indefinitely, waiting for each other to release resources.
 - **Thread Pool:** For managing a large number of threads, consider using a thread pool (e.g., `ExecutorService`) to improve performance and resource utilization.
+
+
+### Create thousands threads
+Creating thousands of threads in Java is technically possible, but it comes with significant performance considerations and potential risks. Each thread consumes memory for its stack and requires resources for context switching, so creating too many threads can lead to: 
+
+- **OutOfMemoryError**: If the JVM runs out of memory to allocate to thread stacks. 
+- **Performance degradation**: Excessive context switching between threads can consume significant CPU time, reducing overall performance. 
+- **Resource contention**: Threads might compete for shared resources, leading to bottlenecks and delays. 
+
+Here's how to create thousands of threads, along with important considerations: 
+```java
+public class ThousandsOfThreads {
+
+    static class MyRunnable implements Runnable {
+        private final int id;
+
+        public MyRunnable(int id) {
+            this.id = id;
+        }
+
+        @Override
+        public void run() {
+            // Task to be performed by the thread
+            System.out.println("Thread " + id + " started");
+            try {
+                Thread.sleep(1000); // Simulate some work
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Thread " + id + " finished");
+        }
+    }
+
+    public static void main(String[] args) {
+        int numberOfThreads = 1000; // Or more
+
+        for (int i = 0; i < numberOfThreads; i++) {
+            Thread thread = new Thread(new MyRunnable(i));
+            thread.start();
+        }
+    }
+}
+```
+It's crucial to manage threads effectively to avoid these problems. Instead of directly creating thousands of threads, consider using thread pools.
 
 ---
 
@@ -5998,7 +6286,38 @@ Some important annotations comes under this category are:
 [SpringBoot Annotation](https://www.geeksforgeeks.org/spring-boot-annotations/)
 
 ---
-## Q. TODO
+## Q. Default Scope of @RestController in Spring Boot
+In Spring Boot, which is built on the Spring Framework, the scope of a bean defines how many instances of that bean are created.
+- **Singleton**: Only one instance of the bean is created for the entire application. This single instance is shared across all requests. 
+When you use the `@RestController` annotation, you're essentially defining a Spring bean. By default, Spring beans have a singleton scope. Therefore, a `@RestController` is also a singleton by default.
+
+#### Key Points
+- **Default Scope**: The default scope for beans in Spring, including those annotated with `@RestController`, is singleton.
+- **Performance**: Singleton scope is generally preferred for `@RestController` because controllers are typically designed to be stateless. This allows Spring to efficiently manage resources by creating only one instance, which can handle multiple requests.
+- **State Management**: If your `@RestController` needs to manage state, you'll need to handle it carefully, possibly using external storage (like a database or a cache) to avoid concurrency issues.
+- **Other Scopes**: While singleton is the default, you can change the scope of a `@RestController` using the `@Scope` annotation. However, this is less common for REST controllers.
+
+#### Example
+```java
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.context.annotation.Scope;
+
+@RestController
+// @Scope("prototype") // You could change the scope, but it's rarely needed for controllers
+public class MyRestController {
+
+    private int requestCount = 0; // Example of state (usually should be avoided in a singleton controller)
+
+    @GetMapping("/hello")
+    public String hello() {
+        requestCount++;
+        return "Hello from MyRestController! Request count: " + requestCount;
+    }
+}
+```
+In the example above, by default, `MyRestController` is a singleton. If you were to uncomment the `@Scope("prototype")` annotation, a new instance of `MyRestController` would be created for each request.
+
 ---
 ## Q. What is the Bean Lifecycle in Spring?
 The Bean Lifecycle in Spring consists of several phases:
@@ -7447,7 +7766,116 @@ In this example, `deepCopy` is a deep copy of `original`.  A new `InnerObject` i
 | **Memory Usage**   | Less memory (shares references)                                                  | More memory (copies all objects)                                                                 |
 
 ---
-## Q. TODO
+## Q. List vs List<?> vs List<Object>
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class ListExamples {
+
+    public static void main(String[] args) {
+        // 1. List<?> list = new ArrayList();
+        //    - List of unknown type.
+        //    - You can't add specific objects to it (except null).
+        //    - You can retrieve objects, but they'll be of type Object.
+        List<?> list = new ArrayList<>(); // Using diamond operator is preferred
+        list.add(null); // Allowed
+        // list.add("Hello"); // Not allowed - Compile-time error
+        // list.add(10);    // Not allowed - Compile-time error
+
+        System.out.println("List<?> elements:");
+        for (Object obj : list) {
+            System.out.println(obj); // Output: null
+        }
+
+        // Example Use Case:  A method that can accept a list of any type, but only reads from it.
+        printList(list); //calling the method.
+        List<String> stringList = new ArrayList<>();
+        stringList.add("Apple");
+        stringList.add("Banana");
+        printList(stringList); //calling the method with String List
+        
+        List<Integer> intList = new ArrayList<>();
+        intList.add(1);
+        intList.add(2);
+        printList(intList);
+
+        // 2. List<Object> list1 = new ArrayList();
+        //    - List of Object type.
+        //    - Can hold any type of object.
+        //    - Objects retrieved are of type Object.
+        List<Object> list1 = new ArrayList<>(); // Using diamond operator is preferred
+        list1.add("Hello");
+        list1.add(10);
+        list1.add(new CustomObject("Example"));
+        list1.add(null);
+
+        System.out.println("\nList<Object> elements:");
+        for (Object obj : list1) {
+            System.out.println(obj);
+        }
+
+        // To use the elements, you'll often need to cast them.
+        String str = (String) list1.get(0);
+        Integer num = (Integer) list1.get(1);
+        CustomObject customObj = (CustomObject) list1.get(2);
+        System.out.println("String from list1: " + str);
+        System.out.println("Integer from list1: " + num);
+        System.out.println("Custom Object from list1: " + customObj.getData());
+
+        // 3. List list2 = new ArrayList();
+        //    - Raw type List (NO generic type specified).
+        //    - Avoid using this! It's for backward compatibility.
+        //    - You can add any type of object.
+        //    - Objects are retrieved as type Object.
+        List list2 = new ArrayList(); //should be  List list2 = new ArrayList<>();
+        list2.add("World");
+        list2.add(20);
+        list2.add(new CustomObject("Legacy"));
+        list2.add(null);
+
+        System.out.println("\nRaw type List elements (AVOID!):");
+        for (Object obj : list2) {
+            System.out.println(obj);
+        }
+
+        // You MUST cast elements retrieved from a raw type List.
+        String str2 = (String) list2.get(0);
+        Integer num2 = (Integer) list2.get(1);
+        CustomObject customObj2 = (CustomObject) list2.get(2);
+        System.out.println("String from list2: " + str2);
+        System.out.println("Integer from list2: " + num2);
+        System.out.println("Custom Object from list2: " + customObj2.getData());
+    }
+    // Example method that accepts List of any type
+    public static void printList(List<?> list) {
+        System.out.println("\nPrinting list elements (<?>):");
+        for (Object item : list) {
+            System.out.println(item);
+        }
+    }
+
+    // A simple custom class for demonstration
+    static class CustomObject {
+        private String data;
+
+        public CustomObject(String data) {
+            this.data = data;
+        }
+
+        public String getData() {
+            return data;
+        }
+
+        @Override
+        public String toString() {
+            return "CustomObject{" +
+                    "data='" + data + '\'' +
+                    "}";
+        }
+    }
+}
+```
 
 ---
 ## Q. `transient` keyword in Java
@@ -7527,7 +7955,72 @@ public class Example implements Serializable {
 ```
 
 ---
-## Q. TODO  
+## Q. How to access a private constructor of a final class in Java:
+You can access a private constructor of a final class using reflection. Reflection allows you to inspect and manipulate classes, interfaces, constructors, methods, and fields at runtime, even if they are private. 
+```java
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+final class FinalClassWithPrivateConstructor {
+    private String message;
+
+    private FinalClassWithPrivateConstructor(String message) {
+        this.message = message;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Get the class object
+            Class<FinalClassWithPrivateConstructor> clazz = FinalClassWithPrivateConstructor.class;
+
+            // Get the private constructor
+            Constructor<FinalClassWithPrivateConstructor> constructor = clazz.getDeclaredConstructor(String.class);
+
+            // Make the constructor accessible
+            constructor.setAccessible(true);
+
+            // Instantiate the class
+            FinalClassWithPrivateConstructor instance = constructor.newInstance("Hello from reflection!");
+
+            // Access the object
+            System.out.println(instance.getMessage()); // Output: Hello from reflection!
+
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Explanation: 
+
+#### Get the Class object: 
+`FinalClassWithPrivateConstructor.class` retrieves the `Class` object representing the final class. 
+#### Get the private constructor: 
+`clazz.getDeclaredConstructor(String.class)` obtains the constructor that takes a `String` argument. `getDeclaredConstructor` is used because the constructor is private. 
+#### Make the constructor accessible: 
+`constructor.setAccessible(true)` bypasses the access restrictions, allowing you to invoke the private constructor. 
+#### Instantiate the class: 
+`constructor.newInstance("Hello from reflection!")` creates a new instance of the class using the obtained constructor and the provided argument. 
+#### Handle exceptions: 
+The `try-catch` block handles potential exceptions that might occur during reflection, such as the constructor not being found or access being denied. 
+
+### Important Considerations: 
+
+#### Final Class: 
+Since the class is final, it cannot be subclassed. 
+#### Private Constructor: 
+The private constructor prevents direct instantiation from outside the class. 
+#### Reflection: 
+While reflection allows accessing private members, it should be used with caution as it can break encapsulation and might have performance implications. 
+
+This approach demonstrates how to access a private constructor of a final class in Java using reflection. However, it's crucial to consider the design implications and potential drawbacks before using reflection in production code. 
 
 ---
 ## Q. Real-World Usage Questions on Interfaces and Abstraction in Java
@@ -7759,7 +8252,41 @@ private List<Order> orders;
 ```
 
 ---
-## Q. TODO
+## Q. Default implementation of a cloneable interface in java
+Since `Cloneable` is an interface, it cannot have a default implementation in the traditional sense. However, the Object class provides a `clone()` method that serves as the default implementation when a class implements `Cloneable`. This default implementation performs a shallow copy, meaning it creates a new object and copies the values of the original object's fields into it. If the fields are primitive types or immutable objects, this is sufficient. However, if the fields are references to mutable objects, both the original and the cloned object will share references to the same underlying objects.
+
+```java
+class MyClass implements Cloneable {
+    private int id;
+    private String name;
+    private MutableObject mutableObject;
+
+    // Constructor, getters, setters
+
+    @Override
+    public MyClass clone() {
+        try {
+            MyClass cloned = (MyClass) super.clone();
+            cloned.mutableObject = new MutableObject(this.mutableObject.getData()); // Deep copy
+            return cloned;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError(); // Should not happen as we implement Cloneable
+        }
+    }
+}
+
+class MutableObject {
+    private String data;
+
+    public MutableObject(String data) {
+        this.data = data;
+    }
+
+    public String getData() {
+        return data;
+    }
+}
+```
 
 ---
 ## Q. Spring Boot - Interceptor
@@ -7898,8 +8425,204 @@ A well-designed multithreaded application should minimize the use of shared reso
 By using these techniques, developers can write robust and reliable multithreaded Java applications that are free from concurrency issues. 
 
 ---
+## Q. Is 2 @`RequestBody` can be added in POST request?
+No, you cannot directly use two `@RequestBody` annotations in the same POST request method in Spring MVC or Spring Boot. The HTTP request body is a single entity, and `@RequestBody` is designed to bind that single body to a single method parameter.
 
+#### Why you can't use two `@RequestBody`:
 
+#### Single Body:
+HTTP requests, including POST requests, are designed to have a single request body. 
+#### Deserialization:
+The `@RequestBody` annotation is used to deserialize the request body (typically in JSON or XML format) into a Java object. 
+#### Mapping Issues:
+Multiple `@RequestBody` parameters would create ambiguity and would be difficult for the framework to determine which object to map the request body to.
+
+#### How to handle multiple objects in a POST request:
+#### 1. Create a Wrapper Class:
+The most common and recommended approach is to create a new class that encapsulates both objects you want to pass. This class will serve as a container for the data.
+
+#### 2. Modify Request Body:
+Change the request body on the client-side (e.g., in your JavaScript code or Postman) to match the structure of this wrapper class.
+#### 3. Bind to Single `@RequestBody` Parameter:
+In your Spring controller, you can then use a single `@RequestBody` annotation, binding it to an instance of this wrapper class. 
+
+```java
+// Create a wrapper class:
+public class RequestData {
+    private User user;
+    private Product product;
+
+    // Getters and setters
+}
+
+// Use the wrapper class in your controller:
+@PostMapping("/processData")
+public ResponseEntity<String> processData(@RequestBody RequestData requestData) {
+    User user = requestData.getUser();
+    Product product = requestData.getProduct();
+    // Process user and product data
+    return ResponseEntity.ok("Data processed successfully");
+}
+
+// Client-side request (e.g., in Postman): 
+{
+  "user": {
+    "id": 1,
+    "name": "John Doe"
+  },
+  "product": {
+    "id": 101,
+    "name": "Product A"
+  }
+}
+```
+
+By creating a wrapper class, you can effectively pass multiple objects through a single `@RequestBody` parameter, making your code cleaner and easier to manage.
+
+---
+## Q. Threads in ConcurrentHashMap
+
+In Java, a `ConcurrentHashMap` is designed to allow concurrent access by multiple threads. It supports a preset concurrency level of 32, meaning that up to 32 threads can perform operations like put and remove simultaneously. However, the actual number of threads running can vary based on the application's design and workload. 
+
+### Thread Count in ConcurrentHashMap
+
+- **Concurrency Level**: The default concurrency level for a `ConcurrentHashMap` is 32, which allows up to 32 threads to operate on the map simultaneously without blocking each other.
+
+- **Running Threads**: The actual number of threads that are actively running can depend on several factors:
+  - The number of threads created by the application.
+  - The workload and how many threads are currently performing operations on the `ConcurrentHashMap`.
+  - The use of parallelism features introduced in Java 8, which can increase the number of threads utilized during operations.
+
+- **Example Scenario**: In a specific case, there might be 32 runnable threads, with additional threads in waiting or timed waiting states. For instance, a report indicated 39 running threads, 2 waiting, and 1 in timed waiting, showcasing how the `ForkJoinPool` can influence thread management when parallelism is enabled.
+
+### Summary
+
+- The `ConcurrentHashMap` allows for high concurrency with a default of 32 threads.
+- The actual number of threads can vary based on the application's design and the specific operations being performed.
+- Utilizing parallelism can lead to an increase in the number of threads actively working on tasks related to the `ConcurrentHashMap`.
+
+---
+## Q. Case-insensitive Set in java 
+To create a set in Java that contains only one instance of the character 'a' or 'A', regardless of case sensitivity, you can use a `HashSet` and convert the input character to lowercase (or uppercase) before adding it to the set. This way, both 'a' and 'A' will be treated as the same character.
+
+Here’s how you can implement this:
+
+### Java Code Example
+
+```java
+import java.util.HashSet;
+import java.util.Set;
+
+public class CaseInsensitiveSet {
+    public static void main(String[] args) {
+        Set<Character> characterSet = new HashSet<>();
+
+        // Add characters to the set
+        addCharacter(characterSet, 'a');
+        addCharacter(characterSet, 'A');
+        addCharacter(characterSet, 'b'); // Adding another character for demonstration
+
+        // Print the set
+        System.out.println("Set contents: " + characterSet);
+    }
+
+    public static void addCharacter(Set<Character> set, char c) {
+        // Convert character to lowercase before adding to the set
+        set.add(Character.toLowerCase(c));
+    }
+}
+```
+
+### Explanation of the Code
+
+1. **Set Initialization**: We create a `HashSet<Character>` to store the characters.
+
+2. **Adding Characters**: The `addCharacter` method takes a set and a character as parameters. It converts the character to lowercase using `Character.toLowerCase(c)` before adding it to the set. This ensures that both 'a' and 'A' are treated as the same character.
+
+3. **Demonstration**: In the `main` method, we add both 'a' and 'A' to the set, and then print the contents of the set. The output will show that only one instance of 'a' is present.
+
+### Output
+When you run the above code, the output will be:
+```
+Set contents: [a, b]
+```
+
+This indicates that the set contains only one instance of 'a', regardless of whether 'a' or 'A' was added. You can add more characters to the set, and it will still maintain uniqueness based on case-insensitive comparison.
+
+---
+
+## Q. TripleTon class in Java
+Below is a simple implementation of a TripleTon class in Java. Unlike the traditional Singleton (which allows only one instance), a TripleTon allows only three instances of the class.
+
+```java
+public class TripleTon {
+    // Array to hold the three instances
+    private static final TripleTon[] instances = new TripleTon[3];
+    private static int count = 0;
+
+    // Private constructor to prevent direct instantiation
+    private TripleTon() {
+        System.out.println("TripleTon Instance Created");
+    }
+
+    // Static factory method to get instances
+    public static synchronized TripleTon getInstance() {
+        int index = count % 3;
+        if (instances[index] == null) {
+            instances[index] = new TripleTon();
+        }
+        count++;
+        return instances[index];
+    }
+
+    // To identify the instance
+    public void printInstance() {
+        System.out.println("Instance: " + this.hashCode());
+    }
+}
+
+//Main.java (Test Class)
+
+public class Main {
+    public static void main(String[] args) {
+        TripleTon t1 = TripleTon.getInstance();
+        TripleTon t2 = TripleTon.getInstance();
+        TripleTon t3 = TripleTon.getInstance();
+        TripleTon t4 = TripleTon.getInstance();
+        
+        t1.printInstance();
+        t2.printInstance();
+        t3.printInstance();
+        t4.printInstance();
+
+        // Verifying instance uniqueness
+        System.out.println(t1 == t4); // true, as it cycles back
+    }
+}
+```
+#### Output:
+```
+TripleTon Instance Created
+TripleTon Instance Created
+TripleTon Instance Created
+Instance: 366712642
+Instance: 1829164700
+Instance: 2018699554
+Instance: 366712642
+true
+```
+#### Explanation:
+1.	The `TripleTon` class maintains an array of three instances.
+2.	The `getInstance()` method:
+  -	Uses a count to decide which instance to return (cycles through 0, 1, 2).
+  -	Initializes the instance if it hasn’t been created.
+  -	Cycles back to the first instance after the third one.
+3.	You can only have three unique instances, and it cycles through them.
+
+---
+## Q. 
+
+---
 
 ### TODO
 orchestration vs containerisation
@@ -7911,8 +8634,40 @@ spring boot started dependencies
 volatile vs transient
 csfr
  
+[https://www.geeksforgeeks.org/advanced-java-interview-questions/](https://www.geeksforgeeks.org/advanced-java-interview-questions/)
  
 
+[https://www.geeksforgeeks.org/core-java-interview-questions-for-freshers/](https://www.geeksforgeeks.org/core-java-interview-questions-for-freshers/)
 
 
+
+/*
+public static void main(String[] args) {
+    List list = new ArrayList();
+    List<Object> list = new ArrayList();
+    list.add(1);
+    list.add("A");
+    list.add(1.1);
+    list.add('B');
+    list.add(null);
+    System.out.println(list);
+}
+
+// what is arraylist and how it works?
+// object class (which objects comes under the hood)
+
+*/
+
+
+
+// default behaviour of a bean
+// docker file
+// docker.yaml
+// why arraylist is fast?
+//
+
+
+//String str = "Banana"
+//
+//{B:1,a:3...}
 

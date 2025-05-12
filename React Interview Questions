@@ -1,0 +1,55 @@
+# React Interview Questions
+
+## Q. Higher-order components (HOCs) in React
+Higher-order components (HOCs) in React are functions that take a component and return a new, enhanced component. They are used to reuse component logic, add functionalities, and share code across multiple components without directly modifying them.  
+Here's a more detailed explanation:  
+Key Concepts:
+
+• Function that takes a component: HOCs are functions, and they accept a React component as an argument.
+• Returns a new component: The function then returns a new component. This new component is the original component with the added functionality.
+• Component Logic Reuse: HOCs are designed to abstract out common logic that multiple components might share, promoting code reuse and avoiding repetition.
+• Wrapping and Enhancement: HOCs essentially wrap the original component with additional functionality or props.
+• Not a direct modification: HOCs don't directly alter the original component's code. Instead, they enhance its behavior.
+
+How HOCs Work:
+
+1. Define the HOC: Create a JavaScript function that accepts a component as an argument.  
+2. Return the enhanced component: Inside the HOC, you define the logic to add to the original component. This might involve adding props, modifying the state, or adding new lifecycle methods.  
+3. Apply the HOC: Use the HOC function to wrap the original component, and the enhanced component will be used in your application. 
+
+Example: 
+```javascript
+// HOC that adds a loading prop and message
+const withLoading = (WrappedComponent) => {
+  return (props) => {
+    return (
+      <div>
+        {props.isLoading ? <p>Loading...</p> : <WrappedComponent {...props} />}
+      </div>
+    );
+  };
+};
+
+// Original component
+const MyComponent = (props) => {
+  return (
+    <div>
+      <h1>{props.title}</h1>
+      <p>{props.content}</p>
+    </div>
+  );
+};
+
+// Apply the HOC
+const EnhancedMyComponent = withLoading(MyComponent);
+
+// Use the enhanced component
+function App() {
+  return (
+    <div>
+      <EnhancedMyComponent title="My Component" content="Some content" isLoading={true} />
+      <EnhancedMyComponent title="Another Component" content="More content" isLoading={false} />
+    </div>
+  );
+}
+```

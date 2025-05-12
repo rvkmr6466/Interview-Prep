@@ -189,3 +189,96 @@ In SQL, `WHERE` and `HAVING` are both used for filtering data, but they operate 
 - `WHERE salary > 50000` filters the table to include only employees with a salary greater than $50,000.
 - `GROUP BY department` groups the remaining employees by department.
 - `HAVING employee_count > 5` then filters the groups to include only departments with more than 5 employees with salaries greater than $50,000.
+
+---
+## Q. Where vs Having
+In SQL, `WHERE` and `HAVING` clauses are used for filtering data, but they operate at different levels. `WHERE` filters rows based on conditions applied to individual columns before any grouping or aggregation. `HAVING` filters groups of rows based on conditions involving aggregate functions like `COUNT`, `SUM`, or `AVG`, and it's always used with `GROUP BY`. 
+
+Here's a more detailed breakdown: 
+### `WHERE` Clause: 
+
+- Purpose: Filters rows in a table based on conditions. 
+- Scope: Applies to individual rows, not groups. 
+- Timing: Used before `GROUP BY` clause. 
+- Aggregate Functions: Cannot be used directly with aggregate functions. 
+- Example: `SELECT * FROM employees WHERE salary > 50000`;  
+
+### `HAVING` Clause:
+
+- Purpose: Filters groups of rows after they've been grouped by `GROUP BY`. 
+- Scope: Applies to the results of aggregate functions. 
+- Timing: Used after `GROUP BY` clause. 
+- Aggregate Functions: Required to be used with aggregate functions like `COUNT`, `SUM`, `AVG`. 
+- Example: `SELECT department, COUNT(*) FROM employees GROUP BY department HAVING COUNT(*) > 5`; 
+
+### Key Differences: 
+
+| Feature | WHERE | HAVING  |
+| --- | --- | --- |
+| Scope | Individual rows | Groups of rows  |
+| Timing | Before `GROUP BY` | After `GROUP BY`  |
+| Aggregate Functions | Not allowed | Allowed (with `GROUP BY`)  |
+| Purpose | Filtering individual rows | Filtering grouped data  |
+
+In essence, `WHERE` filters the data before grouping, while `HAVING` filters the data after grouping, based on the results of aggregate functions.
+
+---
+## Q. What is Partitioning in databases?
+Partitioning in databases is a design technique used to divide a large database into smaller, more manageable pieces, called partitions. Each partition can be treated as an independent unit, which can improve performance, manageability, and availability. Partitioning is particularly useful for large datasets and can help optimize query performance and maintenance tasks.
+
+### Key Concepts of Database Partitioning
+
+1. **Definition**: Partitioning is the process of splitting a database table into smaller, more manageable pieces while still treating it as a single logical entity.
+
+2. **Types of Partitioning**:
+   - **Horizontal Partitioning**: Divides a table into rows. Each partition contains a subset of the rows based on a specified criterion (e.g., date ranges, geographic regions).
+   - **Vertical Partitioning**: Divides a table into columns. Each partition contains a subset of the columns, which can be useful for optimizing queries that only need a few columns.
+   - **Range Partitioning**: Rows are distributed based on a specified range of values (e.g., dates).
+   - **List Partitioning**: Rows are distributed based on a list of values (e.g., specific categories).
+   - **Hash Partitioning**: Rows are distributed based on a hash function applied to a specified column, ensuring an even distribution of data.
+   - **Composite Partitioning**: Combines multiple partitioning strategies, such as range and hash partitioning.
+
+3. **Benefits of Partitioning**:
+   - **Improved Performance**: Queries can be faster because they can scan only the relevant partitions instead of the entire table.
+   - **Easier Maintenance**: Maintenance tasks (e.g., backups, index rebuilding) can be performed on individual partitions without affecting the entire table.
+   - **Enhanced Manageability**: Large tables can be managed more easily by breaking them into smaller, more manageable pieces.
+   - **Increased Availability**: If one partition becomes unavailable, the others can still be accessed, improving overall system availability.
+
+4. **Considerations**:
+   - **Complexity**: Partitioning can add complexity to the database design and management.
+   - **Overhead**: There may be some overhead associated with managing partitions, especially if the partitioning strategy is not well thought out.
+   - **Query Optimization**: Not all queries will benefit from partitioning; it’s essential to analyze query patterns to determine if partitioning is appropriate.
+
+### Example of Partitioning
+
+Here’s a simple example of how you might implement range partitioning in SQL:
+
+```sql
+CREATE TABLE sales (
+    id INT,
+    sale_date DATE,
+    amount DECIMAL(10, 2)
+)
+PARTITION BY RANGE (YEAR(sale_date)) (
+    PARTITION p2020 VALUES LESS THAN (2021),
+    PARTITION p2021 VALUES LESS THAN (2022),
+    PARTITION p2022 VALUES LESS THAN (2023)
+);
+```
+
+In this example, the `sales` table is partitioned by year, with each partition containing sales data for a specific year. Queries that filter by `sale_date` can be optimized to access only the relevant partition.
+
+### Conclusion
+
+Partitioning is a powerful technique in database design that can significantly enhance performance, manageability, and availability. By carefully choosing a partitioning strategy that aligns with your data access patterns and business requirements, you can optimize your database for better performance and easier maintenance.
+
+---
+
+## Q.
+
+---
+
+
+## TODO
+1. how to design db schema for your new API
+2. Which database to be used and when and why?

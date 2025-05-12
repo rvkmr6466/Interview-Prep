@@ -46,7 +46,7 @@ public static Optional<Character> findFirstRepeatedCharacter(String input) {
 | `s = "aabbbaaaa"` | `"[5, 4]"`  | "aaaa" is the longest uniform substring.         |
 
 #### Solution:
-```
+```java
 public class Main {
     public static void main(String[] args) {
       String s = "aaabbbbccda";
@@ -69,7 +69,7 @@ public class Main {
         maxStart = left;
       }      
       System.out.println(maxStart + "::" + maxLen);
-  }
+    }
 }
 ```
 ---
@@ -1763,34 +1763,36 @@ Two -> 2
 
 ---
 
-### 21. Second highest element in an Array using stream (Second largest)
-    public static void main(String[] args) {
-        int[] arr = {21, 2, 43, 114, 45, 6, 32, 54};
+### 21. Second highest element in an Array (Second largest)
+```java
+public static void main(String[] args) {
+    int[] arr = {21, 2, 43, 114, 45, 6, 32, 54};
 
-        if (arr.length < 2) {
-            System.out.println("Array should have at least two elements.");
-            return;
-        }
-
-        int firstHighest = Integer.MIN_VALUE;
-        int secondHighest = Integer.MIN_VALUE;
-
-        for (int n : arr) {
-            if (n > firstHighest) {
-                secondHighest = firstHighest; // Update secondHighest before changing firstHighest
-                firstHighest = n;
-            } else if (n > secondHighest && n < firstHighest) {
-                secondHighest = n;
-            }
-        }
-
-        if (secondHighest == Integer.MIN_VALUE) {
-            System.out.println("No second highest element found.");
-        } else {
-            System.out.println("First Highest: " + firstHighest);
-            System.out.println("Second Highest: " + secondHighest);
-        }    
+    if (arr.length < 2) {
+        System.out.println("Array should have at least two elements.");
+        return;
     }
+
+    int firstHighest = Integer.MIN_VALUE;
+    int secondHighest = Integer.MIN_VALUE;
+
+    for (int n : arr) {
+        if (n > firstHighest) {
+            secondHighest = firstHighest; // Update secondHighest before changing firstHighest
+            firstHighest = n;
+        } else if (n > secondHighest && n < firstHighest) {
+            secondHighest = n;
+        }
+    }
+
+    if (secondHighest == Integer.MIN_VALUE) {
+        System.out.println("No second highest element found.");
+    } else {
+        System.out.println("First Highest: " + firstHighest);
+        System.out.println("Second Highest: " + secondHighest);
+    }    
+}
+```
     
 **Using Stream API**
 ```
@@ -2742,7 +2744,175 @@ public class MultiplyList {
 This code uses the `reduce` operation to iterate through the original list and construct a new list with doubled values. The accumulator function creates a new list in each step, avoiding modification of the original. The combiner function is essential for parallel streams, ensuring correct merging of results.
 
 ---
-## Q.  
+## Q. How to find the first non-repeated character in a string using Java's Stream API: 
+```java
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class FirstNonRepeatedChar {
+    public static Character findFirstNonRepeated(String input) {
+        Map<Character, Long> charCounts = input.chars()
+                .mapToObj(c -> (char) c)
+                .collect(java.util.stream.Collectors.groupingBy(
+                        c -> c, LinkedHashMap::new, java.util.stream.Collectors.counting()));
+
+        return charCounts.entrySet().stream()
+                .filter(entry -> entry.getValue() == 1)
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public static void main(String[] args) {
+        String str = "abracadabra";
+        Character firstNonRepeated = findFirstNonRepeated(str);
+        System.out.println("The first non-repeated character in '" + str + "' is: " + firstNonRepeated);
+    }
+}
+```
+
+---
+## Q. WAF to find the count of valid string from an array based on the query array.
+#### Input: 
+words = ["aba","bcb","ece","aa","e"], // n
+queries = [[0,2],[1,4],[1,1]] // y
+Output: [2,3,0]
+
+#### Explaination
+You have `words` arrays which contains some `String`, you have another array `queries` which have an array consists of starting and ending index from `words` array. You have to find count of valid string (starting and ending index of the string must be `vowel`) exists.
+queries[0] = ["aba","bcb","ece"];
+`"aba"` and `"ece"` valid. So, count is 2.
+queries[1] = ["bcb","ece","aa","e"];
+`"ece"`, `"aa"`, and`"e"` valid. So, count is 3.
+queries[2] = ["bcb"];
+No valid string. So, count is 0.
+
+### Solution 1: Brute force method
+```java
+public static void main(String[] args){
+    String[] words = {"aba","bcb","ece","aa","e"};
+    int[][] queries = {{0,2},{1,4},{1,1}};
+    int[] output = vowelStrings(words, queries);
+    System.out.println(Arrays.toString(output));
+}
+
+public static int[] vowelStrings(String[] words, int[][] queries) {
+                        String vowels = "aeiou";
+    int[] output = new int[queries.length];
+    for (int j=0; j<queries.length; j++) {
+        int start = queries[j][0];
+        int end = queries[j][1];
+        int count = 0;
+
+        for(int i=start; i<=end; i++) { 
+            String word = words[i];
+            char startChar = word.charAt(0);
+            char endChar = word.charAt(word.length()-1);
+            if(vowels.indexOf(startChar) !=-1 && vowels.indexOf(endChar) !=-1) {
+                count++;
+            }
+        }
+        output[j]=count;
+    }
+    return output;
+}
+```
+If length of queries is "q" and length of words is "n". Then, Time complexity is `O(n*q)`. And, Space complexity is `O(q)`.
+
+### Solution 2: Optimized method
+
+
+---
+## Q. Find output:
+```java
+public class FinallyBlockTest {
+    public static void main(String[] args) {
+        try {
+            System.out.println("Inside try block"); // Output: This only code will execute
+            System.exit(0);
+        } catch (Exception e) {
+            System.out.println("Inside catch block");
+        } finally {
+            System.out.println("Inside finally block");
+        }
+        System.out.println("Outside try-catch-finally block");
+    }
+}
+```
+```java
+public class Code {
+    public static void main(String[] args) {
+        method(null); // This will consider as String
+    }
+    public static void method(Object o) {
+        System.out.println("Object method");
+    }
+    public static void method(String s) {
+        System.out.println("String method"); // Output: This only code will execute
+    }
+}
+```
+```java
+public class Demo{ 
+	public static void main(String[] arr){ // Output: this only method will run on startup
+
+	} 
+	public static void main(String arr){ // this method doesn't run as not method calling available
+
+	} 
+}
+```
+
+---
+## Q.Reverse your name using Reduce method:
+Here's how you can reverse a string (such as your name) using the `reduce` method in Java streams:
+
+```java
+import java.util.Arrays;
+
+public class ReverseName {
+    public static void main(String[] args) {
+        String name = "YourName"; // replace with your actual name
+
+        String reversed = Arrays.stream(name.split(""))
+                                .reduce("", (acc, ch) -> ch + acc);
+
+        System.out.println("Reversed name: " + reversed);
+    }
+}
+```
+
+### Explanation:
+
+- `name.split("")` splits the string into an array of individual characters.
+- `Arrays.stream(...)` creates a stream from the array.
+- `reduce("", (acc, ch) -> ch + acc)` accumulates characters by prepending each character `ch` to the accumulator `acc`, thus reversing the order.
+
+Replace `"YourName"` with your actual name to see the reversed output.
+
+
+### Solution 2:
+```java
+import java.util.stream.Collectors;
+
+public class ReverseString {
+    public static void main(String[] args) {
+        String str = "YourName"; // Replace with your actual name
+
+        String reversed = str.chars()
+                             .mapToObj(c -> (char) c) // Convert int to Character
+                             .reduce(new StringBuilder(), (a, b) -> a.insert(0, b), StringBuilder::append)
+                             .toString(); // Convert StringBuilder to String
+
+        System.out.println("Reversed name: " + reversed);
+    }
+}
+```
+
+---
+
+
+
 
 
 ### Links:

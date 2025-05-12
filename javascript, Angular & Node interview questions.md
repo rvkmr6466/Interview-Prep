@@ -5,14 +5,14 @@ JavaScript has:
 - Non-Primitive Type: Object (includes Arrays, Functions, etc.)
 
 ### Q. What is the difference between var, let, and const?
-- var is function-scoped, can be re-declared and updated.
-- let is block-scoped, cannot be re-declared but can be updated.
-- const is block-scoped, cannot be re-declared or updated (though objects/arrays can be mutated).
+- `var` is function-scoped, can be re-declared and updated.
+- `let` is block-scoped, cannot be re-declared but can be updated.
+- `const` is block-scoped, cannot be re-declared or updated (though objects/arrays can be mutated).
 
 ### Q. What is hoisting in JavaScript?
 Hoisting is a behavior where variable and function declarations are moved to the top of their scope before code execution.
-- var is hoisted with undefined.
-- let and const are hoisted but not initialized (they stay in a temporal dead zone until declared).
+- `var` is hoisted with undefined.
+- `let` and `const` are hoisted but not initialized (they stay in a temporal dead zone until declared).
 
 ### Q. What are truthy and falsy values?
 - Falsy values: false, 0, '', null, undefined, NaN
@@ -21,59 +21,59 @@ Hoisting is a behavior where variable and function declarations are moved to the
 ### Q. What is the difference between == and ===?
 - == compares values with type coercion.
 - === compares values and types strictly (no coercion).
- ```
+ ```javascript
  2 == '2'  // true
  2 === '2' // false
  ```
 ### Q. What is a closure in JavaScript?
 A closure is a function that has access to its outer function’s scope even after the outer function has returned.
- ```
- function outer() {
-    let count = 0;
-    return function inner() {
-       count++;
-       return count;
-    };
- }
- 
- const counter = outer();
- counter(); // 1
- ```
+```javascript
+function outer() {
+  let count = 0;
+  return function inner() {
+      count++;
+      return count;
+  };
+}
 
-### Q. How does the this keyword work?
-- In regular functions, this refers to the object that calls the function.
-- In arrow functions, this is lexically bound (refers to this of the outer scope).
-- In the global context (non-strict mode), this refers to window in browsers.
+const counter = outer();
+counter(); // 1
+```
+
+### Q. How does the `this` keyword work?
+- In regular functions, `this` refers to the object that calls the function.
+- In arrow functions, `this` is lexically bound (refers to `this` of the outer scope).
+- In the global context (non-strict mode), `this` refers to window in browsers.
 
 ### Q. What is the difference between null and undefined?
-- null: Explicitly means “no value”.
-- undefined: A variable declared but not assigned a value.
+- `null`: Explicitly means `no value`.
+- `undefined`: A variable declared but not assigned a value.
 
 ### Q. What is event bubbling and event capturing?
-- Bubbling: Event starts from the target element and bubbles up to the parent.
-- Capturing: Event starts from the parent and goes down to the target element.
+- `Bubbling`: Event starts from the target element and bubbles up to the parent.
+- `Capturing`: Event starts from the parent and goes down to the target element.
 - Default behavior is bubbling.
 
 ### Q. How does the typeof operator work?
 typeof is used to get the data type of a variable.
- ```
  Example:
-  typeof "hello"  // "string"
-  typeof 123       // "number"
-  typeof undefined // "undefined"
-  typeof null      // "object" (quirk in JS)
-  ```
+```javascript
+typeof "hello"  // "string"
+typeof 123       // "number"
+typeof undefined // "undefined"
+typeof null      // "object" (quirk in JS)
+```
 
 ## Functions & Scope – Interview Answers
 ### Q. What are arrow functions and how are they different from regular functions?
 - Arrow functions are a shorter syntax for writing functions introduced in ES6.
 - They do not have their own this, arguments, or super, and are not suitable for methods.
- ```
+ ```javascript
  const add = (a, b) => a + b;
  ```
 
 - Traditional functions have their own this depending on the caller:
- ```
+ ```javascript
  function sayHi() {
     console.log(this);
  }
@@ -81,7 +81,7 @@ typeof is used to get the data type of a variable.
 
 ### Q. What is a callback function?
 A callback is a function passed as an argument to another function, which is then called after a task is completed.
- ```
+ ```javascript
  function greet(name, callback) {
     console.log("Hi " + name);
     callback();
@@ -92,7 +92,7 @@ A callback is a function passed as an argument to another function, which is the
 
 ### Q. What is a higher-order function?
 A function that takes another function as an argument or returns a function is called a higher-order function.
- ```
+ ```javascript
  function multiplier(factor) {
     return function (number) {
        return number * factor;
@@ -108,7 +108,7 @@ A function that takes another function as an argument or returns a function is c
 - Function Scope: var is function-scoped.
 - Block Scope: let and const are block-scoped (only available inside {}).
 
- ```
+ ```javascript
  if (true) {
     var x = 10;
     let y = 20;
@@ -118,14 +118,14 @@ A function that takes another function as an argument or returns a function is c
  ```
 ### Q. What is the difference between function declaration and function expression?
 - Function Declaration: Can be hoisted.
- ```
+ ```javascript
  function greet() {
     console.log("Hello");
  }
  ```
 
 - Function Expression: Not hoisted. #### Stored in a variable.
- ```
+ ```javascript
  const greet = function () {
    console.log("Hello");
  };
@@ -140,15 +140,16 @@ A function that takes another function as an argument or returns a function is c
 ### Q. What is the difference between setTimeout and setInterval?
 - setTimeout(fn, delay): Executes fn once after the delay.
 - setInterval(fn, interval): Repeatedly executes fn every interval milliseconds.
- ```
+ ```javascript
  setTimeout(() => console.log("Once"), 1000);
  setInterval(() => console.log("Repeat"), 1000);
  ```
 ### Q. What are Promises and how do they work?
 - Promises are used to handle asynchronous operations.
-- They have three states: pending, fulfilled, and rejected.
-- Use .then() and .catch() to handle the result.
- ```
+- They have three states: `pending`, `fulfilled`, and `rejected`.
+- Use `.then()` and `.catch()` to handle the result.
+
+ ```javascript
  const promise = new Promise((resolve, reject) => {
     let success = true;
    success ? resolve("Done") : reject("Failed");
@@ -160,9 +161,9 @@ A function that takes another function as an argument or returns a function is c
 ### Q. What is async/await and how does it improve asynchronous code?
 - async/await is syntax sugar over Promises.
 - It makes asynchronous code look synchronous and is easier to read and maintain.
-- Must be used inside an async function.
+- Must be used inside an `async` function.
 
- ```
+ ```javascript
  async function getData() {
     try {
        const response = await fetch('https://api.example.com');
@@ -175,123 +176,123 @@ A function that takes another function as an argument or returns a function is c
  ```
 
 ### Q. What is the difference between microtask and macrotask queues?
-- Microtasks: Include Promises (.then()), MutationObserver.
-- Macrotasks: Include setTimeout, setInterval, setImmediate, and I/O.
+- Microtasks: Include Promises (`.then())`, `MutationObserver`.
+- Macrotasks: Include `setTimeout`, `setInterval`, `setImmediate`, and `I/O`.
   Microtasks are prioritized and executed before the next macrotask.
 
 ## Objects, Arrays & ES6 Features – Interview Answers
 ### Q. What are the different ways to clone an object in JavaScript?
 - Shallow Copy:
- ```
+ ```javascript
  const obj1 = { a: 1 };
  const obj2 = Object.assign({}, obj1);
  const obj3 = { ...obj1 };
  ```
 - Deep Copy (removes reference from nested objects):
- ```
+ ```javascript
  const deepCopy = JSON.parse(JSON.stringify(obj1)); // not ideal for all cases
  ```
 
 ### Q. What are destructuring assignments?
 Destructuring allows you to extract values from arrays or objects into variables.
 
- ```
- const user = { name: "Alice", age: 25 };
- const { name, age } = user; // name = "Alice", age = 25
+```javascript
+const user = { name: "Alice", age: 25 };
+const { name, age } = user; // name = "Alice", age = 25
 
- const arr = [1, 2, 3];
- const [a, b] = arr; // a = 1, b = 2
- ```
+const arr = [1, 2, 3];
+const [a, b] = arr; // a = 1, b = 2
+```
 
 ### Q. What are template literals?
 Template literals are string literals that allow embedded expressions using backticks (`).
-```
+```javascript
 const name = "John";
 console.log(`Hello, ${name}!`); // Hello, John!
 ```
 
 ### Q. What is the spread operator (...) and rest parameter?
 - Spread Operator: Expands iterable elements.
- ```
- const arr1 = [1, 2];
- const arr2 = [...arr1, 3]; // [1, 2, 3]
- ```
+```javascript
+const arr1 = [1, 2];
+const arr2 = [...arr1, 3]; // [1, 2, 3]
+```
 
 - Rest Parameter: Gathers arguments into an array.
- ```
- function sum(...numbers) {
-    return numbers.reduce((a, b) => a + b);
- }
- ```
+```javascript
+function sum(...numbers) {
+  return numbers.reduce((a, b) => a + b);
+}
+```
 
-### Q. What is the difference between map(), filter(), and reduce() methods?
-- map(): Transforms each element and returns a new array.
- ```
- [1, 2, 3].map(x => x * 2); // [2, 4, 6]
- ```
+### Q. What is the difference between `map()`, `filter()`, and `reduce()` methods?
+- `map()`: Transforms each element and returns a new array.
+```javascript
+[1, 2, 3].map(x => x * 2); // [2, 4, 6]
+```javascript
 - filter(): Filters elements based on condition.
- ```
- [1, 2, 3].filter(x => x > 1); // [2, 3]
- ```
+```javascript
+[1, 2, 3].filter(x => x > 1); // [2, 3]
+```
 - reduce(): Reduces the array to a single value.
- ```
- [1, 2, 3].reduce((acc, val) => acc + val, 0); // 6
- ```
+```javascript
+[1, 2, 3].reduce((acc, val) => acc + val, 0); // 6
+```
 
 ## DOM & Events – Interview Answers
 ### Q. What is the DOM and how do you manipulate it with JavaScript?
 - The DOM (Document Object Model) is a tree structure representation of the HTML document.
 - JavaScript can access and manipulate it using methods like:
- ```
- document.getElementById("id");
- document.querySelector(".class");
- element.innerHTML = "new content";
- element.style.color = "red";
- ```
+```javascript
+document.getElementById("id");
+document.querySelector(".class");
+element.innerHTML = "new content";
+element.style.color = "red";
+```
 
 ### Q. What are event listeners and how are they used?
 - Event listeners allow you to execute code when a specific event occurs.
- ```
- const button = document.querySelector("button");
- button.addEventListener("click", () => {
-    alert("Button clicked!");
- });
- ```
+```javascript
+const button = document.querySelector("button");
+button.addEventListener("click", () => {
+  alert("Button clicked!");
+});
+```
 
 ### Q. What is the difference between innerHTML, innerText, and textContent?
 - innerHTML: Gets/sets HTML content (includes tags).
 - innerText: Gets/sets visible text content (excludes hidden elements and formatting).
 - textContent: Gets/sets all text content (includes hidden elements, faster than innerText).
- ```
- element.innerHTML = "<b>Bold</b>";
- element.innerText = "<b>Bold</b>";     // displays tags as text
- element.textContent = "<b>Bold</b>";   // same as above
- ```
+```javascript
+element.innerHTML = "<b>Bold</b>";
+element.innerText = "<b>Bold</b>";     // displays tags as text
+element.textContent = "<b>Bold</b>";   // same as above
+```
 ### Q. How do you prevent default behavior in an event handler?
 Use event.preventDefault() inside the event listener to prevent the default action (like form submission, link redirect).
- ```
- document.querySelector("form").addEventListener("submit", function(e) {
-    e.preventDefault();
-  console.log("Form submission prevented!");
- });
+```javascript
+document.querySelector("form").addEventListener("submit", function(e) {
+  e.preventDefault();
+console.log("Form submission prevented!");
+});
  ```
 
 ### Q. What is event delegation?
 - Event delegation is a technique where a parent element handles events from its child elements.
 - It’s efficient because you don’t need to attach listeners to each child.
- ```
- document.getElementById("list").addEventListener("click", function(e) {
-    if (e.target.tagName === "LI") {
-      console.log("Item clicked:", e.target.textContent);
-    }
- });
+```javascript
+document.getElementById("list").addEventListener("click", function(e) {
+  if (e.target.tagName === "LI") {
+    console.log("Item clicked:", e.target.textContent);
+  }
+});
 ```
 
 ## Advanced JavaScript – Interview Answers
 ### Q. What is a prototype in JavaScript?
 - Every JavaScript object has a hidden internal property called [[Prototype]], accessible via .prototype (for functions/constructors) or **__proto__**.
 - It allows inheritance of properties and methods.
-  ```
+  ```javascript
   function Person(name) {
     this.name = name;
   }
@@ -307,7 +308,7 @@ Use event.preventDefault() inside the event listener to prevent the default acti
 ### Q. What is prototypal inheritance?
 - It’s a feature in JavaScript where an object can inherit properties and methods from another object using its prototype chain.
 - This is done through Object.create(), constructor functions, or ES6 class syntax.
- ```
+ ```javascript
  const parent = { greet() { console.log("Hello!"); } };
  const child = Object.create(parent);
  child.greet(); // Hello!
@@ -315,13 +316,13 @@ Use event.preventDefault() inside the event listener to prevent the default acti
 
 ### Q. What is the difference between deep copy and shallow copy?
 - Shallow Copy: Copies only the top-level properties.
- ```
+ ```javascript
  const obj1 = { a: 1, b: { c: 2 } };
  const shallow = { ...obj1 };
  shallow.b.c = 99; // changes original too
  ```
 - Deep Copy: Copies all nested levels.
- ```
+ ```javascript
  const deep = JSON.parse(JSON.stringify(obj1));
  ```
 
@@ -359,18 +360,18 @@ Node.js is a runtime environment that allows JavaScript to be executed on the se
 4. **Performance**: Node.js is built on the V8 JavaScript engine from Google, which compiles JavaScript to native machine code, resulting in high performance.
 
 ### Q. What will be the output?
- ```
+ ```javascript
  console.log(a);
  var a = 10;
  ```
  _**Output:**_ undefined
  
- ```
+ ```javascript
  console.log(b);
  let b = 10;
  ```
  _**Output:**_ d is not defined
- ```
+ ```javascript
  console.log("start");
  setTimeout(()=>{console.log("settimeout1")});
  setTimeout(()=>{console.log("settimeout2")},0);
@@ -420,32 +421,33 @@ Here's a more detailed explanation:
 ---
 
 ### Q. Add a delay of two second between two console.log.
- ```
- console.log(1);
- await new Promise(resolve => setTimeout(resolve, 3000)); // 3 sec
- console.log(2);
- ```
+```javascript
+console.log(1);
+await new Promise(resolve => setTimeout(resolve, 3000)); // 3 sec
+console.log(2);
+```
 ---
 
 ### Q. Find Output
-    let obj1 = { key: "value" };
-    let obj2 = obj1;
-    let obj3 = obj2;
-    obj1.key = "new value";
-    obj2 = { key: "another value" };
-    console.log(obj1.key); 
-    console.log(obj2.key); 
-    console.log(obj3.key); 
-    
-    Output=>
-    new value
-    another value
-    new value
+```javascript
+let obj1 = { key: "value" };
+let obj2 = obj1;
+let obj3 = obj2;
+obj1.key = "new value";
+obj2 = { key: "another value" };
+console.log(obj1.key); 
+console.log(obj2.key); 
+console.log(obj3.key); 
+```
+Output=>
+new value
+another value
+new value
 
 ---
 
 ### Q. Reverse string and remove duplicate in javascript
-```
+```javascript
 let s = "ravi Kumar";
 let s1 ="";
 let s3 = "";
@@ -478,7 +480,7 @@ Middleware is useful for tasks like:
 - Serving static files 
 - Error handling
 
-```
+```javascript
 const express = require('express');
 const app = express();
 
@@ -510,7 +512,7 @@ app.listen(3000, () => {
 ```
 ---
 ### Q. Implement a function fn in JavaScript that can be invoked multiple times in a chain, where each call increments a count of how many times it was invoked. When the final call is made with 0 as an argument, the function should return the total number of times it was previously invoked in the chain. // Examples: // fn()()()(0) should return 3 because fn was called 3 times before passing 0. // fn()()()()()(0) should return 5 because fn was called 5 times before passing 0.
-```
+```javascript
 function fn(count = 1) {
   return function inner(arg) {
     if (arg === 0) {
@@ -532,7 +534,7 @@ There are four main types of streams:
 - _Transform_: A type of duplex stream that modifies or transforms data as it passes through.
 
 Streams inherit from the EventEmitter class, enabling them to emit events during data processing. The pipe() method is commonly used to efficiently move data from a readable stream to a writable stream. Streams are essential for managing I/O operations, handling large files, and building scalable applications in Node.js.
-```
+```javascript
 const fs = require('fs');
 
 // Create a readable stream from a file
@@ -574,7 +576,7 @@ Authentication verifies a user's identity, while JWT (JSON Web Token) is a stand
 - **Logout:** To log out, the client simply discards the JWT. The server does not need to do anything, as the token is stateless and self-contained. 
 
 // Example using express and jsonwebtoken library
-```
+```javascript
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const app = express();
@@ -749,6 +751,319 @@ months.splice(-2, 2)
 
 It's important to note that `splice()` modifies the original array directly. If you need to keep the original array unchanged, consider using `toSpliced()` (ES2023) or creating a copy of the array before using `splice()`. For shallow copies, methods like `slice()`, `Array.from()`, or `Object.assign()` can be used. 
 
+---
+## Q. 
+Currying is a functional programming technique where a function that takes multiple arguments is transformed into a series of functions, each taking a single argument. This allows for partial application of arguments, creating new functions with some parameters already set. Currying is named after mathematician Haskell Curry. 
+Here's a more detailed explanation:  
+
+### How Currying Works:  
+
+#### - Original Function: 
+A function that typically takes multiple arguments (e.g., `add(x, y)`).  
+
+#### - Curried Function: 
+The same function rewritten to take one argument at a time. The first function returns a new function that takes the next argument, and so on.
+  - For example, `add(x)(y)` would be a curried version of `add(x, y)`.  
+
+#### - Partial Application: 
+Currying enables partial application. You can call the curried function with only some of the arguments, creating a new function that will use those provided arguments when the remaining arguments are supplied later.
+
+### Benefits of Currying:  
+
+#### - Code Reusability: 
+Currying allows you to create specialized versions of a function by providing some of its arguments upfront, making the code more reusable.  
+
+#### - Higher-Order Functions: 
+Currying is often used to create higher-order functions, which are functions that take other functions as arguments or return functions.
+
+#### - Modularity: 
+Currying can help break down complex functions into smaller, more manageable functions, promoting modularity. 
+
+#### - Function Composition: 
+Currying facilitates function composition, where you can combine simpler functions to build more complex ones.
+
+Example (JavaScript): 
+```javascript
+// Normal function
+function add(x, y) {
+  return x + y;
+}
+
+// Curried function
+function curryAdd(x) {
+  return function(y) {
+    return x + y;
+  };
+}
+
+// Using curried function with partial application
+const addFive = curryAdd(5);
+console.log(addFive(2)); // Output: 7 (5 + 2)
+console.log(addFive(10)); // Output: 15 (5 + 10)
+```
+
+---
+## Q. The temporal dead zone (TDZ)
+The temporal dead zone (TDZ) is a behavior in JavaScript that occurs when declaring variables using `let` and `const`. It refers to the period between entering the scope and the actual declaration of the variable. During this period, the variable cannot be accessed and will throw a ReferenceError if you try to use it.  
+The TDZ exists to help catch errors and ensure more predictable behavior, especially with const declarations. It enforces that variables should be declared before they are used, promoting cleaner and more maintainable code. 
+```javascript
+{
+  // TDZ starts for variable 'a'
+  console.log(a); // ReferenceError: Cannot access 'a' before initialization
+  let a = 10; // TDZ ends for variable 'a'
+  console.log(a); // Output: 10
+}
+```
+
+---
+## Q. ES6 Features
+ES6 (ECMAScript 2015) introduced significant features to JavaScript, enhancing its capabilities and syntax. Some key features with examples are: 
+
+- `let` and `const` Declarations: Block-scoped variable declarations, offering more control over variable scope compared to var. 
+```javascript
+let x = 10;
+const PI = 3.14;
+
+if (true) {
+  let x = 20;
+  const PI = 3.14159;
+  console.log(x); // Output: 20
+  console.log(PI); // Output: 3.14159
+}
+
+console.log(x); // Output: 10
+console.log(PI); // Output: 3.14
+```
+- Arrow Functions: Concise syntax for function expressions, and they do not bind their own this value. 
+```javascript
+const add = (a, b) => a + b;
+console.log(add(5, 3)); // Output: 8
+```
+- Template Literals: String interpolation and multi-line strings using backticks. 
+```javascript
+    const name = "John";
+const message = `Hello, ${name}!
+This is a multi-line string.`;
+console.log(message);
+// Output:
+// Hello, John!
+// This is a multi-line string.
+```
+- Destructuring: Extract values from arrays or objects into distinct variables. 
+```javascript
+const arr = [1, 2, 3];
+const [a, b, c] = arr;
+console.log(a, b, c); // Output: 1 2 3
+
+const obj = { name: "Alice", age: 30 };
+const { name, age } = obj;
+console.log(name, age); // Output: Alice 30
+```
+- Default Parameters: Set default values for function parameters. 
+```javascript
+function greet(name = "Guest") {
+  console.log(`Hello, ${name}!`);
+}
+
+greet(); // Output: Hello, Guest!
+greet("Bob"); // Output: Hello, Bob!
+```
+- Rest and Spread Operators: 
+	- Rest: Collect multiple function arguments into an array. 
+	- Spread: Expand an iterable (like an array or object) into individual elements. 
+    ```javascript
+    function sum(...numbers) {
+      return numbers.reduce((acc, num) => acc + num, 0);
+    }
+    
+    console.log(sum(1, 2, 3, 4)); // Output: 10
+    
+    const arr1 = [1, 2, 3];
+    const arr2 = [...arr1, 4, 5];
+    console.log(arr2); // Output: [1, 2, 3, 4, 5]
+    ```
+- Enhanced Object Literals: Shorthand syntax for object properties and methods. 
+    ```javascript
+    const x = 10, y = 20;
+    const obj = { x, y,
+       add() {
+        return this.x + this.y;
+      }
+    };
+    console.log(obj.add()); // Output: 30
+    ```
+- Classes: Syntactic sugar for constructor functions, providing a more structured way to create objects. 
+    ```javascript
+    class Person {
+      constructor(name) {
+        this.name = name;
+      }
+    
+      greet() {
+        console.log(`Hello, my name is ${this.name}.`);
+      }
+    }
+    
+    const person = new Person("Charlie");
+    person.greet(); // Output: Hello, my name is Charlie.
+    ```
+- Modules: Organize code into separate files for better maintainability, using import and export. 
+    ```javascript
+    // math.js
+    export function add(a, b) {
+      return a + b;
+    }
+    
+    // app.js
+    import { add } from './math.js';
+    console.log(add(2, 3)); // Output: 5
+    ```
+- Promises: Handle asynchronous operations more cleanly, replacing callbacks. 
+    ```javascript
+    function fetchData() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve("Data fetched successfully!");
+        }, 1000);
+      });
+    }
+    
+    fetchData().then(data => console.log(data)); // Output: Data fetched successfully! (after 1 second)
+    ```
+- Symbols: Create unique and immutable values, often used as object property keys to avoid naming conflicts. 
+    ```javascript
+    const mySymbol = Symbol('description');
+    const obj = {
+      [mySymbol]: 'This is a symbol property'
+    };
+    console.log(obj[mySymbol]); // Output: This is a symbol property
+    ```
+- Iterators and for...of Loop: Iterate over iterable objects like arrays, maps, sets, and strings. 
+
+  ```javascript
+  const arr = [10, 20, 30];
+  for (const value of arr) {
+    console.log(value);
+  }
+  // Output:
+  // 10
+  // 20
+  // 30
+  ```
+
+- Maps and Sets: New data structures for storing collections of data. 
+
+  // Map
+  ```javascript
+  const myMap = new Map();
+  myMap.set('name', 'David');
+  myMap.set('age', 25);
+  console.log(myMap.get('name')); // Output: David
+  
+  // Set
+  const mySet = new Set();
+  mySet.add(1);
+  mySet.add(2);
+  mySet.add(2); // Duplicates are ignored
+  console.log(mySet.has(2)); // Output: true
+  ```
+
+---
+## Q. Create your own deepcopy implementation function in javascript
+### Deep Copy Function (Approach 1)
+Here's the implementation of a deepCopy function in JavaScript: 
+```javascript
+function deepCopy(obj) {
+  if (typeof obj !== "object" || obj === null) {
+    return obj;
+  }
+
+  let copy = Array.isArray(obj) ? [] : {};
+
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      copy[key] = deepCopy(obj[key]);
+    }
+  }
+  return copy;
+}
+```
+This function recursively copies all properties of an object, including nested objects and arrays, ensuring that the copied object is completely independent of the original. It handles primitive types, arrays, and objects, providing a robust solution for deep copying in JavaScript. 
+
+Creating a deep copy function in JavaScript involves recursively copying all properties of an object or elements of an array, ensuring that nested objects and arrays are also duplicated rather than referenced. Here’s a simple implementation of a deep copy function:
+
+### Deep Copy Function (Approach 2)
+
+```javascript
+function deepCopy(obj) {
+    // Check for null or non-object types (including functions)
+    if (obj === null || typeof obj !== 'object') {
+        return obj; // Return the value if obj is not an object
+    }
+
+    // Handle arrays
+    if (Array.isArray(obj)) {
+        const arrCopy = []; // Create a new array
+        for (let i = 0; i < obj.length; i++) {
+            arrCopy[i] = deepCopy(obj[i]); // Recursively copy each element
+        }
+        return arrCopy; // Return the new array
+    }
+
+    // Handle objects
+    const objCopy = {}; // Create a new object
+    for (const key in obj) {
+        if (obj.hasOwnProperty(key)) { // Check if the property is the object's own
+            objCopy[key] = deepCopy(obj[key]); // Recursively copy each property
+        }
+    }
+    return objCopy; // Return the new object
+}
+```
+
+### Explanation of the Code:
+
+1. **Base Case**: The function first checks if the input `obj` is `null` or not an object (like a number, string, or boolean). If so, it simply returns the value, as primitive types do not need to be copied.
+
+2. **Array Handling**: If the input is an array, it creates a new array and recursively copies each element from the original array into the new one.
+
+3. **Object Handling**: If the input is an object, it creates a new object and iterates over each property. For each property, it checks if it belongs to the object (using `hasOwnProperty`) and recursively copies the value.
+
+4. **Return**: Finally, it returns the newly created object or array.
+
+### Example Usage:
+
+```javascript
+const original = {
+    name: "Alice",
+    age: 30,
+    hobbies: ["reading", "traveling"],
+    address: {
+        city: "Wonderland",
+        zip: 12345
+    }
+};
+
+const copy = deepCopy(original);
+
+// Modifying the copy
+copy.name = "Bob";
+copy.hobbies.push("gaming");
+copy.address.city = "New Wonderland";
+
+console.log(original); // Original remains unchanged
+console.log(copy);     // Copy reflects the changes
+```
+
+### Important Considerations:
+
+- **Circular References**: This implementation does not handle circular references. If you need to handle objects that reference themselves, you would need to keep track of already copied objects using a Map or WeakMap.
+
+- **Functions and Special Objects**: This implementation does not copy functions, Dates, RegExps, or other special objects. You may need to extend the function to handle these cases if necessary.
+
+### Conclusion:
+
+This `deepCopy` function provides a straightforward way to create deep copies of objects and arrays in JavaScript. You can enhance it further based on your specific needs, such as handling special cases or optimizing performance.
 
 ---
 ## Q. 
@@ -760,18 +1075,10 @@ It's important to note that `splice()` modifies the original array directly. If 
 ## Q. 
 
 ---
-## Q. 
 
----
-## Q. 
-
----
-## Q. 
-
----
-
-
-## End Javascript & Node.js
+## TODO 
+Currying
+-------------------------------------------- End Javascript & Node.js --------------------------------------------
 
 ---
 ---
@@ -918,7 +1225,7 @@ Enable via experimental builder in `angular.json`.
 Angular applications can handle exceptions using several approaches: 
 **Try...Catch Blocks** 
 As in standard JavaScript, try...catch blocks manage errors within specific code sections, particularly for synchronous operations. 
-```
+```javascript
 try {
   // Code that may throw an error
   const result = synchronousFunction();
@@ -930,7 +1237,7 @@ try {
 ```
 **ErrorHandler** 
 Angular's ErrorHandler provides centralized error handling across the application. By extending this class, developers can customize how errors are managed globally. 
-```
+```javascript
 import { ErrorHandler, Injectable } from '@angular/core';
 
 @Injectable()
@@ -945,7 +1252,7 @@ export class GlobalErrorHandler implements ErrorHandler {
 // In module or application configuration:
 providers: [{ provide: ErrorHandler, useClass: GlobalErrorHandler }]
 **RxJS catchError Operator** 
-```
+```javascript
 For asynchronous operations with observables, catchError from RxJS intercepts and handles errors gracefully. 
 import { of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -962,7 +1269,7 @@ this.http.get('/api/data').pipe(
 });
 ```
 **HttpInterceptor** 
-```
+```javascript
 HttpInterceptor provides a robust way to handle errors related to the server and network by intercepting HTTP requests and responses. 
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
@@ -996,22 +1303,22 @@ Key Concepts
 - _Computed Signal_: A read-only signal whose value is derived from other signals.
 - _Effect_: A side effect that runs when signal values it depends on change.
 **Basic Usage** 
-```
+```javascript
 Creating a Signal:
 import { signal } from '@angular/core';
 const count = signal(0);
 ```
-```
+```javascript
 Reading a Signal: 
 const currentCount = count(); // Access the value
 ```
-```
+```javascript
 Updating a Signal:
 count.set(1); // Sets the value to 1
 count.update(value => value + 1); // Increments the value
 count.mutate(value => value.push(newValue)); // Mutates the value
 ```
-```
+```javascript
 Computed Signals: 
 import { computed, signal } from '@angular/core';
 const firstName = signal('John');
@@ -1020,7 +1327,7 @@ const fullName = computed(() => `${firstName()} ${lastName()}`);
   
 console.log(fullName()); // Output: John Doe
 ```
-```
+```javascript
 effects:
 import { effect, signal } from '@angular/core';
    
@@ -1132,7 +1439,7 @@ Angular is a **component-based** frontend framework that uses **TypeScript**. It
 ## Q. Interceptors in Angular 
 Interceptors in Angular are services that allow you to intercept and modify HTTP requests and responses. They are useful for tasks such as adding _headers_, _handling authentication_, _logging_, or _caching_. Interceptors work by sitting between your application and the backend server, intercepting requests before they are sent and responses before they are received. They can modify these requests and responses, or handle them directly.
 To create an interceptor, you need to create a class that **implements the HttpInterceptor interface** and define the `intercept` method. This method takes two arguments: the `HttpRequest` object and the `HttpHandler` object. The `HttpRequest` object represents the outgoing request, and the `HttpHandler` object represents the next interceptor in the chain, or the backend server if there are no more interceptors.
-```
+```javascript
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -1153,7 +1460,7 @@ export class MyInterceptor implements HttpInterceptor {
 }
 ```
 To use an interceptor, you need to provide it in your application module or component. 
-```
+```javascript
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -1181,7 +1488,7 @@ You can define multiple interceptors, and they will be called in the order they 
 	LIMIT 1 OFFSET N-1;
 
 #### In MongoDB:
-```
+```javascript
 db.employees.aggregate([
   { $group: { _id: "$salary" } },   // Group by salary
   { $sort: { _id: -1 } },           // Sort salaries in descending order
@@ -1192,37 +1499,37 @@ db.employees.aggregate([
 
 ---
 ## Q. Service injection in Angular
-Service injection in Angular can be achieved through constructor injection or by using the `@Inject` decorator or the inject() function. Here's a breakdown of the differences:
+Service injection in Angular can be achieved through constructor injection or by using the `@Inject` decorator or the `inject()` function. Here's a breakdown of the differences:
 
 **1. Constructor Injection**
 This is the most common and traditional way to inject dependencies.
 _Mechanism:_ Dependencies are declared as parameters in the class constructor. Angular's dependency injection system automatically resolves and provides these dependencies when the class is instantiated.
-    ```
-    import { Injectable } from '@angular/core';
+```javascript
+import { Injectable } from '@angular/core';
 
-    @Injectable({
-      providedIn: 'root'
-    })
-    export class MyService {
-      getValue(): string {
-        return 'Hello from MyService';
-      }
-    }
+@Injectable({
+  providedIn: 'root'
+})
+export class MyService {
+  getValue(): string {
+    return 'Hello from MyService';
+  }
+}
 
-    import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 
-    @Component({
-      selector: 'app-my-component',
-      template: `{{ message }}`,
-    })
-    export class MyComponent {
-      message: string;
+@Component({
+  selector: 'app-my-component',
+  template: `{{ message }}`,
+})
+export class MyComponent {
+  message: string;
 
-      constructor(private myService: MyService) {
-        this.message = this.myService.getValue();
-      }
-    }
-    ```
+  constructor(private myService: MyService) {
+    this.message = this.myService.getValue();
+  }
+}
+```
 _Advantages:_
 - Clear and explicit dependency declaration, improving code readability.
 - Easier to test, as dependencies can be easily mocked or stubbed during unit testing.
@@ -1235,7 +1542,7 @@ _Disadvantages:_
 **2. @Inject Decorator**
 The `@Inject` decorator is used to specify the dependency token when the type of the dependency is not readily available or when using custom tokens.
 _Mechanism_: It is placed before a constructor parameter to explicitly define the token associated with the dependency.
-```
+```javascript
 import { Inject, Injectable } from '@angular/core';
     @Injectable({
       providedIn: 'root'
@@ -1272,7 +1579,7 @@ _Disadvantages:_
 **3. inject() Function**
 The inject() function provides a functional way to inject dependencies, especially useful in newer Angular versions and in situations outside of constructors.
 _Mechanism:_ It retrieves a dependency directly from the injector using the provided token.
-```
+```javascript
 import { Component, inject, Injectable } from '@angular/core';
 
 @Injectable({
@@ -1308,7 +1615,7 @@ Angular offers several ways to transfer data between components, each suited for
 **1. Parent to Child:** Using `@Input()` 
 - The parent component passes data to a child component using the `@Input()` decorator.
 **Parent Component:**
-```
+```javascript
 import { Component } from '@angular/core';
 
 @Component({
@@ -1322,7 +1629,7 @@ export class ParentComponent {
 }
 ```
 **Child Component:**
-```
+```javascript
 import { Component, Input } from '@angular/core';
 @Component({
     selector: 'child',
@@ -1337,7 +1644,7 @@ export class ChildComponent {
 - The child component sends data to the parent component using the `@Output()` decorator and `EventEmitter`.
 
 **Parent Component:**
-```
+```javascript
 import { Component } from '@angular/core';
 
 @Component({
@@ -1356,7 +1663,7 @@ export class ParentComponent {
 }
 ```
 **Child Component:**
-```
+```javascript
 import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -2851,7 +3158,336 @@ export class AppRoutingModule { }
 
 
 ---
-## Q.
+## Q. When does renderer calls in angular using example
+Renderer calls in Angular are invoked during the component's lifecycle, specifically when changes occur that affect the view. These calls are essential for updating the DOM and ensuring the UI reflects the current state of the application. The `Renderer2` service in Angular provides an abstraction layer for manipulating the DOM, promoting platform independence and testability. 
+
+### Change Detection 
+Angular's change detection mechanism plays a crucial role in triggering renderer calls. After each asynchronous event, such as user interactions (e.g., clicks, input changes), HTTP requests, or timers, Angular runs change detection to check for updates in the component tree. If changes are detected, the renderer is invoked to update the DOM accordingly. 
+
+### Lifecycle Hooks 
+#### Several lifecycle hooks can trigger renderer calls: 
+
+- `ngAfterViewInit`: Called after the component's view and child views have been initialized. This is a common place to perform DOM manipulations using the renderer. 
+- `ngAfterViewChecked`: Called after the component's view and child views have been checked. It's invoked after `ngAfterViewInit` and on subsequent change detection cycles. 
+- `afterRender`: Invoked after Angular has finished rendering all components on the page into the DOM. It is executed in the order it was registered and once per render.  
+- `afterNextRender`: Registers a callback that executes only once after the next render cycle, when the DOM is loaded.
+
+#### Example 
+```typescript
+import { Component, Renderer2, ElementRef, AfterViewInit } from '@angular/core';
+
+@Component({
+  selector: 'app-example',
+  template: '<div #myElement>Hello</div>',
+})
+export class ExampleComponent implements AfterViewInit {
+  constructor(private renderer: Renderer2, private el: ElementRef) {}
+
+  ngAfterViewInit() {
+    // Access the element using ElementRef
+    const myElement = this.el.nativeElement.querySelector('#myElement');
+
+    // Use Renderer2 to modify the element
+    this.renderer.setStyle(myElement, 'color', 'blue');
+    this.renderer.setAttribute(myElement, 'title', 'My Element');
+  }
+}
+```
+In this example, the `Renderer2` is used within the `ngAfterViewInit` lifecycle hook to modify the style and attributes of a DOM element. This ensures that the DOM manipulation occurs after the view has been initialized. 
+
+#### Directives 
+Custom directives can also utilize the `Renderer2` to interact with the DOM. Structural directives like `@if` and `@for` modify the DOM structure, implicitly using the renderer. 
+
+#### Programmatic Rendering 
+Angular allows for programmatically creating and rendering components using `ViewContainerRef`. This mechanism also relies on the renderer to insert the new components into the DOM. 
+```typescript
+import { Component, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+
+@Component({
+  selector: 'app-host',
+  template: '<div #container></div>'
+})
+export class HostComponent {
+  constructor(
+    private viewContainerRef: ViewContainerRef,
+    private componentFactoryResolver: ComponentFactoryResolver
+  ) {}
+
+  createComponent() {
+    const factory = this.componentFactoryResolver.resolveComponentFactory(DynamicComponent);
+    this.viewContainerRef.createComponent(factory);
+  }
+}
+
+@Component({
+  selector: 'app-dynamic',
+  template: '<p>Dynamic Component</p>'
+})
+export class DynamicComponent {}
+```
+In the code above, the `createComponent` method uses the `ViewContainerRef` and `ComponentFactoryResolver` to dynamically create and render the `DynamicComponent`. Angular then uses the renderer to add the component to the DOM. 
+
+
+---
+## Q. Creating a custom directive in Angular.
+Creating a custom directive in Angular involves defining a class with the `@Directive` decorator and implementing the desired logic. Here's a step-by-step guide: 
+
+- **Generate the Directive**: Use the Angular CLI to generate the directive files: 
+```
+ng generate directive my-directive
+```
+This command creates two files: `my-directive.directive.ts` and `my-directive.directive.spec.ts`. 
+
+- **Implement the Directive Logic**: Open the `my-directive.directive.ts` file and add the following code: 
+```typescript
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+
+@Directive({
+  selector: '[appMyDirective]'
+})
+export class MyDirectiveDirective {
+  @Input('appMyDirective') highlightColor: string = 'yellow';
+
+  constructor(private el: ElementRef) {}
+
+  @HostListener('mouseenter') onMouseEnter() {
+    this.highlight(this.highlightColor);
+  }
+
+  @HostListener('mouseleave') onMouseLeave() {
+    this.highlight('');
+  }
+
+  private highlight(color: string) {
+    this.el.nativeElement.style.backgroundColor = color;
+  }
+}
+```
+
+- `@Directive` decorator defines the directive and its selector ([appMyDirective]). 
+- `@Input` allows passing a value to the directive. 
+- `ElementRef` provides access to the DOM element. 
+- `@HostListener` listens for events on the host element. 
+
+- **Use the Directive**: In your component's HTML file, add the directive to an element: 
+```html
+<p appMyDirective="lightblue">Hover over this text to see the highlight effect.</p>
+<p appMyDirective="pink">This text will highlight in pink on hover.</p>
+```
+
+The directive will highlight the element when the user hovers over it. 
+
+- **Declare the Directive**: Add the directive to the declarations array in your module (e.g., `app.module.ts`): 
+```typescript
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+import { MyDirectiveDirective } from './my-directive.directive';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    MyDirectiveDirective
+  ],
+  imports: [
+    BrowserModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+---
+## Q. 
+Debouncing in Angular is a technique used to limit the rate at which a function is executed, particularly in response to user input events. It ensures that a function is only called after a specified delay, preventing excessive calls during rapid input changes, such as typing in a search box. 
+
+### What is Debouncing?
+
+- **Definition**: Debouncing is a programming pattern that delays the execution of a function until a certain amount of time has passed since the last triggering event. This is particularly useful in scenarios where rapid events can overwhelm the system or degrade user experience.
+
+- **Use Case**: For example, in a search bar, debouncing can help execute a search query only after the user has stopped typing, rather than making multiple API calls for each keystroke.
+
+### Benefits of Debouncing
+
+1. **Prevent Excessive API Calls**: Reduces the number of requests sent to the server, which can help avoid overwhelming the backend and improve response times.
+
+2. **Improve App Performance**: Minimizes resource utilization by reducing the frequency of function executions, ensuring that the application remains responsive.
+
+3. **Enhanced User Experience**: Creates a smoother interface by reducing interruptions, allowing users to interact seamlessly with the application.
+
+### Implementing Debouncing in Angular
+
+To implement debouncing in Angular, you can use the `debounceTime` operator from RxJS. Here’s a step-by-step guide:
+
+#### Step 1: Import Required Modules
+
+```javascript
+import { Component } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+```
+
+#### Step 2: Create the Component
+
+```javascript
+@Component({
+  selector: 'app-search',
+  template: `<input (input)="onSearch($event)" placeholder="Search...">`
+})
+export class SearchComponent {
+  private searchSubject = new Subject<string>();
+
+  constructor() {
+    this.searchSubject.pipe(debounceTime(300)).subscribe(query => {
+      this.search(query);
+    });
+  }
+
+  onSearch(event: Event): void {
+    const query = (event.target as HTMLInputElement).value;
+    this.searchSubject.next(query);
+  }
+
+  search(query: string): void {
+    console.log(`Searching for: ${query}`);
+    // Implement API call or other logic here
+  }
+}
+```
+
+### Explanation of the Code
+
+- **Subject**: A `Subject` is used to capture and emit input events as observable streams.
+
+- **debounceTime(300)**: This operator ensures that the `search()` function is executed only if 300 milliseconds have passed since the last keystroke, filtering out rapid successive events.
+
+- **onSearch Method**: This method captures the input event and pushes the value to the `searchSubject`.
+
+- **search Method**: This method is where the actual search logic or API call would be implemented.
+
+### Conclusion
+
+Debouncing is a powerful technique in Angular that can significantly enhance the performance and usability of applications. By implementing debouncing in scenarios like search bars, you can ensure that your application remains responsive while efficiently managing user input.
+
+---
+## Q. Debouncing in Angular
+Debouncing in Angular is a technique used to limit the rate at which a function is executed, particularly in response to user input events. It ensures that a function is only called after a specified delay, preventing excessive calls during rapid input changes, such as typing in a search box. 
+
+### What is Debouncing?
+
+- **Definition**: Debouncing is a programming pattern that delays the execution of a function until a certain amount of time has passed since the last triggering event. This is particularly useful in scenarios where rapid events can overwhelm the system or degrade user experience.
+
+- **Use Case**: For example, in a search bar, debouncing can help execute a search query only after the user has stopped typing, rather than making multiple API calls for each keystroke.
+
+### Benefits of Debouncing
+
+1. **Prevent Excessive API Calls**: Reduces the number of requests sent to the server, which can help avoid overwhelming the backend and improve response times.
+
+2. **Improve App Performance**: Minimizes resource utilization by reducing the frequency of function executions, ensuring that the application remains responsive.
+
+3. **Enhanced User Experience**: Creates a smoother interface by reducing interruptions, allowing users to interact seamlessly with the application.
+
+### Implementing Debouncing in Angular
+
+To implement debouncing in Angular, you can use the `debounceTime` operator from RxJS. Here’s a step-by-step guide:
+
+#### Step 1: Import Required Modules
+
+```javascript
+import { Component } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+```
+
+#### Step 2: Create the Component
+
+```javascript
+@Component({
+  selector: 'app-search',
+  template: `<input (input)="onSearch($event)" placeholder="Search...">`
+})
+export class SearchComponent {
+  private searchSubject = new Subject<string>();
+
+  constructor() {
+    this.searchSubject.pipe(debounceTime(300)).subscribe(query => {
+      this.search(query);
+    });
+  }
+
+  onSearch(event: Event): void {
+    const query = (event.target as HTMLInputElement).value;
+    this.searchSubject.next(query);
+  }
+
+  search(query: string): void {
+    console.log(`Searching for: ${query}`);
+    // Implement API call or other logic here
+  }
+}
+```
+
+### Explanation of the Code
+
+- **Subject**: A `Subject` is used to capture and emit input events as observable streams.
+
+- **debounceTime(300)**: This operator ensures that the `search()` function is executed only if 300 milliseconds have passed since the last keystroke, filtering out rapid successive events.
+
+- **onSearch Method**: This method captures the input event and pushes the value to the `searchSubject`.
+
+- **search Method**: This method is where the actual search logic or API call would be implemented.
+
+### Conclusion
+
+Debouncing is a powerful technique in Angular that can significantly enhance the performance and usability of applications. By implementing debouncing in scenarios like search bars, you can ensure that your application remains responsive while efficiently managing user input.
+
+---
+
+---
+## Q. Throtteling in Angular
+Throttling in Angular is a technique that limits the number of times a function can be executed over a specified time period. It ensures that a function is called at controlled intervals, making it useful for scenarios like handling scroll events or resizing, where frequent calls can lead to performance issues. 
+
+**Key Concepts of Throttling in Angular**
+
+- **Definition**: Throttling is a method to control the execution frequency of a function, ensuring it runs at a specified interval regardless of how often the triggering event occurs.
+
+- **Use Cases**:
+  - **Scroll Events**: When a user scrolls quickly, throttling can prevent excessive function calls that may lead to performance degradation.
+  - **Resize Events**: Similar to scroll events, resizing a window can trigger multiple events rapidly, and throttling helps manage these calls efficiently.
+
+**Implementation in Angular with RxJS**
+
+- **Using `throttleTime`**: This operator from RxJS can be utilized to implement throttling in Angular applications. It delays the values emitted by a source for a specified duration.
+
+- **Example Code**:
+```javascript
+import { fromEvent } from 'rxjs';
+import { throttleTime, map } from 'rxjs/operators';
+
+const inputElement = document.createElement('input');
+document.body.appendChild(inputElement);
+
+fromEvent(inputElement, 'input')
+  .pipe(
+    throttleTime(500), // Throttle input events to every 500 milliseconds
+    map((event: any) => event.target.value)
+  )
+  .subscribe(val => console.log(val));
+```
+
+**Configuration Options**
+
+- **Leading and Trailing**: The `throttleTime` operator can be configured with options:
+  - **Leading**: Emit the first value immediately when the event occurs.
+  - **Trailing**: Emit the last value after the throttle period ends.
+
+- **Default Behavior**: By default, `throttleTime` emits the leading value and ignores subsequent values until the throttle period is over.
+
+**Benefits of Throttling**
+
+- **Performance Improvement**: Reduces the number of function calls, which can enhance application performance, especially during high-frequency events.
+- **User  Experience**: Maintains a smooth user experience by preventing lag or jank caused by excessive function executions.
 
 ---
 ## Q.
@@ -2861,6 +3497,14 @@ export class AppRoutingModule { }
 
 ---
 ## Q.
+
+---
+## Q.
+
+---
+## Q.
+
+---
 
 
 
