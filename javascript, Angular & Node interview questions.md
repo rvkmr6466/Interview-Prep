@@ -3443,9 +3443,7 @@ export class SearchComponent {
 Debouncing is a powerful technique in Angular that can significantly enhance the performance and usability of applications. By implementing debouncing in scenarios like search bars, you can ensure that your application remains responsive while efficiently managing user input.
 
 ---
-
----
-## Q. Throllting in Angular
+## Q. Throttling in Angular
 Throttling in Angular is a technique that limits the number of times a function can be executed over a specified time period. It ensures that a function is called at controlled intervals, making it useful for scenarios like handling scroll events or resizing, where frequent calls can lead to performance issues. 
 
 **Key Concepts of Throttling in Angular**
