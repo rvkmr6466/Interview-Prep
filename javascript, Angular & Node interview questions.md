@@ -3445,7 +3445,7 @@ Debouncing is a powerful technique in Angular that can significantly enhance the
 ---
 
 ---
-## Q. Throtteling in Angular
+## Q. Throllting in Angular
 Throttling in Angular is a technique that limits the number of times a function can be executed over a specified time period. It ensures that a function is called at controlled intervals, making it useful for scenarios like handling scroll events or resizing, where frequent calls can lead to performance issues. 
 
 **Key Concepts of Throttling in Angular**
