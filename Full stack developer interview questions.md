@@ -1228,8 +1228,6 @@ ConcurrentHashMap<Integer, String> concurrentMap = new ConcurrentHashMap<>();
 concurrentMap.put(1, "A");
 ```
 
-In summary, choose `HashMap` for single-threaded applications and `ConcurrentHashMap` for multi-threaded environments where thread safety is a concern.
-
 ### How `ConcurrentHashMap` works internally
 Internally, `ConcurrentHashMap` utilizes segmentation and fine-grained locking to enable efficient concurrent access. It's divided into segments, each acting as a mini `HashMap`, allowing multiple threads to operate on different segments concurrently. This reduces contention and improves performance, particularly for read operations, which can occur without blocking. 
 
@@ -1257,6 +1255,27 @@ To ensure read operations see the most recently updated values, `ConcurrentHashM
 `ConcurrentHashMap` supports bulk operations (like `forEach()`, `transform()`, etc.) that are designed to be safely applied even with concurrent updates.  
 
 In essence, `ConcurrentHashMap` provides a thread-safe and performant way to manage concurrent access to a hash table by dividing the table into smaller, independently managed segments. This design minimizes contention and allows for efficient concurrent read and write operations.
+
+### Threads in ConcurrentHashMap
+
+In Java, a `ConcurrentHashMap` is designed to allow concurrent access by multiple threads. It supports a preset concurrency level of 32, meaning that up to 32 threads can perform operations like put and remove simultaneously. However, the actual number of threads running can vary based on the application's design and workload. 
+
+### Thread Count in ConcurrentHashMap
+
+- **Concurrency Level**: The default concurrency level for a `ConcurrentHashMap` is 32, which allows up to 32 threads to operate on the map simultaneously without blocking each other.
+
+- **Running Threads**: The actual number of threads that are actively running can depend on several factors:
+  - The number of threads created by the application.
+  - The workload and how many threads are currently performing operations on the `ConcurrentHashMap`.
+  - The use of parallelism features introduced in Java 8, which can increase the number of threads utilized during operations.
+
+- **Example Scenario**: In a specific case, there might be 32 runnable threads, with additional threads in waiting or timed waiting states. For instance, a report indicated 39 running threads, 2 waiting, and 1 in timed waiting, showcasing how the `ForkJoinPool` can influence thread management when parallelism is enabled.
+
+### Summary
+
+- The `ConcurrentHashMap` allows for high concurrency with a default of 32 threads.
+- The actual number of threads can vary based on the application's design and the specific operations being performed.
+- Utilizing parallelism can lead to an increase in the number of threads actively working on tasks related to the `ConcurrentHashMap`.
 
 ---
 ## 11. What is Java Persistence API (JPA)?
@@ -3689,6 +3708,9 @@ public class FixWithStreams {
 | `CopyOnWriteArrayList` | Yes | Multi-threaded environments |
 | `removeIf()` | Yes | Simple removals (Java 8+) |
 | `Stream API` | Yes | Functional-style filtering |
+
+#### Note:
+A `ConcurrentModificationException` in Java arises when a collection is modified by one thread while another thread is iterating over it using an `Iterator` or a `ListIterator`. This occurs because iterators are "fail-fast" and detect such changes, preventing unpredictable behavior during the iteration process. 
 
 ---
 ## 50. Thread Communication in Java
@@ -8480,26 +8502,7 @@ public ResponseEntity<String> processData(@RequestBody RequestData requestData) 
 By creating a wrapper class, you can effectively pass multiple objects through a single `@RequestBody` parameter, making your code cleaner and easier to manage.
 
 ---
-## Q. Threads in ConcurrentHashMap
-
-In Java, a `ConcurrentHashMap` is designed to allow concurrent access by multiple threads. It supports a preset concurrency level of 32, meaning that up to 32 threads can perform operations like put and remove simultaneously. However, the actual number of threads running can vary based on the application's design and workload. 
-
-### Thread Count in ConcurrentHashMap
-
-- **Concurrency Level**: The default concurrency level for a `ConcurrentHashMap` is 32, which allows up to 32 threads to operate on the map simultaneously without blocking each other.
-
-- **Running Threads**: The actual number of threads that are actively running can depend on several factors:
-  - The number of threads created by the application.
-  - The workload and how many threads are currently performing operations on the `ConcurrentHashMap`.
-  - The use of parallelism features introduced in Java 8, which can increase the number of threads utilized during operations.
-
-- **Example Scenario**: In a specific case, there might be 32 runnable threads, with additional threads in waiting or timed waiting states. For instance, a report indicated 39 running threads, 2 waiting, and 1 in timed waiting, showcasing how the `ForkJoinPool` can influence thread management when parallelism is enabled.
-
-### Summary
-
-- The `ConcurrentHashMap` allows for high concurrency with a default of 32 threads.
-- The actual number of threads can vary based on the application's design and the specific operations being performed.
-- Utilizing parallelism can lead to an increase in the number of threads actively working on tasks related to the `ConcurrentHashMap`.
+## Q. TODO
 
 ---
 ## Q. Case-insensitive Set in java 
@@ -8620,6 +8623,235 @@ true
 3.	You can only have three unique instances, and it cycles through them.
 
 ---
+## Q. Integer.valueOf vs Integer.parseInt
+`Integer.parseInt()` and `Integer.valueOf()` are both used in Java to convert a string to an integer, but they differ in their return types: 
+
+- `Integer.parseInt(String s)`: This method returns a primitive `int` value. If the string cannot be parsed as an integer, it throws a `NumberFormatException`. 
+    ```java
+    String str = "123";
+    int num = Integer.parseInt(str); // Returns 123 (primitive int)
+    ```
+
+- `Integer.valueOf(String s)`: This method returns an `Integer` object, which is the wrapper class for the primitive `int`. It also throws a `NumberFormatException` if the string cannot be parsed. 
+    ```java
+    String str = "456";
+    Integer num = Integer.valueOf(str); // Returns an Integer object representing 456
+    ```
+
+The key difference is that `parseInt()` returns a primitive `int`, while `valueOf()` returns an `Integer` object. If you need an `int` value for calculations or comparisons, `parseInt()` is more efficient. If you need an Integer object, for example, to store it in a collection that requires objects, then `valueOf()` is the appropriate choice.
+`Integer.valueOf()` can offer performance benefits in certain scenarios due to the Integer cache. Java caches `Integer` objects for values between `-128` and `127`. When `valueOf()` is called with a string representing a value within this range, it returns a cached `Integer` object instead of creating a new one, potentially saving memory and improving performance. 
+
+---
+## Q. Spring Batch
+Spring Batch is a framework for robust batch processing in Java applications, particularly useful for handling large volumes of data. Spring Boot simplifies the setup and configuration of Spring applications, including Spring Batch. 
+Key Concepts 
+
+- Job: Represents a batch process, composed of one or more steps. 
+- Step: An independent, sequential phase within a job. It typically involves reading data, processing it, and writing it out. 
+- ItemReader: Reads data from a source (e.g., file, database). 
+- ItemProcessor: Transforms the data read by the ItemReader. 
+- ItemWriter: Writes the processed data to a destination (e.g., file, database). 
+- Chunk: A set of items processed together as a transaction. 
+
+Setting Up Spring Batch with Spring Boot 
+
+- Add Dependency: Include the spring-boot-starter-batch dependency in your pom.xml or build.gradle file. 
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-batch</artifactId>
+</dependency>
+```
+- Enable Batch Processing: Add the @EnableBatchProcessing annotation to your Spring Boot application class. 
+```java
+@SpringBootApplication
+@EnableBatchProcessing
+public class MyApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MyApplication.class, args);
+    }
+}
+```
+
+- Configure Job and Steps: Define your jobs and steps using the JobBuilderFactory and StepBuilderFactory. 
+```java
+@Configuration
+public class BatchConfig {
+
+    @Autowired
+    private JobBuilderFactory jobBuilderFactory;
+
+    @Autowired
+    private StepBuilderFactory stepBuilderFactory;
+
+    @Bean
+    public Job myJob(Step myStep) {
+        return jobBuilderFactory.get("myJob")
+                .incrementer(new RunIdIncrementer())
+                .flow(myStep)
+                .end()
+                .build();
+    }
+
+    @Bean
+    public Step myStep(ItemReader<String> reader, 
+                        ItemProcessor<String, String> processor, 
+                        ItemWriter<String> writer) {
+        return stepBuilderFactory.get("myStep")
+                .<String, String>chunk(10)
+                .reader(reader)
+                .processor(processor)
+                .writer(writer)
+                .build();
+    }
+}
+```
+
+- Implement Reader, Processor, and Writer: Create classes that implement the ItemReader, ItemProcessor, and ItemWriter interfaces to handle data input, processing, and output. 
+    ```java
+    @Component
+    public class MyReader implements ItemReader<String> {
+        // Implementation to read data
+    }
+    
+    @Component
+    public class MyProcessor implements ItemProcessor<String, String> {
+        // Implementation to process data
+    }
+    
+    @Component
+    public class MyWriter implements ItemWriter<String> {
+        // Implementation to write data
+    }
+    ```
+Running a Batch Job 
+Spring Batch jobs can be triggered in several ways: 
+
+- Automatically on startup: By default, Spring Boot executes any defined batch jobs on application startup. 
+- Programmatically: Using the JobLauncher to start a job with specified parameters. 
+- Scheduled: Using Spring's scheduling capabilities to run jobs at specific intervals. 
+
+
+---
+## Q. How do you access 'api_key' or 'password' from google cloud to your spring boot application
+To securely access API keys or passwords from Google Cloud within a Spring Boot application, leverage Google's Secret Manager and Spring Cloud GCP. Store your secrets in Secret Manager, a managed service for secure credential storage. Then, use Spring Cloud GCP to access these secrets in your Spring Boot application as you would any other Spring property.
+
+### Detailed Steps: 
+
+#### 1. Secret Storage in Secret Manager: 
+  - Create a Google Cloud project and enable the Secret Manager API. 
+  - Store your API key or password as a secret in Secret Manager, controlling access with IAM roles. 
+
+#### 2. Spring Boot Application Configuration: 
+  - Add the Spring Cloud GCP dependencies to your `pom.xml` or `build.gradle`. 
+  - Configure your application to use Secret Manager. You can typically do this by setting the `spring.cloud.gcp.secret-manager.default-secret-version-number` property to `latest` or a specific version number. 
+
+#### 3. Accessing the Secret: 
+  - You can access your secret in your Spring Boot application using the standard Spring property injection mechanisms, e.g., `@Value("${secret-manager.api.key}") String apiKey`. 
+
+#### 4. IAM Roles: 
+  - Grant the service account associated with your Spring Boot application the appropriate IAM roles to read the secret from Secret Manager. The `roles/secretmanager.secretAccessor` role is usually required.
+
+#### Example: 
+
+```java
+@Value("${secret-manager.api.key}")
+private String apiKey;
+
+@Bean
+public GoogleCloudApiRequestClient googleCloudApiRequestClient() {
+    // ...
+    return new GoogleCloudApiRequestClient(apiKey);
+}
+```
+
+#### Additional Considerations: 
+
+- #### Application Default Credentials (ADC): 
+  - If your Spring Boot application is deployed to Google Cloud, it may be able to leverage ADC to authenticate without needing to explicitly store credentials.
+- #### Environment Variables: 
+  - You can also set environment variables to store and access secrets, but Secret Manager offers more robust security and control.
+
+---
+## Q. LRU cache
+An LRU (Least Recently Used) cache is a type of cache that evicts the least recently accessed element when the cache is full. It's often used to manage a limited amount of memory, ensuring that the most frequently used items are readily available while less frequently used items are discarded.  
+
+Here's how to implement an LRU cache in Java using a `LinkedHashMap`: 
+```java
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+class LRUCache<K, V> extends LinkedHashMap<K, V> {
+    private int capacity;
+
+    public LRUCache(int capacity) {
+        super(capacity, 0.75f, true);
+        this.capacity = capacity;
+    }
+
+    @Override
+    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+        return size() > capacity;
+    }
+
+    public V get(K key) {
+        return super.getOrDefault(key, null);
+    }
+
+    public void put(K key, V value) {
+        super.put(key, value);
+    }
+}
+```
+
+In this implementation: 
+
+- The `LinkedHashMap` is used as the underlying data structure, which maintains insertion order or access order, depending on the constructor parameter. 
+- The constructor initializes the `LinkedHashMap` with a specified capacity, load factor, and ordering mode (access-order for LRU). 
+- The `removeEldestEntry` method is overridden to remove the least recently accessed entry when the cache exceeds its capacity. 
+- The `get` method retrieves the value associated with a key, or returns null if the key is not found. 
+- The `put` method inserts or updates a key-value pair in the cache. If the cache is full, it evicts the least recently used item before adding the new one.
+
+
+---
+## Q. Default behavior of a bean
+In Spring, the default behavior of a bean is that it is a `singleton`, meaning a single instance of the bean is created and shared throughout the application context. Additionally, by default, beans are instantiated eagerly during application startup, meaning they are created and their dependencies are injected when the application context is initialized. Bean names are also derived from the class name, with the first character converted to lowercase.
+
+Here's a more detailed breakdown: 
+
+#### Singleton Scope: 
+The default bean scope in Spring is `singleton`, which means only one instance of the bean will be created and used by the application context. This is useful for stateless beans like services, repositories, or utilities, as they can be shared across multiple parts of the application without causing issues.
+
+#### Eager Initialization: 
+By default, Spring initializes all beans eagerly. This means that when the application context is created, all beans are created and their dependencies are injected, even if they haven't been explicitly requested yet.
+
+#### Bean Naming: 
+When you use `@Component` (or other similar annotations) without specifying a bean name, Spring automatically generates a bean name. The generated name is derived from the class name, with the first character converted to lowercase. For example, if your class is named `MyService`, the default bean name would be `myService`.
+
+In essence, the default behavior of a Spring bean is to be a single instance, created eagerly during application startup, and named according to the class name (first character lowercase) if no explicit name is provided.
+
+---
+## Q. dockerfile vs docker.yaml
+The distinction between a `Dockerfile` and a `docker-compose.yaml` lies in their purpose and scope within the Docker ecosystem. 
+
+#### Dockerfile: 
+It is a text file containing instructions for building a single Docker image. It specifies the base image, adds dependencies, copies files, and sets up the environment. The `docker build` command uses the `Dockerfile` to create an image. 
+
+#### docker-compose.yaml: 
+It is a YAML file that defines and manages multi-container Docker applications. It describes the services (containers), networks, and volumes needed for the application. The `docker-compose up` command uses this file to start and run the application's containers. 
+
+| Feature | Dockerfile | docker-compose.yaml  |
+| --- | --- | --- |
+| Purpose | Defines how to build a single Docker image | Defines and manages multi-container applications  |
+| File Extension | Dockerfile (no extension) | .yaml or .yml  |
+| Usage | Builds an image layer by layer from instructions | Orchestrates multiple containers and their dependencies  |
+| Command | `docker build` | `docker-compose up`  |
+| Scope | Single image creation | Multi-container application deployment  |
+| Relationship | `docker-compose.yaml` can reference a `Dockerfile` to build an image | Dockerfile cannot reference a `docker-compose.yaml`  |
+
+A `docker-compose.yaml` file can include a `build` context, pointing to a `Dockerfile`. This allows `docker-compose` to build the necessary images as part of the application setup. However, a `Dockerfile` operates independently and does not interact with `docker-compose.yaml`. 
+
+---
 ## Q. 
 
 ---
@@ -8631,8 +8863,12 @@ logging, authentication and monitoring in springboot application
 how to improve code quality
 how to increase application performance
 spring boot started dependencies
-volatile vs transient
-csfr
+What is a marker interface in java?
+Sort an employee list based on name and department when id, name, salary, department are given.
+Can Controller and Service classes be different packages in Java?
+How to add another server dependency in a Java application?
+How to remove tomcat server dependency from Java application, as it is present in starter-web dependency.
+
  
 [https://www.geeksforgeeks.org/advanced-java-interview-questions/](https://www.geeksforgeeks.org/advanced-java-interview-questions/)
  
@@ -8657,17 +8893,3 @@ public static void main(String[] args) {
 // object class (which objects comes under the hood)
 
 */
-
-
-
-// default behaviour of a bean
-// docker file
-// docker.yaml
-// why arraylist is fast?
-//
-
-
-//String str = "Banana"
-//
-//{B:1,a:3...}
-

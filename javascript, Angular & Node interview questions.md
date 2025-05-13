@@ -3490,7 +3490,91 @@ fromEvent(inputElement, 'input')
 - **User  Experience**: Maintains a smooth user experience by preventing lag or jank caused by excessive function executions.
 
 ---
-## Q.
+## Q. Resolver in Angular
+In Angular, a resolver is a class that implements the `Resolve` interface. It acts as a data provider, fetching data before a route is activated. This ensures data is available when the component loads, preventing issues with undefined data or flickering elements.
+
+Resolvers are particularly useful when a component relies on asynchronous data, such as data fetched from an API. By using resolvers, the application waits for the data to be resolved before navigating to the route, which enhances user experience by preventing the rendering of a component before its data dependencies are met. 
+
+### Implementation 
+To create a resolver: generate a resolver. 
+```cmd
+ng generate resolver <resolver-name>
+```
+#### Implement the Resolve interface. 
+```typescript
+import { Injectable } from '@angular/core';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Observable, of } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MyResolver implements Resolve<any> {
+  constructor(private myService: MyService) {}
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+    const id = route.paramMap.get('id');
+    if (id) {
+      return this.myService.getData(id);
+    } else {
+      return of(null);
+    }
+  }
+}
+```
+#### Configure the route. 
+```typescript
+const routes: Routes = [
+  {
+    path: 'my-path/:id',
+    component: MyComponent,
+    resolve: {
+      data: MyResolver,
+    },
+  },
+];
+```
+#### Access the resolved data. 
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-my-component',
+  template: `
+    <p>{{ data | json }}</p>
+  `,
+})
+export class MyComponent implements OnInit {
+  data: any;
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this.data = this.route.snapshot.data['data'];
+  }
+}
+```
+
+#### Functional Resolvers 
+Angular also supports functional resolvers, which are simpler for basic scenarios: 
+```typescript
+import { ResolveFn } from '@angular/router';
+import { inject } from '@angular/core';
+import { MyService } from './my.service';
+
+export const myResolver: ResolveFn<any> = (route, state) => {
+  const myService = inject(MyService);
+  const id = route.paramMap.get('id');
+  if (id) {
+    return myService.getData(id);
+  } else {
+    return of(null);
+  }
+};
+```
+Configuration remains the same as with class-based resolvers, simply referencing the function instead of the class. 
+
 
 ---
 ## Q.
