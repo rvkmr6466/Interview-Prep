@@ -337,8 +337,6 @@ pipeline {
 }
 ```
 
-Great! Let’s continue with **questions 21–30**, each answered with **200+ words and examples** as requested.
-
 ---
 
 ### **21. What is TDD and why is it important?**
